@@ -1,0 +1,10 @@
+{
+  "name": "Borodar",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "RainbowAssets",
+      "to": "Assets/Plugins/RainbowAssets"
+    }
+  ]
+}

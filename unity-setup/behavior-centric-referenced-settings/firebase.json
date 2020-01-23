@@ -1,0 +1,30 @@
+{
+    "name": "Firebase Unity SDK",
+    "use": false,
+    "toSymlink": [
+      {
+        "name": "Editor Default Resources/Firebase",
+        "to": "Assets/Editor Default Resources/Firebase"
+      },
+      {
+        "name": "Firebase",
+        "to": "Assets/Firebase"
+      },
+      {
+        "name": "Parse",
+        "to": "Assets/Parse"
+      },
+      {
+        "name": "PlayServicesResolver",
+        "to": "Assets/PlayServicesResolver"
+      },
+      {
+        "name": "Plugins/Android/Firebase",
+        "to": "Assets/Plugins/Android/Firebase"
+      },
+      {
+        "name": "Plugins/iOS/Firebase",
+        "to": "Assets/Plugins/iOS/Firebase"
+      }
+    ]
+}

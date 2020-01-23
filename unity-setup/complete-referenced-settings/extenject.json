@@ -1,0 +1,10 @@
+{
+  "name": "svermeulen",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "extenject-package",
+      "to": "Packages/extenject-package"
+    }
+  ]
+}

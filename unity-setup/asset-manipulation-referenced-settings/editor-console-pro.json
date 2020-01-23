@@ -1,0 +1,10 @@
+{
+  "name": "FlyingWorm",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "editor-console-pro-package/ConsolePro",
+      "to": "Assets/Standard Assets/ConsolePro"
+    }
+  ]
+}

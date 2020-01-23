@@ -1,0 +1,10 @@
+{
+  "name": "Cysharp",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "unitask-package",
+      "to": "Packages/unitask-package"
+    }
+  ]
+}

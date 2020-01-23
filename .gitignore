@@ -3,5 +3,10 @@
 !.gitignore
 !README.md
 
+!remove-dsstore.ps1
+!setup-game-ref.ps1
+
 !behavior-centric-unity
 !complete-unity
+!game-specific
+!unity-setup

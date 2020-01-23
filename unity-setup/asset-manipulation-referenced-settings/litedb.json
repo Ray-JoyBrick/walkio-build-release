@@ -1,0 +1,10 @@
+{
+  "name": "LiteDB",
+  "use": false,
+  "toSymlink": [
+    {
+      "name": "litedb-package",
+      "to": "Packages/litedb-package"
+    }
+  ]
+}

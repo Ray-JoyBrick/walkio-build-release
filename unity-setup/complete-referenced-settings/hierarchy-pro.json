@@ -1,0 +1,10 @@
+{
+  "name": "EM-X",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "Hierarchy PRO/EModules",
+      "to": "Assets/Standard Assets/EModules"
+    }
+  ]
+}

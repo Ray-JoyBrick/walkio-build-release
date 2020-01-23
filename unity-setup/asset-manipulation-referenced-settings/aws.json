@@ -1,0 +1,22 @@
+{
+  "name": "aws",
+  "use": false,
+  "toSymlink": [
+    {
+      "name": "Plugins/libsqlite3.so",
+      "to": "Assets/Plugins/libsqlite3.so"
+    },
+    {
+      "name": "Plugins/Android/libsqlite3.so",
+      "to": "Assets/Plugins/Android/libsqlite3.so"
+    },
+    {
+      "name": "Plugins/x86_64/sqlite3.dll",
+      "to": "Assets/Plugins/x86_64/sqlite3.dll"
+    },
+    {
+      "name": "AWSSDK",
+      "to": "Assets/Standard Assets/AWSSDK"
+    }
+  ]
+}

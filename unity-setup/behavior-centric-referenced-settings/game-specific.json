@@ -1,0 +1,26 @@
+{
+  "name": "game-specific",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "unity-modules/app-common",
+      "to": "Packages/app-common"
+    },
+    {
+      "name": "unity-modules/app-persistent-service",
+      "to": "Packages/app-persistent-service"
+    },
+    {
+      "name": "unity-modules/app-localization-service",
+      "to": "Packages/app-localization-service"
+    },
+    {
+      "name": "unity-modules/app-hud-service",
+      "to": "Packages/app-hud-service"
+    },
+    {
+      "name": "unity-modules/app-entry",
+      "to": "Assets/_/1 - Game/App Related/Module - Entry/app-entry"
+    }
+  ]
+}

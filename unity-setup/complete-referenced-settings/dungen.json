@@ -1,0 +1,10 @@
+{
+  "name": "Aegon Games Ltd",
+  "use": false,
+  "toSymlink": [
+    {
+      "name": "dungen-package",
+      "to": "Packages/dungen-package"
+    }
+  ]
+}

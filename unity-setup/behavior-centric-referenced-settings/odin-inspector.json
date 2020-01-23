@@ -1,0 +1,10 @@
+{
+  "name": "Devdog",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "odin-inspector-package",
+      "to": "Packages/odin-inspector-package"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "name": "Pixel Crushers",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "Dialogue System for Unity/Editor Default Resources/Dialogue System",
+      "to": "Assets/Editor Default Resources/Dialogue System"
+    },
+    {
+      "name": "Dialogue System for Unity/Gizmos/DialogueDatabase Icon.png",
+      "to": "Assets/Gizmos/DialogueDatabase Icon.png"
+    },
+    {
+      "name": "Dialogue System for Unity/Gizmos/StringAsset Icon.png",
+      "to": "Assets/Gizmos/StringAsset Icon.png"
+    },
+    {
+      "name": "Dialogue System for Unity/Gizmos/TextTable Icon.png",
+      "to": "Assets/Gizmos/TextTable Icon.png"
+    },
+    {
+      "name": "Dialogue System for Unity/Plugins/Pixel Crushers",
+      "to": "Assets/Plugins/Pixel Crushers"
+    }
+  ]
+}

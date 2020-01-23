@@ -1,0 +1,18 @@
+{
+  "name": "Opsive",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "Behavior Designer/Gizmos/Behavior Designer Hier Icon.png",
+      "to": "Assets/Gizmos/Behavior Designer Hier Icon.png"
+    },
+    {
+      "name": "Behavior Designer/Gizmos/Behavior Designer Scene Icon.png",
+      "to": "Assets/Gizmos/Behavior Designer Scene Icon.png"
+    },
+    {
+      "name": "Behavior Designer/Behavior Designer",
+      "to": "Assets/Standard Assets/Behavior Designer"
+    }
+  ]
+}

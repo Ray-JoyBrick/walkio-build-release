@@ -1,0 +1,18 @@
+{
+  "name": "Code Respawn",
+  "use": false,
+  "toSymlink": [
+    {
+      "name": "DungeonArchitect/DungeonArchitect",
+      "to": "Assets/Standard Assets/DungeonArchitect"
+    },
+    {
+      "name": "DungeonArchitect/DungeonArchitect_LaunchPad",
+      "to": "Assets/Standard Assets/DungeonArchitect_LaunchPad"
+    },
+    {
+      "name": "DungeonArchitect/DungeonArchitect_Samples",
+      "to": "Assets/Standard Assets/DungeonArchitect_Samples"
+    }
+  ]
+}

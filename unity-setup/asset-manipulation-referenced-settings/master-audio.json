@@ -1,0 +1,30 @@
+{
+  "name": "Dark Tonic Inc",
+  "use": false,
+  "toSymlink": [
+    {
+      "name": "Editor Default Resources/MasterAudio",
+      "to": "Assets/Editor Default Resources/MasterAudio"
+    },
+    {
+      "name": "Gizmos/MasterAudio",
+      "to": "Assets/Gizmos/MasterAudio"
+    },
+    {
+      "name": "Plugins/DarkTonic",
+      "to": "Assets/Plugins/DarkTonic"
+    },
+    {
+      "name": "Plugins/Editor/DarkTonic",
+      "to": "Assets/Plugins/Editor/DarkTonic"
+    },
+    {
+      "name": "Plugins/Editor/RelationsInspector",
+      "to": "Assets/Plugins/Editor/RelationsInspector"
+    },
+    {
+      "name": "Plugins/RelationsInspector",
+      "to": "Assets/Plugins/RelationsInspector"
+    }
+  ]
+}

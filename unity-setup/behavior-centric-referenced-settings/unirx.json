@@ -1,0 +1,10 @@
+{
+  "name": "neuecc",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "unirx-package",
+      "to": "Packages/unirx-package"
+    }
+  ]
+}
