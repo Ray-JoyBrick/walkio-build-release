@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.3rd.editor-console-pro": "file:../../references/FlyingWorm/editor-console-pro-package",
     "com.unity.collab-proxy": "1.2.16",
     "com.unity.device-simulator": "2.0.0-preview",
     "com.unity.ide.rider": "1.1.4",
