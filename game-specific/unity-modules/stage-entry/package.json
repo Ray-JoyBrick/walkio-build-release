@@ -1,0 +1,11 @@
+{
+  "name": "game.stage.entry.main",
+  "displayName": "Game Stage Entry",
+  "version": "0.1.0",
+  "unity": "2019.3",
+  "description": "Game Stage Entry",
+  "keywords": [
+  ],
+  "category": "",
+  "dependencies": {}
+}

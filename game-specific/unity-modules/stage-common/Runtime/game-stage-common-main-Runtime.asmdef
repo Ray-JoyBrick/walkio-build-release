@@ -1,10 +1,8 @@
 {
-    "name": "game.app.input-control-service.main.Runtime",
+    "name": "game.stage.common.main.Runtime",
     "references": [
         "UniRx",
-        "Zenject",
-        "Unity.InputSystem",
-        "game.app.common.main.Runtime"
+        "Zenject"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

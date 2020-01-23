@@ -9,9 +9,7 @@ namespace JoyBrick.Walkio.Game.App.InputControlService.Main
 
     public class ModuleOperator :
         Zenject.IInitializable,
-        System.IDisposable,
-
-        Common.IPlayerControl
+        System.IDisposable
     {
         //
         private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(ModuleOperator));

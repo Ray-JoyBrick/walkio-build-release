@@ -11,6 +11,10 @@
       "to": "Packages/app-persistent-service"
     },
     {
+      "name": "unity-modules/app-input-control-service",
+      "to": "Assets/_/1 - Game/App Related/Module - Input Control/app-input-control-service"
+    },
+    {
       "name": "unity-modules/app-localization-service",
       "to": "Packages/app-localization-service"
     },
@@ -19,8 +23,16 @@
       "to": "Packages/app-hud-service"
     },
     {
+      "name": "unity-modules/stage-common",
+      "to": "Packages/stage-common"
+    },
+    {
       "name": "unity-modules/app-entry",
       "to": "Assets/_/1 - Game/App Related/Module - Entry/app-entry"
+    },
+    {
+      "name": "unity-modules/stage-entry",
+      "to": "Assets/_/1 - Game/Stage Related/Module - Entry/stage-entry"
     }
   ]
 }

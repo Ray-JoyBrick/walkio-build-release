@@ -1,10 +1,10 @@
-namespace JoyBrick.Walkio.Game.App.LocalizationService.Main
+namespace JoyBrick.Walkio.Game.Stage.Entry.Main
 {
     using UnityEngine;
 
     using Zenject;
-    
-    using Common = App.Common.Main;
+
+    using Common = Stage.Common.Main;
 
     public class ModulewideInstaller : Zenject.MonoInstaller<ModulewideInstaller>
     {
@@ -18,8 +18,9 @@ namespace JoyBrick.Walkio.Game.App.LocalizationService.Main
         public override void InstallBindings()
         {
 #if USE_ZENJECT_BINDING
-            Container.DeclareSignal<Common.ChangeLanguageSignal>();
-            
+            Container.DeclareSignal<Common.AllModuleSetupDoneSignal>();
+            Container.DeclareSignal<Common.ModuleSetupDoneSignal>();
+
             Container.Bind<Settings>().FromInstance(settings).AsSingle();
 
             Container.BindInterfacesAndSelfTo<ModuleOperator>().AsSingle();

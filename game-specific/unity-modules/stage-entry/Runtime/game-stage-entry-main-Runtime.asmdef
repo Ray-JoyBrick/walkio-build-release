@@ -1,10 +1,11 @@
 {
-    "name": "game.app.input-control-service.main.Runtime",
+    "name": "game.stage.entry.main.Runtime",
     "references": [
         "UniRx",
+        "UniRx.Async",
         "Zenject",
-        "Unity.InputSystem",
-        "game.app.common.main.Runtime"
+        "game.app.common.main.Runtime",
+        "game.stage.common.main.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
