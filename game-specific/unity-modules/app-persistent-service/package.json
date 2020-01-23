@@ -1,0 +1,11 @@
+{
+    "name": "game.app.persistent-service.main",
+    "displayName": "Game App Persistent Service",
+    "version": "0.1.0",
+    "unity": "2019.3",
+    "description": "Game App Persistent Service",
+    "keywords": [
+    ],
+    "category": "",
+    "dependencies": {}
+}

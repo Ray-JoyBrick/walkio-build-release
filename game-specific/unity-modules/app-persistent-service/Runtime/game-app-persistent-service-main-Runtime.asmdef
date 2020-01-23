@@ -1,0 +1,17 @@
+{
+    "name": "game.app.persistent-service.main.Runtime",
+    "references": [
+        "UniRx",
+        "Zenject",
+        "game.app.common.main.Runtime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
