@@ -1,6 +1,6 @@
 {
   "name": "Unity Technology",
-  "use": false,
+  "use": true,
   "toSymlink": [
     {
       "name": "TextMesh Pro",

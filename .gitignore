@@ -6,6 +6,7 @@
 !remove-dsstore.ps1
 !setup-game-ref.ps1
 
+!asset-manipulation-unity
 !behavior-centric-unity
 !complete-unity
 !game-specific

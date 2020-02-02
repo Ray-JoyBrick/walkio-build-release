@@ -1,6 +1,6 @@
 {
   "name": "FlyingWorm",
-  "use": true,
+  "use": false,
   "toSymlink": [
     {
       "name": "editor-console-pro-package/ConsolePro",
