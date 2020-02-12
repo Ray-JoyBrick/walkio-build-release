@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
@@ -5,14 +6,18 @@ using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Physics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class ChangeForceSystem : JobComponentSystem
+public class ChangeForceSystem : 
+    JobComponentSystem
 {
+    public Controls controls;
+    
     [BurstCompile]
     private struct ChangeForceJob : IJobForEach<PhysicsVelocity, PhysicsMass, Ball, Force>
     {
         public float3 Direction;
-
+    
         public void Execute(ref PhysicsVelocity physicsVelocity, 
             [ReadOnly] ref PhysicsMass physicsMass, 
             [ReadOnly] ref Ball ball, 
@@ -21,31 +26,41 @@ public class ChangeForceSystem : JobComponentSystem
             force.direction = Direction;
         }
     }
-
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    
+    protected override JobHandle OnUpdate(JobHandle inputDependencies)
     {
         var job = new ChangeForceJob();
+        var v = (float2) controls.Gameplay.Move.ReadValue<Vector2>();
+        job.Direction = math.float3(v.x, 0, v.y);
+        
+        return job.Schedule(this, inputDependencies);
+    }
 
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            job.Direction = math.float3(-1, 0, 0);
-        }
+    protected override void OnCreate()
+    {
+        base.OnCreate();
 
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            job.Direction = math.float3(1, 0, 0);
-        }
+        //
+        controls = new Controls();
+    }
 
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            job.Direction = math.float3(0, 0, 1);
-        }
+    // protected override void OnDestroy()
+    // {
+    //     base.OnDestroy();
+    // }
+    
+    //
+    protected override void OnStartRunning()
+    {
+        base.OnStartRunning();
 
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            job.Direction = math.float3(0, 0, -1);
-        }
+        controls.Enable();
+    }
 
-        return job.Schedule(this, inputDeps);
+    protected override void OnStopRunning()
+    {
+        base.OnStartRunning();
+
+        controls.Disable();
     }
 }
