@@ -3,13 +3,24 @@
     using Unity.Entities;
     using UnityEngine;
 
+    [DisallowMultipleComponent]
+    [RequiresEntityConversion]
     public class CharacterAuthoring :
         MonoBehaviour,
         IConvertGameObjectToEntity
     {
+        //
+        public Character CharacterData;
+        public Health HealthData;
+
         public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
         {
-            throw new System.NotImplementedException();
+            HealthData.Value = HealthData.MaxValue;
+            
+            //
+            dstManager.AddComponentData(entity, CharacterData);
+            dstManager.AddComponentData(entity, HealthData);
+            dstManager.AddComponentData(entity, new CharacterInputs());            
         }
     }
 }
