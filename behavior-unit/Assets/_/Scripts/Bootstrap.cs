@@ -61,27 +61,30 @@
             _rnd = new Unity.Mathematics.Random((uint) System.DateTime.UtcNow.Ticks);
             _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
 
-            // //
-            // CreateWorldMap();
-            // CreatePathfind();
+            //
+            CreateWorldMap();
+            CreatePathfind();
             // CreateUnit();
 
             // CreateUnitSpawner();
             CreatePlayerUnit();
             
             //
+            BootstrapUtility.AddInitializationSystem<InitializeWorldMapSystem>();
+            BootstrapUtility.AddInitializationSystem<InitializePathfindSystem>();
+            
             BootstrapUtility.AddSimulationSystem<PlayerInputSystem>();
             BootstrapUtility.AddSimulationSystem<PlayerUnitMovementSystem>();
             BootstrapUtility.AddSimulationSystem<UnitSpawnSystem>();
             BootstrapUtility.AddSimulationSystem<UnitMovementSystem>();
             BootstrapUtility.AddSimulationSystem<AssignNewTargetToUnitSystem>();
-
         }
 
         private void CreateWorldMap()
         {
             var archetype = _entityManager.CreateArchetype(
-                typeof(MapCell));
+                typeof(MapCell),
+                typeof(MapRequestToInitialize));
 
             _entityManager.CreateEntity(archetype);
         }
@@ -89,7 +92,8 @@
         private void CreatePathfind()
         {
             var archetype = _entityManager.CreateArchetype(
-                typeof(PathTile));
+                typeof(PathTile),
+                typeof(PathTileRequestToInitialize));
 
             _entityManager.CreateEntity(archetype);
         }
@@ -185,6 +189,10 @@
         public static implicit operator int(MapCell v) => v.value;
         public static implicit operator MapCell(int v) => new MapCell {value = v};
     }
+
+    public struct MapRequestToInitialize : IComponentData
+    {
+    }
     
     //
     public struct PathTile : IBufferElementData
@@ -192,6 +200,10 @@
         public int2 value;
         public static implicit operator int2(PathTile v) => v.value;
         public static implicit operator PathTile(int2 v) => new PathTile {value = v};
+    }
+
+    public struct PathTileRequestToInitialize : IComponentData
+    {
     }
     
     //
@@ -229,6 +241,84 @@
 
         public int countX;
         public int countY;
+    }
+
+    [DisableAutoCreation]
+    public class InitializeWorldMapSystem : SystemBase
+    {
+        private BeginInitializationEntityCommandBufferSystem _entityCommandBufferSystem;
+        
+        private EntityQuery _worldMapQuery;
+
+        protected override void OnCreate()
+        {
+            base.OnCreate();
+
+            _entityCommandBufferSystem = World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
+
+            _worldMapQuery = GetEntityQuery(
+                typeof(MapCell),
+                typeof(MapRequestToInitialize));
+        }
+
+        protected override void OnUpdate()
+        {
+            var rnd = new Unity.Mathematics.Random((uint) System.DateTime.UtcNow.Ticks);
+            var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
+            
+            var worldMapEntity = _worldMapQuery.GetSingletonEntity();
+
+            var worldMap = EntityManager.GetBuffer<MapCell>(worldMapEntity);
+            
+            worldMap.ResizeUninitialized(100 * 100);
+
+            for (var i = 0; i < worldMap.Length; ++i)
+            {
+                worldMap[i] = rnd.NextInt(0, 2);
+            }
+            
+            commandBuffer.RemoveComponent<MapRequestToInitialize>(_worldMapQuery);
+        }
+    }
+    
+    //
+    [DisableAutoCreation]
+    public class InitializePathfindSystem : SystemBase
+    {
+        private BeginInitializationEntityCommandBufferSystem _entityCommandBufferSystem;
+
+        private EntityQuery _pathQuery;
+        
+        protected override void OnCreate()
+        {
+            base.OnCreate();
+
+            _entityCommandBufferSystem = World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
+
+            _pathQuery = GetEntityQuery(
+                typeof(PathTile));
+        }
+
+        protected override void OnUpdate()
+        {
+            var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
+
+            var pathTileEntity = _pathQuery.GetSingletonEntity();
+
+            var pathTile = EntityManager.GetBuffer<PathTile>(pathTileEntity);
+            
+            //
+            pathTile.ResizeUninitialized(10 * 10);
+
+            for (var i = 0; i < pathTile.Length; ++i)
+            {
+                var start = i * 100;
+                var end = start + 99;
+                pathTile[i] = new int2(start, end);
+            }
+            
+            commandBuffer.RemoveComponent<PathTileRequestToInitialize>(_pathQuery);
+        }
     }
     
     //
