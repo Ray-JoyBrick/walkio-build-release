@@ -67,12 +67,15 @@
             // CreateUnit();
 
             // CreateUnitSpawner();
+            CreatePlayerUnit();
             
             //
             BootstrapUtility.AddSimulationSystem<PlayerInputSystem>();
+            BootstrapUtility.AddSimulationSystem<PlayerUnitMovementSystem>();
             BootstrapUtility.AddSimulationSystem<UnitSpawnSystem>();
             BootstrapUtility.AddSimulationSystem<UnitMovementSystem>();
             BootstrapUtility.AddSimulationSystem<AssignNewTargetToUnitSystem>();
+
         }
 
         private void CreateWorldMap()
@@ -98,11 +101,29 @@
                 typeof(RenderBounds),
                 typeof(LocalToWorld),
                 typeof(Translation),
-                typeof(PlaybackPolicy),
+                typeof(PlayerInput),
                 typeof(Team),
-                typeof(Unit));
+                typeof(Unit),
+                typeof(UnitMovement));
 
-            _entityManager.CreateEntity(archetype);
+            var entity = _entityManager.CreateEntity(archetype);
+            
+            _entityManager.SetSharedComponentData(entity, new RenderMesh
+            {
+                mesh = unitMesh,
+                material = unitMaterial
+            });
+            
+            _entityManager.SetComponentData(entity, new Translation
+            {
+                Value = float3.zero
+            });
+            
+            _entityManager.SetComponentData(entity, new UnitMovement
+            {
+                target = float3.zero,
+                moveSpeed = 4.0f
+            });
         }
 
         private void CreateUnitSpawner()
@@ -176,6 +197,7 @@
     //
     public struct PlayerInput : IComponentData
     {
+        public float2 value;
     }
 
     //
@@ -284,6 +306,7 @@
 
             Entities
                 .WithName("UnitMovementSystem")
+                .WithNone<PlayerInput>()
                 .WithBurst(FloatMode.Default, FloatPrecision.Standard, true)
                 .ForEach(
                     (Entity entity, int entityInQueryIndex, ref UnitMovement unitMovement, ref Translation translation) =>
@@ -328,6 +351,7 @@
 
             Entities
                 .WithName("AssignNewTargetToUnitSystem")
+                .WithNone<PlayerInput>()
                 .WithBurst(FloatMode.Default, FloatPrecision.Standard, true)
                 .ForEach(
                     (Entity entity, int entityInQueryIndex, ref UnitMovement unitMovement, ref UnitRequestNewTarget unitRequestNewTarget) =>
@@ -349,27 +373,72 @@
         protected override void OnUpdate()
         {
             Entities
-                .WithAll<PlayerInput>()
-                .ForEach((Entity entity) =>
+                .WithName("PlayerInputSystem")
+                // .WithAll<PlayerInput>()
+                .ForEach((Entity entity, int entityInQueryIndex, ref PlayerInput playerInput) =>
                 {
-                    Debug.Log($"Entity: {entity}");
-                    
-                    //
+                    // Assign player input here but process the input somewhere else
                     var horizontal = Input.GetAxis("Horizontal");
                     var vertical = Input.GetAxis("Vertical");
+                    
+                    playerInput.value = float2.zero;
 
                     if (horizontal != 0)
                     {
-                        Debug.Log($"Player request horizontal input");
+                        // Debug.Log($"Player request horizontal input");
+                        playerInput.value.x = horizontal;
                     }
 
                     if (vertical != 0)
                     {
-                        Debug.Log($"Player request vertical input");
+                        // Debug.Log($"Player request vertical input");
+                        playerInput.value.y = vertical;
                     }
                 })
                 .WithoutBurst()
                 .Run();
+        }
+    }
+
+    [DisableAutoCreation]
+    [UpdateAfter(typeof(PlayerInputSystem))]
+    public class PlayerUnitMovementSystem : SystemBase
+    {
+        protected override void OnUpdate()
+        {
+            var deltaTime = Time.DeltaTime;
+
+            var job1 =
+                Entities
+                    .WithName("PlayerUnitMovementSystem_GatherInput")
+                    // .WithAll<PlayerInput>()
+                    .WithBurst(FloatMode.Default, FloatPrecision.Standard, true)
+                    .ForEach(
+                        (Entity entity, int entityInQueryIndex, ref PlayerInput playerInput, ref UnitMovement unitMovement) =>
+                        {
+                            // Used as direction
+                            unitMovement.target = new float3(playerInput.value.x, 0, playerInput.value.y);
+                        }
+                    )
+                    .Schedule(Dependency);
+
+            Dependency = job1;
+
+            var job2 =
+                Entities
+                    .WithName("PlayerUnitMovementSystem_Move")
+                    .WithAll<PlayerInput>()
+                    .WithBurst(FloatMode.Default, FloatPrecision.Standard, true)
+                    .ForEach(
+                        (Entity entity, int entityInQueryIndex, ref UnitMovement unitMovement, ref Translation translation) =>
+                        {
+                            translation.Value += unitMovement.target * deltaTime;
+                        }
+                    )
+                    .Schedule(Dependency);
+
+            Dependency = job2;
+
         }
     }
 }
