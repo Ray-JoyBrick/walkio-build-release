@@ -72,6 +72,7 @@
             BootstrapUtility.AddSimulationSystem<PlayerInputSystem>();
             BootstrapUtility.AddSimulationSystem<UnitSpawnSystem>();
             BootstrapUtility.AddSimulationSystem<UnitMovementSystem>();
+            BootstrapUtility.AddSimulationSystem<AssignNewTargetToUnitSystem>();
         }
 
         private void CreateWorldMap()
@@ -192,6 +193,10 @@
         public float moveSpeed;
     }
 
+    public struct UnitRequestNewTarget : IComponentData
+    {
+    }
+
     public struct Minion : IComponentData
     {
     }
@@ -288,13 +293,47 @@
                         var nearTarget = math.distance(unitMovement.target, position) < 0.1f;
                         if (nearTarget)
                         {
-                            
+                            // Actually near target, ask to assign new target?
+                            commandBuffer.AddComponent<UnitRequestNewTarget>(entityInQueryIndex, entity, new UnitRequestNewTarget());
                         }
                         else
                         {
                             var direction = math.normalize(unitMovement.target - position);
                             translation.Value += direction * deltaTime * unitMovement.moveSpeed;
                         }
+                    }
+                )
+                .ScheduleParallel();
+
+            _entityCommandBufferSystem.AddJobHandleForProducer(Dependency);
+        }
+    }
+    
+    //
+    [DisableAutoCreation]
+    [UpdateAfter(typeof(UnitMovementSystem))]
+    public class AssignNewTargetToUnitSystem : SystemBase
+    {
+        private EndSimulationEntityCommandBufferSystem _entityCommandBufferSystem;
+
+        protected override void OnCreate()
+        {
+            _entityCommandBufferSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+        }
+        
+        protected override void OnUpdate()
+        {
+            var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer().ToConcurrent();
+            var rnd = new Unity.Mathematics.Random((uint) System.DateTime.UtcNow.Ticks);
+
+            Entities
+                .WithName("AssignNewTargetToUnitSystem")
+                .WithBurst(FloatMode.Default, FloatPrecision.Standard, true)
+                .ForEach(
+                    (Entity entity, int entityInQueryIndex, ref UnitMovement unitMovement, ref UnitRequestNewTarget unitRequestNewTarget) =>
+                    {
+                        unitMovement.target = rnd.NextFloat3(new float3(-20, -0, -20), new float3(20, 0, 20));
+                        commandBuffer.RemoveComponent<UnitRequestNewTarget>(entityInQueryIndex, entity);
                     }
                 )
                 .ScheduleParallel();
