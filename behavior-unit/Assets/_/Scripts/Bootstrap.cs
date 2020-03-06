@@ -71,6 +71,7 @@
             //
             BootstrapUtility.AddSimulationSystem<PlayerInputSystem>();
             BootstrapUtility.AddSimulationSystem<UnitSpawnSystem>();
+            BootstrapUtility.AddSimulationSystem<UnitMovementSystem>();
         }
 
         private void CreateWorldMap()
@@ -185,6 +186,12 @@
     {
     }
 
+    public struct UnitMovement : IComponentData
+    {
+        public float3 target;
+        public float moveSpeed;
+    }
+
     public struct Minion : IComponentData
     {
     }
@@ -214,32 +221,84 @@
         protected override void OnUpdate()
         {
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer().ToConcurrent();
+            var rnd = new Unity.Mathematics.Random((uint) System.DateTime.UtcNow.Ticks);
             
             Entities
                 .WithName("SpawnUnitSystem")
                 .WithBurst(FloatMode.Default, FloatPrecision.Standard, true)
-                .ForEach((Entity entity, int entityInQueryIndex, in UnitSpawner unitSpawner, in LocalToWorld location) =>
-                {
-                    for (var x = 0; x < unitSpawner.countX; ++x)
+                .ForEach(
+                    (Entity entity, int entityInQueryIndex, in UnitSpawner unitSpawner, in LocalToWorld location) =>
                     {
-                        for (var y = 0; y < unitSpawner.countY; ++y)
+                        for (var x = 0; x < unitSpawner.countX; ++x)
                         {
-                            var instance = commandBuffer.Instantiate(entityInQueryIndex, unitSpawner.prefab);
+                            for (var y = 0; y < unitSpawner.countY; ++y)
+                            {
+                                var instance = commandBuffer.Instantiate(entityInQueryIndex, unitSpawner.prefab);
 
-                            var position = math.transform(
-                                location.Value,
-                                new float3(x * 1.3f, noise.cnoise(new float2(x, y) * 0.21f) * 2, y * 1.3f));
-                        
-                            commandBuffer.SetComponent(entityInQueryIndex, instance, new Translation { Value = position });
-                        
-                            // Debug.Log($"Set comp for {entityInQueryIndex}");
+                                var position = math.transform(
+                                    location.Value,
+                                    new float3(x * 1.3f, noise.cnoise(new float2(x, y) * 0.21f) * 2, y * 1.3f));
+                            
+                                // Has component Translation, just set it
+                                commandBuffer.SetComponent(entityInQueryIndex, instance, new Translation { Value = position });
+                                // Has no component UnitMovement so adding it here
+                                commandBuffer.AddComponent(entityInQueryIndex, instance, new UnitMovement
+                                {
+                                    target = rnd.NextFloat3(new float3(-20, -0, -20), new float3(20, 0, 20)),
+                                    moveSpeed = rnd.NextFloat(1.0f, 3.0f)
+                                });
+                            
+                                // Debug.Log($"Set comp for {entityInQueryIndex}");
+                            }
                         }
+
+                        commandBuffer.DestroyEntity(entityInQueryIndex, entity); 
                     }
-                    
-                    commandBuffer.DestroyEntity(entityInQueryIndex, entity);
-                })
+                )
                 .ScheduleParallel();
             
+            _entityCommandBufferSystem.AddJobHandleForProducer(Dependency);
+        }
+    }
+    
+    //
+    [DisableAutoCreation]
+    public class UnitMovementSystem : SystemBase
+    {
+        private EndSimulationEntityCommandBufferSystem _entityCommandBufferSystem;
+
+        protected override void OnCreate()
+        {
+            _entityCommandBufferSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+        }
+
+        protected override void OnUpdate()
+        {
+            var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer().ToConcurrent();
+            var deltaTime = Time.DeltaTime;
+
+            Entities
+                .WithName("UnitMovementSystem")
+                .WithBurst(FloatMode.Default, FloatPrecision.Standard, true)
+                .ForEach(
+                    (Entity entity, int entityInQueryIndex, ref UnitMovement unitMovement, ref Translation translation) =>
+                    {
+                        // Debug.Log($"This is unit movement");
+                        var position = translation.Value;
+                        var nearTarget = math.distance(unitMovement.target, position) < 0.1f;
+                        if (nearTarget)
+                        {
+                            
+                        }
+                        else
+                        {
+                            var direction = math.normalize(unitMovement.target - position);
+                            translation.Value += direction * deltaTime * unitMovement.moveSpeed;
+                        }
+                    }
+                )
+                .ScheduleParallel();
+
             _entityCommandBufferSystem.AddJobHandleForProducer(Dependency);
         }
     }
