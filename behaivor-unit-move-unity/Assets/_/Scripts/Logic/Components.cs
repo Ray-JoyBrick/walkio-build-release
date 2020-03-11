@@ -12,6 +12,10 @@
     {
     }
 
+    public struct Leader : IComponentData
+    {
+    }
+
     public struct UnitMoveToTarget : IComponentData
     {
         public float3 Target;

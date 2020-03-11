@@ -33,6 +33,8 @@
                 
                 typeof(Team),
                 typeof(Unit),
+                typeof(Leader),
+
                 typeof(UnitMoveToTarget));
 
             Entities

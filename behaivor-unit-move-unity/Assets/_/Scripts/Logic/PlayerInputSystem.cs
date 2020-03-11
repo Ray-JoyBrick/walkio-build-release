@@ -15,6 +15,8 @@
     
     public struct PlayerMovementRequest : IComponentData
     {
+        public float3 Origin;
+        
         public float2 Direction;
         public float Strength;
     }

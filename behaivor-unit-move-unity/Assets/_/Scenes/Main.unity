@@ -258,6 +258,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e18ea5e81fb04f4abcc1e43aa4d5288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInputMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  playerInputMaterial: {fileID: 2100000, guid: bc6d7b287bafd53489797f6b93005589, type: 2}
 --- !u!4 &951257284
 Transform:
   m_ObjectHideFlags: 0

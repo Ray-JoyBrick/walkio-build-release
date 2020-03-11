@@ -2,7 +2,10 @@
 {
     using Unity.Entities;
     using Unity.Mathematics;
+    using Unity.Rendering;
+    using Unity.Transforms;
     using UnityEngine;
+    using UnityEngine.Serialization;
 
     public struct Player : IComponentData
     {
@@ -26,6 +29,9 @@
         MonoBehaviour,
         IConvertGameObjectToEntity
     {
+        public Mesh playerInputMesh;
+        public Material playerInputMaterial;
+        
         public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
         {
             dstManager.AddComponent<Player>(entity);
@@ -44,6 +50,16 @@
             deviceIdBuffers.Add(new InputDeviceIdBufferElement {DeviceId = 0});
 
             dstManager.AddComponent<SpawnCorrespondingTeam>(entity);
+
+            dstManager.AddComponentData(entity, new LocalToWorld());
+            dstManager.AddComponentData(entity, new Translation());
+            
+            dstManager.AddSharedComponentData<RenderMesh>(entity, new RenderMesh
+            {
+                mesh = playerInputMesh,
+                material = playerInputMaterial
+            });
+            dstManager.AddComponentData<RenderBounds>(entity, new RenderBounds());
         }
     }
 }
