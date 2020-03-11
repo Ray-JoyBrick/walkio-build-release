@@ -7,11 +7,12 @@
     using Unity.Mathematics;
     using Unity.Transforms;
 
+    [DisableAutoCreation]
     [UpdateAfter(typeof(PlayerInputSystem))]
     public class DecideTargetSystem : SystemBase
     {
-        private float2 _previousValidDirection = new float2(1.0f, 0);
-        private float _previousStrength = 0;
+        // private float2 _previousValidDirection = new float2(1.0f, 0);
+        // private float _previousStrength = 0;
         
         private EndSimulationEntityCommandBufferSystem _entityCommandBufferSystem;
         
@@ -59,35 +60,6 @@
                 .Schedule();
             
             _entityCommandBufferSystem.AddJobHandleForProducer(Dependency);
-
-            // Entities
-            //     .WithAll<Player>()
-            //     .ForEach((Entity entity, int entityInQueryIndex, ref PlayerInput playerInput, ref PlayerMovementRequest playerMovementRequest) =>
-            //     {
-            //         var moveInput = playerInput.MoveInput;
-            //
-            //         var noMoveInput = (math.abs(moveInput.x) < 0.02f) && (math.abs(moveInput.y) < 0.02f);
-            //         
-            //         if (noMoveInput)
-            //         {
-            //             playerMovementRequest.Direction = _previousValidDirection;
-            //             playerMovementRequest.Strength = _previousStrength;
-            //         }
-            //         else
-            //         {
-            //             //
-            //             var direction = math.normalize(moveInput);
-            //             var strength = math.lengthsq(moveInput);
-            //
-            //             playerMovementRequest.Direction = direction;
-            //             playerMovementRequest.Strength = strength;
-            //
-            //             _previousValidDirection = direction;
-            //             _previousStrength = strength;
-            //         }
-            //     })
-            //     .WithoutBurst()
-            //     .Run();
         }
     }
 }

@@ -21,6 +21,7 @@
         public float Strength;
     }
 
+    [DisableAutoCreation]
     public class PlayerInputSystem :
         SystemBase,
         Input.Generated.Controls.IDefaultMappingActions

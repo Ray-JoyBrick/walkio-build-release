@@ -4,6 +4,7 @@
     using Unity.Mathematics;
     using Unity.Transforms;
 
+    [DisableAutoCreation]
     public class SpawnTeamUnitSystem : SystemBase
     {
         private BeginInitializationEntityCommandBufferSystem _entityCommandBufferSystem;

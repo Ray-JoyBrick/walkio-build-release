@@ -4,6 +4,7 @@
     using Unity.Rendering;
     using UnityEngine;
 
+    [DisableAutoCreation]
     [AlwaysSynchronizeSystem]
     [UpdateInGroup(typeof(PresentationSystemGroup))]
     public class PlayerMoveRangeSystem : SystemBase

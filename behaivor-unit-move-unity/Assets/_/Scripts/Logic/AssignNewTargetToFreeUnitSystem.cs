@@ -4,6 +4,7 @@
     using Unity.Entities;
     using Unity.Mathematics;
 
+    [DisableAutoCreation]
     [UpdateAfter(typeof(NonTeamUnitMoveSystem))]
     public class AssignNewTargetToFreeUnitSystem : SystemBase
     {

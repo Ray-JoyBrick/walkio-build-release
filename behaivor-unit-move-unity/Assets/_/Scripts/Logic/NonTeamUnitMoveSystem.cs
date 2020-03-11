@@ -5,6 +5,7 @@
     using Unity.Mathematics;
     using Unity.Transforms;
 
+    [DisableAutoCreation]
     public class NonTeamUnitMoveSystem : SystemBase
     {
         private EndSimulationEntityCommandBufferSystem _entityCommandBufferSystem;
