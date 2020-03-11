@@ -26,35 +26,25 @@
             Debug.Log($"Normal world systems are initialized");
             
             //
-            // var gridPrefabTask = _assetLoadingSystem.LoadFromAddressable<GameObject>("Test");
+            var h1 = Addressables.LoadAssetAsync<GameObject>("Test Grid");
+            var h2 = Addressables.LoadAssetAsync<GameObject>("Test Map");
+            // //
+            // var allHandles = Task.WhenAll(h1.Task, h2.Task);
 
-            // Only wait a bit here
-            // gridPrefabTask.Wait(System.TimeSpan.FromMilliseconds(1000));
-            // Just get result directly
-            // gridPrefabTask.RunSynchronously(TaskScheduler.Current);
-            // var gridPrefab = gridPrefabTask.Result;
-            // var gridInstance = GameObject.Instantiate(gridPrefab);
-
-            Addressables.LoadAssetAsync<GameObject>("Test").Completed += OnCompleted;
-
-            
-            // // Setup ECS systems here
-            // Utility.Bootstrap.AddInitializationSystem<SpawnTeamUnitSystem>();
-            // Utility.Bootstrap.AddInitializationSystem<SpawnUnitSystem>();
-            //
-            // Utility.Bootstrap.AddSimulationSystem<PlayerInputSystem>();
-            // Utility.Bootstrap.AddSimulationSystem<DecideTargetSystem>();
-            // Utility.Bootstrap.AddSimulationSystem<AssignNewTargetToFreeUnitSystem>();
-            // Utility.Bootstrap.AddSimulationSystem<NonTeamUnitMoveSystem>();
-            //
-            // Utility.Bootstrap.AddPresentationSystem<PlayerMoveRangeSystem>();
+            h1.Completed += handle1 =>
+            {
+                h2.Completed += handle2 =>
+                {
+                    //
+                    OnCompleted(handle1.Result, handle2.Result);
+                };
+            };
         }
 
-        private void OnCompleted(AsyncOperationHandle<GameObject> handle)
+        private void OnCompleted(GameObject gridPrefab, GameObject mapPrefab)
         {
-            var prefab = handle.Result;
-
-            var gridInstance = GameObject.Instantiate(prefab);
+            var gridInstance = GameObject.Instantiate(gridPrefab);
+            var mapInstance = GameObject.Instantiate(mapPrefab);
 
             // Setup ECS systems here
             Utility.Bootstrap.AddInitializationSystem<SpawnTeamUnitSystem>();

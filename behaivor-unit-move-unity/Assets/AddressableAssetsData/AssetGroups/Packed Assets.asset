@@ -17,8 +17,14 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 127e89be1476ed74a94812df82c27249
   m_SerializeEntries:
+  - m_GUID: 096809837c3f2414b95df71f129bfb1f
+    m_Address: Test Map
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 2f526c5f5f28f1145b83fc1cf5adb7ea
-    m_Address: Test
+    m_Address: Test Grid
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
