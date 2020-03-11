@@ -1,0 +1,11 @@
+/*
+
+!.gitignore
+
+# General exclude rules move here
+*.meta
+!*.*.meta
+
+!_
+!Standard Assets
+# !Universal RP
