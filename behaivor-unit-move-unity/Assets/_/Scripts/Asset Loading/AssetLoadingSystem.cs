@@ -11,6 +11,7 @@
     public interface IAssetLoadingService
     {
         void LoadAssetAsync<T>(string addressableName, System.Action<T> handler);
+        void Release<T>(T o) where T : UnityEngine.Object;
     }
 
     // Should make this static instead of creating instance as there should actually be one singleton system in
@@ -40,6 +41,11 @@
             var handle = Addressables.LoadAssetAsync<T>(addressableName);
 
             handle.Completed += operationHandle => { handler(operationHandle.Result); };
+        }
+
+        public void Release<T>(T o) where T : UnityEngine.Object
+        {
+            Addressables.Release(o);
         }
 
         protected override void OnDestroy()
