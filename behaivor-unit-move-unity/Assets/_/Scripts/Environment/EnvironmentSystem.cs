@@ -4,9 +4,17 @@
     using System.Collections.Generic;
     using Unity.Entities;
     using Unity.Mathematics;
+    using Unity.Rendering;
+    using Unity.Transforms;
     using UnityEngine;
     using UnityEngine.Tilemaps;
 
+    public struct WorldMap : IComponentData
+    {
+        public int Width;
+        public int Height;
+    }
+    
     public struct MapCell : IBufferElementData
     {
         public int Value;
@@ -45,6 +53,7 @@
             
             //
             _mapArchetype = EntityManager.CreateArchetype(
+                typeof(WorldMap),
                 typeof(MapCell));
 
             _pathArchetype = EntityManager.CreateArchetype(

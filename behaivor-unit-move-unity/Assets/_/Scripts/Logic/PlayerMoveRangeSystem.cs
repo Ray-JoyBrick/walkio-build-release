@@ -31,6 +31,8 @@
 
             var mesh = renderMesh.mesh;
 
+            // var mesh = new Mesh();
+            
             var vertices = new Vector3[4];
             var uvs = new Vector2[4];
             var triangles = new int[6];
@@ -60,6 +62,9 @@
             mesh.vertices = vertices;
             mesh.uv = uvs;
             mesh.triangles = triangles;
+
+            // renderMesh.mesh = mesh;
+            EntityManager.SetSharedComponentData(playerEntity, renderMesh);
         }
     }
 }

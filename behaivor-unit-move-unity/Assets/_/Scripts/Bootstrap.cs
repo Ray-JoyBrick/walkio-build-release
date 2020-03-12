@@ -24,6 +24,7 @@
             Utility.Bootstrap.AddSimulationSystem<AssignNewTargetToFreeUnitSystem>();
             Utility.Bootstrap.AddSimulationSystem<NonTeamUnitMoveSystem>();
             
+            Utility.Bootstrap.AddPresentationSystem<PresentGridWorldSystem>();
             Utility.Bootstrap.AddPresentationSystem<PlayerMoveRangeSystem>();
         }
 
