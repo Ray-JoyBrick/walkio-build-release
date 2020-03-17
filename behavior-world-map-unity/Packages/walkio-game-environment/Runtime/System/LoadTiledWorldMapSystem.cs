@@ -14,7 +14,7 @@ namespace JoyBrick.Walkio.Game.Environment
 
         private float _startLoadingTime = 0;
 
-        private AsyncOperationHandle<GameObject> _handle = default;
+        private AsyncOperationHandle<Texture2D> _handle = default;
         
         //
         private BeginInitializationEntityCommandBufferSystem _entityCommandBufferSystem;
@@ -51,8 +51,9 @@ namespace JoyBrick.Walkio.Game.Environment
 
             if (!_loading)
             {
-                var worldMapAddressableName = "World Map";
-                _handle = Addressables.LoadAssetAsync<GameObject>(worldMapAddressableName);
+                // var worldMapAddressableName = "World Map";
+                var worldMapAddressableName = "World Map Image";
+                _handle = Addressables.LoadAssetAsync<Texture2D>(worldMapAddressableName);
                 _loading = true;
                 _startLoadingTime = UnityEngine.Time.time;
             }
@@ -65,8 +66,8 @@ namespace JoyBrick.Walkio.Game.Environment
                 _loaded = true;
 
                 //
-                var prefab = _handle.Result;
-                AssignDataFromGrid(prefab);
+                var texture2D = _handle.Result;
+                AssignDataFromTexture(texture2D);
 
                 //
                 var mapEntity = commandBuffer.CreateEntity(_generateEventArchetype);
@@ -77,15 +78,16 @@ namespace JoyBrick.Walkio.Game.Environment
             _entityCommandBufferSystem.AddJobHandleForProducer(Dependency);
         }
 
-        private void AssignDataFromGrid(GameObject prefab)
+        private void AssignDataFromTexture(Texture2D texture2D)
         {
-            var grid = prefab.GetComponent<Grid>();
-
-            Debug.Log($"LoadTiledWorldMapSystem - grid: {grid}");
-
-            foreach (Transform child in grid.transform)
+            var width = texture2D.width;
+            var height = texture2D.height;
+            var array = texture2D.GetRawTextureData<Color32>();
+            // var array = texture2D.GetRawTextureData<byte>();
+            Debug.Log($"texture length: {array.Length} format: {texture2D.format} width: {width} height: {height}");
+            for (var i = 0; i < array.Length; ++i)
             {
-                Debug.Log($"LoadTiledWorldMapSystem - child: {child.name} under grid");
+                Debug.Log($"color: {array[i]}");
             }
         }
     }

@@ -116,11 +116,11 @@ namespace JoyBrick.Walkio.Game.Environment
             var height = worldMap.Height;
             
             var visualMapEntity = commandBuffer.CreateEntity(_visualMapArchetype);
-            var mesh = Utility.Geometry.CreatePlane(width, height);
-            commandBuffer.AddSharedComponent(entity, new RenderMesh
-            {
-                mesh = mesh
-            });
+            // var mesh = Utility.Geometry.CreatePlane(width, height);
+            // commandBuffer.AddSharedComponent(visualMapEntity, new RenderMesh
+            // {
+            //     mesh = mesh
+            // });
             
             commandBuffer.DestroyEntity(entity);
             
