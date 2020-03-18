@@ -73,4 +73,8 @@ namespace JoyBrick.Walkio.Game.Environment
     {
         public BlobArray<TileData> TileDatas;
     }
+
+    public struct TileDataPlaceholder : IComponentData
+    {
+    }
 }

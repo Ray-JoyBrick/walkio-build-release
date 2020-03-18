@@ -30,3 +30,23 @@ Then forming the tile data will be a bit tricky. As for the calculation, there w
 - vertical tile count: 6
 
 Which will be ```3 * 6 = 18``` tiles. But there will be tiles that have no mapped world map info, which need to assign out boundary data for it.
+
+### GameObjectConversionSystem
+
+This system although derived from ComponentSystem, it is at different system group. It will take effect whenever there is proper type to be converted.
+
+For now, if ScriptableObject needs to be converted into BlobAsset, it has to go through authoring part.
+
+```cs
+public class SOFacadeAuthoring : MonoBehaviour, IConvertGameObjectToEntity
+{
+    public ScriptableObjectAsset asset;
+
+    public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
+    {
+        dstManager.AddComponentData(entity, asset);
+    }
+}
+```
+
+In this case, there are different consideration to use ScriptableObject then converting by the help of authoring approach or just use authoring gameobject with necessary data.
