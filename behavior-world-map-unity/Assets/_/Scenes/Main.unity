@@ -582,7 +582,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnOnDiagnostic: 1
-  tileAuthoringPrefab: {fileID: 2445846533866098456, guid: 5f3c48814ddf9d44aa154ed37fa3689e, type: 3}
+  tileAuthoringPrefab01: {fileID: 2445846533866098456, guid: 5f3c48814ddf9d44aa154ed37fa3689e, type: 3}
+  tileAuthoringPrefab02: {fileID: 2445846533866098456, guid: c13fb09f446b6144a80c64e58a76dd07, type: 3}
+  tileDataAsset: {fileID: 0}
 --- !u!4 &1614909459
 Transform:
   m_ObjectHideFlags: 0
