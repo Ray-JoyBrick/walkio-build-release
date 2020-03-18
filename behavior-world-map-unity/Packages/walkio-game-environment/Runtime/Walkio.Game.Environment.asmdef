@@ -1,5 +1,5 @@
 {
-    "name": "Unity.Walkio.Game.Environment",
+    "name": "Walkio.Game.Environment",
     "references": [
         "Unity.Addressables",
         "Unity.Entities",
@@ -11,7 +11,7 @@
         "Unity.Entities.Properties",
         "Unity.Mathematics",
         "Unity.ResourceManager",
-        "Unity.Walkio.Game.Environment-Bridge"
+        "Walkio.Game.Environment-Bridge"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

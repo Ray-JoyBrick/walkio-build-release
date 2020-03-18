@@ -24,6 +24,11 @@
             AddSystemToGroup<T, PresentationSystemGroup>();
         }
 
+        public static void AddGameObjectBeforeConversionSystem<T>() where T : ComponentSystemBase
+        {
+            AddSystemToGroup<T, GameObjectBeforeConversionGroup>();
+        }
+
         static void AddSystemToGroup<TSystem, TGroup>()
             where TSystem : ComponentSystemBase
             where TGroup : ComponentSystemGroup

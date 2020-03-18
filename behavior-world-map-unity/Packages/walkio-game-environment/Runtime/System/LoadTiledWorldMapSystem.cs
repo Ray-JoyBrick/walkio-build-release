@@ -51,7 +51,6 @@ namespace JoyBrick.Walkio.Game.Environment
 
             if (!_loading)
             {
-                // var worldMapAddressableName = "World Map";
                 var worldMapAddressableName = "World Map Image";
                 _handle = Addressables.LoadAssetAsync<Texture2D>(worldMapAddressableName);
                 _loading = true;
@@ -88,6 +87,8 @@ namespace JoyBrick.Walkio.Game.Environment
             for (var i = 0; i < array.Length; ++i)
             {
                 Debug.Log($"color: {array[i]}");
+                
+                // Utility.WorldMapHelper.
             }
         }
     }

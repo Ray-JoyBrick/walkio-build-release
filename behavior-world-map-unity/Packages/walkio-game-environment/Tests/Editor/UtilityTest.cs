@@ -93,6 +93,47 @@ namespace JoyBrick.Walkio.Game.Environment.Utility.Tests
             // assert
             Assert.AreEqual(expected1, index1);
         }
+
+        [Test]
+        public void AddFewMoreToProlongTheSize()
+        {
+            // arrange
+            var originalLength1 = 32;
+            var tileLength1 = 10;
+
+            var originalLength2 = 32;
+            var tileLength2 = 12;
+
+
+            // act
+            var actual1 = Utility.WorldMapHelper.GetAdjustedLength(originalLength1, tileLength1);
+            var expected1 = 4;
+
+            var actual2 = Utility.WorldMapHelper.GetAdjustedLength(originalLength2, tileLength2);
+            var expected2 = 3;
+            
+            // assert
+            Assert.AreEqual(expected1, actual1);
+            Assert.AreEqual(expected2, actual2);
+        }
+
+        [Test]
+        public void CheckIfOutBoundaryByGivenIndex()
+        {
+            // arrange
+            var originalLength1 = 32;
+            var adjustedLength1 = 40;
+
+            // act
+            var outBoundary1 = Utility.WorldMapHelper.IsOutBoundary(originalLength1, adjustedLength1, 30);
+            var outBoundary2 = Utility.WorldMapHelper.IsOutBoundary(originalLength1, adjustedLength1, 31);
+            var outBoundary3 = Utility.WorldMapHelper.IsOutBoundary(originalLength1, adjustedLength1, 32);
+
+            // assert
+            Assert.IsFalse(outBoundary1);
+            Assert.IsFalse(outBoundary2);
+            Assert.IsTrue(outBoundary3);
+        }
         
         [Test]
         public void CheckForAssigningTileIndexAtOrigin()

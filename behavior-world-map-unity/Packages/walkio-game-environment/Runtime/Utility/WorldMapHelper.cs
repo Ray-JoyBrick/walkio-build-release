@@ -38,6 +38,31 @@
 
             return index;
         }
+
+        public static int GetAdjustedLength(int originalLength, int tileLength)
+        {
+            return (int) math.ceil((float) originalLength / (float) tileLength);
+        }
+
+        public static bool IsOutBoundary(int originalLength, int adjustedLength, int index)
+        {
+            var outBoundary = false;
+            var v = index % adjustedLength;
+            if (v >= originalLength)
+            {
+                outBoundary = true;
+            }
+
+            return outBoundary;
+        }
+
+        public static int GetOriginIndexInTile(
+            int worldWidth, int worldHeight,
+            int tileWidth, int tileHeight,
+            int xTileIndex, int yTileIndex)
+        {
+            return (yTileIndex * tileHeight * worldWidth) + (xTileIndex * tileWidth);
+        }
         
         public static int GetTileIndex(
             int worldWidth, int worldHeight,
@@ -45,9 +70,9 @@
             int xTileIndex, int yTileIndex,
             int xIndex, int yIndex)
         {
-            var baseIndex = (yTileIndex * tileHeight * worldWidth) + (xTileIndex * tileWidth);
+            var originIndexInTile = GetOriginIndexInTile(worldWidth, worldHeight, tileWidth, tileHeight, xTileIndex, yTileIndex);
             var inTileIndex = ((yIndex * tileWidth) + xIndex);
-            var index = (baseIndex + inTileIndex);
+            var index = (originIndexInTile + inTileIndex);
 
             return index;
         }

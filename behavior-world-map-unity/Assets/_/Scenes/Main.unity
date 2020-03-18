@@ -582,6 +582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnOnDiagnostic: 1
+  tileAuthoringPrefab: {fileID: 2445846533866098456, guid: 5f3c48814ddf9d44aa154ed37fa3689e, type: 3}
 --- !u!4 &1614909459
 Transform:
   m_ObjectHideFlags: 0

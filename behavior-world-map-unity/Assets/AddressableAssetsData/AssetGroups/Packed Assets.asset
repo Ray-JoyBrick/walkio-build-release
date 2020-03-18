@@ -29,6 +29,12 @@ MonoBehaviour:
     m_SerializedLabels: []
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 7e750b5eb26c76c47aaee06c9b3a6163
+    m_Address: Environment Settings
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_mainAssetType: JoyBrick.Walkio.Game.Environment.Bridge.TileDataAsset, Unity.Walkio.Game.Environment-Bridge,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - m_GUID: e26a568b409e9a342b09c9bf60d2a784
     m_Address: World Map
     m_ReadOnly: 0
