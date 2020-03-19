@@ -17,19 +17,19 @@
         private void Start()
         {
             _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-            _worldMapArchetype = 
-                _entityManager.CreateArchetype(
-                    typeof(Environment.LoadWorldMapRequest));
+            // _worldMapArchetype = 
+            //     _entityManager.CreateArchetype(
+            //         typeof(Environment.LoadWorldMapRequest));
         }
         
         //
         public void HandleLoadMapButtonPressed(int worldMapIndex)
         {
-            var entity = _entityManager.CreateEntity(_worldMapArchetype);
-            _entityManager.AddComponentData<Environment.LoadWorldMapRequest>(entity, new Environment.LoadWorldMapRequest
-            {
-                WorldMapIndex = worldMapIndex
-            });
+            // var entity = _entityManager.CreateEntity(_worldMapArchetype);
+            // _entityManager.AddComponentData<Environment.LoadWorldMapRequest>(entity, new Environment.LoadWorldMapRequest
+            // {
+            //     WorldMapIndex = worldMapIndex
+            // });
         }
 
         private void OnDestroy()

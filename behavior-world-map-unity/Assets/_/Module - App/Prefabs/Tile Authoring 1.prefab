@@ -44,12 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a8a5a2701594a3d941a0547264d8e01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileDataAsset:
-    tileDatas:
-    - kind: 0
-      cost: 1
-    - kind: 1
-      cost: 10
+  tileDataAsset: {fileID: 11400000, guid: 7e750b5eb26c76c47aaee06c9b3a6163, type: 2}
 --- !u!114 &2445846533866098453
 MonoBehaviour:
   m_ObjectHideFlags: 0
