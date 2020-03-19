@@ -17,8 +17,26 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 4d4aebcf2b271694899101b316e55335
   m_SerializeEntries:
+  - m_GUID: 1a7c6c447e27c0b44a7114a8d74798be
+    m_Address: Hud - Stage - Canvas
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 517dac7789e397d469b1ea4191bc23fe
     m_Address: Visual World Map
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: 5de17e021d8b51c4585fbabd0467891a
+    m_Address: Hud - Stage - Graph Controller
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: 5f3c48814ddf9d44aa154ed37fa3689e
+    m_Address: Tile Authoring 1
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
@@ -29,11 +47,24 @@ MonoBehaviour:
     m_SerializedLabels: []
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  - m_GUID: 7e750b5eb26c76c47aaee06c9b3a6163
-    m_Address: Environment Settings
+  - m_GUID: 871579a60d5d2b24a848c00f4b814541
+    m_Address: Hud - App - Canvas
     m_ReadOnly: 0
     m_SerializedLabels: []
-    m_mainAssetType: JoyBrick.Walkio.Game.Environment.Bridge.TileDataAsset, Unity.Walkio.Game.Environment-Bridge,
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: 875808e2cb9be7c44a13df100adb69ce
+    m_Address: Hud - App - Graph Controller
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: d2041b8c1c317ca45abdcbad7c3db1f3
+    m_Address: Environment Settings 2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ES
+    m_mainAssetType: JoyBrick.Walkio.Game.Environment.Bridge.TileDataAsset, Walkio.Game.Environment-Bridge,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - m_GUID: e26a568b409e9a342b09c9bf60d2a784
     m_Address: World Map

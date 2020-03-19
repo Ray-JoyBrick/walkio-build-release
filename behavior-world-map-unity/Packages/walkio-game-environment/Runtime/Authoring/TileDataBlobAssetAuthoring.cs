@@ -3,6 +3,7 @@ namespace JoyBrick.Walkio.Game.Environment
     using System.Collections.Generic;
     using Unity.Entities;
     using UnityEngine;
+    using UnityEngine.AddressableAssets;
 
     [System.Serializable]
     public class TileDataEx
@@ -21,12 +22,16 @@ namespace JoyBrick.Walkio.Game.Environment
         MonoBehaviour,
         IConvertGameObjectToEntity
     {
-        // public Bridge.TileDataAsset tileDataAsset;
-        public TileDataAssetEx tileDataAsset;
+        public Bridge.TileDataAsset tileDataAsset;
+        // public TileDataAssetEx tileDataAsset;
+
+        // public AssetReference tileDataAssetRef;
         
         public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
         {
-            dstManager.AddComponentData(entity, tileDataAsset);
+            // dstManager.AddComponentData(entity, tileDataAsset);
+            dstManager.AddComponentObject(entity, tileDataAsset);
+            // dstManager.AddComponentObject(entity, tileDataAssetRef.Asset);
         }
     }
 }

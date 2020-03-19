@@ -3,10 +3,10 @@ namespace JoyBrick.Walkio.Game.Environment
     using Unity.Collections;
     using Unity.Entities;
 
-    public struct LoadWorldMapRequest : IComponentData
-    {
-        public int WorldMapIndex;
-    }
+    // public struct LoadWorldMapRequest : IComponentData
+    // {
+    //     public int WorldMapIndex;
+    // }
 
     public struct GenerateWorldMap : IComponentData
     {

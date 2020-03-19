@@ -5,6 +5,8 @@ namespace JoyBrick.Walkio.Game.Environment
     using UnityEngine;
     using UnityEngine.AddressableAssets;
     using UnityEngine.ResourceManagement.AsyncOperations;
+    
+    using Common = JoyBrick.Walkio.Game.Common;
 
     [DisableAutoCreation]
     public class LoadTiledWorldMapSystem : SystemBase
@@ -31,7 +33,7 @@ namespace JoyBrick.Walkio.Game.Environment
             //
             _eventQuery = GetEntityQuery(new EntityQueryDesc
             {
-                All = new ComponentType[] { typeof(LoadWorldMapRequest) }
+                All = new ComponentType[] { typeof(Common.LoadWorldMapRequest) }
             });
 
             _generateEventArchetype = EntityManager.CreateArchetype(
@@ -45,7 +47,7 @@ namespace JoyBrick.Walkio.Game.Environment
         {
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
             var entity = _eventQuery.GetSingletonEntity();
-            var loadWorldMapRequest = EntityManager.GetComponentData<LoadWorldMapRequest>(entity);
+            var loadWorldMapRequest = EntityManager.GetComponentData<Common.LoadWorldMapRequest>(entity);
             
             // Debug.Log("LoadTiledWorldMapSystem - OnUpdate");
 
@@ -86,7 +88,7 @@ namespace JoyBrick.Walkio.Game.Environment
             Debug.Log($"texture length: {array.Length} format: {texture2D.format} width: {width} height: {height}");
             for (var i = 0; i < array.Length; ++i)
             {
-                Debug.Log($"color: {array[i]}");
+                // Debug.Log($"color: {array[i]}");
                 
                 // Utility.WorldMapHelper.
             }

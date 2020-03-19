@@ -22,7 +22,8 @@ namespace JoyBrick.Walkio.Game.Environment
 
             Entities
                 // .WithAll<TileDataBlobAssetAuthoring>()
-                .WithAll<TileDataAssetEx>()
+                // .WithAll<TileDataAssetEx>()
+                .WithAll<Bridge.TileDataAsset>()
                 // .ForEach((Entity entity, int entityInQueryIndex) =>
                 .ForEach((Entity entity) =>
                 {

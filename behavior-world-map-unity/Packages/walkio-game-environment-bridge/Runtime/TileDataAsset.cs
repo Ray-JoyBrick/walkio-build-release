@@ -14,8 +14,7 @@
     
     [CreateAssetMenu(menuName = "Walkio/Environment/Tile Data Asset")]
     public class TileDataAsset :
-        ScriptableObject,
-        IComponentData
+        ScriptableObject
     {
         public List<TileData> tileDatas;
     }

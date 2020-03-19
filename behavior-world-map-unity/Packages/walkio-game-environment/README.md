@@ -44,9 +44,37 @@ public class SOFacadeAuthoring : MonoBehaviour, IConvertGameObjectToEntity
 
     public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
     {
-        dstManager.AddComponentData(entity, asset);
+        // dstManager.AddComponentData(entity, asset);
+        dstManager.AddComponentObject(entity, asset);
     }
 }
 ```
 
 In this case, there are different consideration to use ScriptableObject then converting by the help of authoring approach or just use authoring gameobject with necessary data.
+
+
+Scriptable can be used with
+
+```cs
+EntityManager.AddComponentObject
+```
+
+in this usage, there won't be warning about constructor being called from new.
+
+Can not use ```AssetReference``` to let addressable to load itself as it is loaded in async manner which will have very short time it is null reference. The correct loading will be
+
+1. Load ScriptableObject
+2. Load Prefab(for authoring use)
+3. Assign ScriptableObject onto Prefab
+4. Instantiate Prefab
+
+After instantiating prefab, the conversion system will kick in automatically
+
+1. Conversion system starts to convert
+2. Convert is done
+3. Remove entity to clean up
+
+### What to load
+
+1. Image for grid layout
+2. ScriptableObject for grid cell data
