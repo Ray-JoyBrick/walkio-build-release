@@ -4,28 +4,30 @@ namespace JoyBrick.Walkio.Game.Environment
     using Unity.Rendering;
     using Unity.Transforms;
     using UnityEngine;
-
-    // [DisableAutoCreation]
-    // public abstract class GenerateVisualWorldMapSystem_Base : SystemBase
-    // {
-    //     protected EntityQuery _eventQuery;
-    //
-    //     protected override void OnCreate()
-    //     {
-    //         base.OnCreate();
-    //         
-    //         //
-    //         _eventQuery = GetEntityQuery(new EntityQueryDesc
-    //         {
-    //             All = new ComponentType[] { typeof(GenerateVisualWorldMap) }
-    //         });
-    //         
-    //         RequireForUpdate(_eventQuery);
-    //     }        
-    // }
+    
+    using AppUtility = JoyBrick.Walkio.Game.Utility;
 
     [DisableAutoCreation]
-    public class GenerateDiagnosticWorldMapSystem_Empty : SystemBase
+    public abstract class GenerateVisualWorldMapSystem_Base : SystemBase
+    {
+        // protected EntityQuery _eventQuery;
+        //
+        // protected override void OnCreate()
+        // {
+        //     base.OnCreate();
+        //     
+        //     //
+        //     _eventQuery = GetEntityQuery(new EntityQueryDesc
+        //     {
+        //         All = new ComponentType[] { typeof(GenerateVisualWorldMap) }
+        //     });
+        //     
+        //     RequireForUpdate(_eventQuery);
+        // }        
+    }
+
+    [DisableAutoCreation]
+    public class GenerateDiagnosticWorldMapSystem_Empty : GenerateVisualWorldMapSystem_Base
     {
         private BeginInitializationEntityCommandBufferSystem _entityCommandBufferSystem;
         protected EntityQuery _eventQuery;
@@ -59,12 +61,13 @@ namespace JoyBrick.Walkio.Game.Environment
     }
     
     [DisableAutoCreation]
-    public class GenerateDiagnosticWorldMapSystem : SystemBase
+    public class GenerateDiagnosticWorldMapSystem : GenerateVisualWorldMapSystem_Base
     {
         private BeginInitializationEntityCommandBufferSystem _entityCommandBufferSystem;
         protected EntityQuery _eventQuery;
         private EntityArchetype _visualMapArchetype;
         private EntityQuery _mapQuery;
+        private EntityQuery _diagnosticWorldMapQuery;
 
         protected override void OnCreate()
         {
@@ -89,14 +92,24 @@ namespace JoyBrick.Walkio.Game.Environment
                 }
             });
 
-            _visualMapArchetype = EntityManager.CreateArchetype(
-                typeof(RenderMesh),
-                typeof(RenderBounds),
-                typeof(LocalToWorld),
-                typeof(Translation),
-                typeof(DiagnosticWorldMap));
+            // _visualMapArchetype = EntityManager.CreateArchetype(
+            //     typeof(RenderMesh),
+            //     typeof(RenderBounds),
+            //     typeof(LocalToWorld),
+            //     typeof(Translation),
+            //     typeof(DiagnosticWorldMap));
+            
+            _diagnosticWorldMapQuery = GetEntityQuery(new EntityQueryDesc
+            {
+                All = new ComponentType[]
+                {
+                    ComponentType.ReadOnly<DiagnosticWorldMap>(), 
+                    ComponentType.ReadWrite<RenderMesh>(),
+                }
+            });
             
             RequireForUpdate(_eventQuery);
+            RequireForUpdate(_diagnosticWorldMapQuery);
         }
 
         protected override void OnUpdate()
@@ -115,12 +128,17 @@ namespace JoyBrick.Walkio.Game.Environment
             var width = worldMap.Width;
             var height = worldMap.Height;
             
-            var visualMapEntity = commandBuffer.CreateEntity(_visualMapArchetype);
-            // var mesh = Utility.Geometry.CreatePlane(width, height);
-            // commandBuffer.AddSharedComponent(visualMapEntity, new RenderMesh
-            // {
-            //     mesh = mesh
-            // });
+            // var visualMapEntity = commandBuffer.CreateEntity(_visualMapArchetype);
+            var diagnosticWorldMapEntity = _diagnosticWorldMapQuery.GetSingletonEntity();
+
+            var renderMesh = EntityManager.GetSharedComponentData<RenderMesh>(diagnosticWorldMapEntity);
+
+            var mesh = AppUtility.Geometry.CreatePlane(width, height);
+            commandBuffer.SetSharedComponent(diagnosticWorldMapEntity, new RenderMesh
+            {
+                mesh = mesh,
+                material = renderMesh.material
+            });
             
             commandBuffer.DestroyEntity(entity);
             

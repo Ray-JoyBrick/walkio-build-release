@@ -3,21 +3,22 @@
     using Unity.Entities;
     using UnityEngine;
 
+    [DisableAutoCreation]
     public class AccessTileDataSystem : SystemBase
     {
         protected override void OnUpdate()
         {
             Entities
                 .WithAll<Environment>()
-                .ForEach((ref WorldMapTileLookup worldMapTileLookup) =>
+                .ForEach((ref WorldMapTileDetailLookup worldMapTileLookup) =>
                 {
                     //
-                    ref var tileDataBlobAsset = ref worldMapTileLookup.TileDataBlobAssetRef.Value;
+                    ref var tileDataBlobAsset = ref worldMapTileLookup.TileDetailBlobAssetRef.Value;
 
-                    var count = tileDataBlobAsset.TileDatas.Length;
+                    var count = tileDataBlobAsset.TileDetails.Length;
                     for (var i = 0; i < count; ++i)
                     {
-                        var td = tileDataBlobAsset.TileDatas[i];
+                        var td = tileDataBlobAsset.TileDetails[i];
                         
                         Debug.Log($"type: {td.Type}, cost: {td.Cost}");
                     }

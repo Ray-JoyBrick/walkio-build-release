@@ -17,7 +17,8 @@ namespace JoyBrick.Walkio.Game.Environment
         
         //
         private bool _loading;
-        
+        private EntityArchetype _generateEventArchetype;
+
         //
         public void SetAssetLoadingService(Common.IAssetLoadingService assetLoadingService)
         {
@@ -36,6 +37,10 @@ namespace JoyBrick.Walkio.Game.Environment
                 }
             });
             
+             _generateEventArchetype = EntityManager.CreateArchetype(
+                 typeof(GenerateWorldMap),
+                 typeof(GenerateWorldMapProperty));
+
             RequireForUpdate(_eventQuery);
         }
 
@@ -45,7 +50,7 @@ namespace JoyBrick.Walkio.Game.Environment
             var entity = _eventQuery.GetSingletonEntity();
             var loadWorldMapRequest = EntityManager.GetComponentData<Common.LoadWorldMapRequest>(entity);
 
-            Debug.Log($"SetupWorldMapSystem - OnUpdate");
+            // Debug.Log($"SetupWorldMapSystem - OnUpdate");
 
             if (_loading) return;
 
@@ -53,53 +58,66 @@ namespace JoyBrick.Walkio.Game.Environment
             {
                 _loading = true;
                 
-                _assetLoadingService.LoadAsset<Bridge.TileDataAsset>("Environment Settings 1", (tileDataAsset) =>
+                // Can actually combined using UniRx but will require it to be used in the project
+                _assetLoadingService.LoadAsset<ScriptableObject>("Environment Settings 1", (scriptableObject) =>
                 {
                     _assetLoadingService.LoadAsset<GameObject>("Tile Authoring 1", (prefab) =>
                     {
-                        _assetLoadingService.LoadAsset<Texture2D>("World Map Image", (image) =>
-                        {
-                            var tdba = prefab.GetComponent<TileDataBlobAssetAuthoring>();
-                            // var castedSO = scriptableObject as Bridge.TileDataAsset;
-                            //
-                            // if (castedSO == null)
-                            // {
-                            //     Debug.LogWarning($"Should get no null");
-                            // }
-                            // else
-                            // {
-                            //     Debug.Log(castedSO);
-                            // }
-                            //
-                            // tdba.tileDataAsset = castedSO;
-                            tdba.tileDataAsset = tileDataAsset;
+                        _assetLoadingService.LoadAsset<GameObject>("Tile Detail Index Authoring Prefab",
+                            (indexPrefab) =>
+                            {
+                                _assetLoadingService.LoadAsset<Texture2D>("World Map Image", (image) =>
+                                {
+                                    var tdba = prefab.GetComponent<TileDetailBlobAssetAuthoring>();
+                                    var castedSO = scriptableObject as Bridge.TileDetailAsset;
+                                    tdba.tileDetailAsset = castedSO;
+                                    // tdba.tileDataAsset = tileDataAsset;
                             
-                            GameObject.Instantiate(prefab);
+                                    GameObject.Instantiate(prefab);
 
-                            AssignDataFromTexture(image);
+                                    var (width, height) = AssignDataFromTexture(indexPrefab, image);
+
+                                    GameObject.Instantiate(indexPrefab);
                     
-                            _loading = false;
+                                    _loading = false;
                     
-                            EntityManager.DestroyEntity(entity);
-                        });
+                                    var eventEntity = EntityManager.CreateEntity(_generateEventArchetype);
+                                    EntityManager.SetComponentData(eventEntity, new GenerateWorldMapProperty
+                                    {
+                                        Width = width,
+                                        Height = height
+                                    });
+                                    
+                                    EntityManager.DestroyEntity(entity);
+                                });
+                            });
                     });
                 });
             }
         }
         
-        private void AssignDataFromTexture(Texture2D texture2D)
+        private (int, int) AssignDataFromTexture(GameObject prefab, Texture2D texture2D)
         {
             var width = texture2D.width;
             var height = texture2D.height;
             var array = texture2D.GetRawTextureData<Color32>();
             // var array = texture2D.GetRawTextureData<byte>();
             Debug.Log($"texture length: {array.Length} format: {texture2D.format} width: {width} height: {height}");
+
+            var tdiba = prefab.GetComponent<TileDetailIndexBlobAssetAuthoring>();
+
+            var indices = new List<int>();
             for (var i = 0; i < array.Length; ++i)
             {
+                var color = array[i];
                 // Debug.Log($"color: {array[i]}");
-                
-                // Utility.WorldMapHelper.
+                var index = Utility.WorldMapHelper.GetTileTypeIndex(color.r, color.g, color.b);
+                indices.Add(index);
             }
+
+            tdiba.indices = indices;
+
+            return (width, height);
         }
     }
 }

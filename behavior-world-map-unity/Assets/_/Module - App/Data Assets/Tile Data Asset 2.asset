@@ -12,14 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 788f0135a028e4faaa0e0fe9dc31ac21, type: 3}
   m_Name: Tile Data Asset 2
   m_EditorClassIdentifier: 
-  tileDatas:
+  tileDetails:
   - kind: 0
     cost: 3
   - kind: 1
-    cost: 32
+    cost: 343
   - kind: 2
-    cost: 781
-  - kind: 3
-    cost: 5
-  - kind: 4
-    cost: 42
+    cost: 4543

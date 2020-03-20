@@ -5,6 +5,7 @@ namespace JoyBrick.Walkio.Game
     using System.Linq;
     using System.Threading.Tasks;
     using Unity.Entities;
+    using Unity.XR.OpenVR;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
     using UnityEngine.AddressableAssets.ResourceLocators;
@@ -18,7 +19,7 @@ namespace JoyBrick.Walkio.Game
         public GameObject tileAuthoringPrefab01;
         public GameObject tileAuthoringPrefab02;
 
-        public Environment.Bridge.TileDataAsset tileDataAsset;
+        public Environment.Bridge.TileDetailAsset tileDetailAsset;
         
         private Entity _entity;
 
@@ -47,7 +48,7 @@ namespace JoyBrick.Walkio.Game
             Addressables.InitializeAsync().Completed += OnAddressableInitializeAsyncCompleted;
         }
 
-        private async void OnAddressableInitializeAsyncCompleted(AsyncOperationHandle<IResourceLocator> handle)
+        private void OnAddressableInitializeAsyncCompleted(AsyncOperationHandle<IResourceLocator> handle)
         {
             Debug.Log($"Bootstrap - OnAddressableInitializeAsyncCompleted");
             
@@ -95,7 +96,21 @@ namespace JoyBrick.Walkio.Game
             var system02 = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<Hud.App.LoadHudSystem>();
             var system03 = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<Hud.Stage.LoadHudSystem>();
             var system03a = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<Environment.SetupWorldMapSystem>();
+            var system03a1 = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<Environment.GenerateWorldMapSystem>();
             var system03b = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<Hud.Stage.HandleMessageSystem>();
+            var system03c = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<Environment.RemoveConvertedSystem>();
+
+            Environment.GenerateVisualWorldMapSystem_Base system03a2 = null;
+            if (turnOnDiagnostic)
+            {
+                system03a2 = World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<Environment.GenerateDiagnosticWorldMapSystem>();
+            }
+            else
+            {
+                system03a2 = World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<Environment.GenerateDiagnosticWorldMapSystem_Empty>();
+            }
             
             system02.SetAssetLoadingService((Common.IAssetLoadingService)system01);
             system03.SetAssetLoadingService((Common.IAssetLoadingService)system01);
@@ -105,7 +120,10 @@ namespace JoyBrick.Walkio.Game
             group.AddSystemToUpdateList(system02);            
             group.AddSystemToUpdateList(system03);            
             group.AddSystemToUpdateList(system03a);
+            group.AddSystemToUpdateList(system03a1);
+            group.AddSystemToUpdateList(system03a2);
             group.AddSystemToUpdateList(system03b);            
+            group.AddSystemToUpdateList(system03c);            
         }
 
 

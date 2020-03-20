@@ -29,6 +29,12 @@ MonoBehaviour:
     m_SerializedLabels: []
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 589ec98f40e66ea46badba247120ef0f
+    m_Address: Tile Detail Index Authoring Prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 5de17e021d8b51c4585fbabd0467891a
     m_Address: Hud - Stage - Graph Controller
     m_ReadOnly: 0
@@ -47,6 +53,12 @@ MonoBehaviour:
     m_SerializedLabels: []
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 7e750b5eb26c76c47aaee06c9b3a6163
+    m_Address: Environment Settings 1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_mainAssetType: JoyBrick.Walkio.Game.Environment.Bridge.TileDetailAsset, Walkio.Game.Environment-Bridge,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - m_GUID: 871579a60d5d2b24a848c00f4b814541
     m_Address: Hud - App - Canvas
     m_ReadOnly: 0
@@ -59,12 +71,17 @@ MonoBehaviour:
     m_SerializedLabels: []
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 89921832a1aada7499e5160718f2d3dc
+    m_Address: Environment Settings 3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_mainAssetType: JoyBrick.Walkio.Game.Environment.Bridge.TileDetailAsset, Walkio.Game.Environment-Bridge,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - m_GUID: d2041b8c1c317ca45abdcbad7c3db1f3
     m_Address: Environment Settings 2
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - ES
-    m_mainAssetType: JoyBrick.Walkio.Game.Environment.Bridge.TileDataAsset, Walkio.Game.Environment-Bridge,
+    m_SerializedLabels: []
+    m_mainAssetType: JoyBrick.Walkio.Game.Environment.Bridge.TileDetailAsset, Walkio.Game.Environment-Bridge,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - m_GUID: e26a568b409e9a342b09c9bf60d2a784
     m_Address: World Map

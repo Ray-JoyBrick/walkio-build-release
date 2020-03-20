@@ -2,6 +2,7 @@ namespace JoyBrick.Walkio.Game.Environment
 {
     using Unity.Collections;
     using Unity.Entities;
+    using Unity.Mathematics;
 
     // public struct LoadWorldMapRequest : IComponentData
     // {
@@ -10,6 +11,12 @@ namespace JoyBrick.Walkio.Game.Environment
 
     public struct GenerateWorldMap : IComponentData
     {
+    }
+
+    public struct GenerateWorldMapProperty : IComponentData
+    {
+        public int Width;
+        public int Height;
     }
 
     public struct WorldMap : IComponentData
@@ -32,6 +39,13 @@ namespace JoyBrick.Walkio.Game.Environment
         public TileType Value;
         public static implicit operator TileType(WorldMapTileBuffer b) => b.Value;
         public static implicit operator WorldMapTileBuffer(TileType v) => new WorldMapTileBuffer { Value = v };
+    }
+
+    public struct TileDetailAdjustmentBuffer : IBufferElementData
+    {
+        public int2 Value;
+        public static implicit operator int2(TileDetailAdjustmentBuffer b) => b.Value;
+        public static implicit operator TileDetailAdjustmentBuffer(int2 v) => new TileDetailAdjustmentBuffer { Value = v };
     }
 
     public struct GenerateVisualWorldMap : IComponentData
@@ -57,24 +71,39 @@ namespace JoyBrick.Walkio.Game.Environment
     {
     }
 
-    public struct WorldMapTileLookup : IComponentData
+    public struct WorldMapTileDetailLookup : IComponentData
     {
-        public BlobAssetReference<TileDataBlobAsset> TileDataBlobAssetRef;
+        public BlobAssetReference<TileDetailBlobAsset> TileDetailBlobAssetRef;
+    }
+
+    public struct WorldMapTileDetailIndexLookup : IComponentData
+    {
+        public BlobAssetReference<TileDetailIndexBlobAsset> TileDetailIndexBlobAssetRef;
     }
     
     //
-    public struct TileData
+    public struct TileDetail
     {
         public TileType Type;
         public int Cost;
     }
 
-    public struct TileDataBlobAsset
+    public struct TileDetailBlobAsset
     {
-        public BlobArray<TileData> TileDatas;
+        public BlobArray<TileDetail> TileDetails;
     }
 
     public struct TileDataPlaceholder : IComponentData
     {
+    }
+
+    public struct TileDetailIndexBlobAsset
+    {
+        public BlobArray<int> TileDetailIndices;
+    }
+
+    public struct RemoveAfterConversion : IComponentData
+    {
+        
     }
 }

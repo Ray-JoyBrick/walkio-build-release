@@ -5,6 +5,7 @@ namespace JoyBrick.Walkio.Game.Environment
     using UnityEngine.AddressableAssets;
     using UnityEngine.ResourceManagement.AsyncOperations;
 
+    [DisableAutoCreation]
     public class GenerateVisualWorldMapSystem : SystemBase
     {
         private bool _loading = false;

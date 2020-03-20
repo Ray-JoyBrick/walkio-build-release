@@ -6,13 +6,13 @@ namespace JoyBrick.Walkio.Game.Environment
     [DisableAutoCreation]
     public class RemoveConvertedSystem : SystemBase
     {
-        private BeginInitializationEntityCommandBufferSystem _entityCommandBufferSystem;
+        private EndInitializationEntityCommandBufferSystem _entityCommandBufferSystem;
         
         protected override void OnCreate()
         {
             base.OnCreate();
 
-            _entityCommandBufferSystem = World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
+            _entityCommandBufferSystem = World.GetOrCreateSystem<EndInitializationEntityCommandBufferSystem>();
         }
 
         protected override void OnUpdate()
@@ -21,16 +21,13 @@ namespace JoyBrick.Walkio.Game.Environment
             var concurrentCommandBuffer = commandBuffer.ToConcurrent();
 
             Entities
-                // .WithAll<TileDataBlobAssetAuthoring>()
-                // .WithAll<TileDataAssetEx>()
-                .WithAll<Bridge.TileDataAsset>()
+                .WithAll<RemoveAfterConversion>()
                 // .ForEach((Entity entity, int entityInQueryIndex) =>
                 .ForEach((Entity entity) =>
                 {
                     // concurrentCommandBuffer.DestroyEntity(entityInQueryIndex, entity);
                     Debug.Log($"destroy entity");
                     commandBuffer.DestroyEntity(entity);
-                    
                 })
                 // .Schedule();
                 .WithoutBurst()

@@ -78,3 +78,10 @@ After instantiating prefab, the conversion system will kick in automatically
 
 1. Image for grid layout
 2. ScriptableObject for grid cell data
+
+### Terms
+
+- TileDetailAsset
+- TileDetailIndexAsset
+
+- TileDetailAdjustmentBuffer

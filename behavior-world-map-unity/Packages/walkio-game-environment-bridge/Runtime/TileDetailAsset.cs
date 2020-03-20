@@ -6,16 +6,15 @@
     using UnityEngine;
 
     [System.Serializable]
-    public class TileData
+    public class TileDetail
     {
         public int kind;
         public int cost;
     }
     
     [CreateAssetMenu(menuName = "Walkio/Environment/Tile Data Asset")]
-    public class TileDataAsset :
-        ScriptableObject
+    public class TileDetailAsset : ScriptableObject
     {
-        public List<TileData> tileDatas;
+        public List<TileDetail> tileDetails;
     }
 }

@@ -33,12 +33,12 @@
 
             Entities
                 .WithAll<GenerateWorldMap>()
-                .ForEach((Entity entity, int entityInQueryIndex) =>
+                .ForEach((Entity entity, int entityInQueryIndex, GenerateWorldMapProperty generateWorldMapProperty) =>
                 {
                     // Need to get map data to assign further
 
-                    var width = 10;
-                    var height = 10;
+                    var width = generateWorldMapProperty.Width;
+                    var height = generateWorldMapProperty.Height;
                     var total = width * height;
                     
                     //
@@ -50,7 +50,8 @@
                     });
                     var buffer = concurrentCommandBuffer.AddBuffer<WorldMapTileBuffer>(entityInQueryIndex, mapEntity);
                     
-                    buffer.ResizeUninitialized(total);
+                    buffer.ResizeUninitialized(0);
+                    // buffer.
 
                     var diagnosticEventEntity = concurrentCommandBuffer.CreateEntity(entityInQueryIndex, generateDiagnosticEventArchetype);
                     concurrentCommandBuffer.AddComponent<GenerateDiagnosticWorldMap>(entityInQueryIndex, diagnosticEventEntity);

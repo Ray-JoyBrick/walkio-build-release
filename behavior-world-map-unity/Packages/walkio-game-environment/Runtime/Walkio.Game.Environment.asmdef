@@ -12,11 +12,13 @@
         "Unity.Mathematics",
         "Unity.ResourceManager",
         "Walkio.Game.Common",
-        "Walkio.Game.Environment-Bridge"
+        "Walkio.Game.Environment-Bridge",
+        "Walkio.Game.Utility"
     ],
     "includePlatforms": [],
     "excludePlatforms": [
-        "Android"
+        "Android",
+        "macOSStandalone"
     ],
     "allowUnsafeCode": false,
     "overrideReferences": false,
