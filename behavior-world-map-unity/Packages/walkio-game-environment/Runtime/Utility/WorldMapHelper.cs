@@ -39,6 +39,23 @@
             return index;
         }
 
+        public static int GetGridIndexByPosition(int width, int height, float3 position)
+        {
+            // Take x and z into consideration
+            return 0;
+        }
+
+        // public static int GetTileByGridIndex(
+        //     int width, int height,
+        //     int tileWidth, int tileHeight,
+        //     int index)
+        // {
+        //     // var wIndex = (index % width) / tileWidth;
+        //     // var hIndex = (index % height) / tileHeight;
+        //
+        //     return 0;
+        // }
+
         public static int GetAdjustedLength(int originalLength, int tileLength)
         {
             return (int) math.ceil((float) originalLength / (float) tileLength);
