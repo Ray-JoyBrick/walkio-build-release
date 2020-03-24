@@ -4,6 +4,7 @@ Thinking to rename the module to Navigation instead of pathfinding. As there wil
 
 ```cs
 
+// May need more info
 public struct PathfindCellHolderCreationContext
 {
     public int2 MapGridCellSize;
@@ -24,7 +25,7 @@ Entity CreatePathfindCellEntity(PathfindCellHolderCreationContext context)
     var archetype = EntityManager.CreateArchetype(
         typeof(PathfindCellBuffer));
     var entity = EntityManager.CreateEntity(archetype);
-    var buffer = entity.AddBuffer(entity);
+    var buffer = entity.AddBuffer<PathfindCellBuffer>(entity);
 
     var cellCount = context.PathTileCellCount.x * context.PathTileCellCount.y;
 
@@ -41,7 +42,7 @@ Entity CreatePathfindCellEntity(PathfindCellHolderCreationContext context)
 ```
 
 ```cs
-//
+// This context is actually formed after environment has been made to Blob Asset
 public struct PathfindTileHolderCreationContext
 {
     public int2 MapGridCellSize;
@@ -62,7 +63,7 @@ Entity CreatePathfindTileEntity(PathfindTileHolderCreationContext context)
     var archetype = EntityManager.CreateArchetype(
         typeof(PathfindTileBuffer));
     var entity = EntityManager.CreateEntity(archetype);
-    var buffer = entity.AddBuffer(entity);
+    var buffer = entity.AddBuffer<PathfindTileBuffer>(entity);
 
     var tileCount = Utility.GridHelper.TileCount(
         context.MapGridCellSize, context.MapGridCellCount,
@@ -87,12 +88,18 @@ Entity CreatePathfindTileEntity(PathfindTileHolderCreationContext context)
 ```
 
 ```cs
+// This is used for checking if this ordered pathfind can be removed or not
 public struct OrderedPathfindRecord : IComponentData
 {
     public float TimeStamp;
 }
 
 //
+public struct OrderedPathfindTileDetailBuffer : IBufferElementData
+{
+    public int Direction;
+}
+
 public struct OrderedPathfindTile : IComponentData
 {
     public int TileIndex;
@@ -111,9 +118,10 @@ Entity CreateEntity(OrderedPathfindHolderCreationContext context)
 {
     var archetype = EntityManager.CreateArchetype(
         typeof(OrderedPathfindRecord),
-        typeof(OrderedPathfindTileBuffer));
+        typeof(OrderedPathfindTileBuffer),
+        typeof(OrderedPathfindTileDetailBuffer));
     var entity = EntityManager.CreateEntity(archetype);
-    var buffer = entity.AddBuffer(entity);
+    var buffer = entity.AddBuffer<OrderedPathfindTileBuffer>(entity);
 
     var count = context.Count;
 
@@ -129,6 +137,11 @@ Entity CreateEntity(OrderedPathfindHolderCreationContext context)
         }
     }
 
+    var buffer2 = entity.AddBuffer<OrderedPathfindTileDetailBuffer>(entity); 
+    buffer.ResizeUninitialized(count);
+
+    // May not be able to fiil out the detail here
+
     return entity;
 }
 ```
@@ -139,10 +152,11 @@ public struct Team : IComponentData
     public int Id;
 }
 
-public struct FreeTeam : IComponentData
-{
-    public int Id;
-}
+// May not need to introduce FreeTeam as no team unit suppose to be FreeTeam?
+// public struct FreeTeam : IComponentData
+// {
+//     public int Id;
+// }
 
 public struct Unit : IComponentData
 {
@@ -151,8 +165,16 @@ public struct Unit : IComponentData
 
 public struct PathfindGroup : IComponentData
 {
+    // Another considersation is that the ordered path tile record may change rapidly, there will lots of
+    // entity being created due to this reason. Need to device a way to reuse the cached entity. Also, may
+    // need to make a rule to not alert the path entity if it is under certain condition
+
+    // May need to play bit trick, still in plan
+    // Team Id        | Depth of 4 direction split
+    // 0000 0000 0000 | 0000 0000 0000 0000 0000
     public int Id;
     public Entity Value;
+    public bool Ongoing;
     public int AtIndex;
 }
 
