@@ -3,6 +3,8 @@
 !.gitignore
 !README.md
 
+.DS_Store
+
 !remove-dsstore.ps1
 !setup-game-ref.ps1
 
