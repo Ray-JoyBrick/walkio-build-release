@@ -5,6 +5,9 @@
 
 .DS_Store
 
+config
+id_rsa_jb_github.enc
+
 !remove-dsstore.ps1
 !setup-game-ref.ps1
 
@@ -21,3 +24,5 @@
 !behavior-player-move-unity
 !behaivor-unit-move-unity
 !behavior-world-map-unity
+
+!experimental-project
