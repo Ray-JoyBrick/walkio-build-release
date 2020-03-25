@@ -20,6 +20,8 @@ cat keyfile.json | docker login -u _json_key --password-stdin https://gcr.io
 docker login -u _json_key -p "$(cat keyfile.json)" https://gcr.io
 ```
 
+Check out [gcloud auth activate-service-account](https://cloud.google.com/sdk/gcloud/reference/auth/activate-service-account) for more detail.
+
 ```sh
 gcloud auth activate-service-account \
   use-kms@google.com \
