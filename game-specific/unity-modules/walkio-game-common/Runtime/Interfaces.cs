@@ -1,7 +1,9 @@
 namespace JoyBrick.Walkio.Game.Common
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using UniRx;
     using Unity.Entities;
 
     public interface IAssetLoadingService
@@ -11,5 +13,12 @@ namespace JoyBrick.Walkio.Game.Common
         
         void LoadAssets(IEnumerable<string> addresses, System.Action<IEnumerable<UnityEngine.Object>> callback);
         void LoadAssets(IEnumerable<string> addresses, EntityArchetype toCreate);
+    }
+    
+    //
+    public interface IWorldLoading
+    {
+        IObservable<int> LoadingWorld { get; }
+        // Subject<int> RequestToLoadWorld(int index);
     }
 }
