@@ -1,6 +1,6 @@
 {
   "name": "Mel Georgiou - HTE",
-  "use": true,
+  "use": false,
   "toSymlink": [
     {
       "name": "Editor Default Resources/Editor/Hell Tap Entertainment",

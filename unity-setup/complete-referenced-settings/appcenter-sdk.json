@@ -1,0 +1,14 @@
+{
+  "name": "AppCenter SDK Unity",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "AppCenter",
+      "to": "Assets/AppCenter"
+    },
+    {
+      "name": "AppCenterEditorExtensions",
+      "to": "Assets/AppCenterEditorExtensions"
+    }
+  ]
+}
