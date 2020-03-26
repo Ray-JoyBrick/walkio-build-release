@@ -3,6 +3,7 @@
     "com.3rd.editor-console-pro": "file:../../references/FlyingWorm/editor-console-pro-package",
     "com.3rd.odin-inspector": "file:../../references/Devdog/odin-inspector-package",
     "com.3rd.unirx": "file:../../references/neuecc/unirx-package",
+    "com.3rd.unitask": "file:../../references/Cysharp/unitask-package",
     "com.arongranberg.astar": "file:../../references/Aron Granberg/com.arongranberg.astar@4.3.16",
     "com.unity.addressables": "1.6.2",
     "com.unity.collab-proxy": "1.3.7",
@@ -52,6 +53,8 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0",
+    "walkio.build.local": "file:../../game-specific/unity-modules/walkio-build-local",
+    "walkio.build.remote": "file:../../game-specific/unity-modules/walkio-build-remote",
     "walkio.game.appwide": "file:../../game-specific/unity-modules/walkio-game-appwide",
     "walkio.game.battle": "file:../../game-specific/unity-modules/walkio-game-battle",
     "walkio.game.common": "file:../../game-specific/unity-modules/walkio-game-common",
@@ -60,8 +63,10 @@
     "walkio.game.hud-app": "file:../../game-specific/unity-modules/walkio-game-hud-app",
     "walkio.game.hud-preparation": "file:../../game-specific/unity-modules/walkio-game-hud-preparation",
     "walkio.game.hud-stage": "file:../../game-specific/unity-modules/walkio-game-hud-stage",
+    "walkio.game.input-control": "file:../../game-specific/unity-modules/walkio-game-input-control",
     "walkio.game.pathfinding": "file:../../game-specific/unity-modules/walkio-game-pathfinding",
     "walkio.game.player": "file:../../game-specific/unity-modules/walkio-game-player",
+    "walkio.game.template": "file:../../game-specific/unity-modules/walkio-game-template",
     "walkio.game.utility": "file:../../game-specific/unity-modules/walkio-game-utility"
   }
 }
