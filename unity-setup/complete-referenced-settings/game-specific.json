@@ -1,90 +1,22 @@
 {
   "name": "game-specific",
-  "use": false,
+  "use": true,
   "toSymlink": [
-    {
-      "name": "unity-modules/app-common",
-      "to": "Packages/app-common"
-    },
-    {
-      "name": "unity-modules/app-scene-service",
-      "to": "Packages/app-scene-service"
-    },
-    {
-      "name": "unity-modules/app-asset-loading-service",
-      "to": "Packages/app-asset-loading-service"
-    },
-    {
-      "name": "unity-modules/app-persistent-service",
-      "to": "Packages/app-persistent-service"
-    },
-    {
-      "name": "unity-modules/app-pool-service",
-      "to": "Packages/app-pool-service"
-    },
-    {
-      "name": "unity-modules/app-localization-service",
-      "to": "Packages/app-localization-service"
-    },
-    {
-      "name": "unity-modules/app-hud-service",
-      "to": "Packages/app-hud-service"
-    },
-    {
-      "name": "unity-modules/stage-template",
-      "to": "Packages/stage-template"
-    },
-    {
-      "name": "unity-modules/stage-common",
-      "to": "Packages/stage-common"
-    },
-    {
-      "name": "unity-modules/stage-cut-scene-service",
-      "to": "Packages/stage-cut-scene-service"
-    },
-    {
-      "name": "unity-modules/stage-environment-service",
-      "to": "Packages/stage-environment-service"
-    },
-    {
-      "name": "unity-modules/stage-interactor-service",
-      "to": "Packages/stage-interactor-service"
-    },
-    {
-      "name": "unity-modules/stage-storyline-service",
-      "to": "Packages/stage-storyline-service"
-    },
-    {
-      "name": "unity-modules/stage-hud-service",
-      "to": "Packages/stage-hud-service"
-    },
-    {
-      "name": "unity-modules/app-entry",
-      "to": "Assets/_/1 - Game/App Related/Module - Entry/app-entry"
-    },
-    {
-      "name": "unity-modules/app-input-control-service",
-      "to": "Assets/_/1 - Game/App Related/Module - Input Control/app-input-control-service"
-    },
-    {
-      "name": "unity-modules/stage-entry",
-      "to": "Assets/_/1 - Game/Stage Related/Module - Entry/stage-entry"
-    },
-    {
-      "name": "unity-modules/stage-assist-hud-service",
-      "to": "Assets/_/1 - Game/Stage Related/Module - Assist - Hud/stage-assist-hud-service"
-    },
     {
       "name": "preprocess-assets/acoustic-assets",
       "to": "Assets/_/1 - Game/Preprocess Assets/acoustic-assets"
     },
     {
-      "name": "preprocess-assets/visual-assets/Gizmos/UnderWater",
-      "to": "Assets/Gizmos/UnderWater"
+      "name": "preprocess-assets/data-assets",
+      "to": "Assets/_/1 - Game/Preprocess Assets/data-assets"
     },
     {
-      "name": "extend-3rd/Setting - Addressable/AddressableAssetsData",
-      "to": "Assets/AddressableAssetsData"
+      "name": "preprocess-assets/visual-assets",
+      "to": "Assets/_/1 - Game/Preprocess Assets/visual-assets"
+    },
+    {
+      "name": "preprocess-assets/visual-assets/Gizmos/JoyBrick/Walkio",
+      "to": "Assets/Gizmos/JoyBrick/Walkio"
     },
     {
       "name": "extend-3rd/Setting - Editor Console Pro",

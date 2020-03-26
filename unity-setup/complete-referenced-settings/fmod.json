@@ -1,0 +1,18 @@
+{
+  "name": "fmod",
+  "use": false,
+  "toSymlink": [
+    {
+      "name": "Editor Default Resources/FMOD",
+      "to": "Assets/Editor Default Resources/FMOD"
+    },
+    {
+      "name": "Gizmos/FMOD",
+      "to": "Assets/Gizmos/FMOD"
+    },
+    {
+      "name": "Plugins/FMOD",
+      "to": "Assets/Plugins/FMOD"
+    }
+  ]
+}
