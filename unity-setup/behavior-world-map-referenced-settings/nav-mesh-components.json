@@ -1,0 +1,10 @@
+{
+  "name": "Unity Technology",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "NavMeshComponents/Assets/NavMeshComponents",
+      "to": "Assets/Standard Assets/NavMeshComponents"
+    }
+  ]
+}
