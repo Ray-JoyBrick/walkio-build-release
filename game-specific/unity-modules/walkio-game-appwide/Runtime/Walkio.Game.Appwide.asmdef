@@ -11,6 +11,8 @@
         "Unity.Entities.Properties",
         "Unity.Mathematics",
         "Unity.ResourceManager",
+        "UniRx",
+        "UniRx.Async",
         "Walkio.Game.Common"
     ],
     "includePlatforms": [],
