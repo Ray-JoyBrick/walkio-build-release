@@ -1,0 +1,5 @@
+# Work account JoyBrick GitHub
+Host github.com-jb_github
+   HostName github.com
+   User git
+   IdentityFile ~/.ssh/id_rsa_jb_github

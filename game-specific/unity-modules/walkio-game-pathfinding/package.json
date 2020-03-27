@@ -1,0 +1,11 @@
+{
+  "name": "walkio.game.pathfinding",
+  "displayName": "_ Walkio Game Pathfinding",
+  "version": "0.1.0",
+  "unity": "2020.1",
+  "description": "Walkio Game Pathfinding",
+  "keywords": [
+  ],
+  "category": "",
+  "dependencies": {}
+}

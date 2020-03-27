@@ -1,0 +1,11 @@
+{
+  "name": "walkio.game.template",
+  "displayName": "_ Walkio Game Template",
+  "version": "0.1.0",
+  "unity": "2020.1",
+  "description": "Walkio Game Template",
+  "keywords": [
+  ],
+  "category": "",
+  "dependencies": {}
+}

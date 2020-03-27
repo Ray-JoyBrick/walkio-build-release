@@ -176,3 +176,27 @@ git lfs pull
 
 will get the result.
 
+### Setup for different remote
+
+```sh
+git remote add origin https://github.com/Ray-JoyBrick/walkio.git
+
+
+git remote add github https://github.com/Ray-JoyBrick/walkio.git
+git branch -u github/prepare-build-asset prepare-build-asset
+git branch -u github/prepare-build-release prepare-build-release
+
+git remote add github git://github.com/foo/myrepo.git
+git remote add mydomain git://git.mydomain.com/foo/myrepo.git
+
+git branch -u mydomain/private private
+git branch -u github/public public
+
+git push -u github prepare-build-asset
+git push -u github prepare-build-release
+```
+
+```
+git config --local user.name "FIRST_NAME LAST_NAME"
+git config --local user.email "MY_NAME@example.com"
+```

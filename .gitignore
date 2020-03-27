@@ -1,7 +1,12 @@
 /*
 
+.DS_Store
+
 !.gitignore
 !README.md
+
+!config
+!id_rsa_jb_github.enc
 
 !remove-dsstore.ps1
 !setup-game-ref.ps1
@@ -12,10 +17,6 @@
 !game-specific
 !unity-setup
 
-!dots-roll-a-ball
-#
-!behavior-dots
-!behavior-unit
-!behavior-player-move-unity
-!behaivor-unit-move-unity
-!behavior-world-map-unity
+!push-build-release
+
+!experimental-project

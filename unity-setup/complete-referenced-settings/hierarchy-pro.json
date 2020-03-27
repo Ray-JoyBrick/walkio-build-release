@@ -1,6 +1,6 @@
 {
   "name": "EM-X",
-  "use": true,
+  "use": false,
   "toSymlink": [
     {
       "name": "Hierarchy PRO/EModules",

@@ -1,0 +1,11 @@
+{
+  "name": "walkio.game.common",
+  "displayName": "_ Walkio Game Common",
+  "version": "0.1.0",
+  "unity": "2020.1",
+  "description": "Walkio Game Common",
+  "keywords": [
+  ],
+  "category": "",
+  "dependencies": {}
+}

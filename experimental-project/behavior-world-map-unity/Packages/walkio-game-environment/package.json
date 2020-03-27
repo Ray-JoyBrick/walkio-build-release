@@ -1,0 +1,11 @@
+{
+  "name": "walkio.game.environment",
+  "displayName": "_ Walkio Game Environment",
+  "version": "0.1.0",
+  "unity": "2020.1",
+  "description": "Walkio Game Environment",
+  "keywords": [
+  ],
+  "category": "",
+  "dependencies": {}
+}

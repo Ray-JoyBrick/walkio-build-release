@@ -1,5 +1,8 @@
 /*
 
+*.meta
+!*.*.meta
+
 !.gitignore
 
 !_
@@ -18,7 +21,3 @@ Resources/**
 StreamingAssets/**
 !StreamingAssets/build.txt
 !StreamingAssets/build.txt.meta
-!Universal RP
-
-*.meta
-!*.*.meta

@@ -1,6 +1,6 @@
 {
   "name": "Pixel Crushers",
-  "use": true,
+  "use": false,
   "toSymlink": [
     {
       "name": "Dialogue System for Unity/Editor Default Resources/Dialogue System",

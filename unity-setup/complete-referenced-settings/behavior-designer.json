@@ -1,6 +1,6 @@
 {
   "name": "Opsive",
-  "use": true,
+  "use": false,
   "toSymlink": [
     {
       "name": "Behavior Designer/Gizmos/Behavior Designer Hier Icon.png",
