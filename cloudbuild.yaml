@@ -1,11 +1,13 @@
 steps:
     - id: retrieve-complete-project
-    name: "alpine:latest"
-    entrypoint: sh
-    args:
-        - -c
-        - |
-          echo "cool"
+        name: "alpine:latest"
+        entrypoint: sh
+        args:
+            - -c
+            - |
+            ls -la
+            gcloud source repos clone ucb-build-release --project=walkio-271711
+            ls -la
 # # steps:
 # #     - id: retrieve-ssh-key
 # #         name: 'gcr.io/cloud-builders/gcloud'
