@@ -5,6 +5,8 @@
 !.gitignore
 !README.md
 
+!cloudbuild.yaml
+
 !config
 !id_rsa_jb_github.enc
 
