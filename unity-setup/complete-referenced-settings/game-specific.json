@@ -15,8 +15,8 @@
       "to": "Assets/_/1 - Game/Preprocess Assets/visual-assets"
     },
     {
-      "name": "preprocess-assets/visual-assets/Gizmos/JoyBrick/Walkio",
-      "to": "Assets/Gizmos/JoyBrick/Walkio"
+      "name": "preprocess-assets/visual-assets/Gizmos/JoyBrick",
+      "to": "Assets/Gizmos/JoyBrick"
     },
     {
       "name": "extend-3rd/Setting - Editor Console Pro",
