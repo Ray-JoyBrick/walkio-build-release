@@ -1,13 +1,78 @@
 steps:
-    - id: retrieve-complete-project
-        name: "alpine:latest"
-        entrypoint: sh
-        args:
-            - -c
-            - |
-            ls -la
-            gcloud source repos clone ucb-build-release --project=walkio-271711
-            ls -la
+  # - id: retrieve-complete-project
+  #   name: gcr.io/cloud-builders/gcloud
+  #   entrypoint: sh
+  #   args:
+  #     - -c
+  #     - |
+  #       ls -la
+  #       gcloud source repos clone ucb-build-release --project=walkio-271711
+  #       ls -la
+
+  - id: prepare-reference-ready-game-unity
+    name: gcr.io/cloud-builders/gsutil
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        gsutil cp gs://${_GCS_BUCKET}/references.zip /tmp/references.zip
+        unzip -qq /tmp/references.zip
+        mkdir game-unity
+        mv /workspace/complete-unity /workspace/game-unity/
+        mv /workspace/game-specific /workspace/game-unity/
+        mv /workspace/prepare-ucb-build-release /workspace/game-unity/
+        mv /workspace/references /workspace/game-unity/
+        mv /workspace/unity-setup /workspace/game-unity/
+        mv /workspace/remove-dsstore.ps1 /workspace/game-unity/
+        mv /workspace/setup-game-ref.ps1 /workspace/game-unity/
+
+  - id: organize-prepared-complete-project
+    name: "mcr.microsoft.com/powershell:preview-alpine-3.10"
+    entrypoint: sh
+    args:
+      - -c
+      - |
+        cd /workspace/game-unity
+        pwsh-preview setup-game-ref.ps1
+        pwsh-preview remove-dsstore.ps1
+        pwsh-preview ./prepare-ucb-build-release/CopyNecessaryItem.ps1
+        cd /workspace/game-unity/unity-setup
+        pwsh-preview CopyDailyTalkReferences.ps1
+        cd /workspace
+
+  - id: grab-ucb-build-release
+    name: gcr.io/cloud-builders/gcloud
+    entrypoint: sh
+    args:
+      - -c
+      - |
+        gcloud source repos clone ucb-build-release --project=walkio-271711
+
+  # - id: merge-ucb-build-release
+  #   name: "alpine:latest"
+  #   entrypoint: sh
+  #   args:
+  #     - -c
+  #     - |
+  #       apk update && apk add openssh-client rsync
+  #       rsync -avhr --exclude '.git' --delete /workspace/game-unity/complete-unity/ /workspace/ucb-build-release/
+
+  # - id: commit-ucb-build-release
+  #   name: gcr.io/cloud-builders/gcloud
+  #   entrypoint: sh
+  #   args:
+  #     - -c
+  #     - |
+  #       cd /workspace/ucb-build-release
+  #       git config --local user.email "ray@joybrick.cc"
+  #       git config --local user.name "Ray Wang"
+  #       git log
+  #       git add .
+  #       git commit -m "For building purpose"
+  #       git push -u origin master
+
+  
+
 # # steps:
 # #     - id: retrieve-ssh-key
 # #         name: 'gcr.io/cloud-builders/gcloud'

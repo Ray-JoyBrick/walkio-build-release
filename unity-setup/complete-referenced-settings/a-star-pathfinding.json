@@ -1,6 +1,6 @@
 {
     "name": "Aron Granberg",
-    "use": false,
+    "use": true,
     "toSymlink": [
       {
         "name": "AstarPathfindingProject",
