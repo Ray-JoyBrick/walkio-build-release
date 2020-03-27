@@ -20,6 +20,8 @@
 !game-specific
 !unity-setup
 
+!prepare-ucb-build-release
+# Rename to prepare-build-release soon
 !push-build-release
 
 !experimental-project
