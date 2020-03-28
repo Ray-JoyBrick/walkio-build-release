@@ -1,0 +1,27 @@
+{
+	"folders": [
+		{
+			"path": "asset-manipulation-unity"
+		},
+		{
+			"path": "complete-unity"
+		}
+  ],
+  "settings": {
+    "workbench.colorTheme": "Night Owl Light",
+
+    "files.exclude": {
+      "**/*.csproj": true,
+      "**/*.sln": true,
+
+      "**/Library/**": true,
+      "**/Logs/**": true,
+      "**/obj/**": true,
+      "**/Temp/**": true,
+      "**/UserSettings/**": true,
+
+      "**/.idea/**": true,
+      "**/Assets/**/*.meta": true
+    }
+  }
+}

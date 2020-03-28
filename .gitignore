@@ -6,6 +6,8 @@
 !.gitignore
 !README.md
 
+!unity-project.code-workspace
+
 !cloudbuild.yaml
 
 !config
@@ -14,12 +16,14 @@
 !remove-dsstore.ps1
 !setup-game-ref.ps1
 
+# Folders below
 !asset-manipulation-unity
 !behavior-centric-unity
 !complete-unity
 !game-specific
 !unity-setup
 
+!prepare-ucb-build-asset
 !prepare-ucb-build-release
 # Rename to prepare-build-release soon
 !push-build-release
