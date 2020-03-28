@@ -1,6 +1,6 @@
 {
   "name": "Inter Illusion",
-  "use": true,
+  "use": false,
   "toSymlink": [
     {
       "name": "I2",

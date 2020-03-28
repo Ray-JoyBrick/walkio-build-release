@@ -1,14 +1,14 @@
 {
   "name": "game-specific",
-  "use": false,
+  "use": true,
   "toSymlink": [
     {
-      "name": "preprocess-assets/visual-assets/Fonts",
-      "to": "Assets/_/1 - Game/Preprocess Assets/Visual Assets/Fonts"
+      "name": "preprocess-assets/design-use",
+      "to": "Assets/_/1 - Game/Preprocess Assets/design-use"
     },
     {
-      "name": "preprocess-assets/visual-assets/Gizmos/UnderWater",
-      "to": "Assets/Gizmos/UnderWater"
+      "name": "development-assets/Gizmos/JoyBrick",
+      "to": "Assets/Gizmos/JoyBrick"
     },
     {
       "name": "extend-3rd/Setting - Editor Console Pro",

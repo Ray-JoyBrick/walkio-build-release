@@ -1,6 +1,6 @@
 {
   "name": "Devdog",
-  "use": true,
+  "use": false,
   "toSymlink": [
     {
       "name": "odin-inspector-package/Sirenix",

@@ -1,6 +1,6 @@
 {
     "name": "Hutong Games LLC",
-    "use": false,
+    "use": true,
     "toSymlink": [
       {
         "name": "Gizmos/PlayMakerFSM Icon.tiff",

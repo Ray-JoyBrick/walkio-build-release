@@ -1,6 +1,6 @@
 {
   "name": "Ludiq",
-  "use": true,
+  "use": false,
   "toSymlink": [
     {
       "name": "Ludiq",
