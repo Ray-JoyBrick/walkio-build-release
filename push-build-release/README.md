@@ -3,7 +3,7 @@
 Use the following command to execute the docker but the command has to be given directly below game-unity.
 
 ```sh
-time DOCKER_BUILDKIT=1 docker image build -t push-build-release:latest --no-cache --build-arg SERVICE_NAME="use-kms" --build-arg PROJECT_ID="walkio-271711" --build-arg JSON_FILE="$(cat ./credentials/gcp/keyfile.json)" -f ./push-build-release/Dockerfile .
+time DOCKER_BUILDKIT=1 docker image build -t push-build-release:latest --no-cache --build-arg SERVICE_NAME="use-kms" --build-arg PROJECT_ID="walkio-271711" --build-arg JSON_FILE="$(cat ./secret-info/credentials/gcp/keyfile.json)" -f ./push-build-release/Dockerfile .
 
 time DOCKER_BUILDKIT=1 docker image build -t push-build-release:latest --no-cache -f ./push-build-release/Dockerfile .
 
