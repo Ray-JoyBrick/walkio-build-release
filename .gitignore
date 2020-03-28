@@ -8,7 +8,8 @@
 
 !unity-project.code-workspace
 
-!cloudbuild.yaml
+!cloudbuild-build-asset.yaml
+!cloudbuild-build-release.yaml
 
 !config
 !id_rsa_jb_github.enc
