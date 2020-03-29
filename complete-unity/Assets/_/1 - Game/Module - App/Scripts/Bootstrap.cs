@@ -1,9 +1,11 @@
 namespace JoyBrick.Walkio.Game
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using UniRx;
     using Unity.Entities;
     using Unity.XR.OpenVR;
     using UnityEngine;
@@ -24,14 +26,9 @@ namespace JoyBrick.Walkio.Game
         public Environment.Bridge.TileDetailAsset tileDetailAsset;
         
         private Entity _entity;
-
-        // async void Common.IAssetLoadingService.LoadAssets(
-        //     IEnumerable<string> addresses,
-        //     EntityArchetype toCreate)
-        // {
-        //     Debug.Log($"IAssetLoadingService - LoadAssets");
-        // }
         
+        private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
+
         void Start()
         {
             var archetype = World.DefaultGameObjectInjectionWorld.EntityManager.CreateArchetype(
@@ -47,13 +44,45 @@ namespace JoyBrick.Walkio.Game
             World.DefaultGameObjectInjectionWorld.EntityManager.CreateEntity(archetype02);
             // World.DefaultGameObjectInjectionWorld.EntityManager.AddComponentData(_entity, tileDataAsset);
             
-            Addressables.InitializeAsync().Completed += OnAddressableInitializeAsyncCompleted;
+            // Observable
+            //     .FromEvent<GenerationStatusDelegate, (DungeonGenerator, GenerationStatus)>(
+            //         h => (generator, status) => h.Invoke((generator, status)),
+            //         h => dungeonGenerator.OnGenerationStatusChanged += h,
+            //         h => dungeonGenerator.OnGenerationStatusChanged -= h)
+            //     .Subscribe(x =>
+            //     {
+            //     })
+            //     .AddTo(_compositeDisposable);
+
+            var addressableInitializeAsync = Addressables.InitializeAsync();
+            
+            var addressableInitializeAsyncObservable =
+                Observable
+                    .FromEvent<AsyncOperationHandle<IResourceLocator>>(
+                        h => addressableInitializeAsync.Completed += h,
+                        h => addressableInitializeAsync.Completed -= h);
+            addressableInitializeAsyncObservable                
+                .Subscribe(x =>
+                {
+                    //
+                    Debug.Log($"Bootstrap - addressableInitializeAsyncObservable done");
+                    HandleAddressableInitializeAsyncCompleted();
+                })
+                .AddTo(_compositeDisposable);
+            
+            // Addressables.InitializeAsync().Completed += OnAddressableInitializeAsyncCompleted;
         }
 
-        private void OnAddressableInitializeAsyncCompleted(AsyncOperationHandle<IResourceLocator> handle)
+        // private void OnAddressableInitializeAsyncCompleted(AsyncOperationHandle<IResourceLocator> handle)
+        private void HandleAddressableInitializeAsyncCompleted()
         {
-            Debug.Log($"Bootstrap - OnAddressableInitializeAsyncCompleted");
-            
+            // Debug.Log($"Bootstrap - OnAddressableInitializeAsyncCompleted");
+            Debug.Log($"Bootstrap - HandleAddressableInitializeAsyncCompleted");
+
+            Addressables.LoadAssetsAsync(new List<string> {"App - Hud"}, (UnityEngine.Object o) =>
+            {
+                Debug.Log(o);
+            });
 
             // StartCoroutine(SpawnPrefab(tileAuthoringPrefab01, 1.0f));
             // StartCoroutine(SpawnPrefab(tileAuthoringPrefab02, 4.0f));
@@ -148,6 +177,11 @@ namespace JoyBrick.Walkio.Game
             yield return new WaitForSeconds(30.0f);
 
             GameObject.Instantiate(tileAuthoringPrefab02);
+        }
+
+        private void OnDestroy()
+        {
+            _compositeDisposable?.Dispose();
         }
     }
 }

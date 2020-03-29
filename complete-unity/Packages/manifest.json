@@ -15,6 +15,7 @@
     "com.unity.inputsystem": "1.0.0-preview.6",
     "com.unity.physics": "0.3.1-preview",
     "com.unity.probuilder": "4.2.3",
+    "com.unity.remote-config": "1.0.9",
     "com.unity.render-pipelines.universal": "8.0.1",
     "com.unity.rendering.hybrid": "0.4.0-preview.8",
     "com.unity.test-framework": "1.1.13",
