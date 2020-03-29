@@ -1,6 +1,6 @@
 {
     "name": "BestHTTP",
-    "use": true,
+    "use": false,
     "toSymlink": [
       {
         "name": "Best HTTP",

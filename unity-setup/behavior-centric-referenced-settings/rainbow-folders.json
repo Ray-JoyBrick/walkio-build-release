@@ -3,7 +3,7 @@
   "use": true,
   "toSymlink": [
     {
-      "name": "RainbowAssets",
+      "name": "rainbow-assets-package/RainbowAssets",
       "to": "Assets/Plugins/RainbowAssets"
     }
   ]
