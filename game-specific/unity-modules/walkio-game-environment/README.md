@@ -85,3 +85,8 @@ After instantiating prefab, the conversion system will kick in automatically
 - TileDetailIndexAsset
 
 - TileDetailAdjustmentBuffer
+
+## Loading
+
+1. LoadWorldSystem
+2. LoadMapGridSystem
