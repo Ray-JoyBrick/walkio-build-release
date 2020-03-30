@@ -18,5 +18,3 @@ Resources/**
 !Resources/DOTweenSettings.asset
 !Resources/DOTweenSettings.asset.meta
 !Standard Assets
-# Not adding a sub folder gitignore file into StreamingAssets for clean purpose
-!Universal RP

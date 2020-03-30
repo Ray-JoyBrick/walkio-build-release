@@ -3,19 +3,11 @@
   "use": true,
   "toSymlink": [
     {
-      "name": "preprocess-assets/acoustic-assets",
-      "to": "Assets/_/1 - Game/Preprocess Assets/acoustic-assets"
+      "name": "preprocess-assets/design-use",
+      "to": "Assets/_/1 - Game/Preprocess Assets/design-use"
     },
     {
-      "name": "preprocess-assets/data-assets",
-      "to": "Assets/_/1 - Game/Preprocess Assets/data-assets"
-    },
-    {
-      "name": "preprocess-assets/visual-assets",
-      "to": "Assets/_/1 - Game/Preprocess Assets/visual-assets"
-    },
-    {
-      "name": "preprocess-assets/visual-assets/Gizmos/JoyBrick",
+      "name": "development-assets/Gizmos/JoyBrick",
       "to": "Assets/Gizmos/JoyBrick"
     },
     {

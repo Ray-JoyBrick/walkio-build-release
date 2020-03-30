@@ -1,17 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class AppwideSettings : MonoBehaviour
+﻿namespace JoyBrick.Walkio.Game.Template
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    using UnityEngine;
 
-    // Update is called once per frame
-    void Update()
+    public class AppwideSettings : ScriptableObject
     {
         
     }

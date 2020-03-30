@@ -1,0 +1,11 @@
+/*
+
+!.editorconfig
+!.gitignore
+!CopyNecessaryItem.ps1
+# !Dockerfile
+!Dockerfile-dev
+# !set-config-ucb-project.ps1
+!README.md
+
+!supply-to-project

@@ -1,6 +1,6 @@
 {
   "name": "Octamodius",
-  "use": false,
+  "use": true,
   "toSymlink": [
     {
       "name": "Octave3D World Builder",

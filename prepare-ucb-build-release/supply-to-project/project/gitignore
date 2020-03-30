@@ -1,0 +1,9 @@
+/*
+
+!.gitattributes
+!.gitignore
+
+!Assets
+!Packages
+!ProjectSettings
+!scripts

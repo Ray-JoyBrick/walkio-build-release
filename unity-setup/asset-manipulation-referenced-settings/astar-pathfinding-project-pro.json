@@ -4,7 +4,7 @@
   "toSymlink": [
     {
       "name": "AstarPathfindingProject",
-      "to": "Assets/Standard Assets/AstarPathfindingProject"
+      "to": "Assets/AstarPathfindingProject"
     }
   ]
 }

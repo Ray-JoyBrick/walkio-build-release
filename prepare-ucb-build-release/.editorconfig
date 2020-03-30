@@ -1,0 +1,8 @@
+# EditorConfig is awesome: http://EditorConfig.org
+
+# top-most EditorConfig file
+root = false
+
+#
+[*.{ps1,psm1,psd1}]
+indent_size = 4

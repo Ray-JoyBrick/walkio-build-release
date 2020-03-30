@@ -200,3 +200,29 @@ git push -u github prepare-build-release
 git config --local user.name "FIRST_NAME LAST_NAME"
 git config --local user.email "MY_NAME@example.com"
 ```
+
+## Get source from Google Source Repo
+
+```sh
+git clone ssh://ray@joybrick.cc@source.developers.google.com:2022/p/walkio-271711/r/ucb-build-release
+git clone ssh://ray@joybrick.cc@source.developers.google.com:2022/p/walkio-271711/r/ucb-build-asset
+
+# Using multiple ssh config
+git clone ssh://ray@joybrick.cc@source.developers.google.com-jb_google-cloud-source:2022/p/walkio-271711/r/ucb-build-release
+git clone ssh://ray@joybrick.cc@source.developers.google.com-jb_google-cloud-source:2022/p/walkio-271711/r/ucb-build-asset
+```
+
+Possible multiple ssh config setup
+```txt
+# Work account JoyBrick GitHub
+Host github.com-jb_github
+   HostName github.com
+   User git
+   IdentityFile ~/.ssh/id_rsa_jb_github
+
+# Work account JoyBrick Google Cloud Source Repo
+Host source.developers.google.com-jb_google-cloud-source
+   HostName source.developers.google.com
+   User git
+   IdentityFile ~/.ssh/id_rsa_jb_google_cloud_source
+```

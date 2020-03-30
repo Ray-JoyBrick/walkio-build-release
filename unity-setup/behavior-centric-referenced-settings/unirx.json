@@ -1,6 +1,6 @@
 {
   "name": "neuecc",
-  "use": true,
+  "use": false,
   "toSymlink": [
     {
       "name": "unirx-package",
