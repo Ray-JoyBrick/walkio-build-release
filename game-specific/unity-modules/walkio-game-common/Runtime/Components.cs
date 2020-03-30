@@ -6,4 +6,9 @@ namespace JoyBrick.Walkio.Game.Common
     {
         public int WorldMapIndex;
     }
+
+    public struct LoadZoneRequest : IComponentData
+    {
+        public int ZoneIndex;
+    }
 }

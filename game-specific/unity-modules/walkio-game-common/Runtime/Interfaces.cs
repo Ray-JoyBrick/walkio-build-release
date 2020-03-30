@@ -5,6 +5,8 @@ namespace JoyBrick.Walkio.Game.Common
     using System.Threading.Tasks;
     using UniRx;
     using Unity.Entities;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
 
     public interface IAssetLoadingService
     {
@@ -14,11 +16,21 @@ namespace JoyBrick.Walkio.Game.Common
         void LoadAssets(IEnumerable<string> addresses, System.Action<IEnumerable<UnityEngine.Object>> callback);
         void LoadAssets(IEnumerable<string> addresses, EntityArchetype toCreate);
     }
+
+    public interface IEnvironmentSetupRequester
+    {
+        IObservable<int> InitializingEnvironment { get; }
+
+        void SetEnvironmentData(ScriptableObject scriptableObject);
+    }
     
     //
-    public interface IWorldLoading
+    public interface IWorldLoadingRequester
     {
         IObservable<int> LoadingWorld { get; }
         // Subject<int> RequestToLoadWorld(int index);
+
+        void SetZoneScene(Scene scene);
+        void SetupPathfindingData(TextAsset textAsset);
     }
 }

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc92ebb90dab4e4498d6a742c05dc84d, type: 3}
+  m_Name: Environment Data
+  m_EditorClassIdentifier: 
+  gridCellSize: {x: 1, y: 1}
+  tileCellSize: {x: 1, y: 1}
+  tileCellCount: {x: 10, y: 10}
+  prefab: {fileID: 2285770037100188161, guid: c96d13724209f8147b88096a2b616747, type: 3}
+  gridCellDetails:
+  - Kind: 0
+    Cost: 0
+  - Kind: 1
+    Cost: 200

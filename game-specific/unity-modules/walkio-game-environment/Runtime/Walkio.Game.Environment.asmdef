@@ -13,8 +13,9 @@
         "Unity.ResourceManager",
         "UniRx",
         "Walkio.Game.Common",
-        "Walkio.Game.Environment-Bridge",
-        "Walkio.Game.Utility"
+        "Walkio.Game.Template",
+        "Walkio.Game.Utility",
+        "Walkio.Game.Environment-Bridge"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

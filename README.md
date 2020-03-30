@@ -3,7 +3,6 @@
 - asset-manipulation-unity
 - behavior-centric-unity(expanded later)
 - complete-unity
-- dots-roll-a-ball
 
 ## Unity Project - Asset and Data
 
@@ -16,12 +15,6 @@ Plan to expand the current one project into multiple to make the development eas
 - behavior-client-normal-unity
 - behavior-client-observer-unity
 - behavior-server-unity
-
-- dots-roll-a-ball
-
-### dots-roll-a-ball
-
-This project starts with an official roll-a-ball tutorial in DOTS form. A great reference to know how the project is done in DOTS.
 
 ## Unity Project - Complete
 
@@ -55,6 +48,8 @@ Mirror the repo to Google source repo will be a good approach but there are some
 
 Asset making branch contains huge data. When data sending to Google source repo, it takes time. It is better to get the required data into Google storage first. This reudce the time and cost to build.
 
+Stil after certain time, the plan is still using Google Source Repo as the source to UCB.
+
 ### Mutliple git repo setup
 
 Need a way to trigger the build when there is any changes to development use repo or build use repo.
@@ -82,6 +77,51 @@ The release build can follows, so it looks like
 3. Build ready repo is at GitLab
 4. Unity Cloud Build takes build ready repo to build
 5. UCB builds artifact and push to AppCenter
+
+On such setup, for most development members, they see only one branch, master, on GitLab, and since they don't even notice that the additional setup requried for getting branch
+
+- prepare-build-asset
+- prepare-build-release
+
+they have no way to get the branch. Thus the branch of development members see will be clean and simple. Only one master branch without any distraction.
+
+So different branch with different upstream does this job pretty well. It separates the concern and hides the complexity in such case.
+
+#### Git LFS
+
+Thinking about LFS might be another source of help which should be setup for different branch. However, this is currently impossible as LFS does not a per-branch setup method but per-repo setup method. It only functions during the time git hook is invoked.
+
+So once it is enabled in the repo, it applies to all branch. In the current setup,
+
+- master in GitLab
+- prepare-build-asset in GitHub
+- prepare-build-release in GitHub
+
+Both GitLab and GitHub will support LFS without any issue. However, the last build pipeline is in Google Source Repo which mirros content from GitHub. As stated beforehand, GSR does not support LFS for some reason. That means when GitHub branches are mirrored, there will be only pointer files in GSR.
+
+Workaround and possibily the correct approach if using LFS is requried and GSR stays the last line of the build pipeline will be replacing pointer files with the actual files.
+
+This method requires the setup that only part of project will be using LFS to store the files and then when the cotnent is pushed into source control. The part that is using LFS has to make zip file and store into Google Storage. During the time of making build(not the time of mirroring), remove pointer files and extracting the content in zipped file and replacing the content.
+
+This should be fine as the final build is prepared in other repos
+
+- prepare-ucb-build-asset
+- prepare-ucb-build-release
+
+specifically on master branch. Thus the push can be forced anyway.
+
+#### Unity Cloud Build trigger
+
+Normally, when push to either
+
+- BitBucket
+- GitHub
+- GitLab
+
+UCB will be notified by web hook, but for some reason, when git repo is hosted on GSR, UCB won't be notified, perhpas the lack of we hook or some other reason.
+
+The workaround is not too hard, but a bit time consuming to get it done in the first place. Setup a cloud function to trigger the UCB build should work.Can actually invoke such cloud funtion at the last step of Google Cloud Build.
+
 
 ### More on the asset making project flow
 

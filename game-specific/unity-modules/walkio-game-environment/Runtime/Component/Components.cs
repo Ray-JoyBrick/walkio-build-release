@@ -106,4 +106,59 @@ namespace JoyBrick.Walkio.Game.Environment
     {
         
     }
+    
+    //
+    public struct GenerateZone : IComponentData
+    {
+    }
+    
+    public struct GenerateZoneProperty : IComponentData
+    {
+        public int Width;
+        public int Height;
+    }
+    
+    public struct Zone : IComponentData
+    {
+        public int Width;
+        public int Height;
+    }
+
+    public struct ZoneGridCellBuffer : IBufferElementData
+    {
+        public int Index;
+        public static implicit operator int(ZoneGridCellBuffer b) => b.Index;
+        public static implicit operator ZoneGridCellBuffer(int v) => new ZoneGridCellBuffer { Index = v };
+    }
+    
+    //
+    public struct GridCellDetail
+    {
+        public int Kind;
+        public int Cost;
+    }
+
+    public struct GridCellDetailBlobAsset
+    {
+        public BlobArray<GridCellDetail> GridCellDetails;
+    }
+
+    // public struct TileDataPlaceholder : IComponentData
+    // {
+    // }
+
+    public struct GridCellDetailIndexBlobAsset
+    {
+        public BlobArray<int> GridCellDetailIndices;
+    }
+    
+    public struct ZoneGridCellDetailLookup : IComponentData
+    {
+        public BlobAssetReference<GridCellDetailBlobAsset> GridCellDetailBlobAssetRef;
+    }
+    
+    public struct ZoneGridCellDetailIndexLookup : IComponentData
+    {
+        public BlobAssetReference<GridCellDetailIndexBlobAsset> GridCellDetailIndexBlobAssetRef;
+    }
 }
