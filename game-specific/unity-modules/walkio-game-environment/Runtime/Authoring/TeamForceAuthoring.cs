@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using Unity.Entities;
+    using Unity.Transforms;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
     
@@ -18,10 +19,27 @@
             // dstManager.AddComponent<RemoveAfterConversion>(entity);
             // dstManager.AddComponentObject(entity, tileDetailAsset);
 
-            dstManager.AddComponentData<Team>(entity, new Team
+            // dstManager.RemoveComponent<LocalToWorld>(entity);
+            // dstManager.RemoveComponent<Translation>(entity);
+            // dstManager.RemoveComponent<Rotation>(entity);
+
+            dstManager.AddComponentData(entity, new Team
             {
                 Id = id
             });
+            dstManager.AddComponentData(entity, new TeamLeader
+            {
+                Id = id
+            });
+            dstManager.AddComponentData(entity, new Unit
+            {
+                Index = 0
+            });
+            dstManager.AddComponentData(entity, new PathfindGroup
+            {
+                Index = 0
+            });
+            dstManager.SetName(entity, "Team Entity");
         }
     }
 }

@@ -427,3 +427,191 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1936668982
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1936668984}
+  - component: {fileID: 1936668983}
+  m_Layer: 0
+  m_Name: Free Unit Pool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1936668983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936668982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b925f5b398e17453d97a108c188e8960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolName: Free Unit Pool
+  poolType: 0
+  poolWasJustCreatedByAPI: 0
+  enablePoolEvents: 0
+  enablePoolProtection: 1
+  dontDestroyOnLoad: 0
+  poolItems:
+  - prefabToPool: {fileID: 48280831675550803, guid: a610d22823951a749835af82ee7f50b5,
+      type: 3}
+    poolSizeOptions: 0
+    poolSize: 20
+    limitPoolSize: 100
+    keepOrganized: 1
+    recycleSpawnedObjects: 0
+    resetScaleOnEverySpawn: 0
+    spawnedItemScale: 0
+    customSpawnScale: {x: 1, y: 1, z: 1}
+    customSpawnScaleMin: {x: 0, y: 0, z: 0}
+    customSpawnScaleMax: {x: 1, y: 1, z: 1}
+    customSpawnScaleProportionalMin: 0
+    customSpawnScaleProportionalMax: 1
+    resetLayerOnEverySpawn: 0
+    spawnedItemLayer: 0
+    customSpawnLayer: 0
+    useLazyPreloading: 0
+    lazyPreloadingInstancesOnAwake: 1
+    lazyPreloadingInitialDelay: 1
+    lazyPreloadingInstancesPerPass: 1
+    lazyPreloadingDelayBetweenPasses: 0.2
+    enableAutoDespawn: 0
+    despawnMode: 0
+    despawnAfterHowManySeconds: 5
+    despawnRandomRangeMin: 2
+    despawnRandomRangeMax: 5
+    notifications: 0
+    enableInstantiateDelegates: 0
+    enableDestroyDelegates: 0
+    maxInstancesSpawnedAtOnce: 0
+    totalNumberOfSpawns: 0
+    totalNumberOfDespawns: 0
+    timeSincePoolLastInitializedAnInstance: 0
+    timeSincePoolLastSpawnedAnInstance: 0
+    timeSincePoolLastDespawnedAnInstance: 0
+    tab: 0
+    instanceSpawnedProgressBar: 0
+    instanceSpawnedProgressBarLerped: 0
+    prefabTabIsOpen: 1
+  spawnedObjects: []
+  spawnedObjectsList: []
+  tab: 0
+  fixedSizeSpawnCount: 0
+--- !u!4 &1936668984
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936668982}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2020329627
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2020329629}
+  - component: {fileID: 2020329628}
+  m_Layer: 0
+  m_Name: Team Force Pool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2020329628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020329627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b925f5b398e17453d97a108c188e8960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolName: Team Force Pool
+  poolType: 0
+  poolWasJustCreatedByAPI: 0
+  enablePoolEvents: 0
+  enablePoolProtection: 1
+  dontDestroyOnLoad: 0
+  poolItems:
+  - prefabToPool: {fileID: 2603080971849341344, guid: a10cbb30356df2e4ca02d4ce100542fd,
+      type: 3}
+    poolSizeOptions: 0
+    poolSize: 20
+    limitPoolSize: 100
+    keepOrganized: 1
+    recycleSpawnedObjects: 0
+    resetScaleOnEverySpawn: 0
+    spawnedItemScale: 0
+    customSpawnScale: {x: 1, y: 1, z: 1}
+    customSpawnScaleMin: {x: 0, y: 0, z: 0}
+    customSpawnScaleMax: {x: 1, y: 1, z: 1}
+    customSpawnScaleProportionalMin: 0
+    customSpawnScaleProportionalMax: 1
+    resetLayerOnEverySpawn: 0
+    spawnedItemLayer: 0
+    customSpawnLayer: 0
+    useLazyPreloading: 0
+    lazyPreloadingInstancesOnAwake: 1
+    lazyPreloadingInitialDelay: 1
+    lazyPreloadingInstancesPerPass: 1
+    lazyPreloadingDelayBetweenPasses: 0.2
+    enableAutoDespawn: 0
+    despawnMode: 0
+    despawnAfterHowManySeconds: 5
+    despawnRandomRangeMin: 2
+    despawnRandomRangeMax: 5
+    notifications: 0
+    enableInstantiateDelegates: 0
+    enableDestroyDelegates: 0
+    maxInstancesSpawnedAtOnce: 0
+    totalNumberOfSpawns: 0
+    totalNumberOfDespawns: 0
+    timeSincePoolLastInitializedAnInstance: 0
+    timeSincePoolLastSpawnedAnInstance: 0
+    timeSincePoolLastDespawnedAnInstance: 0
+    tab: 0
+    instanceSpawnedProgressBar: 0
+    instanceSpawnedProgressBarLerped: 0
+    prefabTabIsOpen: 1
+  spawnedObjects: []
+  spawnedObjectsList: []
+  tab: 0
+  fixedSizeSpawnCount: 0
+--- !u!4 &2020329629
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020329627}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

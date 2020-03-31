@@ -206,4 +206,19 @@ namespace JoyBrick.Walkio.Game.Environment
     {
         public int Id;
     }
+
+    public struct TeamLeader : IComponentData
+    {
+        public int Id;
+    }
+
+    public struct Unit : IComponentData
+    {
+        public int Index;
+    }
+
+    public struct PathfindGroup : IComponentData
+    {
+        public int Index;
+    }
 }

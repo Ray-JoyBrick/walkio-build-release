@@ -3,6 +3,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using HellTap.PoolKit;
     using UniRx;
     using Unity.Entities;
     using UnityEngine;
@@ -22,6 +23,9 @@
         private EntityManager _entityManager;
 
         // private EntityArchetype _loadZoneRequestEventArchetype;
+
+        private Pool _teamForcePool;
+        private Pool _freeUnitPool;
         
         //
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
@@ -34,6 +38,10 @@
             
             //
             SetupAddressable();
+            
+            //
+            SetupTeamForcePool();
+            SetupFreeUnitPool();
 
             // Can actually group by using visual scripting tool
             // For now, just simulate the flow by sending timed event
@@ -69,6 +77,14 @@
                     {
                         _notifyLoadingWorld.OnNext(0);
                     }
+                })
+                .AddTo(_compositeDisposable);
+
+            Observable.Timer(System.TimeSpan.FromMilliseconds(5500))
+                .Subscribe(_ =>
+                {
+                    //
+                    var teamForce = _teamForcePool.Spawn("Team Force");
                 })
                 .AddTo(_compositeDisposable);
         }
@@ -112,6 +128,62 @@
                     HandleAddressableInitializeAsyncCompleted();
                 })
                 .AddTo(_compositeDisposable);            
+        }
+
+        private void SetupTeamForcePool()
+        {
+            _teamForcePool = PoolKit.Find("Team Force Pool");
+            
+            var onPoolSpawnObservable =
+                Observable
+                    .FromEvent<Pool.OnPoolSpawnDelegate, (Transform, Pool)>(
+                        h => (t, p) => h.Invoke((t, p)),
+                        h => _teamForcePool.onPoolSpawn += h,
+                        h => _teamForcePool.onPoolSpawn -= h);
+
+            var onPoolDespawnObservable =
+                Observable
+                    .FromEvent<Pool.OnPoolDespawnDelegate, (Transform, Pool)>(
+                        h => (t, p) => h.Invoke((t, p)),
+                        h => _teamForcePool.onPoolDespawn += h,
+                        h => _teamForcePool.onPoolDespawn -= h);
+
+            var combined = onPoolSpawnObservable.Merge(onPoolDespawnObservable);
+            combined
+                .Subscribe(x =>
+                {
+                    //
+                    Debug.Log($"Team Force Pool: spawn or despawn");
+                })
+                .AddTo(_compositeDisposable);
+        }
+        
+        private void SetupFreeUnitPool()
+        {
+            _freeUnitPool = PoolKit.Find("Free Unit Pool");
+            
+            var onPoolSpawnObservable =
+                Observable
+                    .FromEvent<Pool.OnPoolSpawnDelegate, (Transform, Pool)>(
+                        h => (t, p) => h.Invoke((t, p)),
+                        h => _freeUnitPool.onPoolSpawn += h,
+                        h => _freeUnitPool.onPoolSpawn -= h);
+
+            var onPoolDespawnObservable =
+                Observable
+                    .FromEvent<Pool.OnPoolDespawnDelegate, (Transform, Pool)>(
+                        h => (t, p) => h.Invoke((t, p)),
+                        h => _freeUnitPool.onPoolDespawn += h,
+                        h => _freeUnitPool.onPoolDespawn -= h);
+
+            var combined = onPoolSpawnObservable.Merge(onPoolDespawnObservable);
+            combined
+                .Subscribe(x =>
+                {
+                    //
+                    Debug.Log($"Free Unit Pool: spawn or despawn");
+                })
+                .AddTo(_compositeDisposable);
         }
 
         private void HandleAddressableInitializeAsyncCompleted()
