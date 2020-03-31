@@ -3,6 +3,7 @@ namespace JoyBrick.Walkio.Game.Environment
     using Unity.Entities;
 
     [DisableAutoCreation]
+    [UpdateAfter(typeof(LoadZoneTemplateSystem))]
     public class GenerateZoneSystem :
         SystemBase
     {
@@ -27,6 +28,9 @@ namespace JoyBrick.Walkio.Game.Environment
             //     typeof(ZoneGridCellBuffer));
             var zoneEntityQuery = EntityManager.CreateEntityQuery(typeof(Zone));
             var zoneEntity = zoneEntityQuery.GetSingletonEntity();
+
+            var genratePathfindEventArchetype = EntityManager.CreateArchetype(
+                typeof(GeneratePathfind));
             
             Entities
                 .WithAll<GenerateZone>()
@@ -38,7 +42,7 @@ namespace JoyBrick.Walkio.Game.Environment
                     
                     //
                     // var zoneEntity = concurrentCommandBuffer.CreateEntity(entityInQueryIndex, zoneArchetype);
-                    concurrentCommandBuffer.SetComponent<Zone>(entityInQueryIndex, zoneEntity, new Zone
+                    concurrentCommandBuffer.SetComponent(entityInQueryIndex, zoneEntity, new Zone
                     {
                         Width = width,
                         Height = height
@@ -48,6 +52,8 @@ namespace JoyBrick.Walkio.Game.Environment
                     // var buffer = concurrentCommandBuffer.AddBuffer<ZoneGridCellBuffer>(entityInQueryIndex, zoneEntity);
                     //
                     // buffer.ResizeUninitialized(total);
+
+                    concurrentCommandBuffer.CreateEntity(entityInQueryIndex, genratePathfindEventArchetype);
                     
                     //
                     concurrentCommandBuffer.DestroyEntity(entityInQueryIndex, entity);

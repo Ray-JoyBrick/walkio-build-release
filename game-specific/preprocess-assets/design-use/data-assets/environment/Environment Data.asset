@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridCellSize: {x: 1, y: 1}
   tileCellSize: {x: 1, y: 1}
-  tileCellCount: {x: 10, y: 10}
+  tileCellCount: {x: 8, y: 7}
   prefab: {fileID: 2285770037100188161, guid: c96d13724209f8147b88096a2b616747, type: 3}
   gridCellDetails:
   - Kind: 0

@@ -27,8 +27,19 @@ There are related scriptable object for settings that will be used both in ECS a
 - Tile
 - Tile Cell
 
-1. LoadEnvironmentSettingSystem
-2. LoadZoneSystem
+
+PathfindBoard
+FlowFieldBoardBuffer
+
+PathfindTile
+PathfindTileBuffer
+
+### System
+
+1. LoadEnvironmentTempalteSystem
+2. LoadZoneTemplateSystem
+3. GenerateZoneSystem
+4. GeneratePathfindSystem
 
 ### Data
 

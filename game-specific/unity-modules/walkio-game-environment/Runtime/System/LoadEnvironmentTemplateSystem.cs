@@ -3,6 +3,7 @@ namespace JoyBrick.Walkio.Game.Environment
     using System.Threading.Tasks;
     using UniRx;
     using Unity.Entities;
+    using Unity.Mathematics;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
     using UnityEngine.SceneManagement;
@@ -36,6 +37,20 @@ namespace JoyBrick.Walkio.Game.Environment
                             var scriptableObject = result;
 
                             var castedSO = scriptableObject as GameTemplate.EnvironmentData;
+                            
+                            var theEnvironmentQuery = EntityManager.CreateEntityQuery(typeof(TheEnvironment));
+                            var theEnvironmentEntity = theEnvironmentQuery.GetSingletonEntity();
+                            
+                            var gridCellSize = new float2(castedSO.gridCellSize.x, castedSO.gridCellSize.y);
+                            var tileCellSize = new float2(castedSO.tileCellSize.x, castedSO.tileCellSize.y);
+                            var tileCellCount = new int2((int) castedSO.tileCellCount.x, (int) castedSO.tileCellCount.y);
+                            
+                            EntityManager.SetComponentData(theEnvironmentEntity, new TheEnvironment
+                            {
+                                GridCellSize = gridCellSize,
+                                TileCellSize = tileCellSize,
+                                TileCellCount = tileCellCount
+                            });
 
                             var blobAssetAuthoring = castedSO.prefab.GetComponent<GridCellDetailBlobAssetAuthoring>();
                             blobAssetAuthoring.gridCellDetails = castedSO.gridCellDetails;

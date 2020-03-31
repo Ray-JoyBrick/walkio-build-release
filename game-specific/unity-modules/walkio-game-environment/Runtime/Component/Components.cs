@@ -69,6 +69,10 @@ namespace JoyBrick.Walkio.Game.Environment
     //
     public struct TheEnvironment : IComponentData
     {
+        public float2 GridCellSize;
+        
+        public float2 TileCellSize;
+        public int2 TileCellCount;
     }
 
     public struct WorldMapTileDetailLookup : IComponentData
@@ -160,5 +164,46 @@ namespace JoyBrick.Walkio.Game.Environment
     public struct ZoneGridCellDetailIndexLookup : IComponentData
     {
         public BlobAssetReference<GridCellDetailIndexBlobAsset> GridCellDetailIndexBlobAssetRef;
+    }
+
+    public struct GeneratePathfind : IComponentData
+    {
+    }
+
+    public struct PathfindBoard : IComponentData
+    {
+        public int HorizontalCount;
+        public int VerticalCount;
+    }
+
+    public struct PathfindBoardBuffer : IBufferElementData
+    {
+        public Entity Value;
+     
+        public static implicit operator Entity(PathfindBoardBuffer b) => b.Value;
+        public static implicit operator PathfindBoardBuffer(Entity v) => new PathfindBoardBuffer { Value = v };
+    }
+
+    public struct PathfindTile : IComponentData
+    {
+        public int Index;
+        public int2 Index2d;
+        
+        public int HorizontalCount;
+        public int VerticalCount;
+    }
+
+    public struct PathfindTileBuffer : IBufferElementData
+    {
+        public int Value;
+
+        public static implicit operator int(PathfindTileBuffer b) => b.Value;
+        public static implicit operator PathfindTileBuffer(int v) => new PathfindTileBuffer { Value = v };
+    }
+
+    // TODO: Move this to other module, Battle?
+    public struct Team : IComponentData
+    {
+        public int Id;
     }
 }

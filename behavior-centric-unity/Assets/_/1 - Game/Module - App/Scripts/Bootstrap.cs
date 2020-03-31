@@ -129,6 +129,9 @@
             var generateZoneSystem = World.DefaultGameObjectInjectionWorld
                 .GetOrCreateSystem<GameEnvironment.GenerateZoneSystem>();
 
+            var generatePathfindSystem = World.DefaultGameObjectInjectionWorld
+                .GetOrCreateSystem<GameEnvironment.GeneratePathfindSystem>();
+
             var removeConvertedSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameEnvironment.RemoveConvertedSystem>();
@@ -141,6 +144,7 @@
             group.AddSystemToUpdateList(loadEnvironmentTemplateSystem);
             group.AddSystemToUpdateList(loadZoneTemplateSystem);
             group.AddSystemToUpdateList(generateZoneSystem);
+            group.AddSystemToUpdateList(generatePathfindSystem);
             
             group.AddSystemToUpdateList(removeConvertedSystem);
             
