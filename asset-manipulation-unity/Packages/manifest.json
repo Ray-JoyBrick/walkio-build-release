@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "com.3rd.editor-console-pro": "file:../../references/FlyingWorm/editor-console-pro-package",
+    "com.3rd.i2-localization": "file:../../references/Inter Illusion/i2-localization-package",
     "com.3rd.odin-inspector": "file:../../references/Devdog/odin-inspector-package",
     "com.3rd.unirx": "file:../../references/neuecc/unirx-package",
     "com.arongranberg.astar": "file:../../references/Aron Granberg/com.arongranberg.astar@4.3.16",

@@ -18,6 +18,36 @@ Will invesgiate more on this issue.
 
 There are related scriptable object for settings that will be used both in ECS and MB world.
 
+## Game Flow
+
+1. Appwide
+2. Hud
+3. Environment
+
+- Loading Hud for App
+- Loading Hud for Preparation
+
+Scene loaded
+
+- Main Scene
+- App Hud Scene
+- Preparation Hud Scene
+- Environment Common Scene
+- Environment Specific Scene
+
+Scripts
+
+- Bootstrap in Game
+- Entry in Game.Environment
+
+### Main Scene
+
+Bootstrap is here. Mainly for setting up all ECS systems.
+
+### Environment Common Scene
+
+All pools should reside here. This makes the loading/unloading more correct.
+
 ## Environemnt part
 
 ### Terms defined

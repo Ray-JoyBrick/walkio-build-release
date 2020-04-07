@@ -11,6 +11,7 @@
         "Unity.Entities.Properties",
         "Unity.Mathematics",
         "Unity.ResourceManager",
+        "UniRx",
         "Walkio.3rd.Doozy",
         "Walkio.Game.Common"
     ],

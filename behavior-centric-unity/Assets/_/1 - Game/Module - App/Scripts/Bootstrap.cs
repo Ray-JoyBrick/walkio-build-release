@@ -14,35 +14,42 @@
     using UnityEngine.SceneManagement;
     using GameCommon = JoyBrick.Walkio.Game.Common;
     using GameEnvironment = JoyBrick.Walkio.Game.Environment;
+    using GameHudApp = JoyBrick.Walkio.Game.Hud.App;
+    using GameHudPreparation = JoyBrick.Walkio.Game.Hud.Preparation;
     using GameTemplate = JoyBrick.Walkio.Game.Template;
 
     public partial class Bootstrap :
-        MonoBehaviour
+        MonoBehaviour,
+        GameCommon.IServiceManagement,
+        GameCommon.ICommandHandler
     {
         //
         private EntityManager _entityManager;
 
         // private EntityArchetype _loadZoneRequestEventArchetype;
 
-        private Pool _teamForcePool;
-        private Pool _freeUnitPool;
-        
         //
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
+
+        private IObservable<int> SetupECSDone => _notifySetupECSDone.AsObservable();
+        private readonly Subject<int> _notifySetupECSDone = new Subject<int>();
         
         //
         void Start()
         {
+            SetupECSDone
+                .Subscribe(x =>
+                {
+                    _notifyLoadAppHud.OnNext(1);
+                })
+                .AddTo(_compositeDisposable);
+            
             //
             SetupECSWorld();
             
             //
             SetupAddressable();
             
-            //
-            SetupTeamForcePool();
-            SetupFreeUnitPool();
-
             // Can actually group by using visual scripting tool
             // For now, just simulate the flow by sending timed event
             Observable.Timer(System.TimeSpan.FromMilliseconds(500))
@@ -53,40 +60,34 @@
                 })
                 .AddTo(_compositeDisposable);
             
-            Observable.Timer(System.TimeSpan.FromMilliseconds(3000))
-                .Subscribe(_ =>
-                {
-                    //
-                    // _entityManager.CreateEntity(_loadZoneRequestEventArchetype);
+            // Observable.Timer(System.TimeSpan.FromMilliseconds(3000))
+            //     .Subscribe(_ =>
+            //     {
+            //         //
+            //         // _entityManager.CreateEntity(_loadZoneRequestEventArchetype);
+            //
+            //         
+            //         //
+            //         if (_zoneSceneLoaded)
+            //         {
+            //             // Should just removing additive scene before calling loading world
+            //             var asyncOp = SceneManager.UnloadSceneAsync(_zoneScene);
+            //
+            //             asyncOp.AsObservable()
+            //                 .Subscribe(x =>
+            //                 {
+            //                     _notifyLoadingWorld.OnNext(0);
+            //                 })
+            //                 .AddTo(_compositeDisposable);
+            //         }
+            //         else
+            //         {
+            //             _notifyLoadingWorld.OnNext(0);
+            //         }
+            //     })
+            //     .AddTo(_compositeDisposable);
 
-                    
-                    //
-                    if (_zoneSceneLoaded)
-                    {
-                        // Should just removing additive scene before calling loading world
-                        var asyncOp = SceneManager.UnloadSceneAsync(_zoneScene);
 
-                        asyncOp.AsObservable()
-                            .Subscribe(x =>
-                            {
-                                _notifyLoadingWorld.OnNext(0);
-                            })
-                            .AddTo(_compositeDisposable);
-                    }
-                    else
-                    {
-                        _notifyLoadingWorld.OnNext(0);
-                    }
-                })
-                .AddTo(_compositeDisposable);
-
-            Observable.Timer(System.TimeSpan.FromMilliseconds(5500))
-                .Subscribe(_ =>
-                {
-                    //
-                    var teamForce = _teamForcePool.Spawn("Team Force");
-                })
-                .AddTo(_compositeDisposable);
         }
 
         private void SetupECSWorld()
@@ -126,64 +127,9 @@
                     Debug.Log($"Bootstrap - addressableInitializeAsync is received");
 
                     HandleAddressableInitializeAsyncCompleted();
+                    _notifySetupECSDone.OnNext(1);
                 })
                 .AddTo(_compositeDisposable);            
-        }
-
-        private void SetupTeamForcePool()
-        {
-            _teamForcePool = PoolKit.Find("Team Force Pool");
-            
-            var onPoolSpawnObservable =
-                Observable
-                    .FromEvent<Pool.OnPoolSpawnDelegate, (Transform, Pool)>(
-                        h => (t, p) => h.Invoke((t, p)),
-                        h => _teamForcePool.onPoolSpawn += h,
-                        h => _teamForcePool.onPoolSpawn -= h);
-
-            var onPoolDespawnObservable =
-                Observable
-                    .FromEvent<Pool.OnPoolDespawnDelegate, (Transform, Pool)>(
-                        h => (t, p) => h.Invoke((t, p)),
-                        h => _teamForcePool.onPoolDespawn += h,
-                        h => _teamForcePool.onPoolDespawn -= h);
-
-            var combined = onPoolSpawnObservable.Merge(onPoolDespawnObservable);
-            combined
-                .Subscribe(x =>
-                {
-                    //
-                    Debug.Log($"Team Force Pool: spawn or despawn");
-                })
-                .AddTo(_compositeDisposable);
-        }
-        
-        private void SetupFreeUnitPool()
-        {
-            _freeUnitPool = PoolKit.Find("Free Unit Pool");
-            
-            var onPoolSpawnObservable =
-                Observable
-                    .FromEvent<Pool.OnPoolSpawnDelegate, (Transform, Pool)>(
-                        h => (t, p) => h.Invoke((t, p)),
-                        h => _freeUnitPool.onPoolSpawn += h,
-                        h => _freeUnitPool.onPoolSpawn -= h);
-
-            var onPoolDespawnObservable =
-                Observable
-                    .FromEvent<Pool.OnPoolDespawnDelegate, (Transform, Pool)>(
-                        h => (t, p) => h.Invoke((t, p)),
-                        h => _freeUnitPool.onPoolDespawn += h,
-                        h => _freeUnitPool.onPoolDespawn -= h);
-
-            var combined = onPoolSpawnObservable.Merge(onPoolDespawnObservable);
-            combined
-                .Subscribe(x =>
-                {
-                    //
-                    Debug.Log($"Free Unit Pool: spawn or despawn");
-                })
-                .AddTo(_compositeDisposable);
         }
 
         private void HandleAddressableInitializeAsyncCompleted()
@@ -192,8 +138,24 @@
 
             //
             var group = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<InitializationSystemGroup>();
+            
+            // Hud - App
+            var appHudLoadSceneSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameHudApp.HudLoadSceneSystem>();
+            var processDoozyMessageSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameHudApp.ProcessDoozyMessageSystem>();
+            
+            // Hud - Preparation
+            var preparationHudLoadSceneSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameHudPreparation.HudLoadSceneSystem>();
+            var preparationHudUnloadSceneSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameHudPreparation.HudUnloadSceneSystem>();
 
-            //
+            // Environment
             var loadEnvironmentTemplateSystem = World.DefaultGameObjectInjectionWorld
                 .GetOrCreateSystem<GameEnvironment.LoadEnvironmentTemplateSystem>();
             var loadZoneTemplateSystem = World.DefaultGameObjectInjectionWorld
@@ -209,10 +171,23 @@
                     .GetOrCreateSystem<GameEnvironment.RemoveConvertedSystem>();
 
             // Explicitly assign the dependencies manually
+            appHudLoadSceneSystem.ServiceManagement = (GameCommon.IServiceManagement) this;
+            processDoozyMessageSystem.ServiceManagement = (GameCommon.IServiceManagement) this;
+            
+            preparationHudLoadSceneSystem.ServiceManagement = (GameCommon.IServiceManagement) this;
+            preparationHudLoadSceneSystem.CommandHandler = (GameCommon.ICommandHandler) this;
+            preparationHudUnloadSceneSystem.ServiceManagement = (GameCommon.IServiceManagement) this;
+            
             loadEnvironmentTemplateSystem.EnvironmentSetupRequester = (GameCommon.IEnvironmentSetupRequester) this;
             loadZoneTemplateSystem.WorldLoadingRequester = (GameCommon.IWorldLoadingRequester) this;
             
             //
+            group.AddSystemToUpdateList(appHudLoadSceneSystem);
+            group.AddSystemToUpdateList(processDoozyMessageSystem);
+
+            group.AddSystemToUpdateList(preparationHudLoadSceneSystem);
+            group.AddSystemToUpdateList(preparationHudUnloadSceneSystem);
+            
             group.AddSystemToUpdateList(loadEnvironmentTemplateSystem);
             group.AddSystemToUpdateList(loadZoneTemplateSystem);
             group.AddSystemToUpdateList(generateZoneSystem);
@@ -221,6 +196,12 @@
             group.AddSystemToUpdateList(removeConvertedSystem);
             
             //
+            appHudLoadSceneSystem.Setup();
+            processDoozyMessageSystem.Setup();
+
+            preparationHudLoadSceneSystem.Setup();
+            preparationHudUnloadSceneSystem.Setup();
+            
             loadEnvironmentTemplateSystem.Setup();
             loadZoneTemplateSystem.Setup();
         }
@@ -229,5 +210,32 @@
         {
             _compositeDisposable?.Dispose();
         }
+
+        #region
+        
+        public void LoadZone(int index)
+        {
+            _notifyLoadingWorld.OnNext(0);
+        }
+        
+        #endregion
+
+        #region
+
+        public IObservable<int> LoadAppHud => _notifyLoadAppHud.AsObservable();
+        private readonly Subject<int> _notifyLoadAppHud = new Subject<int>();
+
+        public void LoadAppHudDone()
+        {
+            _notifyLoadPreparationHud.OnNext(1);
+        }
+
+        public IObservable<int> LoadPreparationHud => _notifyLoadPreparationHud.AsObservable();
+        private readonly Subject<int> _notifyLoadPreparationHud = new Subject<int>();
+
+        public IObservable<int> UnloadPreparationHud => _notifyUnloadPreparationHud.AsObservable();
+        private readonly Subject<int> _notifyUnloadPreparationHud = new Subject<int>();
+
+        #endregion
     }
 }

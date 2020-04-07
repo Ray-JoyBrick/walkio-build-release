@@ -1,6 +1,6 @@
 {
   "name": "Doozy Entertainment",
-  "use": false,
+  "use": true,
   "toSymlink": [
     {
       "name": "Gizmos/Doozy",

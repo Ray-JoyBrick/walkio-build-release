@@ -33,3 +33,13 @@ This could be either home-made image texture to show the grid defintion or use A
 ### Pathfind tile settings
 
 Each zone may have vary setup that requires diffrent grunlar of pathfind tile. Should use settings to unify the change.
+
+## Hud Part
+
+Three main hud for now
+
+- App
+- Preparation
+- Stage
+
+Each will be placed into a scene so that the modification can be made easily.

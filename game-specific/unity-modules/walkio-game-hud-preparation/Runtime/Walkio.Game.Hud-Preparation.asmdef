@@ -1,6 +1,18 @@
 {
     "name": "Walkio.Game.Hud-Preparation",
     "references": [
+        "Unity.Addressables",
+        "Unity.Entities",
+        "Unity.Rendering.Hybrid",
+        "Unity.Burst",
+        "Unity.Collections",
+        "Unity.Transforms",
+        "Unity.Entities.Hybrid",
+        "Unity.Entities.Properties",
+        "Unity.Mathematics",
+        "Unity.ResourceManager",
+        "UniRx",
+        "Walkio.Game.Common"      
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

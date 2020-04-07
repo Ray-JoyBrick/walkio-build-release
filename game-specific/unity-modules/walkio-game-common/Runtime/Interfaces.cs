@@ -17,6 +17,22 @@ namespace JoyBrick.Walkio.Game.Common
         void LoadAssets(IEnumerable<string> addresses, EntityArchetype toCreate);
     }
 
+    public interface IServiceManagement
+    {
+        IObservable<int> LoadAppHud { get; }
+
+        void LoadAppHudDone();
+        
+        IObservable<int> LoadPreparationHud { get; }
+        IObservable<int> UnloadPreparationHud { get; }
+    }
+
+    public interface ICommandHandler
+    {
+        void LoadZone(int index);
+    }
+
+    //
     public interface IEnvironmentSetupRequester
     {
         IObservable<int> InitializingEnvironment { get; }
