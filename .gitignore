@@ -18,6 +18,8 @@
 !setup-game-ref.ps1
 
 # Folders below
+!asset-hud-design-unity
+!asset-level-design-unity
 !asset-manipulation-unity
 !behavior-centric-unity
 !complete-unity
