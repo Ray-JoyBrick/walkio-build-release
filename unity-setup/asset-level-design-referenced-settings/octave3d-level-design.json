@@ -1,0 +1,10 @@
+{
+  "name": "Octamodius",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "Octave3D World Builder",
+      "to": "Assets/Standard Assets/Octave3D World Builder"
+    }
+  ]
+}

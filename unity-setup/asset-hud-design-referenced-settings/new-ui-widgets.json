@@ -1,0 +1,10 @@
+{
+  "name": "Ilia Novikov",
+  "use": false,
+  "toSymlink": [
+    {
+      "name": "New UI Widgets",
+      "to": "Assets/Standard Assets/New UI Widgets"
+    }
+  ]
+}
