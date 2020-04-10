@@ -2,7 +2,7 @@ namespace JoyBrick.Walkio.Game.Hud.AppStage
 {
     using System;
     using System.Threading.Tasks;
-    using Doozy.Engine;
+    // using Doozy.Engine;
     using UniRx;
     using Unity.Entities;
     using UnityEngine;
@@ -23,27 +23,27 @@ namespace JoyBrick.Walkio.Game.Hud.AppStage
         {
             base.OnCreate();
 
-            Message.AddListener<GameEventMessage>(OnDoozyMessage);
+            // Message.AddListener<GameEventMessage>(OnDoozyMessage);
         }
 
-        private void OnDoozyMessage(GameEventMessage message)
-        {
-            if (message == null) return;
-
-            var validMessage = string.IsNullOrEmpty(message.EventName);
-            if (validMessage) return;
-
-            var result = string.Compare(message.EventName, "Load Environment", StringComparison.Ordinal);
-            if (result == 0)
-            {
-                Debug.Log($"ProcessDoozyMessageSystem - OnDoozyMessage - {message.EventName}");
-                // var entity = EntityManager.CreateEntity(_eventEntityArchetype);
-                // EntityManager.AddComponentData<Common.LoadWorldMapRequest>(entity, new Common.LoadWorldMapRequest
-                // {
-                //     WorldMapIndex = 0
-                // });
-            }
-        }
+        // private void OnDoozyMessage(GameEventMessage message)
+        // {
+        //     if (message == null) return;
+        //
+        //     var validMessage = string.IsNullOrEmpty(message.EventName);
+        //     if (validMessage) return;
+        //
+        //     var result = string.Compare(message.EventName, "Load Environment", StringComparison.Ordinal);
+        //     if (result == 0)
+        //     {
+        //         Debug.Log($"ProcessDoozyMessageSystem - OnDoozyMessage - {message.EventName}");
+        //         // var entity = EntityManager.CreateEntity(_eventEntityArchetype);
+        //         // EntityManager.AddComponentData<Common.LoadWorldMapRequest>(entity, new Common.LoadWorldMapRequest
+        //         // {
+        //         //     WorldMapIndex = 0
+        //         // });
+        //     }
+        // }
 
         public void Setup()
         {
@@ -57,7 +57,7 @@ namespace JoyBrick.Walkio.Game.Hud.AppStage
         {
             base.OnDestroy();
             
-            Message.RemoveListener<GameEventMessage>(OnDoozyMessage);
+            // Message.RemoveListener<GameEventMessage>(OnDoozyMessage);
 
             _compositeDisposable?.Dispose();
         }
