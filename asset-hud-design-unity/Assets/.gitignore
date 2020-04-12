@@ -13,7 +13,7 @@
 !Editor Default Resources
 !Gizmos
 !Plugins
-!Resources
+# !Resources
 # # Not adding a sub folder gitignore file into Resources for clean purpose
 # Resources/**
 # !Resources/DOTweenSettings.asset
