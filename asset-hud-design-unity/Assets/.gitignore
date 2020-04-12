@@ -7,14 +7,15 @@
 !*.*.meta
 
 !_
+!AddressableAssetsData
 # Some Unity package create assets under Assets/Editor folder and unsure if these can be moved
 !Editor
 !Editor Default Resources
 !Gizmos
 !Plugins
 !Resources
-# Not adding a sub folder gitignore file into Resources for clean purpose
-Resources/**
-!Resources/DOTweenSettings.asset
-!Resources/DOTweenSettings.asset.meta
+# # Not adding a sub folder gitignore file into Resources for clean purpose
+# Resources/**
+# !Resources/DOTweenSettings.asset
+# !Resources/DOTweenSettings.asset.meta
 !Standard Assets
