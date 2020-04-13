@@ -1,0 +1,16 @@
+{
+    "name": "Walkio.Build.Level-Design-Export",
+    "references": [
+        "Unity.Addressables"
+    ],
+    "includePlatforms": [
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

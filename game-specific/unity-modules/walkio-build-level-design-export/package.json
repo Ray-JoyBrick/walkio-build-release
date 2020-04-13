@@ -1,0 +1,11 @@
+{
+  "name": "walkio.build.level-design-export",
+  "displayName": "_ Walkio Build Level Design Export",
+  "version": "0.1.0",
+  "unity": "2020.1",
+  "description": "Walkio Build Level Design Export",
+  "keywords": [
+  ],
+  "category": "",
+  "dependencies": {}
+}
