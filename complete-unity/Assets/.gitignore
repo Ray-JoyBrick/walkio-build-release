@@ -21,3 +21,10 @@ Resources/**
 StreamingAssets/**
 !StreamingAssets/build.txt
 !StreamingAssets/build.txt.meta
+
+# Adding Inkle will result these two files being created under Assets folder. Thinking
+# to move these files somewhere else later.
+!InkLibrary.asset
+!InkLibrary.asset.meta
+!InkSettings.asset
+!InkSettings.asset.meta

@@ -3,6 +3,7 @@
     "references": [
         "Unity.Addressables",
         "Unity.Addressables.Editor",
+        "I2Localization",
         "Walkio.Build.Hud-Design-Export"
     ],
     "includePlatforms": [
