@@ -4,7 +4,7 @@
   "toSymlink": [
     {
       "name": "preprocess-assets/level-design",
-      "to": "Assets/_/1 - Game/Preprocess Assets/level-design"
+      "to": "Assets/_/1 - Game - Level Design/Preprocess Assets/level-design"
     },
     {
       "name": "development-assets/Gizmos/JoyBrick",

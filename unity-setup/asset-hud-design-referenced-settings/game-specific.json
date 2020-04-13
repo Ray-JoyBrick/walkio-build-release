@@ -4,7 +4,7 @@
   "toSymlink": [
     {
       "name": "preprocess-assets/hud-design",
-      "to": "Assets/_/1 - Game/Preprocess Assets/hud-design"
+      "to": "Assets/_/1 - Game - Hud Design/Preprocess Assets/hud-design"
     },
     {
       "name": "development-assets/Gizmos/JoyBrick",
