@@ -39,7 +39,7 @@
             {
                 Index = 0
             });
-            dstManager.SetName(entity, "Team Entity");
+            // dstManager.SetName(entity, "Team Entity");
         }
     }
 }

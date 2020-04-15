@@ -58,7 +58,7 @@ namespace JoyBrick.Walkio.Game.Environment
 
                             //
                             var entity = EntityManager.CreateEntity(_generateEventArchetype);
-                            EntityManager.SetName(entity, "Generate Zone Event");
+                            // EntityManager.SetName(entity, "Generate Zone Event");
                             EntityManager.SetComponentData(entity, new GenerateZoneProperty
                             {
                                 Width = width,

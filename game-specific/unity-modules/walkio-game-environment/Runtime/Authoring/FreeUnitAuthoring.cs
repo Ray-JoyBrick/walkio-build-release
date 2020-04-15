@@ -24,7 +24,7 @@ namespace JoyBrick.Walkio.Game.Environment
             {
                 Index = 0
             });
-            dstManager.SetName(entity, "Free Unit Entity");
+            // dstManager.SetName(entity, "Free Unit Entity");
         }
     }
 }
