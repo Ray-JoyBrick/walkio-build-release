@@ -36,50 +36,53 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
             // UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Level 001 - Master");
             // EditorSceneManager.LoadSceneAsync()
 
-            var waypointData = ScriptableObject.CreateInstance<WaypointData>();
-
-
-            var rootGameObjects = scene.GetRootGameObjects();
-            rootGameObjects.ToList().ForEach(x =>
-            {
-                //
-                if (string.Compare(x.name, "Curvy") == 0)
-                {
-                    waypointData.waypointPaths = new List<WaypointPath>();
-                    foreach (Transform curvy in x.transform)
-                    {
-                        // curvy.GetComponent<CurvySpline>()
-                        
-                        var wp = new WaypointPath();
-                        wp.waypoints = new List<Waypoint>();
-                        waypointData.waypointPaths.Add(wp);
-                        foreach (Transform waypoint in curvy)
-                        {
-                            wp.waypoints.Add(new Waypoint
-                            {
-                                location = waypoint.position
-                            });
-                            Debug.Log(waypoint);
-                        }
-                    }
-                }
-            });
-
+            // var waypointData = ScriptableObject.CreateInstance<WaypointData>();
             //
-            var generatedDirectoryPath = Path.Combine(Application.dataPath, "_", "1 - Game - Level Design - Generated");
-            var levelDirectoryPath = Path.Combine(generatedDirectoryPath, "Levels");
-            CreateDirectoryIfNotExisted(generatedDirectoryPath);
-            CreateDirectoryIfNotExisted(levelDirectoryPath);
-            
-            var level001DirectoryPath = Path.Combine(levelDirectoryPath, "level001");
-            CreateDirectoryIfNotExisted(level001DirectoryPath);
-            
-            var relativeWaypointDataAssetPath = Path.Combine("Assets", "_", "1 - Game - Level Design - Generated",
-                "Levels", "level001");
-            var waypointDataAssetPath = Path.Combine(relativeWaypointDataAssetPath, "Waypoint Data.asset");
-            
-            AssetDatabase.CreateAsset(waypointData, waypointDataAssetPath);
-            AssetDatabase.SaveAssets();
+            //
+            // var rootGameObjects = scene.GetRootGameObjects();
+            // rootGameObjects.ToList().ForEach(x =>
+            // {
+            //     //
+            //     // if (string.Compare(x.name, "Curvy") == 0)
+            //     var lo = x.GetComponent<LevelOperator>();
+            //     if (lo != null)
+            //     {
+            //         var curvyRoot = lo.curvy;
+            //         waypointData.waypointPaths = new List<WaypointPath>();
+            //         foreach (Transform curvy in curvyRoot.transform)
+            //         {
+            //             // curvy.GetComponent<CurvySpline>()
+            //             
+            //             var wp = new WaypointPath();
+            //             wp.waypoints = new List<Waypoint>();
+            //             waypointData.waypointPaths.Add(wp);
+            //             foreach (Transform waypoint in curvy)
+            //             {
+            //                 wp.waypoints.Add(new Waypoint
+            //                 {
+            //                     location = waypoint.position
+            //                 });
+            //                 Debug.Log(waypoint);
+            //             }
+            //         }
+            //     }
+            // });
+            //
+            // //
+            // var generatedDirectoryPath = Path.Combine(Application.dataPath, "_", "1 - Game - Level Design - Generated");
+            // var levelDirectoryPath = Path.Combine(generatedDirectoryPath, "Levels");
+            // CreateDirectoryIfNotExisted(generatedDirectoryPath);
+            // CreateDirectoryIfNotExisted(levelDirectoryPath);
+            //
+            // var level001DirectoryPath = Path.Combine(levelDirectoryPath, "level001");
+            // CreateDirectoryIfNotExisted(level001DirectoryPath);
+            //
+            // var relativeWaypointDataAssetPath = Path.Combine("Assets", "_", "1 - Game - Level Design - Generated",
+            //     "Levels", "level001");
+            // var waypointDataAssetPath = Path.Combine(relativeWaypointDataAssetPath, "Waypoint Data.asset");
+            //
+            // AssetDatabase.CreateAsset(waypointData, waypointDataAssetPath);
+            // AssetDatabase.SaveAssets();
         }
 
         private static void CreateDirectoryIfNotExisted(string directoryPath)
