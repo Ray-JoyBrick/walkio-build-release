@@ -1,0 +1,10 @@
+{
+  "name": "Inter Illusion",
+  "use": false,
+  "toSymlink": [
+    {
+      "name": "I2",
+      "to": "Assets/Standard Assets/I2"
+    }
+  ]
+}
