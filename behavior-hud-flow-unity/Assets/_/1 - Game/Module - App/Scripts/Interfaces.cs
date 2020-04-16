@@ -6,6 +6,12 @@ namespace JoyBrick.Walkio.Game
     {
         
     }
+
+    public class ActivateLoadingViewCommand : ICommand
+    {
+        public bool flag;
+    }
+
     
     public interface ICommandStreamProducer
     {
@@ -53,6 +59,9 @@ namespace JoyBrick.Walkio.Game
         IObservable<int> DoneLoadingAppHud { get; }
 
         void FinishSetupAppwideService();
+        
+        //
+        void ActivateViewLoading(bool flag);
         
         // Preparationwide
         IObservable<int> InitializingPreparationwideService { get; }

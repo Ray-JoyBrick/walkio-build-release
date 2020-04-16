@@ -28,6 +28,7 @@
         public IObservable<ICommand> CommandStream => _rpCommands.Select(x => x).Switch();
         private readonly ReactiveProperty<IObservable<ICommand>> _rpCommands =
             new ReactiveProperty<IObservable<ICommand>>(Observable.Empty<ICommand>());
+        private readonly Subject<ICommand> _notifyCommand = new Subject<ICommand>();
         
         public void AddCommandStreamProducer(ICommandStreamProducer commandStreamProducer)
         {
@@ -52,7 +53,8 @@
             var combinedObs =
                 _commandStreamProducers
                     .Select(x => x.CommandStream)
-                    .Aggregate(Observable.Empty<ICommand>(), (acc, next) => acc.Merge(next));
+                    // .Aggregate(Observable.Empty<ICommand>(), (acc, next) => acc.Merge(next));
+                    .Aggregate(_notifyCommand.AsObservable(), (acc, next) => acc.Merge(next));
             
             _rpCommands.Value = combinedObs;            
         }

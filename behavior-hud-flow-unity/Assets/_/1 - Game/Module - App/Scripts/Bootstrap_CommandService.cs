@@ -66,11 +66,14 @@ namespace JoyBrick.Walkio.Game
         private GameObject _canvasPrefab;
         private GameObject _canvas;
 
+        private View _loadView;
+
         //
         public void Construct()
         {
             base.OnCreate();
 
+            //
             CommandService.LoadingAppHud
                 .Subscribe(x =>
                 {
@@ -96,11 +99,31 @@ namespace JoyBrick.Walkio.Game
                             {
                                 CommandService.AddInfoStreamPresenter(infoPresenter);
                             }
+
+                            foreach (Transform v in _canvas.transform)
+                            {
+                                var view = v.GetComponent<View>();
+                                if (view != null)
+                                {
+                                    _loadView = view;
+                                }
+                            }
                             
                             //
                             CommandService.FinishLoadingAppHud();
                         })
                         .AddTo(_compositeDisposable);
+                })
+                .AddTo(_compositeDisposable);
+
+            //
+            CommandService.CommandStream
+                .Where(x => (x as ActivateLoadingViewCommand) != null)
+                .Subscribe(x =>
+                {
+                    var activateLoadingViewCommand = (x as ActivateLoadingViewCommand);
+                    //
+                    ActivateLoadingView(activateLoadingViewCommand.flag);
                 })
                 .AddTo(_compositeDisposable);
         }
@@ -113,6 +136,20 @@ namespace JoyBrick.Walkio.Game
             var r = await handle.Task;
 
             return r;
+        }
+
+        private void ActivateLoadingView(bool flag)
+        {
+            if (_loadView == null) return;
+
+            if (flag)
+            {
+                PlayMakerFSM.BroadcastEvent("Activate_Loading_View");
+            }
+            else
+            {
+                PlayMakerFSM.BroadcastEvent("Deactivate_Loading_View");
+            }
         }
 
         protected override void OnUpdate()
@@ -193,6 +230,8 @@ namespace JoyBrick.Walkio.Game
                     CommandService.StartSettingPreparationService();
                 })
                 .AddTo(_compositeDisposable);
+            
+            CommandService.ActivateViewLoading(true);
         }
 
         protected override void OnUpdate()
@@ -297,6 +336,9 @@ namespace JoyBrick.Walkio.Game
             CommandService.SettingPreparationwideService
                 .Subscribe(x =>
                 {
+                    //
+                    CommandService.ActivateViewLoading(false);
+                    
                     //
                     CommandService.FinishSetupPreparationwideService();
                 })
@@ -654,6 +696,12 @@ namespace JoyBrick.Walkio.Game
             
             _notifyInitializingPreparationwideService.OnNext(1);
         }
+
+        public void ActivateViewLoading(bool flag)
+        {
+            
+        }
+
 
         public IObservable<int> InitializingPreparationwideService =>
             _notifyInitializingPreparationwideService.AsObservable();
