@@ -30,37 +30,47 @@ namespace JoyBrick.Walkio.Game.Hud.App
 
         //
         public GameCommand.ICommandService CommandService { get; set; }
+        public GameCommon.IFlowControl FlowControl { get; set; }
 
         //
         public void Construct()
         {
             base.OnCreate();
 
+            // //
+            // CommandService.LoadingAppHud
+            //     .Subscribe(x =>
+            //     {
+            //         //
+            //         Load().ToObservable()
+            //             .ObserveOnMainThread()
+            //             .SubscribeOnMainThread()
+            //             .Subscribe(result =>
+            //             {
+            //                 //
+            //                 (_canvasPrefab, _viewLoadingPrefab, _timelineAsset, _i2Asset) = result;
+            //                 
+            //                 //
+            //                 _canvas = GameObject.Instantiate(_canvasPrefab);
+            //                 AddCommandStreamAndInfoStream(_canvas);
             //
-            CommandService.LoadingAppHud
+            //                 ExtractView();
+            //                 
+            //                 //
+            //                 CommandService.FinishLoadingAppHud();
+            //             })
+            //             .AddTo(_compositeDisposable);
+            //     })
+            //     .AddTo(_compositeDisposable);
+            
+            //
+            FlowControl.LoadingAsset
+                .Where(x => x.Name.Contains("App"))
                 .Subscribe(x =>
                 {
-                    //
-                    Load().ToObservable()
-                        .ObserveOnMainThread()
-                        .SubscribeOnMainThread()
-                        .Subscribe(result =>
-                        {
-                            //
-                            (_canvasPrefab, _viewLoadingPrefab, _timelineAsset, _i2Asset) = result;
-                            
-                            //
-                            _canvas = GameObject.Instantiate(_canvasPrefab);
-                            AddCommandStreamAndInfoStream(_canvas);
-
-                            ExtractView();
-                            
-                            //
-                            CommandService.FinishLoadingAppHud();
-                        })
-                        .AddTo(_compositeDisposable);
+                    LoadingAsset();
                 })
-                .AddTo(_compositeDisposable);
+                .AddTo(_compositeDisposable);            
 
             //
             CommandService.CommandStream
@@ -73,7 +83,30 @@ namespace JoyBrick.Walkio.Game.Hud.App
                 })
                 .AddTo(_compositeDisposable);
         }
-        
+
+        private void LoadingAsset()
+        {
+            //
+            Load().ToObservable()
+                .ObserveOnMainThread()
+                .SubscribeOnMainThread()
+                .Subscribe(result =>
+                {
+                    //
+                    (_canvasPrefab, _viewLoadingPrefab, _timelineAsset, _i2Asset) = result;
+                            
+                    //
+                    _canvas = GameObject.Instantiate(_canvasPrefab);
+                    AddCommandStreamAndInfoStream(_canvas);
+
+                    ExtractView();
+                            
+                    //
+                    CommandService.FinishLoadingAppHud();
+                })
+                .AddTo(_compositeDisposable);            
+        }
+
         private async Task<T> GetAsset<T>(string addressName)
         {
             var handle = Addressables.LoadAssetAsync<T>(addressName);

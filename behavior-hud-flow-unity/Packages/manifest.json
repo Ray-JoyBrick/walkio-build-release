@@ -50,12 +50,16 @@
     "walkio.build.hud-design-export": "file:../../game-specific/unity-modules/walkio-build-hud-design-export",
     "walkio.game.command": "file:../../game-specific/unity-modules/walkio-game-command",
     "walkio.game.common": "file:../../game-specific/unity-modules/walkio-game-common",
+    "walkio.game.environment": "file:../../game-specific/unity-modules/walkio-game-environment",
+    "walkio.game.environment-bridge": "file:../../game-specific/unity-modules/walkio-game-environment-bridge",
+    "walkio.game.game-flow-control": "file:../../game-specific/unity-modules/walkio-game-game-flow-control",
     "walkio.game.hud-app": "file:../../game-specific/unity-modules/walkio-game-hud-app",
     "walkio.game.hud-preparation": "file:../../game-specific/unity-modules/walkio-game-hud-preparation",
     "walkio.game.hud-stage": "file:../../game-specific/unity-modules/walkio-game-hud-stage",
     "walkio.game.scene-app": "file:../../game-specific/unity-modules/walkio-game-scene-app",
     "walkio.game.scene-preparation": "file:../../game-specific/unity-modules/walkio-game-scene-preparation",
     "walkio.game.scene-stage": "file:../../game-specific/unity-modules/walkio-game-scene-stage",
-    "walkio.game.template": "file:../../game-specific/unity-modules/walkio-game-template"
+    "walkio.game.template": "file:../../game-specific/unity-modules/walkio-game-template",
+    "walkio.game.utility": "file:../../game-specific/unity-modules/walkio-game-utility"
   }
 }

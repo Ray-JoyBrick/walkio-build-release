@@ -49,4 +49,17 @@ namespace JoyBrick.Walkio.Game.Common
         void SetZoneScene(Scene scene);
         void SetupPathfindingData(TextAsset textAsset);
     }
+    
+    public class FlowControlContext
+    {
+        public string Name { get; set; }
+    }
+    
+    public interface IFlowControl
+    {
+        IObservable<FlowControlContext> LoadingAsset { get; }
+        IObservable<FlowControlContext> DoneLoadingAsset { get; }
+
+        void StartSetting(FlowControlContext context);
+    }
 }
