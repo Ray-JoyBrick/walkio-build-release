@@ -1,5 +1,5 @@
 {
-    "name": "Walkio.Game.Hud-App",
+    "name": "Walkio.Game.Extension",
     "references": [
         "Unity.Addressables",
         "Unity.Entities",
@@ -13,9 +13,8 @@
         "Unity.ResourceManager",
         "UniRx",
         "Walkio.Game.Common",
-        "Walkio.Game.Command",
-        "Walkio.Game.Extension",
-        "Walkio.Game.Template"
+        "Walkio.Game.Template",
+        "Walkio.Game.Utility"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

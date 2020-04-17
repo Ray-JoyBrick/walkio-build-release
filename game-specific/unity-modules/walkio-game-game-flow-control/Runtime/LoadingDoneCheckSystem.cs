@@ -7,6 +7,7 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
 
     using GameCommon = JoyBrick.Walkio.Game.Common;
     
+    [DisableAutoCreation]
     public class LoadingDoneCheckSystem : SystemBase
     {
         //

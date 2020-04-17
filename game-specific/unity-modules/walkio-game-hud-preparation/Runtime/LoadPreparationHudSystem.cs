@@ -103,13 +103,31 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
             base.OnDestroy();
 
             //
-            Addressables.ReleaseInstance(_canvasPrefab);
-            Addressables.ReleaseInstance(_viewLoadingPrefab);
-            Addressables.Release(_timelineAsset);
-            Addressables.Release(_i2Asset);
+            if (_canvasPrefab != null)
+            {
+                Addressables.ReleaseInstance(_canvasPrefab);
+            }
+
+            if (_viewLoadingPrefab != null)
+            {
+                Addressables.ReleaseInstance(_viewLoadingPrefab);
+            }
+
+            if (_timelineAsset != null)
+            {
+                Addressables.Release(_timelineAsset);
+            }
+
+            if (_i2Asset != null)
+            {
+                Addressables.Release(_i2Asset);
+            }
 
             //
-            GameObject.Destroy(_canvas);
+            if (_canvas != null)
+            {
+                GameObject.Destroy(_canvas);
+            }
 
             //
             _compositeDisposable?.Dispose();

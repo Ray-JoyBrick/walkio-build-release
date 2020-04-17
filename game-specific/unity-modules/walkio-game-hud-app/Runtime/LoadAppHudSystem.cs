@@ -11,6 +11,7 @@ namespace JoyBrick.Walkio.Game.Hud.App
     
     using GameCommon = JoyBrick.Walkio.Game.Common;
     using GameCommand = JoyBrick.Walkio.Game.Command;
+    using GameExtension = JoyBrick.Walkio.Game.Extension;
 
     [DisableAutoCreation]
     public class LoadAppHudSystem : SystemBase
@@ -23,7 +24,8 @@ namespace JoyBrick.Walkio.Game.Hud.App
         private GameObject _viewLoadingPrefab;
         private ScriptableObject _timelineAsset;
         private ScriptableObject _i2Asset;
-        
+
+        //
         private GameObject _canvas;
 
         // private View _loadView;
@@ -36,32 +38,6 @@ namespace JoyBrick.Walkio.Game.Hud.App
         public void Construct()
         {
             base.OnCreate();
-
-            // //
-            // CommandService.LoadingAppHud
-            //     .Subscribe(x =>
-            //     {
-            //         //
-            //         Load().ToObservable()
-            //             .ObserveOnMainThread()
-            //             .SubscribeOnMainThread()
-            //             .Subscribe(result =>
-            //             {
-            //                 //
-            //                 (_canvasPrefab, _viewLoadingPrefab, _timelineAsset, _i2Asset) = result;
-            //                 
-            //                 //
-            //                 _canvas = GameObject.Instantiate(_canvasPrefab);
-            //                 AddCommandStreamAndInfoStream(_canvas);
-            //
-            //                 ExtractView();
-            //                 
-            //                 //
-            //                 CommandService.FinishLoadingAppHud();
-            //             })
-            //             .AddTo(_compositeDisposable);
-            //     })
-            //     .AddTo(_compositeDisposable);
             
             //
             FlowControl.LoadingAsset
@@ -157,15 +133,13 @@ namespace JoyBrick.Walkio.Game.Hud.App
 
         private void ActivateLoadingView(bool flag)
         {
-            // if (_loadView == null) return;
-
             if (flag)
             {
-                PlayMakerFSM.BroadcastEvent("Activate_Loading_View");
+                GameExtension.BridgeExtension.SendEvent("Activate_Loading_View");
             }
             else
             {
-                PlayMakerFSM.BroadcastEvent("Deactivate_Loading_View");
+                GameExtension.BridgeExtension.SendEvent("Deactivate_Loading_View");
             }
         }
 

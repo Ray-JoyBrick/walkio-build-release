@@ -87,8 +87,15 @@ namespace JoyBrick.Walkio.Game.Hud.Stage
             base.OnDestroy();
 
             //
-            Addressables.ReleaseInstance(_canvasPrefab);
-            GameObject.Destroy(_canvas);
+            if (_canvasPrefab != null)
+            {
+                Addressables.ReleaseInstance(_canvasPrefab);
+            }
+
+            if (_canvas != null)
+            {
+                GameObject.Destroy(_canvas);
+            }
             
             _compositeDisposable?.Dispose();
         }
