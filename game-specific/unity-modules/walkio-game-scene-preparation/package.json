@@ -1,0 +1,11 @@
+{
+  "name": "walkio.game.scene-preparation",
+  "displayName": "_ Walkio Game Scene Preparation",
+  "version": "0.1.0",
+  "unity": "2020.1",
+  "description": "Walkio Game Scene Preparation",
+  "keywords": [
+  ],
+  "category": "",
+  "dependencies": {}
+}

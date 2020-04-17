@@ -1,0 +1,11 @@
+{
+  "name": "walkio.game.scene-app",
+  "displayName": "_ Walkio Game Scene App",
+  "version": "0.1.0",
+  "unity": "2020.1",
+  "description": "Walkio Game Scene App",
+  "keywords": [
+  ],
+  "category": "",
+  "dependencies": {}
+}

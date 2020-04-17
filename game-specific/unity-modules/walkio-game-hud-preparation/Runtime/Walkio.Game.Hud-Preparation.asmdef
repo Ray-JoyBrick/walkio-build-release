@@ -12,7 +12,8 @@
         "Unity.Mathematics",
         "Unity.ResourceManager",
         "UniRx",
-        "Walkio.Game.Common"      
+        "Walkio.Game.Common",
+        "Walkio.Game.Command"     
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

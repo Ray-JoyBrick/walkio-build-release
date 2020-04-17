@@ -1,5 +1,5 @@
 {
-    "name": "Walkio.Game.Hud-Stage",
+    "name": "Walkio.Game.Scene-Preparation",
     "references": [
         "Unity.Addressables",
         "Unity.Entities",
@@ -12,7 +12,6 @@
         "Unity.Mathematics",
         "Unity.ResourceManager",
         "UniRx",
-        "Walkio.3rd.Doozy",
         "Walkio.Game.Common",
         "Walkio.Game.Command"
     ],
