@@ -3,6 +3,10 @@
   "use": true,
   "toSymlink": [
     {
+      "name": "unity-modules/walkio-game-entry/Runtime",
+      "to": "Assets/_/1 - Game/Module - Entry/Scripts/Runtime"
+    },
+    {
       "name": "preprocess-assets/external-data",
       "to": "Assets/_/1 - Game/Preprocess Assets/external-data"
     },
