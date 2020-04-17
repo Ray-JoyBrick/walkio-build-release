@@ -62,8 +62,12 @@ namespace JoyBrick.Walkio.Game.Common
 
         IObservable<FlowControlContext> SettingAsset { get; }
         IObservable<FlowControlContext> DoneSettingAsset { get; }
-
-        void StartSetting(FlowControlContext context);
         
+        IObservable<FlowControlContext> CleaningAsset { get; }
+
+        void FinishLoadingAsset(FlowControlContext context);
+        void StartSetting(FlowControlContext context);
+        void FinishSetting(FlowControlContext context);
+
     }
 }

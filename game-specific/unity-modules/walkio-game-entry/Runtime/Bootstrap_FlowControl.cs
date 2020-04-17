@@ -25,10 +25,24 @@ namespace JoyBrick.Walkio.Game
         public IObservable<GameCommon.FlowControlContext> DoneSettingAsset => _notifyDoneSettingAsset.AsObservable();
         private readonly Subject<GameCommon.FlowControlContext> _notifyDoneSettingAsset =
             new Subject<GameCommon.FlowControlContext>();
-        
+
+        public IObservable<GameCommon.FlowControlContext> CleaningAsset => _notifyCleaningAsset.AsObservable();
+        private readonly Subject<GameCommon.FlowControlContext> _notifyCleaningAsset =
+            new Subject<GameCommon.FlowControlContext>();
+
+        public void FinishLoadingAsset(GameCommon.FlowControlContext context)
+        {
+            _notifyDoneLoadingAsset.OnNext(context);
+        }
+
         public void StartSetting(GameCommon.FlowControlContext context)
         {
             _notifySettingAsset.OnNext(context);
+        }
+
+        public void FinishSetting(GameCommon.FlowControlContext context)
+        {
+            _notifyDoneSettingAsset.OnNext(context);
         }
     }
 }

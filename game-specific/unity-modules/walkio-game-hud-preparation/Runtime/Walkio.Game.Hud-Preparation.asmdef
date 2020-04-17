@@ -13,7 +13,9 @@
         "Unity.ResourceManager",
         "UniRx",
         "Walkio.Game.Common",
-        "Walkio.Game.Command"     
+        "Walkio.Game.Command",
+        "Walkio.Game.Extension",
+        "Walkio.Game.Template"    
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -11,7 +11,8 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
     
     using GameCommon = JoyBrick.Walkio.Game.Common;
     using GameCommand = JoyBrick.Walkio.Game.Command;
-    
+    using GameExtension = JoyBrick.Walkio.Game.Extension;
+
     [DisableAutoCreation]
     public class LoadPreparationHudSystem : SystemBase
     {
@@ -29,6 +30,7 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
 
         //
         public GameCommand.ICommandService CommandService { get; set; }
+        public GameCommon.IFlowControl FlowControl { get; set; }
 
         //
         public void Construct()
@@ -36,28 +38,37 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
             base.OnCreate();
 
             //
-            CommandService.LoadingPreparationHud
+            FlowControl.LoadingAsset
+                .Where(x => x.Name.Contains("Preparation"))
                 .Subscribe(x =>
                 {
-                    //
-                    Load().ToObservable()
-                        .ObserveOnMainThread()
-                        .SubscribeOnMainThread()
-                        .Subscribe(result =>
-                        {
-                            //
-                            (_canvasPrefab, _viewLoadingPrefab, _timelineAsset, _i2Asset) = result;
-                            
-                            //
-                            _canvas = GameObject.Instantiate(_canvasPrefab);
-                            AddCommandStreamAndInfoStream(_canvas);
-                            
-                            //
-                            CommandService.FinishLoadingPreparationHud();
-                        })
-                        .AddTo(_compositeDisposable);
+                    LoadingAsset();
                 })
                 .AddTo(_compositeDisposable);
+        }
+        
+        private void LoadingAsset()
+        {
+            //
+            Load().ToObservable()
+                .ObserveOnMainThread()
+                .SubscribeOnMainThread()
+                .Subscribe(result =>
+                {
+                    //
+                    (_canvasPrefab, _viewLoadingPrefab, _timelineAsset, _i2Asset) = result;
+                            
+                    //
+                    _canvas = GameObject.Instantiate(_canvasPrefab);
+                    AddCommandStreamAndInfoStream(_canvas);
+                            
+                    //
+                    FlowControl.FinishLoadingAsset(new GameCommon.FlowControlContext
+                    {
+                        Name = "Preparation"
+                    });
+                })
+                .AddTo(_compositeDisposable);         
         }
         
         private async Task<T> GetAsset<T>(string addressName)

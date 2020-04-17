@@ -78,7 +78,10 @@ namespace JoyBrick.Walkio.Game.Hud.App
                     ExtractView();
                             
                     //
-                    CommandService.FinishLoadingAppHud();
+                    FlowControl.FinishLoadingAsset(new GameCommon.FlowControlContext
+                    {
+                        Name = "App"
+                    });
                 })
                 .AddTo(_compositeDisposable);            
         }
@@ -144,19 +147,42 @@ namespace JoyBrick.Walkio.Game.Hud.App
         }
 
         protected override void OnUpdate() {}
+
+        public void RemovingAssets()
+        {
+            //
+            if (_canvasPrefab != null)
+            {
+                Addressables.ReleaseInstance(_canvasPrefab);
+            }
+
+            if (_viewLoadingPrefab != null)
+            {
+                Addressables.ReleaseInstance(_viewLoadingPrefab);
+            }
+
+            if (_timelineAsset != null)
+            {
+                Addressables.Release(_timelineAsset);
+            }
+
+            if (_i2Asset != null)
+            {
+                Addressables.Release(_i2Asset);
+            }
+
+            //
+            if (_canvas != null)
+            {
+                GameObject.Destroy(_canvas);
+            }            
+        }
         
         protected override void OnDestroy()
         {
             base.OnDestroy();
 
-            //
-            Addressables.ReleaseInstance(_canvasPrefab);
-            Addressables.ReleaseInstance(_viewLoadingPrefab);
-            Addressables.Release(_timelineAsset);
-            Addressables.Release(_i2Asset);
-            
-            //
-            GameObject.Destroy(_canvas);
+            RemovingAssets();
             
             _compositeDisposable?.Dispose();
         }

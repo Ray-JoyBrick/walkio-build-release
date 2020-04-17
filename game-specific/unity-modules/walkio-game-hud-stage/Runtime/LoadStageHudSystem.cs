@@ -11,6 +11,7 @@ namespace JoyBrick.Walkio.Game.Hud.Stage
     
     using GameCommon = JoyBrick.Walkio.Game.Common;
     using GameCommand = JoyBrick.Walkio.Game.Command;
+    using GameExtension = JoyBrick.Walkio.Game.Extension;
     
     [DisableAutoCreation]
     public class LoadStageHudSystem : SystemBase
@@ -24,35 +25,45 @@ namespace JoyBrick.Walkio.Game.Hud.Stage
 
         //
         public GameCommand.ICommandService CommandService { get; set; }
+        public GameCommon.IFlowControl FlowControl { get; set; }
 
         //
         public void Construct()
         {
             base.OnCreate();
-
+            
             //
-            CommandService.LoadingStageHud
+            FlowControl.LoadingAsset
+                .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
-                    //
-                    Load().ToObservable()
-                        .ObserveOnMainThread()
-                        .SubscribeOnMainThread()
-                        .Subscribe(result =>
-                        {
-                            //
-                            _canvasPrefab = result;
-                            
-                            //
-                            _canvas = GameObject.Instantiate(_canvasPrefab);
-                            AddCommandStreamAndInfoStream(_canvas);
-                            
-                            //
-                            CommandService.FinishLoadingStageHud();
-                        })
-                        .AddTo(_compositeDisposable);
+                    LoadingAsset();
                 })
-                .AddTo(_compositeDisposable);
+                .AddTo(_compositeDisposable);             
+        }
+        
+        private void LoadingAsset()
+        {
+            //
+            Load().ToObservable()
+                .ObserveOnMainThread()
+                .SubscribeOnMainThread()
+                .Subscribe(result =>
+                {
+                    //
+                    _canvasPrefab = result;
+                            
+                    //
+                    _canvas = GameObject.Instantiate(_canvasPrefab);
+                    AddCommandStreamAndInfoStream(_canvas);
+                            
+                    //
+                    FlowControl.FinishLoadingAsset(new GameCommon.FlowControlContext
+                    {
+                        Name = "Stage"
+                    });
+                })
+                .AddTo(_compositeDisposable);        
         }
         
         private async Task<GameObject> Load()

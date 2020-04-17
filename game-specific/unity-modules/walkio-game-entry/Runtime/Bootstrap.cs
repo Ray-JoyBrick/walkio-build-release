@@ -17,14 +17,20 @@
     using GameHudApp = JoyBrick.Walkio.Game.Hud.App;
     using GameHudPreparation = JoyBrick.Walkio.Game.Hud.Preparation;
     using GameHudStage = JoyBrick.Walkio.Game.Hud.Stage;
-    using GameSceneApp = JoyBrick.Walkio.Game.Scene.App;
-    using GameScenePreparation = JoyBrick.Walkio.Game.Scene.Preparation;
-    using GameSceneStage = JoyBrick.Walkio.Game.Scene.Stage;
     
     public partial class Bootstrap :
         MonoBehaviour
     {
         private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(Bootstrap));
+
+        void Awake()
+        {
+            // This will be used for AppCenter, as AppCenter does not have pre-processor define,
+            // Use custom COMPLETE_PROJECT to tell if AppCenter functionality should be turned on.
+            #if COMPLETE_PROJECT
+            
+            #endif
+        }
         
         void Start()
         {
@@ -161,12 +167,14 @@
             // Preparationwide
             // initializePreparationwideServiceSystem.CommandService = (GameCommand.ICommandService) this;
             loadPreparationHudSystem.CommandService = (GameCommand.ICommandService) this;
+            loadPreparationHudSystem.FlowControl = (GameCommon.IFlowControl) this;
             // setupPreparationwideServiceSystem.CommandService = (GameCommand.ICommandService) this;
             // cleanupPreparationwideServiceSystem.CommandService = (GameCommand.ICommandService) this;
 
             // Stagewide
             // initializeStagewideServiceSystem.CommandService = (GameCommand.ICommandService) this;
             loadStageHudSystem.CommandService = (GameCommand.ICommandService) this;
+            loadStageHudSystem.FlowControl = (GameCommon.IFlowControl) this;
             // loadStageEnvironmentSystem.CommandService = (GameCommand.ICommandService) this;
             // setupStagewideServiceSystem.CommandService = (GameCommand.ICommandService) this;
             // cleanupStagewideServiceSystem.CommandService = (GameCommand.ICommandService) this;
