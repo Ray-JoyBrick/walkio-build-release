@@ -10,81 +10,18 @@
     using UnityEngine.AddressableAssets.ResourceLocators;
     using UnityEngine.ResourceManagement.AsyncOperations;
 
+    using GameCommon = JoyBrick.Walkio.Game.Common;
+    using GameCommand = JoyBrick.Walkio.Game.Command;
+    using GameHudApp = JoyBrick.Walkio.Game.Hud.App;
+    using GameHudPreparation = JoyBrick.Walkio.Game.Hud.Preparation;
+    using GameHudStage = JoyBrick.Walkio.Game.Hud.Stage;
+    using GameSceneApp = JoyBrick.Walkio.Game.Scene.App;
+    using GameScenePreparation = JoyBrick.Walkio.Game.Scene.Preparation;
+    using GameSceneStage = JoyBrick.Walkio.Game.Scene.Stage;
+    
     public partial class Bootstrap :
         MonoBehaviour
     {
-        //
-        private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
-        
-        private IObservable<int> SetupECSDone => _notifySetupECSDone.AsObservable();
-        private readonly Subject<int> _notifySetupECSDone = new Subject<int>();
-        
-        // public IObservable<int> LoadAppHud => _notifyLoadAppHud.AsObservable();
-        // private readonly Subject<int> _notifyLoadAppHud = new Subject<int>();
-        
-        //
-        public readonly List<ICommandStreamProducer> _commandStreamProducers = new List<ICommandStreamProducer>();
-
-        public IObservable<ICommand> CommandStream => _rpCommands.Select(x => x).Switch();
-        private readonly ReactiveProperty<IObservable<ICommand>> _rpCommands =
-            new ReactiveProperty<IObservable<ICommand>>(Observable.Empty<ICommand>());
-        private readonly Subject<ICommand> _notifyCommand = new Subject<ICommand>();
-        
-        public void AddCommandStreamProducer(ICommandStreamProducer commandStreamProducer)
-        {
-            var existed =_commandStreamProducers.Exists(x => x == commandStreamProducer);
-            if (existed) return;
-            
-            _commandStreamProducers.Add(commandStreamProducer);
-            ReformCommandStream();
-        }
-        
-        void RemoveCommandStreamProducer(ICommandStreamProducer commandStreamProducer)
-        {
-            var existed =_commandStreamProducers.Exists(x => x == commandStreamProducer);
-            if (!existed) return;
-            
-            _commandStreamProducers.Remove(commandStreamProducer);
-            ReformCommandStream();
-        }
-
-        void ReformCommandStream()
-        {
-            var combinedObs =
-                _commandStreamProducers
-                    .Select(x => x.CommandStream)
-                    // .Aggregate(Observable.Empty<ICommand>(), (acc, next) => acc.Merge(next));
-                    .Aggregate(_notifyCommand.AsObservable(), (acc, next) => acc.Merge(next));
-            
-            _rpCommands.Value = combinedObs;            
-        }
-        
-        public readonly List<IInfoPresenter> _infoPresenters = new List<IInfoPresenter>();
-
-        public IObservable<IInfo> InfoStream => _rpInfos.Select(x => x).Switch();
-        private readonly ReactiveProperty<IObservable<IInfo>> _rpInfos =
-            new ReactiveProperty<IObservable<IInfo>>(Observable.Empty<IInfo>());
-
-        public void AddInfoStreamPresenter(IInfoPresenter infoPresenter)
-        {
-            var existed =_infoPresenters.Exists(x => x == infoPresenter);
-            if (existed) return;
-            
-            _infoPresenters.Add(infoPresenter);
-            ReformInfoStream();
-        }
-
-        void ReformInfoStream()
-        {
-            var combinedObs =
-                _infoPresenters
-                    .Select(x => x.InfoStream)
-                    .Aggregate(Observable.Empty<IInfo>(), (acc, next) => acc.Merge(next));
-            
-            _rpInfos.Value = combinedObs;
-        }
-        
-        //
         void Start()
         {
             //
@@ -131,11 +68,17 @@
                 .AddTo(_compositeDisposable);            
         }
 
-
         private void HandleAddressableInitializeAsyncCompleted()
         {
             Debug.Log($"Bootstrap - HandleAddressableInitializeAsyncCompleted");
             
+            SetupECS();
+        }
+
+        private void SetupECS()
+        {
+            Debug.Log($"Bootstrap - SetupECS");
+
             //
             var initializationSystemGroup = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<InitializationSystemGroup>();
             var simulationSystemGroup = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<SimulationSystemGroup>();
@@ -143,63 +86,63 @@
             // Appwide
             var initializeAppwideServiceSystem =
                 World.DefaultGameObjectInjectionWorld
-                    .GetOrCreateSystem<InitializeAppwideServiceSystem>();
+                    .GetOrCreateSystem<GameSceneApp.InitializeAppwideServiceSystem>();
             var loadAppHudSystem =
                 World.DefaultGameObjectInjectionWorld
-                    .GetOrCreateSystem<LoadAppHudSystem>();
+                    .GetOrCreateSystem<GameHudApp.LoadAppHudSystem>();
             
             var setupAppwideServiceSystem =
                 World.DefaultGameObjectInjectionWorld
-                    .GetOrCreateSystem<SetupAppwideServiceSystem>();
+                    .GetOrCreateSystem<GameSceneApp.SetupAppwideServiceSystem>();
             
             // Preparationwide
             var initializePreparationwideServiceSystem =
                 World.DefaultGameObjectInjectionWorld
-                    .GetOrCreateSystem<InitializePreparationwideServiceSystem>();
+                    .GetOrCreateSystem<GameScenePreparation.InitializePreparationwideServiceSystem>();
             var loadPreparationHudSystem =
                 World.DefaultGameObjectInjectionWorld
-                    .GetOrCreateSystem<LoadPreparationHudSystem>();
+                    .GetOrCreateSystem<GameHudPreparation.LoadPreparationHudSystem>();
             var setupPreparationwideServiceSystem =
                 World.DefaultGameObjectInjectionWorld
-                    .GetOrCreateSystem<SetupPreparationwideServiceSystem>();
+                    .GetOrCreateSystem<GameScenePreparation.SetupPreparationwideServiceSystem>();
             var cleanupPreparationwideServiceSystem =
                 World.DefaultGameObjectInjectionWorld
-                    .GetOrCreateSystem<CleanupPreparationwideServiceSystem>();
+                    .GetOrCreateSystem<GameScenePreparation.CleanupPreparationwideServiceSystem>();
 
             // Stagewide
             var initializeStagewideServiceSystem =
                 World.DefaultGameObjectInjectionWorld
-                    .GetOrCreateSystem<InitializeStagewideServiceSystem>();
+                    .GetOrCreateSystem<GameSceneStage.InitializeStagewideServiceSystem>();
             var loadStageHudSystem =
                 World.DefaultGameObjectInjectionWorld
-                    .GetOrCreateSystem<LoadStageHudSystem>();
+                    .GetOrCreateSystem<GameHudStage.LoadStageHudSystem>();
             var loadStageEnvironmentSystem =
                 World.DefaultGameObjectInjectionWorld
-                    .GetOrCreateSystem<LoadStageEnvironmentSystem>();
+                    .GetOrCreateSystem<GameSceneStage.LoadStageEnvironmentSystem>();
             var setupStagewideServiceSystem =
                 World.DefaultGameObjectInjectionWorld
-                    .GetOrCreateSystem<SetupStagewideServiceSystem>();
+                    .GetOrCreateSystem<GameSceneStage.SetupStagewideServiceSystem>();
             var cleanupStagewideServiceSystem =
                 World.DefaultGameObjectInjectionWorld
-                    .GetOrCreateSystem<CleanupStagewideServiceSystem>();
+                    .GetOrCreateSystem<GameSceneStage.CleanupStagewideServiceSystem>();
 
             // Appwide
-            initializeAppwideServiceSystem.CommandService = (ICommandService) this;
-            loadAppHudSystem.CommandService = (ICommandService) this;
-            setupAppwideServiceSystem.CommandService = (ICommandService) this;
+            initializeAppwideServiceSystem.CommandService = (GameCommand.ICommandService) this;
+            loadAppHudSystem.CommandService = (GameCommand.ICommandService) this;
+            setupAppwideServiceSystem.CommandService = (GameCommand.ICommandService) this;
             
             // Preparationwide
-            initializePreparationwideServiceSystem.CommandService = (ICommandService) this;
-            loadPreparationHudSystem.CommandService = (ICommandService) this;
-            setupPreparationwideServiceSystem.CommandService = (ICommandService) this;
-            cleanupPreparationwideServiceSystem.CommandService = (ICommandService) this;
+            initializePreparationwideServiceSystem.CommandService = (GameCommand.ICommandService) this;
+            loadPreparationHudSystem.CommandService = (GameCommand.ICommandService) this;
+            setupPreparationwideServiceSystem.CommandService = (GameCommand.ICommandService) this;
+            cleanupPreparationwideServiceSystem.CommandService = (GameCommand.ICommandService) this;
 
             // Stagewide
-            initializeStagewideServiceSystem.CommandService = (ICommandService) this;
-            loadStageHudSystem.CommandService = (ICommandService) this;
-            loadStageEnvironmentSystem.CommandService = (ICommandService) this;
-            setupStagewideServiceSystem.CommandService = (ICommandService) this;
-            cleanupStagewideServiceSystem.CommandService = (ICommandService) this;
+            initializeStagewideServiceSystem.CommandService = (GameCommand.ICommandService) this;
+            loadStageHudSystem.CommandService = (GameCommand.ICommandService) this;
+            loadStageEnvironmentSystem.CommandService = (GameCommand.ICommandService) this;
+            setupStagewideServiceSystem.CommandService = (GameCommand.ICommandService) this;
+            cleanupStagewideServiceSystem.CommandService = (GameCommand.ICommandService) this;
 
             // Appwide
             initializeAppwideServiceSystem.Construct();
@@ -235,7 +178,7 @@
             initializationSystemGroup.AddSystemToUpdateList(loadStageHudSystem);
             initializationSystemGroup.AddSystemToUpdateList(loadStageEnvironmentSystem);
             initializationSystemGroup.AddSystemToUpdateList(setupStagewideServiceSystem);
-            initializationSystemGroup.AddSystemToUpdateList(cleanupStagewideServiceSystem);
+            initializationSystemGroup.AddSystemToUpdateList(cleanupStagewideServiceSystem);            
         }
         
         private void OnDestroy()

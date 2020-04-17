@@ -3,11 +3,13 @@
     using System;
     using UniRx;
     using UnityEngine;
+    
+    using GameCommand = JoyBrick.Walkio.Game.Command;
 
     public class InfoPresenter :
         MonoBehaviour,
-        IInfoPresenter
+        GameCommand.IInfoPresenter
     {
-        public IObservable<IInfo> InfoStream => Observable.Empty<IInfo>();
+        public IObservable<GameCommand.IInfo> InfoStream => Observable.Empty<GameCommand.IInfo>();
     }
 }

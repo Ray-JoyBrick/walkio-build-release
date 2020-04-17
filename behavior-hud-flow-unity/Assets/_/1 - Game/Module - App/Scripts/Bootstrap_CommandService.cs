@@ -1,660 +1,87 @@
 namespace JoyBrick.Walkio.Game
 {
     using System;
-    using System.Threading.Tasks;
+    using System.Collections.Generic;
+    using System.Linq;
     using UniRx;
-    using Unity.Entities;
-    using UnityEngine;
-    using UnityEngine.AddressableAssets;
-    using UnityEngine.ResourceManagement.ResourceProviders;
-    using UnityEngine.SceneManagement;
-
-    [DisableAutoCreation]
-    public class InitializeAppwideServiceSystem : SystemBase
-    {
-        private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
-        
-        public ICommandService CommandService { get; set; }
-        
-        public void Construct()
-        {
-            base.OnCreate();
-
-            CommandService.InitializingAppwideService
-                .Subscribe(x =>
-                {
-                    //
-                    CommandService.StartLoadingAppHud();
-                })
-                .AddTo(_compositeDisposable);
-
-            var ob1 = CommandService.DoneLoadingAppHud;
-
-            var combined = ob1;
-
-            combined
-                .Buffer(1)
-                .Subscribe(x =>
-                {
-                    //
-                    CommandService.StartSettingAppwideService();
-                })
-                .AddTo(_compositeDisposable);
-        }
-
-        protected override void OnUpdate()
-        {
-        }
-        
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-            
-            _compositeDisposable?.Dispose();
-        }
-    }
     
-    [DisableAutoCreation]
-    public class LoadAppHudSystem : SystemBase
-    {
-        //
-        private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
-        
-        public ICommandService CommandService { get; set; }
-
-        //
-        private GameObject _canvasPrefab;
-        private GameObject _canvas;
-
-        private View _loadView;
-
-        //
-        public void Construct()
-        {
-            base.OnCreate();
-
-            //
-            CommandService.LoadingAppHud
-                .Subscribe(x =>
-                {
-                    //
-                    Load().ToObservable()
-                        .ObserveOnMainThread()
-                        .SubscribeOnMainThread()
-                        .Subscribe(result =>
-                        {
-                            //
-                            _canvasPrefab = result;
-                            
-                            //
-                            _canvas = GameObject.Instantiate(_canvasPrefab);
-                            var commandStreamProducer = _canvas.GetComponent<ICommandStreamProducer>();
-                            if (commandStreamProducer != null)
-                            {
-                                CommandService.AddCommandStreamProducer(commandStreamProducer);
-                            }
-
-                            var infoPresenter = _canvas.GetComponent<IInfoPresenter>();
-                            if (infoPresenter != null)
-                            {
-                                CommandService.AddInfoStreamPresenter(infoPresenter);
-                            }
-
-                            foreach (Transform v in _canvas.transform)
-                            {
-                                var view = v.GetComponent<View>();
-                                if (view != null)
-                                {
-                                    _loadView = view;
-                                }
-                            }
-                            
-                            //
-                            CommandService.FinishLoadingAppHud();
-                        })
-                        .AddTo(_compositeDisposable);
-                })
-                .AddTo(_compositeDisposable);
-
-            //
-            CommandService.CommandStream
-                .Where(x => (x as ActivateLoadingViewCommand) != null)
-                .Subscribe(x =>
-                {
-                    var activateLoadingViewCommand = (x as ActivateLoadingViewCommand);
-                    //
-                    ActivateLoadingView(activateLoadingViewCommand.flag);
-                })
-                .AddTo(_compositeDisposable);
-        }
-        
-        private async Task<GameObject> Load()
-        {
-            var addressName = $"Hud - App";
-            var handle = Addressables.LoadAssetAsync<GameObject>(addressName);
-
-            var r = await handle.Task;
-
-            return r;
-        }
-
-        private void ActivateLoadingView(bool flag)
-        {
-            if (_loadView == null) return;
-
-            if (flag)
-            {
-                PlayMakerFSM.BroadcastEvent("Activate_Loading_View");
-            }
-            else
-            {
-                PlayMakerFSM.BroadcastEvent("Deactivate_Loading_View");
-            }
-        }
-
-        protected override void OnUpdate()
-        {
-        }
-        
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-
-            Addressables.ReleaseInstance(_canvasPrefab);
-            GameObject.Destroy(_canvas);
-            
-            _compositeDisposable?.Dispose();
-        }
-    }
-    
-    [DisableAutoCreation]
-    public class SetupAppwideServiceSystem : SystemBase
-    {
-        private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
-        
-        public ICommandService CommandService { get; set; }
-
-        public void Construct()
-        {
-            base.OnCreate();
-
-            CommandService.SettingAppwideService
-                .Subscribe(x =>
-                {
-                    //
-                    CommandService.FinishSetupAppwideService();
-                })
-                .AddTo(_compositeDisposable);
-        }
-
-        protected override void OnUpdate()
-        {
-        }
-        
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-            
-            _compositeDisposable?.Dispose();
-        }
-    }
-    
-    [DisableAutoCreation]
-    public class InitializePreparationwideServiceSystem : SystemBase
-    {
-        private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
-        
-        public ICommandService CommandService { get; set; }
-        
-        public void Construct()
-        {
-            base.OnCreate();
-
-            CommandService.InitializingPreparationwideService
-                .Subscribe(x =>
-                {
-                    //
-                    CommandService.StartLoadingPreparationHud();
-                })
-                .AddTo(_compositeDisposable);
-
-            var ob1 = CommandService.DoneLoadingPreparationHud;
-
-            var combined = ob1;
-
-            combined
-                .Buffer(1)
-                .Subscribe(x =>
-                {
-                    //
-                    CommandService.StartSettingPreparationService();
-                })
-                .AddTo(_compositeDisposable);
-            
-            CommandService.ActivateViewLoading(true);
-        }
-
-        protected override void OnUpdate()
-        {
-        }
-        
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-            
-            _compositeDisposable?.Dispose();
-        }
-    }
-    
-    [DisableAutoCreation]
-    public class LoadPreparationHudSystem : SystemBase
-    {
-        //
-        private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
-        
-        public ICommandService CommandService { get; set; }
-
-        //
-        private GameObject _canvasPrefab;
-        private GameObject _canvas;
-
-        //
-        public void Construct()
-        {
-            base.OnCreate();
-
-            CommandService.LoadingPreparationHud
-                .Subscribe(x =>
-                {
-                    //
-                    Load().ToObservable()
-                        .ObserveOnMainThread()
-                        .SubscribeOnMainThread()
-                        .Subscribe(result =>
-                        {
-                            //
-                            _canvasPrefab = result;
-                            
-                            //
-                            _canvas = GameObject.Instantiate(_canvasPrefab);
-                            var commandStreamProducer = _canvas.GetComponent<ICommandStreamProducer>();
-                            if (commandStreamProducer != null)
-                            {
-                                CommandService.AddCommandStreamProducer(commandStreamProducer);
-                            }
-
-                            var infoPresenter = _canvas.GetComponent<IInfoPresenter>();
-                            if (infoPresenter != null)
-                            {
-                                CommandService.AddInfoStreamPresenter(infoPresenter);
-                            }
-                            
-                            //
-                            CommandService.FinishLoadingPreparationHud();
-                        })
-                        .AddTo(_compositeDisposable);
-                })
-                .AddTo(_compositeDisposable);
-        }
-        
-        private async Task<GameObject> Load()
-        {
-            var addressName = $"Hud - Preparation";
-            var handle = Addressables.LoadAssetAsync<GameObject>(addressName);
-
-            var r = await handle.Task;
-
-            return r;
-        }
-
-        protected override void OnUpdate()
-        {
-        }
-        
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-
-            Addressables.ReleaseInstance(_canvasPrefab);
-            GameObject.Destroy(_canvas);
-            
-            _compositeDisposable?.Dispose();
-        }
-    }
-    
-    [DisableAutoCreation]
-    public class SetupPreparationwideServiceSystem : SystemBase
-    {
-        private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
-        
-        public ICommandService CommandService { get; set; }
-
-        public void Construct()
-        {
-            base.OnCreate();
-
-            CommandService.SettingPreparationwideService
-                .Subscribe(x =>
-                {
-                    //
-                    CommandService.ActivateViewLoading(false);
-                    
-                    //
-                    CommandService.FinishSetupPreparationwideService();
-                })
-                .AddTo(_compositeDisposable);
-        }
-
-        protected override void OnUpdate()
-        {
-        }
-        
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-            
-            _compositeDisposable?.Dispose();
-        }
-    }
-    
-    [DisableAutoCreation]
-    public class CleanupPreparationwideServiceSystem : SystemBase
-    {
-        private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
-        
-        public ICommandService CommandService { get; set; }
-
-        public void Construct()
-        {
-            base.OnCreate();
-
-            CommandService.CleaningPreparationwideService
-                .Subscribe(x =>
-                {
-                    // //
-                    // CommandService.FinishSetupPreparationwideService();
-                })
-                .AddTo(_compositeDisposable);
-        }
-
-        protected override void OnUpdate()
-        {
-        }
-        
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-            
-            _compositeDisposable?.Dispose();
-        }
-    }
-
-    [DisableAutoCreation]
-    public class InitializeStagewideServiceSystem : SystemBase
-    {
-        private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
-        
-        public ICommandService CommandService { get; set; }
-        
-        public void Construct()
-        {
-            base.OnCreate();
-
-            CommandService.InitializingStagewideService
-                .Subscribe(x =>
-                {
-                    //
-                    CommandService.StartLoadingStageHud();
-                    CommandService.StartLoadingStageEnvironment();
-                })
-                .AddTo(_compositeDisposable);
-
-            var ob1 = CommandService.DoneLoadingStageHud;
-            var ob2 = CommandService.DoneLoadingStageEnvironment;
-
-            var combined = ob1.Merge(ob2);
-
-            combined
-                .Buffer(2)
-                .Subscribe(x =>
-                {
-                    //
-                    CommandService.StartSettingStagewideService();
-                })
-                .AddTo(_compositeDisposable);
-        }
-
-        protected override void OnUpdate()
-        {
-        }
-        
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-            
-            _compositeDisposable?.Dispose();
-        }
-    }
-    
-        [DisableAutoCreation]
-    public class LoadStageHudSystem : SystemBase
-    {
-        //
-        private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
-        
-        public ICommandService CommandService { get; set; }
-
-        //
-        private GameObject _canvasPrefab;
-        private GameObject _canvas;
-
-        //
-        public void Construct()
-        {
-            base.OnCreate();
-
-            CommandService.LoadingStageHud
-                .Subscribe(x =>
-                {
-                    //
-                    Load().ToObservable()
-                        .ObserveOnMainThread()
-                        .SubscribeOnMainThread()
-                        .Subscribe(result =>
-                        {
-                            //
-                            _canvasPrefab = result;
-                            
-                            //
-                            _canvas = GameObject.Instantiate(_canvasPrefab);
-                            var commandStreamProducer = _canvas.GetComponent<ICommandStreamProducer>();
-                            if (commandStreamProducer != null)
-                            {
-                                CommandService.AddCommandStreamProducer(commandStreamProducer);
-                            }
-
-                            var infoPresenter = _canvas.GetComponent<IInfoPresenter>();
-                            if (infoPresenter != null)
-                            {
-                                CommandService.AddInfoStreamPresenter(infoPresenter);
-                            }
-                            
-                            //
-                            CommandService.FinishLoadingStageHud();
-                        })
-                        .AddTo(_compositeDisposable);
-                })
-                .AddTo(_compositeDisposable);
-        }
-        
-        private async Task<GameObject> Load()
-        {
-            var addressName = $"Hud - Stage";
-            var handle = Addressables.LoadAssetAsync<GameObject>(addressName);
-
-            var r = await handle.Task;
-
-            return r;
-        }
-
-        protected override void OnUpdate()
-        {
-        }
-        
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-
-            Addressables.ReleaseInstance(_canvasPrefab);
-            GameObject.Destroy(_canvas);
-            
-            _compositeDisposable?.Dispose();
-        }
-    }
-    
-    [DisableAutoCreation]
-    public class LoadStageEnvironmentSystem : SystemBase
-    {
-        //
-        private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
-        
-        public ICommandService CommandService { get; set; }
-
-        //
-        // private GameObject _canvasPrefab;
-        // private GameObject _canvas;
-
-        //
-        public void Construct()
-        {
-            base.OnCreate();
-
-            CommandService.LoadingStageEnvironment
-                .Subscribe(x =>
-                {
-                    //
-                    Load().ToObservable()
-                        .ObserveOnMainThread()
-                        .SubscribeOnMainThread()
-                        .Subscribe(result =>
-                        {
-                            // //
-                            // _canvasPrefab = result;
-                            //
-                            // //
-                            // _canvas = GameObject.Instantiate(_canvasPrefab);
-                            // var commandStreamProducer = _canvas.GetComponent<ICommandStreamProducer>();
-                            // if (commandStreamProducer != null)
-                            // {
-                            //     CommandService.AddCommandStreamProducer(commandStreamProducer);
-                            // }
-                            //
-                            // var infoPresenter = _canvas.GetComponent<IInfoPresenter>();
-                            // if (infoPresenter != null)
-                            // {
-                            //     CommandService.AddInfoStreamPresenter(infoPresenter);
-                            // }
-                            
-                            //
-                            CommandService.FinishLoadingStageEnvironment();
-                        })
-                        .AddTo(_compositeDisposable);
-                })
-                .AddTo(_compositeDisposable);
-        }
-        
-        private async Task<GameObject> Load()
-        {
-            var addressName = $"Hud - Stage";
-            var handle = Addressables.LoadAssetAsync<GameObject>(addressName);
-
-            var r = await handle.Task;
-
-            return r;
-        }
-
-        protected override void OnUpdate()
-        {
-        }
-        
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-
-            // Addressables.ReleaseInstance(_canvasPrefab);
-            // GameObject.Destroy(_canvas);
-            
-            _compositeDisposable?.Dispose();
-        }
-    }    
-    
-    [DisableAutoCreation]
-    public class SetupStagewideServiceSystem : SystemBase
-    {
-        private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
-        
-        public ICommandService CommandService { get; set; }
-
-        public void Construct()
-        {
-            base.OnCreate();
-
-            CommandService.SettingStagewideService
-                .Subscribe(x =>
-                {
-                    //
-                    CommandService.FinishSetupStagewideService();
-                })
-                .AddTo(_compositeDisposable);
-        }
-
-        protected override void OnUpdate()
-        {
-        }
-        
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-            
-            _compositeDisposable?.Dispose();
-        }
-    }
-    
-    [DisableAutoCreation]
-    public class CleanupStagewideServiceSystem : SystemBase
-    {
-        private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
-        
-        public ICommandService CommandService { get; set; }
-
-        public void Construct()
-        {
-            base.OnCreate();
-
-            CommandService.CleaningStagewideService
-                .Subscribe(x =>
-                {
-                    // //
-                    // CommandService.FinishSetupPreparationwideService();
-                })
-                .AddTo(_compositeDisposable);
-        }
-
-        protected override void OnUpdate()
-        {
-        }
-        
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-            
-            _compositeDisposable?.Dispose();
-        }
-    }
+    using GameCommand = JoyBrick.Walkio.Game.Command;
     
     public partial class Bootstrap :
-        ICommandService
+        GameCommand.ICommandService
     {
+        //
+        private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
+        
+        private IObservable<int> SetupECSDone => _notifySetupECSDone.AsObservable();
+        private readonly Subject<int> _notifySetupECSDone = new Subject<int>();
+        
+        // public IObservable<int> LoadAppHud => _notifyLoadAppHud.AsObservable();
+        // private readonly Subject<int> _notifyLoadAppHud = new Subject<int>();
+        
+        //
+        public readonly List<GameCommand.ICommandStreamProducer> _commandStreamProducers = new List<GameCommand.ICommandStreamProducer>();
+
+        public IObservable<GameCommand.ICommand> CommandStream => _rpCommands.Select(x => x).Switch();
+        private readonly ReactiveProperty<IObservable<GameCommand.ICommand>> _rpCommands =
+            new ReactiveProperty<IObservable<GameCommand.ICommand>>(Observable.Empty<GameCommand.ICommand>());
+        private readonly Subject<GameCommand.ICommand> _notifyCommand = new Subject<GameCommand.ICommand>();
+        
+        public void AddCommandStreamProducer(GameCommand.ICommandStreamProducer commandStreamProducer)
+        {
+            var existed =_commandStreamProducers.Exists(x => x == commandStreamProducer);
+            if (existed) return;
+            
+            _commandStreamProducers.Add(commandStreamProducer);
+            ReformCommandStream();
+        }
+        
+        void RemoveCommandStreamProducer(GameCommand.ICommandStreamProducer commandStreamProducer)
+        {
+            var existed =_commandStreamProducers.Exists(x => x == commandStreamProducer);
+            if (!existed) return;
+            
+            _commandStreamProducers.Remove(commandStreamProducer);
+            ReformCommandStream();
+        }
+
+        void ReformCommandStream()
+        {
+            var combinedObs =
+                _commandStreamProducers
+                    .Select(x => x.CommandStream)
+                    // .Aggregate(Observable.Empty<ICommand>(), (acc, next) => acc.Merge(next));
+                    .Aggregate(_notifyCommand.AsObservable(), (acc, next) => acc.Merge(next));
+            
+            _rpCommands.Value = combinedObs;            
+        }
+        
+        public readonly List<GameCommand.IInfoPresenter> _infoPresenters = new List<GameCommand.IInfoPresenter>();
+
+        public IObservable<GameCommand.IInfo> InfoStream => _rpInfos.Select(x => x).Switch();
+        private readonly ReactiveProperty<IObservable<GameCommand.IInfo>> _rpInfos =
+            new ReactiveProperty<IObservable<GameCommand.IInfo>>(Observable.Empty<GameCommand.IInfo>());
+
+        public void AddInfoStreamPresenter(GameCommand.IInfoPresenter infoPresenter)
+        {
+            var existed =_infoPresenters.Exists(x => x == infoPresenter);
+            if (existed) return;
+            
+            _infoPresenters.Add(infoPresenter);
+            ReformInfoStream();
+        }
+
+        void ReformInfoStream()
+        {
+            var combinedObs =
+                _infoPresenters
+                    .Select(x => x.InfoStream)
+                    .Aggregate(Observable.Empty<GameCommand.IInfo>(), (acc, next) => acc.Merge(next));
+            
+            _rpInfos.Value = combinedObs;
+        }
+        
+        //
         public IObservable<int> InitializingAppwideService => _notifyInitializingAppwideService.AsObservable();
         private readonly Subject<int> _notifyInitializingAppwideService = new Subject<int>();
         public void StartInitializingAppwideService()
@@ -699,9 +126,11 @@ namespace JoyBrick.Walkio.Game
 
         public void ActivateViewLoading(bool flag)
         {
-            
+            _notifyCommand.OnNext(new GameCommand.ActivateLoadingViewCommand
+            {
+                flag = flag
+            });
         }
-
 
         public IObservable<int> InitializingPreparationwideService =>
             _notifyInitializingPreparationwideService.AsObservable();
