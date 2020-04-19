@@ -10,6 +10,8 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
     [DisableAutoCreation]
     public class LoadingDoneCheckSystem : SystemBase
     {
+        private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(LoadingDoneCheckSystem));
+
         //
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
 
@@ -27,6 +29,7 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
                 .Buffer(1)
                 .Subscribe(x =>
                 {
+                    _logger.Debug($"LoadingDoneCheckSystem - Construct - DoneLoadingAsset");
                     //
                     FlowControl.StartSetting(new GameCommon.FlowControlContext
                     {

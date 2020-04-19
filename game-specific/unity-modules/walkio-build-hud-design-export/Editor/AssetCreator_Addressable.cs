@@ -17,6 +17,7 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
             // Create group
             RemoveGroup(assetSettings, "Assets - Hud - Common");
             RemoveGroup(assetSettings, "Assets - Hud - App");
+            RemoveGroup(assetSettings, "Assets - Hud - App - Assist");
             RemoveGroup(assetSettings, "Assets - Hud - Preparation");
             RemoveGroup(assetSettings, "Assets - Hud - Stage");            
         }
@@ -44,12 +45,14 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
             // Create group
             var commonGroup = CreateGroup(assetSettings, "Assets - Hud - Common");
             var appGroup = CreateGroup(assetSettings, "Assets - Hud - App");
+            var appAssistGroup = CreateGroup(assetSettings, "Assets - Hud - App - Assist");
             var preparationGroup = CreateGroup(assetSettings, "Assets - Hud - Preparation");
             var stageGroup = CreateGroup(assetSettings, "Assets - Hud - Stage");
             
             //
             PlaceAssetIntoGroup_Common(assetSettings, commonGroup);
             PlaceAssetIntoGroup_App(assetSettings, appGroup);
+            PlaceAssetIntoGroup_AppAssist(assetSettings, appAssistGroup);
             PlaceAssetIntoGroup_Preparation(assetSettings, preparationGroup);
             PlaceAssetIntoGroup_Stage(assetSettings, stageGroup);
         }
@@ -165,6 +168,46 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
                 relativeViewLoadingTimelineAsset,
                 label,
                 "Hud - App - View - Loading Timeline");    
+        }
+
+        private static void PlaceAssetIntoGroup_AppAssist(
+            AddressableAssetSettings assetSettings,
+            AddressableAssetGroup assetGroup)
+        {
+            var label = "Hud - App - Assist";
+            assetSettings.AddLabel(label);
+            
+            var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game - Hud Design");
+            var relativeAppFolderPath = Path.Combine(relativeGameFolderPath, "Module - Hud - App - Assist");
+            
+            var canvasAssetPath = Path.Combine(relativeAppFolderPath, "Canvas.prefab");
+            
+            PlaceAssetInAddressble(assetSettings, assetGroup,
+                canvasAssetPath,
+                label,
+                "Hud - Canvas - App - Assist");
+            
+            var relativeI2Asset =
+                Path.Combine(relativeAppFolderPath, "Extension - I2", "I2Languages.asset");
+            
+            PlaceAssetInAddressble(assetSettings, assetGroup,
+                relativeI2Asset,
+                label,
+                "Hud - App - Assist - I2");            
+            
+            var relativeViewLoadingPrefab =
+                Path.Combine(relativeAppFolderPath, "View - Base", "View - Base.prefab");
+            var relativeViewLoadingTimelineAsset =
+                Path.Combine(relativeAppFolderPath, "View - Base", "View - Base.playable");
+
+            PlaceAssetInAddressble(assetSettings, assetGroup,
+                relativeViewLoadingPrefab,
+                label,
+                "Hud - App - Assist - View - Base Prefab");
+            PlaceAssetInAddressble(assetSettings, assetGroup,
+                relativeViewLoadingTimelineAsset,
+                label,
+                "Hud - App - Assist - View - Base Timeline");    
         }
 
         private static void PlaceAssetIntoGroup_Preparation(

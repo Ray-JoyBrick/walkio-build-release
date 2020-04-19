@@ -1,0 +1,11 @@
+{
+  "name": "walkio.game.entry.assist",
+  "displayName": "_ Walkio Game Entry Assist",
+  "version": "0.1.0",
+  "unity": "2020.1",
+  "description": "Walkio Game Entry Assist",
+  "keywords": [
+  ],
+  "category": "",
+  "dependencies": {}
+}

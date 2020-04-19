@@ -30,6 +30,14 @@ namespace JoyBrick.Walkio.Game
         private readonly Subject<GameCommon.FlowControlContext> _notifyCleaningAsset =
             new Subject<GameCommon.FlowControlContext>();
 
+        public void StartLoadingAsset(string flowName)
+        {
+            _notifyLoadingAsset.OnNext(new GameCommon.FlowControlContext
+            {
+                Name = flowName
+            });            
+        }
+
         public void FinishLoadingAsset(GameCommon.FlowControlContext context)
         {
             _notifyDoneLoadingAsset.OnNext(context);

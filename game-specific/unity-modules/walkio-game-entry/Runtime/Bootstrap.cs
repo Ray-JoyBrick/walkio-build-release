@@ -108,6 +108,9 @@
             var loadingDoneCheckSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameGameFlowControl.LoadingDoneCheckSystem>();
+            var settingDoneCheckSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameGameFlowControl.SettingDoneCheckSystem>();
 
             // Appwide
             // var initializeAppwideServiceSystem =
@@ -156,6 +159,7 @@
 
             //
             loadingDoneCheckSystem.FlowControl = (GameCommon.IFlowControl) this;
+            settingDoneCheckSystem.FlowControl = (GameCommon.IFlowControl) this;
             
             // Appwide
             // initializeAppwideServiceSystem.CommandService = (GameCommand.ICommandService) this;
@@ -181,6 +185,7 @@
             
             //
             loadingDoneCheckSystem.Construct();
+            settingDoneCheckSystem.Construct();
 
             // Appwide
             // initializeAppwideServiceSystem.Construct();
@@ -203,6 +208,7 @@
             
             // InitializationSystemGroup
             initializationSystemGroup.AddSystemToUpdateList(loadingDoneCheckSystem);
+            initializationSystemGroup.AddSystemToUpdateList(settingDoneCheckSystem);
 
             // Appwide - InitializationSystemGroup
             // initializationSystemGroup.AddSystemToUpdateList(initializeAppwideServiceSystem);
@@ -237,5 +243,22 @@
         {
             _compositeDisposable?.Dispose();
         }
+        
+        // private void CreateWorld()
+        // {
+        //     var world = new World("Render");
+        //     var systemTypes = new List<System.Type>();
+        //     
+        //     DefaultWorldInitialization.AddSystemsToRootLevelSystemGroups(world, systemTypes);
+        //     
+        //     ScriptBehaviourUpdateOrder.UpdatePlayerLoop(world);
+        //
+        //     ScriptBehaviourUpdateOrder.SetPlayerLoop(PlayerLoop.GetDefaultPlayerLoop());
+        //
+        //     foreach (var w in World.All)
+        //     {
+        //         ScriptBehaviourUpdateOrder.UpdatePlayerLoop(w, ScriptBehaviourUpdateOrder.CurrentPlayerLoop);
+        //     }
+        // }
     }
 }
