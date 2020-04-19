@@ -69,6 +69,7 @@ MonoBehaviour:
     - Hud - App
     - Hud - Preparation
     - Hud - Stage
+    - Hud - App - Assist
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: aa388fad913be44118e291f9f468f621, type: 2}
