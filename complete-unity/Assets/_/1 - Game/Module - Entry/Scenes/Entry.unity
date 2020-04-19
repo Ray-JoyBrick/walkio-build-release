@@ -356,13 +356,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1971704352}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ffe7b56063246ab9965ea5ff00fa028, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ee6e4bb8147072439f853acee55f729, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnOnDiagnostic: 0
-  tileAuthoringPrefab01: {fileID: 0}
-  tileAuthoringPrefab02: {fileID: 0}
-  tileDetailAsset: {fileID: 0}
 --- !u!4 &1971704354
 Transform:
   m_ObjectHideFlags: 0
