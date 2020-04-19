@@ -1,0 +1,10 @@
+{
+  "name": "CodeAndWeb GmbH",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "codeandweb.com",
+      "to": "Assets/Standard Assets/codeandweb.com"
+    }
+  ]
+}
