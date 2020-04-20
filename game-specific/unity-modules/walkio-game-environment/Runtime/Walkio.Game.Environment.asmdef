@@ -12,6 +12,7 @@
         "Unity.Mathematics",
         "Unity.ResourceManager",
         "UniRx",
+        "Walkio.Game.Command",
         "Walkio.Game.Common",
         "Walkio.Game.Template",
         "Walkio.Game.Utility",

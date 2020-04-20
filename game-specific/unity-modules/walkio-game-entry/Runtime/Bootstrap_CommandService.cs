@@ -6,7 +6,9 @@ namespace JoyBrick.Walkio.Game
     using UniRx;
     
     using GameCommand = JoyBrick.Walkio.Game.Command;
+#if COMPLETE_PROJECT || HUD_FLOW_PROJECT     
     using GameExtension = JoyBrick.Walkio.Game.Extension;
+#endif
     
     public partial class Bootstrap :
         GameCommand.ICommandService
@@ -100,6 +102,7 @@ namespace JoyBrick.Walkio.Game
                     Flag = false
                 });
             }
+#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
             else if (String.CompareOrdinal(commandName, "Load Preparation") == 0)
             {
                 GameExtension.BridgeExtension.SendEvent("zz_Exit Current Flow");
@@ -114,7 +117,10 @@ namespace JoyBrick.Walkio.Game
                 //     FlowName = "Stage"
                 // });
             }
+#endif
         }
+
+#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
 
         //
         public IObservable<int> InitializingAppwideService => _notifyInitializingAppwideService.AsObservable();
@@ -285,5 +291,6 @@ namespace JoyBrick.Walkio.Game
 
         public IObservable<int> CleaningStagewideService => _notifyCleaningStagewideService.AsObservable();
         private readonly Subject<int> _notifyCleaningStagewideService = new Subject<int>();
+#endif
     }
 }

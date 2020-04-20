@@ -61,6 +61,7 @@ namespace JoyBrick.Walkio.Game.Command
 
         void SendCommand(string commandName);
         
+#if COMPLETE_PROJECT || HUD_FLOW_PROJECT         
         // Appwide
 
         IObservable<int> InitializingAppwideService { get; }
@@ -133,5 +134,6 @@ namespace JoyBrick.Walkio.Game.Command
         void FinishSetupStagewideService();
         
         IObservable<int> CleaningStagewideService { get; }
+#endif
     }
 }
