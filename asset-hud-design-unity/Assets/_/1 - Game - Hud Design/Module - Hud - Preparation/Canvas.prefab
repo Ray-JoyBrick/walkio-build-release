@@ -771,7 +771,7 @@ MonoBehaviour:
         - ownerOption: 1
           gameObject:
             useVariable: 1
-            name: Command Service
+            name: zz_Command Service
             tooltip: 
             showInInspector: 0
             networkSync: 0
@@ -916,7 +916,7 @@ MonoBehaviour:
         networkSync: 0
         value: {fileID: 8041207196690391955, guid: b5dadbaecd20f4632bc3474475515e51, type: 3}
       - useVariable: 1
-        name: Command Service
+        name: zz_Command Service
         tooltip: 
         showInInspector: 0
         networkSync: 0
