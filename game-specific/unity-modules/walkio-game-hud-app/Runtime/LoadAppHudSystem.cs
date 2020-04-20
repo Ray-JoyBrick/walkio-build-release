@@ -61,7 +61,7 @@ namespace JoyBrick.Walkio.Game.Hud.App
                     _logger.Debug($"LoadAppHudSystem - Construct - Receive ActivateLoadingViewCommand");
                     var activateLoadingViewCommand = (x as GameCommand.ActivateLoadingViewCommand);
                     //
-                    ActivateLoadingView(activateLoadingViewCommand.flag);
+                    ActivateLoadingView(activateLoadingViewCommand.Flag);
                 })
                 .AddTo(_compositeDisposable);
         }
@@ -143,13 +143,17 @@ namespace JoyBrick.Walkio.Game.Hud.App
         private void ActivateLoadingView(bool flag)
         {
             _logger.Debug($"LoadAppHudSystem - ActivateLoadingView - flag: {flag}");
+            
+            // TODO: Rename to follow the system use contract. Starting as "zz_"
             if (flag)
             {
                 GameExtension.BridgeExtension.SendEvent("Activate_Loading_View");
+                // GameExtension.BridgeExtension.SendEvent("zz_Activate_Loading_View");
             }
             else
             {
                 GameExtension.BridgeExtension.SendEvent("Deactivate_Loading_View");
+                // GameExtension.BridgeExtension.SendEvent("zz_Deactivate_Loading_View");
             }
         }
 

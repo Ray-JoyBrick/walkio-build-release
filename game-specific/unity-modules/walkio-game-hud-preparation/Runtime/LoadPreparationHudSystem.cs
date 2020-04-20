@@ -1,6 +1,7 @@
 namespace JoyBrick.Walkio.Game.Hud.Preparation
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using UniRx;
@@ -29,7 +30,9 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
         
         private GameObject _canvas;
 
-        //
+        // In case that Bootstrap does not realize interfaces such as ICommandService, etc. Explicitly make
+        // the reference here for later use.
+        public GameObject RefBootstrap { get; set; }
         public GameCommand.ICommandService CommandService { get; set; }
         public GameCommon.IFlowControl FlowControl { get; set; }
 
@@ -46,6 +49,14 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
                     LoadingAsset();
                 })
                 .AddTo(_compositeDisposable);
+            
+            FlowControl.CleaningAsset
+                .Where(x => x.Name.Contains("Preparation"))
+                .Subscribe(x =>
+                {
+                    RemovingAssets();
+                })
+                .AddTo(_compositeDisposable);              
         }
         
         private void LoadingAsset()
@@ -93,7 +104,7 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
 
             return (canvasPrefab, viewLoadingPrefab, timelineAsset, i2Asset);
         }
-        
+
         private void AddCommandStreamAndInfoStream(GameObject inGO)
         {
             var commandStreamProducer = inGO.GetComponent<GameCommand.ICommandStreamProducer>();
@@ -113,27 +124,46 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
         // TODO: Assign reference to FSM may need a better approach
         private void SetReferenceToExtension(GameObject inGO)
         {
-            var pmfsm = inGO.GetComponent<PlayMakerFSM>();
-            if (pmfsm != null)
+            var pmfsms = new List<PlayMakerFSM>();
+
+            // Canvas itself
+            var comps = inGO.GetComponents<PlayMakerFSM>();
+            if (comps.Length > 0)
             {
-                pmfsm.FsmVariables.GameObjectVariables.ToList()
-                    .ForEach(x =>
-                    {
-                        //
-                        if (string.CompareOrdinal(x.Name, "CommandService") == 0)
-                        {
-                            // x.Value = 
-                        }
-                    });
+                pmfsms.AddRange(comps);
             }
+            
+            // Views under Canvas
+            foreach (Transform child in inGO.transform)
+            {
+                comps = child.GetComponents<PlayMakerFSM>();
+                if (comps.Length > 0)
+                {
+                    pmfsms.AddRange(comps);
+                }
+            }
+
+            pmfsms.ForEach(x => SetFsmVariableValue(x, "zz_Command Service", RefBootstrap));
+            pmfsms.Clear();
+        }
+
+        // TODO: Make this in some static class so that other class can access as well
+        private static void SetFsmVariableValue(PlayMakerFSM pmfsm, string variableName, GameObject inValue)
+        {
+            var commandServiceVariables =
+                pmfsm.FsmVariables.GameObjectVariables.Where(x => string.CompareOrdinal(x.Name, variableName) == 0);
+                
+            commandServiceVariables.ToList()
+                .ForEach(x =>
+                {
+                    x.Value = inValue;
+                });
         }
 
         protected override void OnUpdate() {}
         
-        protected override void OnDestroy()
+        public void RemovingAssets()
         {
-            base.OnDestroy();
-
             //
             if (_canvasPrefab != null)
             {
@@ -159,7 +189,15 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
             if (_canvas != null)
             {
                 GameObject.Destroy(_canvas);
-            }
+            }            
+        }
+        
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            //
+            RemovingAssets();
 
             //
             _compositeDisposable?.Dispose();
