@@ -32,7 +32,18 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
                 {
                     _logger.Debug($"SettingDoneCheckSystem - Construct - Receive DoneSettingAsset");
 
-                    GameExtension.BridgeExtension.SendEvent("Enter Preparation");
+                    // This actually hard-code  the starting control flow to Preparation. It is possible that
+                    // at the development, there should be an easy way to start with something else for testing.
+                    // It would be far better to decide what to do in extension, in the current implementation
+                    // it is PlayMaker FSM.
+                    // The change might be sending netural event or informative event, such as
+                    // "App Done Setting" and let the visual tool side decides what to do.
+                    // Same for the exiting event, it could use naming such as
+                    // "Exit Current Flow" to let visual tool handle what to do.
+                    // This more like event routing design in efficient manner or in workable
+                    // manner.
+                    // GameExtension.BridgeExtension.SendEvent("Enter Preparation");
+                    GameExtension.BridgeExtension.SendEvent("zz_App Done Setting");
 
                     //
                     FlowControl.FinishSetting(new GameCommon.FlowControlContext

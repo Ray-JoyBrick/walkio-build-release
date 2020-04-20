@@ -72,6 +72,9 @@ namespace JoyBrick.Walkio.Game.Common
         void FinishLoadingAsset(FlowControlContext context);
         void StartSetting(FlowControlContext context);
         void FinishSetting(FlowControlContext context);
+        
+        //
+        void StartCleaningAsset(string flowName);
 
     }
 }

@@ -10,6 +10,11 @@ namespace JoyBrick.Walkio.Game.Command
 
     public class ActivateLoadingViewCommand : ICommand
     {
-        public bool flag;
+        public bool Flag { get; set; }
+    }
+
+    public class ChangeToGameFlow : ICommand
+    {
+        public string FlowName { get; set; }
     }
 }

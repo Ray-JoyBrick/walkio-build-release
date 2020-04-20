@@ -52,5 +52,13 @@ namespace JoyBrick.Walkio.Game
         {
             _notifyDoneSettingAsset.OnNext(context);
         }
+
+        public void StartCleaningAsset(string flowName)
+        {
+            _notifyCleaningAsset.OnNext(new GameCommon.FlowControlContext
+            {
+                Name = flowName
+            });
+        }
     }
 }

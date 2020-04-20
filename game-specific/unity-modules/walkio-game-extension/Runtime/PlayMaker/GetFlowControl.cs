@@ -11,6 +11,8 @@
         [RequiredField]
         // [Tooltip("The GameObject to check.")]
         public FsmOwnerDefault gameObject;
+
+        public FsmString flowAction;
         
         // [Tooltip("Text to send to the log.")]
         public FsmString flowName;
@@ -28,7 +30,14 @@
                 var flowControl = gameObject.GameObject.Value.GetComponent<GameCommon.IFlowControl>();
                 if (flowControl != null)
                 {
-                    flowControl.StartLoadingAsset(flowName.Value);
+                    if (string.CompareOrdinal(flowAction.Value, "Loading") == 0)
+                    {
+                        flowControl.StartLoadingAsset(flowName.Value);
+                    }
+                    else if (string.CompareOrdinal(flowAction.Value, "Cleaning") == 0)
+                    {
+                        flowControl.StartCleaningAsset(flowName.Value);
+                    }
                 }
             
                 Finish();

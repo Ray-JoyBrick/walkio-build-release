@@ -6,6 +6,7 @@ namespace JoyBrick.Walkio.Game
     using UniRx;
     
     using GameCommand = JoyBrick.Walkio.Game.Command;
+    using GameExtension = JoyBrick.Walkio.Game.Extension;
     
     public partial class Bootstrap :
         GameCommand.ICommandService
@@ -89,15 +90,29 @@ namespace JoyBrick.Walkio.Game
             {
                 _notifyCommand.OnNext(new GameCommand.ActivateLoadingViewCommand
                 {
-                    flag = true
+                    Flag = true
                 });
             }
             else if (String.CompareOrdinal(commandName, "Deactivating Loading View") == 0)
             {
                 _notifyCommand.OnNext(new GameCommand.ActivateLoadingViewCommand
                 {
-                    flag = false
+                    Flag = false
                 });
+            }
+            else if (String.CompareOrdinal(commandName, "Load Preparation") == 0)
+            {
+                GameExtension.BridgeExtension.SendEvent("zz_Exit Current Flow");
+                // GameExtension.BridgeExtension.SendEvent("zz_Enter Preparation");
+            }
+            else if (String.CompareOrdinal(commandName, "Load Stage") == 0)
+            {
+                GameExtension.BridgeExtension.SendEvent("zz_Exit Current Flow");
+                // GameExtension.BridgeExtension.SendEvent("zz_Enter Stage");
+                // _notifyCommand.OnNext(new GameCommand.ChangeToGameFlow
+                // {
+                //     FlowName = "Stage"
+                // });
             }
         }
 
@@ -148,7 +163,7 @@ namespace JoyBrick.Walkio.Game
         {
             _notifyCommand.OnNext(new GameCommand.ActivateLoadingViewCommand
             {
-                flag = flag
+                Flag = flag
             });
         }
 

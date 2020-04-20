@@ -57,8 +57,10 @@
     "walkio.game.extension": "file:../../game-specific/unity-modules/walkio-game-extension",
     "walkio.game.game-flow-control": "file:../../game-specific/unity-modules/walkio-game-game-flow-control",
     "walkio.game.hud-app": "file:../../game-specific/unity-modules/walkio-game-hud-app",
+    "walkio.game.hud-app.assist": "file:../../game-specific/unity-modules/walkio-game-hud-app-assist",
     "walkio.game.hud-preparation": "file:../../game-specific/unity-modules/walkio-game-hud-preparation",
     "walkio.game.hud-stage": "file:../../game-specific/unity-modules/walkio-game-hud-stage",
+    "walkio.game.hud-stage.assist": "file:../../game-specific/unity-modules/walkio-game-hud-stage-assist",
     "walkio.game.template": "file:../../game-specific/unity-modules/walkio-game-template",
     "walkio.game.utility": "file:../../game-specific/unity-modules/walkio-game-utility"
   }

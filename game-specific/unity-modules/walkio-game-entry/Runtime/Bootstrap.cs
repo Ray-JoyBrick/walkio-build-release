@@ -52,11 +52,13 @@
                     _logger.Debug($"command: {x}");
                 })
                 .AddTo(_compositeDisposable);
-            
+
+            //
             ReformCommandStream();
-            
+
             //
             SetupAddressable();
+            AssignFsmVariableValue();
         }
         
         private void SetupUniRxLogger()
@@ -172,6 +174,7 @@
             
             // Preparationwide
             // initializePreparationwideServiceSystem.CommandService = (GameCommand.ICommandService) this;
+            loadPreparationHudSystem.RefBootstrap = this.gameObject;
             loadPreparationHudSystem.CommandService = (GameCommand.ICommandService) this;
             loadPreparationHudSystem.FlowControl = (GameCommon.IFlowControl) this;
             // setupPreparationwideServiceSystem.CommandService = (GameCommand.ICommandService) this;
@@ -179,6 +182,7 @@
 
             // Stagewide
             // initializeStagewideServiceSystem.CommandService = (GameCommand.ICommandService) this;
+            loadStageHudSystem.RefBootstrap = this.gameObject;
             loadStageHudSystem.CommandService = (GameCommand.ICommandService) this;
             loadStageHudSystem.FlowControl = (GameCommon.IFlowControl) this;
             // loadStageEnvironmentSystem.CommandService = (GameCommand.ICommandService) this;
@@ -239,6 +243,53 @@
             {
                 Name = "App"
             });
+        }
+
+        private void AssignFsmVariableValue()
+        {
+            var pmfsms = FindObjectsOfType<PlayMakerFSM>();
+            
+            pmfsms.ToList().ForEach(x => SetReferenceToExtension(x.gameObject));
+        }
+        
+        // TODO: Move hard reference to PlayMakerFSM to somewhere else
+        // TODO: Assign reference to FSM may need a better approach
+        private void SetReferenceToExtension(GameObject inGO)
+        {
+            var pmfsms = new List<PlayMakerFSM>();
+
+            // Canvas itself
+            var comps = inGO.GetComponents<PlayMakerFSM>();
+            if (comps.Length > 0)
+            {
+                pmfsms.AddRange(comps);
+            }
+            
+            // Views under Canvas
+            foreach (Transform child in inGO.transform)
+            {
+                comps = child.GetComponents<PlayMakerFSM>();
+                if (comps.Length > 0)
+                {
+                    pmfsms.AddRange(comps);
+                }
+            }
+
+            pmfsms.ForEach(x => SetFsmVariableValue(x, "zz_Command Service", this.gameObject));
+            pmfsms.Clear();
+        }
+
+        // TODO: Make this in some static class so that other class can access as well
+        private static void SetFsmVariableValue(PlayMakerFSM pmfsm, string variableName, GameObject inValue)
+        {
+            var commandServiceVariables =
+                pmfsm.FsmVariables.GameObjectVariables.Where(x => string.CompareOrdinal(x.Name, variableName) == 0);
+                
+            commandServiceVariables.ToList()
+                .ForEach(x =>
+                {
+                    x.Value = inValue;
+                });
         }
         
         private void OnDestroy()
