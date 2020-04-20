@@ -1,6 +1,7 @@
 namespace JoyBrick.Walkio.Game.Hud.Preparation
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
     using UniRx;
     using Unity.Entities;
@@ -61,6 +62,7 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
                     //
                     _canvas = GameObject.Instantiate(_canvasPrefab);
                     AddCommandStreamAndInfoStream(_canvas);
+                    SetReferenceToExtension(_canvas);
                             
                     //
                     FlowControl.FinishLoadingAsset(new GameCommon.FlowControlContext
@@ -105,6 +107,25 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
             {
                 CommandService.AddInfoStreamPresenter(infoPresenter);
             }            
+        }
+
+        // TODO: Move hard reference to PlayMakerFSM to somewhere else
+        // TODO: Assign reference to FSM may need a better approach
+        private void SetReferenceToExtension(GameObject inGO)
+        {
+            var pmfsm = inGO.GetComponent<PlayMakerFSM>();
+            if (pmfsm != null)
+            {
+                pmfsm.FsmVariables.GameObjectVariables.ToList()
+                    .ForEach(x =>
+                    {
+                        //
+                        if (string.CompareOrdinal(x.Name, "CommandService") == 0)
+                        {
+                            // x.Value = 
+                        }
+                    });
+            }
         }
 
         protected override void OnUpdate() {}

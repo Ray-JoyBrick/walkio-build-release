@@ -306,14 +306,22 @@ MonoBehaviour:
         serializedVersion: 2
         x: 472
         y: 227
-        width: 123
-        height: 32
+        width: 182
+        height: 48
       isBreakpoint: 0
       isSequence: 0
       hideUnused: 0
       transitions:
       - fsmEvent:
           name: Deactivating
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: "\u756B\u9762\u95DC\u9589\u6642\u8A2D\u5B9A"
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: Deactivate_Loading_View
           isSystemEvent: 0
           isGlobal: 0
         toState: "\u756B\u9762\u95DC\u9589\u6642\u8A2D\u5B9A"
@@ -411,8 +419,8 @@ MonoBehaviour:
       colorIndex: 1
       position:
         serializedVersion: 2
-        x: 473
-        y: 321
+        x: 726
+        y: 255
         width: 114
         height: 16
       isBreakpoint: 0
@@ -420,15 +428,25 @@ MonoBehaviour:
       hideUnused: 0
       transitions: []
       actionData:
-        actionNames: []
-        customNames: []
-        actionEnabled: 
-        actionIsOpen: 
-        actionStartIndex: 
-        actionHashCodes: 
+        actionNames:
+        - HutongGames.PlayMaker.Actions.UiCanvasGroupSetProperties
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 14926f01
         unityObjectParams: []
         fsmGameObjectParams: []
-        fsmOwnerDefaultParams: []
+        fsmOwnerDefaultParams:
+        - ownerOption: 0
+          gameObject:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: {fileID: 0}
         animationCurveParams: []
         functionCallParams: []
         fsmTemplateControlParams: []
@@ -440,32 +458,75 @@ MonoBehaviour:
         fsmVarParams: []
         fsmArrayParams: []
         fsmEnumParams: []
-        fsmFloatParams: []
+        fsmFloatParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
         fsmIntParams: []
-        fsmBoolParams: []
+        fsmBoolParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        - useVariable: 1
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
         fsmVector2Params: []
         fsmVector3Params: []
         fsmColorParams: []
         fsmRectParams: []
         fsmQuaternionParams: []
         stringParams: []
-        byteData: 
+        byteData: 00
         arrayParamSizes: 
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 
-        paramName: []
-        paramDataPos: 
-        paramByteDataSize: 
+        paramDataType: 140000000f0000001100000011000000110000001100000001000000
+        paramName:
+        - gameObject
+        - alpha
+        - interactable
+        - blocksRaycasts
+        - ignoreParentGroup
+        - resetOnExit
+        - everyFrame
+        paramDataPos: 00000000000000000000000001000000020000000300000000000000
+        paramByteDataSize: 00000000000000000000000000000000000000000000000001000000
     events:
     - name: FINISHED
       isSystemEvent: 1
+      isGlobal: 0
+    - name: Activate_Loading_View
+      isSystemEvent: 0
       isGlobal: 0
     - name: Activating View
       isSystemEvent: 0
       isGlobal: 0
     - name: Canvas Just Initialize
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: Deactivate_Loading_View
       isSystemEvent: 0
       isGlobal: 0
     - name: Deactivating
@@ -482,6 +543,14 @@ MonoBehaviour:
       colorIndex: 0
     - fsmEvent:
         name: Activating View
+        isSystemEvent: 0
+        isGlobal: 0
+      toState: "\u5448\u73FE\u6B64\u756B\u9762"
+      linkStyle: 0
+      linkConstraint: 0
+      colorIndex: 0
+    - fsmEvent:
+        name: Activate_Loading_View
         isSystemEvent: 0
         isGlobal: 0
       toState: "\u5448\u73FE\u6B64\u756B\u9762"

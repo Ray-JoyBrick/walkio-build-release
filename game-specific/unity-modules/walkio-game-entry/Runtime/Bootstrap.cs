@@ -53,6 +53,8 @@
                 })
                 .AddTo(_compositeDisposable);
             
+            ReformCommandStream();
+            
             //
             SetupAddressable();
         }

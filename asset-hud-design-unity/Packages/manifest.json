@@ -18,7 +18,6 @@
     "com.unity.textmeshpro": "3.0.0-preview.8",
     "com.unity.timeline": "1.3.2",
     "com.unity.ugui": "1.0.0",
-    "walkio.build.hud-design-export": "file:../../game-specific/unity-modules/walkio-build-hud-design-export",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
@@ -49,7 +48,13 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
-    "com.unity.modules.xr": "1.0.0"
+    "com.unity.modules.xr": "1.0.0",
+    "walkio.build.hud-design-export": "file:../../game-specific/unity-modules/walkio-build-hud-design-export",
+    "walkio.game.command": "file:../../game-specific/unity-modules/walkio-game-command",
+    "walkio.game.common": "file:../../game-specific/unity-modules/walkio-game-common",
+    "walkio.game.extension": "file:../../game-specific/unity-modules/walkio-game-extension",
+    "walkio.game.template": "file:../../game-specific/unity-modules/walkio-game-template",
+    "walkio.game.utility": "file:../../game-specific/unity-modules/walkio-game-utility"
   },
   "lock": {
     "com.github.siccity.xnode": {

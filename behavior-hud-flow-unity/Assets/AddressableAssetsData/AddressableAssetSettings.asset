@@ -24,6 +24,11 @@ MonoBehaviour:
   m_GroupAssets:
   - {fileID: 11400000, guid: 2aad4d1b7fd614940ab13705be49ae94, type: 2}
   - {fileID: 11400000, guid: cbb3b670a308b444d8049e7b96b4ec99, type: 2}
+  - {fileID: 11400000, guid: d2f6da21f3cc949318a911bbeb4bd2d0, type: 2}
+  - {fileID: 11400000, guid: d62a3c2a4aed146dba6e92f664a099bc, type: 2}
+  - {fileID: 11400000, guid: 274e7fa92f02b4b9b81f8c1d16598dca, type: 2}
+  - {fileID: 11400000, guid: 869caefc47c9942829cd3091d7ebc8ab, type: 2}
+  - {fileID: 11400000, guid: 247275a9f076b4ec4984669b3aa07df5, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -69,6 +74,7 @@ MonoBehaviour:
     - Hud - App
     - Hud - Preparation
     - Hud - Stage
+    - Hud - App - Assist
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: aae171d0d5768c049ac9ba090df74933, type: 2}

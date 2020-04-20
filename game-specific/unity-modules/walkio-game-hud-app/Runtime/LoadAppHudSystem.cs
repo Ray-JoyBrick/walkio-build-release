@@ -16,6 +16,8 @@ namespace JoyBrick.Walkio.Game.Hud.App
     [DisableAutoCreation]
     public class LoadAppHudSystem : SystemBase
     {
+        private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(LoadAppHudSystem));
+        
         //
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
 
@@ -37,6 +39,8 @@ namespace JoyBrick.Walkio.Game.Hud.App
         //
         public void Construct()
         {
+            _logger.Debug($"LoadAppHudSystem - Construct");
+            
             base.OnCreate();
             
             //
@@ -50,9 +54,11 @@ namespace JoyBrick.Walkio.Game.Hud.App
 
             //
             CommandService.CommandStream
+                .Do(x => _logger.Debug($"Receive Command Stream: {x}"))
                 .Where(x => (x as GameCommand.ActivateLoadingViewCommand) != null)
                 .Subscribe(x =>
                 {
+                    _logger.Debug($"LoadAppHudSystem - Construct - Receive ActivateLoadingViewCommand");
                     var activateLoadingViewCommand = (x as GameCommand.ActivateLoadingViewCommand);
                     //
                     ActivateLoadingView(activateLoadingViewCommand.flag);
@@ -136,6 +142,7 @@ namespace JoyBrick.Walkio.Game.Hud.App
 
         private void ActivateLoadingView(bool flag)
         {
+            _logger.Debug($"LoadAppHudSystem - ActivateLoadingView - flag: {flag}");
             if (flag)
             {
                 GameExtension.BridgeExtension.SendEvent("Activate_Loading_View");

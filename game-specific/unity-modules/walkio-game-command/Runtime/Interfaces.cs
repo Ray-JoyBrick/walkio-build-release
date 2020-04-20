@@ -58,6 +58,8 @@ namespace JoyBrick.Walkio.Game.Command
         
         IObservable<IInfo> InfoStream { get; }
         void AddInfoStreamPresenter(IInfoPresenter infoPresenter);
+
+        void SendCommand(string commandName);
         
         // Appwide
 

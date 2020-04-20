@@ -80,7 +80,27 @@ namespace JoyBrick.Walkio.Game
             
             _rpInfos.Value = combinedObs;
         }
-        
+
+        public void SendCommand(string commandName)
+        {
+            _logger.Debug($"Bootstrap - SendCommand - commandName: {commandName}");
+            
+            if (String.CompareOrdinal(commandName, "Activating Loading View") == 0)
+            {
+                _notifyCommand.OnNext(new GameCommand.ActivateLoadingViewCommand
+                {
+                    flag = true
+                });
+            }
+            else if (String.CompareOrdinal(commandName, "Deactivating Loading View") == 0)
+            {
+                _notifyCommand.OnNext(new GameCommand.ActivateLoadingViewCommand
+                {
+                    flag = false
+                });
+            }
+        }
+
         //
         public IObservable<int> InitializingAppwideService => _notifyInitializingAppwideService.AsObservable();
         private readonly Subject<int> _notifyInitializingAppwideService = new Subject<int>();
