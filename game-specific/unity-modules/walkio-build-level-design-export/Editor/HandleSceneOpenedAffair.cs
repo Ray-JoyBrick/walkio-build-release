@@ -8,9 +8,12 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
     using UnityEditor.SceneManagement;
     using UnityEngine;
     using UnityEngine.SceneManagement;
+    
+    using GameEnvironment = JoyBrick.Walkio.Game.Environment;
 
+    // TODO: Rename, this class name brings only confusion
     [InitializeOnLoad]
-    public static class TestSceneHandle
+    public static partial class HandleSceneOpenedAffair
     {
         public static Scene currentMasterScene;
         public static int loadedSubSceneCount;
@@ -20,7 +23,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
         {
             EditorSceneManager.sceneOpened += (scene, mode) =>
             {
-                Debug.Log($"Opened Scene: {scene.name}");
+                Debug.Log($"HandleSceneOpenedAffair - Setup - Opened Scene: {scene.name}");
                 
                 if (String.CompareOrdinal(scene.name, "Level 001 - Master") == 0)
                 {
@@ -31,7 +34,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
                 // if (scene.isSubScene)
                 else
                 {
-                    var levelOperator = GetLevelOperatorAtScene(currentMasterScene);
+                    var levelOperator = GetComponentAtScene<LevelOperator>(currentMasterScene);
                     if (levelOperator != null)
                     {
                         Debug.Log($"s.name: {scene.name} scene name: {scene.name}");
@@ -47,7 +50,8 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
                             Debug.Log($"All sub scenes of {currentMasterScene.name} are loaded");
                             
                             //
-                            // CreateWaypointData(currentMasterScene);
+                            CreateWaypointPathPart(currentMasterScene);
+
                             CreateObstacleTexture(currentMasterScene);
                             MakeAStarPathfindingData(currentMasterScene);
                         }
@@ -56,46 +60,11 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
             };
         }
 
-        private static LevelOperator GetLevelOperatorAtScene(Scene scene)
-        {
-            var levelOperatorGO =
-                scene.GetRootGameObjects()
-                    .Where(x => x.GetComponent<LevelOperator>() != null)
-                    .First();
-
-            var levelOperator = levelOperatorGO.GetComponent<LevelOperator>();
-
-            return levelOperator;
-        }
-
-        private static AstarPath GetPathfinderAtScene(Scene scene)
-        {
-            var astarPathGO =
-                scene.GetRootGameObjects()
-                    .Where(x => x.GetComponent<AstarPath>() != null)
-                    .First();
-
-            var astarPath = astarPathGO.GetComponent<AstarPath>();
-
-            return astarPath;
-        }
-
-        private static T GetComponentAtScene<T>(Scene scene) where T : UnityEngine.Component 
-        {
-            var foundGO =
-                scene.GetRootGameObjects()
-                    .Where(x => x.GetComponent<T>() != null)
-                    .First();
-
-            var comp  = foundGO.GetComponent<T>();
-
-            return comp;
-        }
-
         private static void HandleMasterSceneOpened(Scene scene, OpenSceneMode mode)
         {
             var rootGameObjects = scene.GetRootGameObjects();
-            var levelOperator = GetLevelOperatorAtScene(scene);
+            // var levelOperator = GetLevelOperatorAtScene(scene);
+            var levelOperator = GetComponentAtScene<LevelOperator>(scene);
             if (levelOperator == null) return;
             
             LoadSubScenes(levelOperator.subScenes);
@@ -123,55 +92,9 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
             AstarPath.active.Scan();
         }
 
-        private static void CreateWaypointData(Scene masterScene)
-        {
-
-            var levelOperator = GetLevelOperatorAtScene(masterScene);
-            if (levelOperator == null) return;
-
-            var curvyRoot = levelOperator.curvy;
-            
-            //
-            var waypointData = ScriptableObject.CreateInstance<WaypointData>();
-
-            waypointData.waypointPaths = new List<WaypointPath>();
-            foreach (Transform curvy in curvyRoot.transform)
-            {
-                // curvy.GetComponent<CurvySpline>()
-                
-                var wp = new WaypointPath();
-                wp.waypoints = new List<Waypoint>();
-                waypointData.waypointPaths.Add(wp);
-                foreach (Transform waypoint in curvy)
-                {
-                    wp.waypoints.Add(new Waypoint
-                    {
-                        location = waypoint.position
-                    });
-                    Debug.Log(waypoint);
-                }
-            }
-
-            //
-            var generatedDirectoryPath = Path.Combine(Application.dataPath, "_", "1 - Game - Level Design - Generated");
-            var levelDirectoryPath = Path.Combine(generatedDirectoryPath, "Levels");
-            CreateDirectoryIfNotExisted(generatedDirectoryPath);
-            CreateDirectoryIfNotExisted(levelDirectoryPath);
-            
-            var level001DirectoryPath = Path.Combine(levelDirectoryPath, "level001");
-            CreateDirectoryIfNotExisted(level001DirectoryPath);
-            
-            var relativeWaypointDataAssetPath = Path.Combine("Assets", "_", "1 - Game - Level Design - Generated",
-                "Levels", "level001");
-            var waypointDataAssetPath = Path.Combine(relativeWaypointDataAssetPath, "Waypoint Data.asset");
-            
-            AssetDatabase.CreateAsset(waypointData, waypointDataAssetPath);
-            AssetDatabase.SaveAssets();              
-        }
-
         private static void CreateObstacleTexture(Scene masterScene)
         {
-            var levelOperator = GetLevelOperatorAtScene(masterScene);
+            var levelOperator = GetComponentAtScene<LevelOperator>(masterScene);
             if (levelOperator == null) return;
 
             for (var i = 0; i < levelOperator.subScenes.Count; ++i)
@@ -229,15 +152,18 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
             
              var level001DirectoryPath = Path.Combine(levelDirectoryPath, "level001");
              CreateDirectoryIfNotExisted(level001DirectoryPath);
+
+             var obstacleTextureDirectoryPath = Path.Combine(level001DirectoryPath, "obstacle-texture");
+             CreateDirectoryIfNotExisted(obstacleTextureDirectoryPath);
              
-             var obstacleTextureAssetPath = Path.Combine(level001DirectoryPath, $"obstacle{index:0000}.png");
+             var obstacleTextureAssetPath = Path.Combine(obstacleTextureDirectoryPath, $"obstacle{index:0000}.png");
 
              var bytes = combinedTexture.EncodeToPNG();
              File.WriteAllBytes(obstacleTextureAssetPath, bytes);
              AssetDatabase.Refresh();
              
              var obstacleTextureAssetLevelPath = Path.Combine("Assets", "_", "1 - Game - Level Design - Generated",
-                 "Levels", "level001");
+                 "Levels", "level001", "obstacle-texture");
              var relativeObstacleTextureAssetPath = Path.Combine(obstacleTextureAssetLevelPath, $"obstacle{index:0000}.png");
              
              var textureImporter = AssetImporter.GetAtPath(relativeObstacleTextureAssetPath) as TextureImporter;
@@ -355,15 +281,6 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
             }
 
             return texture;
-        }
-
-        private static void CreateDirectoryIfNotExisted(string directoryPath)
-        {
-            var existed = Directory.Exists(directoryPath);
-            if (!existed)
-            {
-                Directory.CreateDirectory(directoryPath);
-            }
         }
     }
 }

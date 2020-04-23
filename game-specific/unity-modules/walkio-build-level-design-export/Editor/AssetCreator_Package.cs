@@ -25,7 +25,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
                 // "Assets/_/_Generated",
                 // // Localization sheet gathering here
                 // "Assets/Resources/I2Languages.asset"
-                "Assets/_/1 - Game - Level Design"
+                "Assets/_/1 - Game - Level Design - Generated"
             };
             
             AssetDatabase.ExportPackage(paths.ToArray(), packagePath, ExportPackageOptions.Recurse);

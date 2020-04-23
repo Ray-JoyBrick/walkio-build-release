@@ -1,5 +1,6 @@
 ﻿namespace JoyBrick.Walkio.Game.Extension.PlayMaker.Actions
 {
+#if PLAYMAKER
     using HutongGames.PlayMaker;
     using UnityEngine;
     
@@ -44,5 +45,5 @@
             }
         }        
     }
-    
+#endif
 }

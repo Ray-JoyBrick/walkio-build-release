@@ -1,7 +1,8 @@
 {
     "name": "Walkio.Game.Environment-Bridge",
     "references": [
-        "Unity.Entities"
+        "Unity.Entities",
+        "Unity.Entities.Hybrid"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

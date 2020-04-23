@@ -75,41 +75,89 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
 
             return addressableAssetGroup;
         }
-
+        
         private static void PlaceAssetIntoGroup_Environment(
             AddressableAssetSettings assetSettings,
             AddressableAssetGroup assetGroup)
         {
-            var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game - Level Design");
+            var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game - Level Design - Generated");
             // var relativeCommonFolderPath = Path.Combine(relativeGameFolderPath, "Module - Environment - _Common");
-            var relativeLevelFolderPath = Path.Combine(relativeGameFolderPath, "Module - Environment - Level");
+            var relativeLevelFolderPath = Path.Combine(relativeGameFolderPath, "Levels");
             
-            var relativeLevel001Path = Path.Combine(relativeLevelFolderPath, "Level 001", "Scenes");
+            var relativeLevel001Path = Path.Combine(relativeLevelFolderPath, "level001");
+            var relativeObstacleTexturePathPath = Path.Combine(relativeLevel001Path, "obstacle-texture");
+            var relativeWaypointPathPath = Path.Combine(relativeLevel001Path, "waypoint-path");
 
-            var absoluteLevel001Path = Path.Combine(Application.dataPath, "_", "1 - Game - Level Design",
-                "Module - Environment - Level", "Level 001", "Scenes");
-            
+            var absoluteLevel001ObstacleTexturePath = Path.Combine(Application.dataPath, "_", "1 - Game - Level Design - Generated",
+                "Levels", "level001", "obstacle-texture");
+
+            var absoluteLevel001WaypointDataPath = Path.Combine(Application.dataPath, "_", "1 - Game - Level Design - Generated",
+                "Levels", "level001", "waypoint-path");
+
             var label = "level001";
             assetSettings.AddLabel(label);
-            
-            DirectoryInfo di = new DirectoryInfo(absoluteLevel001Path);
 
-            var unitySceneFileInfos = di.EnumerateFiles().Where(fi => fi.Extension.CompareTo(".meta") != 0);
-
-            foreach (var unitySceneFileInfo in unitySceneFileInfos)
             {
-                var fileName = unitySceneFileInfo.Name;
-                var strippedFileName = fileName.Replace(".unity", "");
-
-                var scenePath = Path.Combine(relativeLevel001Path, fileName);
-                // var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath);
+                DirectoryInfo di = new DirectoryInfo(absoluteLevel001ObstacleTexturePath);
+                //
+                var obstacleTextureFileInfos = di.EnumerateFiles().Where(fi => fi.Extension.CompareTo(".meta") != 0);
+            
+                foreach (var obstacleTextureFileInfo in obstacleTextureFileInfos)
+                {
+                    var fileName = obstacleTextureFileInfo.Name;
+                    var strippedFileName = fileName.Replace(".png", "");
+            
+                    var obstacleTexturePath = Path.Combine(relativeObstacleTexturePathPath, fileName);
+                    // var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath);
                 
-                Debug.Log(scenePath);
+                    Debug.Log(obstacleTexturePath);
+            
+                    PlaceAssetInAddressble(assetSettings, assetGroup, obstacleTexturePath,
+                        label, strippedFileName);
+                }
+            }
 
-                PlaceAssetInAddressble(assetSettings, assetGroup, scenePath,
-                    "level001", strippedFileName);
+            {
+                DirectoryInfo di = new DirectoryInfo(absoluteLevel001WaypointDataPath);
+                //
+                var waypointDataFileInfos = di.EnumerateFiles().Where(fi => fi.Extension.CompareTo(".meta") != 0);
+            
+                foreach (var waypointDataFileInfo in waypointDataFileInfos)
+                {
+                    var fileName = waypointDataFileInfo.Name;
+                    var strippedFileName = fileName.Replace(".asset", "");
+                    strippedFileName = fileName.Replace(".prefab", "");
+            
+                    var waypointDataPath = Path.Combine(relativeWaypointPathPath, fileName);
+                    // var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath);
+                
+                    Debug.Log(waypointDataPath);
+            
+                    PlaceAssetInAddressble(assetSettings, assetGroup, waypointDataPath,
+                        label, strippedFileName);
+                }
             }
             
+            // {
+            //     DirectoryInfo di = new DirectoryInfo(absoluteLevel001WaypointDataPath);
+            //     //
+            //     var waypointDataFileInfos = di.EnumerateFiles().Where(fi => fi.Extension.CompareTo(".meta") != 0);
+            //
+            //     foreach (var waypointDataFileInfo in waypointDataFileInfos)
+            //     {
+            //         var fileName = waypointDataFileInfo.Name;
+            //         var strippedFileName = fileName.Replace(".prefab", "");
+            //
+            //         var waypointDataPath = Path.Combine(relativeWaypointPathPath, fileName);
+            //         // var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath);
+            //     
+            //         Debug.Log(waypointDataPath);
+            //
+            //         PlaceAssetInAddressble(assetSettings, assetGroup, waypointDataPath,
+            //             label, strippedFileName);
+            //     }
+            // }
+
             // var unitySceneFiles = Directory.EnumerateFiles(absoluteLevel001Path, "*.unity");
             // foreach (var unitySceneFile in unitySceneFiles)
             // {
@@ -118,7 +166,51 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
             //     Debug.Log(fileName);
             //     // PlaceAssetInAddressble
             // }
-        }
+        }        
+
+        // private static void PlaceAssetIntoGroup_Environment(
+        //     AddressableAssetSettings assetSettings,
+        //     AddressableAssetGroup assetGroup)
+        // {
+        //     var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game - Level Design");
+        //     // var relativeCommonFolderPath = Path.Combine(relativeGameFolderPath, "Module - Environment - _Common");
+        //     var relativeLevelFolderPath = Path.Combine(relativeGameFolderPath, "Module - Environment - Level");
+        //     
+        //     var relativeLevel001Path = Path.Combine(relativeLevelFolderPath, "Level 001", "Scenes");
+        //
+        //     var absoluteLevel001Path = Path.Combine(Application.dataPath, "_", "1 - Game - Level Design",
+        //         "Module - Environment - Level", "Level 001", "Scenes");
+        //     
+        //     var label = "level001";
+        //     assetSettings.AddLabel(label);
+        //     
+        //     DirectoryInfo di = new DirectoryInfo(absoluteLevel001Path);
+        //
+        //     var unitySceneFileInfos = di.EnumerateFiles().Where(fi => fi.Extension.CompareTo(".meta") != 0);
+        //
+        //     foreach (var unitySceneFileInfo in unitySceneFileInfos)
+        //     {
+        //         var fileName = unitySceneFileInfo.Name;
+        //         var strippedFileName = fileName.Replace(".unity", "");
+        //
+        //         var scenePath = Path.Combine(relativeLevel001Path, fileName);
+        //         // var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath);
+        //         
+        //         Debug.Log(scenePath);
+        //
+        //         PlaceAssetInAddressble(assetSettings, assetGroup, scenePath,
+        //             "level001", strippedFileName);
+        //     }
+        //     
+        //     // var unitySceneFiles = Directory.EnumerateFiles(absoluteLevel001Path, "*.unity");
+        //     // foreach (var unitySceneFile in unitySceneFiles)
+        //     // {
+        //     //     var fileName = unitySceneFile;
+        //     //     
+        //     //     Debug.Log(fileName);
+        //     //     // PlaceAssetInAddressble
+        //     // }
+        // }
         
         // //
         // private static void PlaceAssetIntoGroup_Common(

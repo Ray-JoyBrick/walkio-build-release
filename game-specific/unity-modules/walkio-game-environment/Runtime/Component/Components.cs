@@ -136,6 +136,24 @@ namespace JoyBrick.Walkio.Game.Environment
     }
     
     //
+    public struct WaypointPath
+    {
+        public int StartIndex;
+        public int EndIndex;
+    }
+
+    public struct WaypointPathBlobAsset
+    {
+        public BlobArray<WaypointPath> WaypointPaths;
+        public BlobArray<float3> Waypoints;
+    }
+    
+    public struct LevelWaypointPathLookup : IComponentData
+    {
+        public BlobAssetReference<WaypointPathBlobAsset> WaypointPathBlobAssetRef;
+    }
+
+    //
     public struct GridCellDetail
     {
         public int Kind;

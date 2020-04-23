@@ -22,15 +22,8 @@ namespace JoyBrick.Walkio.Game.Environment
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
 
         //
-        private GameObject _canvasPrefab;
-        private GameObject _viewLoadingPrefab;
-        private ScriptableObject _timelineAsset;
-        private ScriptableObject _i2Asset;
-
-        //
-        private GameObject _canvas;
-
-        // private View _loadView;
+        private ScriptableObject _waypointDataAsset;
+        private GameObject _waypointPathBlobAssetAuthoringPrefab;
 
         //
         public GameCommand.ICommandService CommandService { get; set; }
@@ -39,31 +32,18 @@ namespace JoyBrick.Walkio.Game.Environment
         //
         public void Construct()
         {
-            _logger.Debug($"LoadAppHudSystem - Construct");
+            _logger.Debug($"LoadEnvironmentSystem - Construct");
             
             base.OnCreate();
             
             //
             FlowControl.LoadingAsset
-                .Where(x => x.Name.Contains("App"))
+                .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
                     LoadingAsset();
                 })
                 .AddTo(_compositeDisposable);            
-
-            // //
-            // CommandService.CommandStream
-            //     .Do(x => _logger.Debug($"Receive Command Stream: {x}"))
-            //     .Where(x => (x as GameCommand.ActivateLoadingViewCommand) != null)
-            //     .Subscribe(x =>
-            //     {
-            //         _logger.Debug($"LoadAppHudSystem - Construct - Receive ActivateLoadingViewCommand");
-            //         var activateLoadingViewCommand = (x as GameCommand.ActivateLoadingViewCommand);
-            //         //
-            //         ActivateLoadingView(activateLoadingViewCommand.Flag);
-            //     })
-            //     .AddTo(_compositeDisposable);
         }
 
         private void LoadingAsset()
@@ -75,16 +55,17 @@ namespace JoyBrick.Walkio.Game.Environment
                 .Subscribe(result =>
                 {
                     //
-                    (_canvasPrefab, _viewLoadingPrefab, _timelineAsset, _i2Asset) = result;
+                    (_waypointDataAsset, _waypointPathBlobAssetAuthoringPrefab) = result;
                             
-                    //
-                    _canvas = GameObject.Instantiate(_canvasPrefab);
-                    AddCommandStreamAndInfoStream(_canvas);
+                    // //
+                    GameObject.Instantiate(_waypointPathBlobAssetAuthoringPrefab);
+                    // _canvas = GameObject.Instantiate(_canvasPrefab);
+                    // AddCommandStreamAndInfoStream(_canvas);
 
                     //
                     FlowControl.FinishLoadingAsset(new GameCommon.FlowControlContext
                     {
-                        Name = "App"
+                        Name = "Stage"
                     });
                 })
                 .AddTo(_compositeDisposable);            
@@ -98,32 +79,15 @@ namespace JoyBrick.Walkio.Game.Environment
             return r;
         }
         
-        private async Task<(GameObject, GameObject, ScriptableObject, ScriptableObject)> Load()
+        private async Task<(ScriptableObject, GameObject)> Load()
         {
-            var canvasPrefabTask = GetAsset<GameObject>($"Hud - Canvas - App");
-            var viewLoadingPrefabTask = GetAsset<GameObject>($"Hud - App - View - Loading Prefab");
-            var timelineAssetTask = GetAsset<ScriptableObject>($"Hud - App - View - Loading Timeline");
-            var i2AssetTask = GetAsset<ScriptableObject>($"Hud - App - I2");
+            var waypointDataAssetTask = GetAsset<ScriptableObject>($"Waypoint Data");
+            var waypointPathBlobAssetAuthoringTask = GetAsset<GameObject>($"Waypoint Path BlobAsset Authoring");
 
-            var (canvasPrefab, viewLoadingPrefab, timelineAsset, i2Asset) =
-                (await canvasPrefabTask, await viewLoadingPrefabTask, await timelineAssetTask, await i2AssetTask);
+            var (waypointDataAsset, waypointPathBlobAssetAuthoring) =
+                (await waypointDataAssetTask, await waypointPathBlobAssetAuthoringTask);
 
-            return (canvasPrefab, viewLoadingPrefab, timelineAsset, i2Asset);
-        }
-
-        private void AddCommandStreamAndInfoStream(GameObject inGO)
-        {
-            var commandStreamProducer = inGO.GetComponent<GameCommand.ICommandStreamProducer>();
-            if (commandStreamProducer != null)
-            {
-                CommandService.AddCommandStreamProducer(commandStreamProducer);
-            }
-
-            var infoPresenter = inGO.GetComponent<GameCommand.IInfoPresenter>();
-            if (infoPresenter != null)
-            {
-                CommandService.AddInfoStreamPresenter(infoPresenter);
-            }            
+            return (waypointDataAsset, waypointPathBlobAssetAuthoring);
         }
 
         protected override void OnUpdate() {}
@@ -131,31 +95,10 @@ namespace JoyBrick.Walkio.Game.Environment
         public void RemovingAssets()
         {
             //
-            if (_canvasPrefab != null)
+            if (_waypointDataAsset != null)
             {
-                Addressables.ReleaseInstance(_canvasPrefab);
+                Addressables.Release(_waypointDataAsset);
             }
-
-            if (_viewLoadingPrefab != null)
-            {
-                Addressables.ReleaseInstance(_viewLoadingPrefab);
-            }
-
-            if (_timelineAsset != null)
-            {
-                Addressables.Release(_timelineAsset);
-            }
-
-            if (_i2Asset != null)
-            {
-                Addressables.Release(_i2Asset);
-            }
-
-            //
-            if (_canvas != null)
-            {
-                GameObject.Destroy(_canvas);
-            }            
         }
         
         protected override void OnDestroy()

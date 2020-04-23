@@ -3,13 +3,16 @@
     "references": [
         "Unity.Addressables",
         "Unity.Addressables.Editor",
+        "Unity.Entities",
+        "Unity.Entities.Hybrid",
         "AstarPathfindingProject",
         "AstarPathfindingProjectEditor",
         "PackageTools",
         "AstarPackageToolsEditor",
         "ALINE",
         "ALINEPackageToolsEditor",
-        "Walkio.Build.Level-Design-Export"
+        "Walkio.Build.Level-Design-Export",
+        "Walkio.Game.Environment-Bridge"
     ],
     "includePlatforms": [
         "Editor"

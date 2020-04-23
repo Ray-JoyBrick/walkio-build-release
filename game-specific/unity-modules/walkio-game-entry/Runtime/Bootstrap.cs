@@ -14,14 +14,21 @@
     using GameCommon = JoyBrick.Walkio.Game.Common;
     using GameCommand = JoyBrick.Walkio.Game.Command;
     
-    #if COMPLETE_PROJECT || HUD_FLOW_PROJECT
-    
     using GameGameFlowControl = JoyBrick.Walkio.Game.GameFlowControl;
+
+#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+
     using GameHudApp = JoyBrick.Walkio.Game.Hud.App;
     using GameHudPreparation = JoyBrick.Walkio.Game.Hud.Preparation;
     using GameHudStage = JoyBrick.Walkio.Game.Hud.Stage;
     
-    #endif
+#endif
+    
+#if COMPLETE_PROJECT || LEVEL_FLOW_PROJECT
+    
+    using GameEnvironment = JoyBrick.Walkio.Game.Environment;
+    
+#endif
     
     public partial class Bootstrap :
         MonoBehaviour
@@ -32,9 +39,9 @@
         {
             // This will be used for AppCenter, as AppCenter does not have pre-processor define,
             // Use custom COMPLETE_PROJECT to tell if AppCenter functionality should be turned on.
-            #if COMPLETE_PROJECT
+#if COMPLETE_PROJECT
             
-            #endif
+#endif
         }
         
         void Start()
@@ -42,7 +49,7 @@
             SetupUniRxLogger();
             
             //
-            SetupECSDone
+            SetupEcsDone
                 .Subscribe(x =>
                 {
                     // _notifyLoadAppHud.OnNext(1);
@@ -54,7 +61,7 @@
                 .Subscribe(x =>
                 {
                     //
-                    _logger.Debug($"command: {x}");
+                    _logger.Debug($"Bootstrap - Start - Receive Command: {x}");
                 })
                 .AddTo(_compositeDisposable);
 
@@ -94,7 +101,7 @@
                     _logger.Debug($"Bootstrap - addressableInitializeAsync is received");
 
                     HandleAddressableInitializeAsyncCompleted();
-                    _notifySetupECSDone.OnNext(1);
+                    _notifySetupEcsDone.OnNext(1);
                 })
                 .AddTo(_compositeDisposable);            
         }
@@ -114,165 +121,123 @@
             //
             var initializationSystemGroup = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<InitializationSystemGroup>();
             var simulationSystemGroup = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<SimulationSystemGroup>();
+            var presentationSystemGroup = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<PresentationSystemGroup>();
 
-            //
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+            // Project-wide
             var loadingDoneCheckSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameGameFlowControl.LoadingDoneCheckSystem>();
             var settingDoneCheckSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameGameFlowControl.SettingDoneCheckSystem>();
-#endif
 
-            // Appwide
+            // App-wide
 #if COMPLETE_PROJECT || HUD_FLOW_PROJECT
-            // var initializeAppwideServiceSystem =
-            //     World.DefaultGameObjectInjectionWorld
-            //         .GetOrCreateSystem<GameSceneApp.InitializeAppwideServiceSystem>();
             var loadAppHudSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameHudApp.LoadAppHudSystem>();
             var setupAppHudSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameHudApp.SetupAppHudSystem>();
-            // var setupAppwideServiceSystem =
-            //     World.DefaultGameObjectInjectionWorld
-            //         .GetOrCreateSystem<GameSceneApp.SetupAppwideServiceSystem>();
 #endif
             
-            // Preparationwide
+            // Preparation-wide
 #if COMPLETE_PROJECT || HUD_FLOW_PROJECT
-            // var initializePreparationwideServiceSystem =
-            //     World.DefaultGameObjectInjectionWorld
-            //         .GetOrCreateSystem<GameScenePreparation.InitializePreparationwideServiceSystem>();
             var loadPreparationHudSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameHudPreparation.LoadPreparationHudSystem>();
-            // var setupPreparationwideServiceSystem =
-            //     World.DefaultGameObjectInjectionWorld
-            //         .GetOrCreateSystem<GameScenePreparation.SetupPreparationwideServiceSystem>();
-            // var cleanupPreparationwideServiceSystem =
-            //     World.DefaultGameObjectInjectionWorld
-            //         .GetOrCreateSystem<GameScenePreparation.CleanupPreparationwideServiceSystem>();
 #endif
 
-            // Stagewide
+            // Stage-wide
 #if COMPLETE_PROJECT || HUD_FLOW_PROJECT
-            // var initializeStagewideServiceSystem =
-            //     World.DefaultGameObjectInjectionWorld
-            //         .GetOrCreateSystem<GameSceneStage.InitializeStagewideServiceSystem>();
             var loadStageHudSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameHudStage.LoadStageHudSystem>();
-            // var loadStageEnvironmentSystem =
-            //     World.DefaultGameObjectInjectionWorld
-            //         .GetOrCreateSystem<GameSceneStage.LoadStageEnvironmentSystem>();
-            // var setupStagewideServiceSystem =
-            //     World.DefaultGameObjectInjectionWorld
-            //         .GetOrCreateSystem<GameSceneStage.SetupStagewideServiceSystem>();
-            // var cleanupStagewideServiceSystem =
-            //     World.DefaultGameObjectInjectionWorld
-            //         .GetOrCreateSystem<GameSceneStage.CleanupStagewideServiceSystem>();
+#endif
+            
+#if COMPLETE_PROJECT || LEVEL_FLOW_PROJECT
+            var loadEnvironmentSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameEnvironment.LoadEnvironmentSystem>();
 #endif
 
             //
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
             loadingDoneCheckSystem.FlowControl = (GameCommon.IFlowControl) this;
             settingDoneCheckSystem.FlowControl = (GameCommon.IFlowControl) this;
-#endif
             
-            // Appwide
+            // App-wide
 #if COMPLETE_PROJECT || HUD_FLOW_PROJECT
-            // initializeAppwideServiceSystem.CommandService = (GameCommand.ICommandService) this;
             loadAppHudSystem.CommandService = (GameCommand.ICommandService) this;
             loadAppHudSystem.FlowControl = (GameCommon.IFlowControl) this;
             setupAppHudSystem.FlowControl = (GameCommon.IFlowControl) this;
-            // setupAppwideServiceSystem.CommandService = (GameCommand.ICommandService) this;
 #endif
             
-            // Preparationwide
+            // Preparation-wide
 #if COMPLETE_PROJECT || HUD_FLOW_PROJECT
-            // initializePreparationwideServiceSystem.CommandService = (GameCommand.ICommandService) this;
             loadPreparationHudSystem.RefBootstrap = this.gameObject;
             loadPreparationHudSystem.CommandService = (GameCommand.ICommandService) this;
             loadPreparationHudSystem.FlowControl = (GameCommon.IFlowControl) this;
-            // setupPreparationwideServiceSystem.CommandService = (GameCommand.ICommandService) this;
-            // cleanupPreparationwideServiceSystem.CommandService = (GameCommand.ICommandService) this;
 #endif
 
-            // Stagewide
+            // Stage-wide
 #if COMPLETE_PROJECT || HUD_FLOW_PROJECT
-            // initializeStagewideServiceSystem.CommandService = (GameCommand.ICommandService) this;
             loadStageHudSystem.RefBootstrap = this.gameObject;
             loadStageHudSystem.CommandService = (GameCommand.ICommandService) this;
             loadStageHudSystem.FlowControl = (GameCommon.IFlowControl) this;
-            // loadStageEnvironmentSystem.CommandService = (GameCommand.ICommandService) this;
-            // setupStagewideServiceSystem.CommandService = (GameCommand.ICommandService) this;
-            // cleanupStagewideServiceSystem.CommandService = (GameCommand.ICommandService) this;
+#endif
+
+#if COMPLETE_PROJECT || LEVEL_FLOW_PROJECT
+            loadEnvironmentSystem.CommandService = (GameCommand.ICommandService) this;
+            loadEnvironmentSystem.FlowControl = (GameCommon.IFlowControl) this;
 #endif
             
             //
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
             loadingDoneCheckSystem.Construct();
             settingDoneCheckSystem.Construct();
-#endif
 
-            // Appwide
+            // App-wide
 #if COMPLETE_PROJECT || HUD_FLOW_PROJECT
-            // initializeAppwideServiceSystem.Construct();
             loadAppHudSystem.Construct();
             setupAppHudSystem.Construct();
-            // setupAppwideServiceSystem.Construct();
 #endif
             
-            // Preparationwide
+            // Preparation-wide
 #if COMPLETE_PROJECT || HUD_FLOW_PROJECT
-            // initializePreparationwideServiceSystem.Construct();
             loadPreparationHudSystem.Construct();
-            // setupPreparationwideServiceSystem.Construct();
-            // cleanupPreparationwideServiceSystem.Construct();
 #endif
             
-            // Stagewide
+            // Stage-wide
 #if COMPLETE_PROJECT || HUD_FLOW_PROJECT
-            // initializeStagewideServiceSystem.Construct();
             loadStageHudSystem.Construct();
-            // loadStageEnvironmentSystem.Construct();
-            // setupStagewideServiceSystem.Construct();
-            // cleanupStagewideServiceSystem.Construct();
 #endif
+            
+#if COMPLETE_PROJECT || LEVEL_FLOW_PROJECT
+            loadEnvironmentSystem.Construct();
+#endif            
             
             // InitializationSystemGroup
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
             initializationSystemGroup.AddSystemToUpdateList(loadingDoneCheckSystem);
             initializationSystemGroup.AddSystemToUpdateList(settingDoneCheckSystem);
-#endif
 
-            // Appwide - InitializationSystemGroup
+            // App-wide - InitializationSystemGroup
 #if COMPLETE_PROJECT || HUD_FLOW_PROJECT
-            // initializationSystemGroup.AddSystemToUpdateList(initializeAppwideServiceSystem);
             initializationSystemGroup.AddSystemToUpdateList(loadAppHudSystem);
             initializationSystemGroup.AddSystemToUpdateList(setupAppHudSystem);
-            // initializationSystemGroup.AddSystemToUpdateList(setupAppwideServiceSystem);
 #endif
             
-            // Preparationwide - InitializationSystemGroup
+            // Preparation-wide - InitializationSystemGroup
 #if COMPLETE_PROJECT || HUD_FLOW_PROJECT
-            // initializationSystemGroup.AddSystemToUpdateList(initializePreparationwideServiceSystem);
             initializationSystemGroup.AddSystemToUpdateList(loadPreparationHudSystem);
-            // initializationSystemGroup.AddSystemToUpdateList(setupPreparationwideServiceSystem);
-            // initializationSystemGroup.AddSystemToUpdateList(cleanupPreparationwideServiceSystem);
 #endif
             
-            // Stagewide - InitializationSystemGroup
+            // Stage-wide - InitializationSystemGroup
 #if COMPLETE_PROJECT || HUD_FLOW_PROJECT
-            // initializationSystemGroup.AddSystemToUpdateList(initializeStagewideServiceSystem);
             initializationSystemGroup.AddSystemToUpdateList(loadStageHudSystem);
-            // initializationSystemGroup.AddSystemToUpdateList(loadStageEnvironmentSystem);
-            // initializationSystemGroup.AddSystemToUpdateList(setupStagewideServiceSystem);
-            // initializationSystemGroup.AddSystemToUpdateList(cleanupStagewideServiceSystem);
 #endif
+            
+#if COMPLETE_PROJECT || LEVEL_FLOW_PROJECT
+            initializationSystemGroup.AddSystemToUpdateList(loadEnvironmentSystem);
+#endif              
         }
 
         private void SetupFoundationFlow()
