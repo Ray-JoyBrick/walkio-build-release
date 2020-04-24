@@ -14,32 +14,34 @@
     // TODO: Rename, this class name brings only confusion
     public static partial class HandleSceneOpenedAffair
     {
-        private static T GetComponentAtScene<T>(Scene scene) where T : UnityEngine.Component
+        private static T GetComponentAtScene<T>(Scene? scene) where T : UnityEngine.Component
         {
             T comp = default;
 
             var foundGOs =
-                scene.GetRootGameObjects()
+                scene?.GetRootGameObjects()
                     .Where(x => x.GetComponent<T>() != null)
                     .ToList();
 
-            if (foundGOs.Any())
+            if (foundGOs != null && foundGOs.Any())
             {
                 var foundGO = foundGOs.First();
-                comp  = foundGO.GetComponent<T>();
+                comp = foundGO.GetComponent<T>();
             }
 
             return comp;
         }
         
-        private static void CreateDirectoryIfNotExisted(string directoryPath)
-        {
-            var existed = Directory.Exists(directoryPath);
-            if (!existed)
-            {
-                Directory.CreateDirectory(directoryPath);
-            }
-        }
+        // private static GameObject AttachComponentToNewGameObject<T>(T[] comps)
+        //     where T : UnityEngine.Component
+        // {
+        //     var createdInstance = new GameObject();
+        //     comps.ToList().ForEach(c => createdInstance.AddComponent(typeof(T)));
+        //     // createdInstance.AddComponent<GameEnvironment.WaypointPathBlobAssetAuthoring>();
+        //     // createdInstance.AddComponent<ConvertToEntity>();
+        //     
+        //     return createdInstance;
+        // }
         
         private static void SaveAssetTo<T>(
             string absoluteStartingPath,
@@ -52,7 +54,7 @@
             var absoluteAssetPath = Path.Combine(absoluteStartingPath, assetDirectoryPath);
             var relativeAssetPath = Path.Combine(relativeStartingPath, assetDirectoryPath);
 
-            CreateDirectoryIfNotExisted(absoluteAssetPath);
+            Utility.CreateDirectoryIfNotExisted(absoluteAssetPath);
             var completeAssetPath = Path.Combine(relativeAssetPath, assetName);
             
             AssetDatabase.CreateAsset(asset, completeAssetPath);
@@ -63,14 +65,14 @@
             string absoluteStartingPath,
             string relativeStartingPath,
             string assetDirectoryPath,
-            string gameObjecttName,
+            string gameObjectName,
             GameObject inGO)
         {
             var absoluteAssetPath = Path.Combine(absoluteStartingPath, assetDirectoryPath);
             var relativeAssetPath = Path.Combine(relativeStartingPath, assetDirectoryPath);
 
-            CreateDirectoryIfNotExisted(absoluteAssetPath);
-            var completeGameObjectPath = Path.Combine(relativeAssetPath, gameObjecttName);
+            Utility.CreateDirectoryIfNotExisted(absoluteAssetPath);
+            var completeGameObjectPath = Path.Combine(relativeAssetPath, gameObjectName);
             
             completeGameObjectPath = AssetDatabase.GenerateUniqueAssetPath(completeGameObjectPath);
             PrefabUtility.SaveAsPrefabAssetAndConnect(inGO, completeGameObjectPath, InteractionMode.AutomatedAction);

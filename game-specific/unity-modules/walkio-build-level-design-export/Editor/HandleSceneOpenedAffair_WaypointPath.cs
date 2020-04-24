@@ -43,6 +43,9 @@
                     var prefabName = "Waypoint Path BlobAsset Authoring.prefab";
 
                     SaveGameObjectAsPrefabTo(absoluteStartingPath, relativeStartingPath, assetDirectoryPath, prefabName, gameObject);
+                    // Remove game object from scene after saving
+                    GameObject.DestroyImmediate(gameObject);
+                    EditorSceneManager.SaveScene(currentMasterScene);
                 }
             }
         }
@@ -68,6 +71,7 @@
                 waypointData.waypointPaths.Add(wp);
                 foreach (Transform waypoint in curvy)
                 {
+                    // TODO: Check to see if the position is in world and affected by parent position
                     wp.waypoints.Add(new GameEnvironment.Waypoint
                     {
                         location = waypoint.position
@@ -81,6 +85,7 @@
 
         private static GameObject CreateWaypointPathBlobAssetAuthoringGameObject()
         {
+            // TODO: This creates new game object on scene, which has to be removed later to no alert the scene
             var createdInstance = new GameObject();
             createdInstance.AddComponent<GameEnvironment.WaypointPathBlobAssetAuthoring>();
             createdInstance.AddComponent<ConvertToEntity>();

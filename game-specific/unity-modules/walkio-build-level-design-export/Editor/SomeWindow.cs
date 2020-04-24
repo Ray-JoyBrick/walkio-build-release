@@ -11,6 +11,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
     using UnityEngine;
     using UnityEngine.SceneManagement;
 
+    // TODO: This is temp class for the task to be performed, rename or remove later
     public class SomeWindow : OdinEditorWindow
     {
         [MenuItem("My Game/My Window")]
@@ -22,7 +23,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
         [PropertyOrder(-10)]
         [HorizontalGroup]
         [Button(ButtonSizes.Large)]
-        public void SomeButton1()
+        public void OpenLevel001()
         {
             var directoryPath = Path.Combine("Assets", "_", "1 - Game - Level Design");
             var environmentDirectoryPath = Path.Combine(directoryPath, "Module - Environment - Level");
@@ -85,18 +86,19 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
             // AssetDatabase.SaveAssets();
         }
 
-        private static void CreateDirectoryIfNotExisted(string directoryPath)
+        [HorizontalGroup]
+        [Button(ButtonSizes.Large), GUIColor(1, 0.33f, 0)]
+        public void RemoveGenerated()
         {
-            var existed = Directory.Exists(directoryPath);
-            if (!existed)
+            var directoryPath = Path.Combine(Application.dataPath, "_", "1 - Game - Level Design - Generated");
+
+            if (Directory.Exists(directoryPath))
             {
-                Directory.CreateDirectory(directoryPath);
+                var relativeDirectoryPath = Path.Combine("Assets", "_", "1 - Game - Level Design - Generated");
+                AssetDatabase.DeleteAsset(relativeDirectoryPath);
+                AssetDatabase.Refresh();
             }
         }
-
-        [HorizontalGroup]
-        [Button(ButtonSizes.Large)]
-        public void SomeButton2() { }
 
         [HorizontalGroup]
         [Button(ButtonSizes.Large)]

@@ -85,8 +85,12 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
             var relativeLevelFolderPath = Path.Combine(relativeGameFolderPath, "Levels");
             
             var relativeLevel001Path = Path.Combine(relativeLevelFolderPath, "level001");
+            var relativeLevelSettingPathPath = Path.Combine(relativeLevel001Path, "level-setting");
             var relativeObstacleTexturePathPath = Path.Combine(relativeLevel001Path, "obstacle-texture");
             var relativeWaypointPathPath = Path.Combine(relativeLevel001Path, "waypoint-path");
+
+            var absoluteLevel001LevelSettingPath = Path.Combine(Application.dataPath, "_", "1 - Game - Level Design - Generated",
+                "Levels", "level001", "level-setting");
 
             var absoluteLevel001ObstacleTexturePath = Path.Combine(Application.dataPath, "_", "1 - Game - Level Design - Generated",
                 "Levels", "level001", "obstacle-texture");
@@ -96,6 +100,27 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
 
             var label = "level001";
             assetSettings.AddLabel(label);
+            
+            {
+                DirectoryInfo di = new DirectoryInfo(absoluteLevel001LevelSettingPath);
+                //
+                var levelSettingFileInfos = di.EnumerateFiles().Where(fi => fi.Extension.CompareTo(".meta") != 0);
+            
+                foreach (var levelSettingFileInfo in levelSettingFileInfos)
+                {
+                    var fileName = levelSettingFileInfo.Name;
+                    var strippedFileName = fileName.Replace(".asset", "");
+                    strippedFileName = fileName.Replace(".prefab", "");
+            
+                    var levelSettingPath = Path.Combine(relativeLevelSettingPathPath, fileName);
+                    // var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath);
+                
+                    Debug.Log(levelSettingPath);
+            
+                    PlaceAssetInAddressble(assetSettings, assetGroup, levelSettingPath,
+                        label, strippedFileName);
+                }
+            }            
 
             {
                 DirectoryInfo di = new DirectoryInfo(absoluteLevel001ObstacleTexturePath);
@@ -137,6 +162,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
                         label, strippedFileName);
                 }
             }
+
             
             // {
             //     DirectoryInfo di = new DirectoryInfo(absoluteLevel001WaypointDataPath);

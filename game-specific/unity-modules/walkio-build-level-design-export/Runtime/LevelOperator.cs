@@ -1,26 +1,21 @@
 namespace JoyBrick.Walkio.Build.LevelDesignExport
 {
     using System.Collections.Generic;
-    #if UNITY_EDITOR
+#if ODIN_INSPECTOR    
+    using Sirenix.OdinInspector;
+#endif
+#if UNITY_EDITOR
     using UnityEditor;
-    #endif
+#endif
     using UnityEngine;
 
-    public class LevelOperator : MonoBehaviour
+    public partial class LevelOperator : MonoBehaviour
     {
-        public GameObject curvy;
-        
         public int xSubSceneCount;
         public int zSubSceneCount;
-        
-        #if UNITY_EDITOR
-        public List<SceneAsset> subScenes;
-        #endif
-    }
 
-    // [InitializeOnLoad]
-    // public class LevelOpreator
-    // {
-    //     
-    // }
+        public int gridCount;
+        
+        public GameObject curvy;
+    }
 }
