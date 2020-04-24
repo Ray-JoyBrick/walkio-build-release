@@ -14,14 +14,20 @@
     // TODO: Rename, this class name brings only confusion
     public static partial class HandleSceneOpenedAffair
     {
-        private static T GetComponentAtScene<T>(Scene scene) where T : UnityEngine.Component 
+        private static T GetComponentAtScene<T>(Scene scene) where T : UnityEngine.Component
         {
-            var foundGO =
+            T comp = default;
+
+            var foundGOs =
                 scene.GetRootGameObjects()
                     .Where(x => x.GetComponent<T>() != null)
-                    .First();
+                    .ToList();
 
-            var comp  = foundGO.GetComponent<T>();
+            if (foundGOs.Any())
+            {
+                var foundGO = foundGOs.First();
+                comp  = foundGO.GetComponent<T>();
+            }
 
             return comp;
         }

@@ -3,6 +3,9 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+// #if COMPLETE_PROJECT    
+//     using Microsoft.AppCenter.Unity.Distribute;
+// #endif
     using UniRx;
     using UniRx.Diagnostics;
     using Unity.Entities;
@@ -39,10 +42,40 @@
         {
             // This will be used for AppCenter, as AppCenter does not have pre-processor define,
             // Use custom COMPLETE_PROJECT to tell if AppCenter functionality should be turned on.
-#if COMPLETE_PROJECT
-            
-#endif
+// #if COMPLETE_PROJECT
+//             Distribute.ReleaseAvailable = OnReleaseAvailable;
+// #endif
         }
+
+// #if COMPLETE_PROJECT
+//         bool OnReleaseAvailable(ReleaseDetails releaseDetails)
+//         {
+//             // Look at releaseDetails public properties to get version information, release notes text or release notes URL
+//             string versionName = releaseDetails.ShortVersion;
+//             string versionCodeOrBuildNumber = releaseDetails.Version;
+//             string releaseNotes = releaseDetails.ReleaseNotes;
+//             Uri releaseNotesUrl = releaseDetails.ReleaseNotesUrl;
+//
+//             // (Do something with the values if you want)
+//
+//             // On mandatory update, user cannot postpone
+//             if (releaseDetails.MandatoryUpdate)
+//             {
+//                 // Force user to update (you should probably show some custom UI here)
+//                 Distribute.NotifyUpdateAction(UpdateAction.Update);
+//             }
+//             else
+//             {
+//                 // Allow user to update or postpone (you should probably show some custom UI here)
+//                 // "GetUserUpdateAction()" is not part of the SDK; it just represents a way of getting user response.
+//                 // This blocks the thread while awaiting the user's response! This example should not be used literally
+//                 UpdateAction updateAction = GetUserUpdateAction();
+//                 Distribute.NotifyUpdateAction(updateAction);
+//             }
+//             // Return true if you are using your own UI to get user response, false otherwise
+//             return true;
+//         }
+// #endif
         
         void Start()
         {
