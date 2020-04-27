@@ -15,13 +15,15 @@ namespace JoyBrick.Walkio.Game.Environment
 
         protected override void OnUpdate()
         {
-            _logger.Debug($"WaypointPathBlobAssetConstructor - OnUpdate");
+            _logger.Debug($"WaypointPathBlobAsset - Constructor - OnUpdate");
 
             var authoring =
                 GetEntityQuery(typeof(WaypointPathBlobAssetAuthoring))
                     .ToComponentArray<WaypointPathBlobAssetAuthoring>();
-
+            
             if (authoring.Length == 0) return;
+            
+            _logger.Debug($"WaypointPathBlobAsset - Constructor - OnUpdate - authoring length is more than 0");
             
             BlobAssetReference<WaypointPathBlobAsset> waypointPathBlobAssetReference;
             

@@ -1,6 +1,8 @@
 namespace JoyBrick.Walkio.Game.Hud.App
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using UniRx;
     using Unity.Entities;
@@ -33,7 +35,9 @@ namespace JoyBrick.Walkio.Game.Hud.App
         // private View _loadView;
 
         //
+        public GameObject RefBootstrap { get; set; }
         public GameCommand.ICommandService CommandService { get; set; }
+        // public GameCommand.IInfoPresenter InfoPresenter { get; set; }
         public GameCommon.IFlowControl FlowControl { get; set; }
 
         //
@@ -79,7 +83,14 @@ namespace JoyBrick.Walkio.Game.Hud.App
                             
                     //
                     _canvas = GameObject.Instantiate(_canvasPrefab);
+                    var scene = SceneManager.GetSceneByName("Entry");
+                    if (scene.IsValid())
+                    {
+                        SceneManager.MoveGameObjectToScene(_canvas, scene);
+                    }
+                    
                     AddCommandStreamAndInfoStream(_canvas);
+                    SetReferenceToExtension(_canvas);
 
                     ExtractView();
                             
@@ -156,6 +167,46 @@ namespace JoyBrick.Walkio.Game.Hud.App
                 // GameExtension.BridgeExtension.SendEvent("zz_Deactivate_Loading_View");
             }
         }
+        
+        // TODO: Move hard reference to PlayMakerFSM to somewhere else
+        // TODO: Assign reference to FSM may need a better approach
+        private void SetReferenceToExtension(GameObject inGO)
+        {
+            var pmfsms = new List<PlayMakerFSM>();
+
+            // Canvas itself
+            var comps = inGO.GetComponents<PlayMakerFSM>();
+            if (comps.Length > 0)
+            {
+                pmfsms.AddRange(comps);
+            }
+            
+            // Views under Canvas
+            foreach (Transform child in inGO.transform)
+            {
+                comps = child.GetComponents<PlayMakerFSM>();
+                if (comps.Length > 0)
+                {
+                    pmfsms.AddRange(comps);
+                }
+            }
+
+            pmfsms.ForEach(x => SetFsmVariableValue(x, "zz_Command Service", RefBootstrap));
+            pmfsms.Clear();
+        }
+
+        // TODO: Make this in some static class so that other class can access as well
+        private static void SetFsmVariableValue(PlayMakerFSM pmfsm, string variableName, GameObject inValue)
+        {
+            var commandServiceVariables =
+                pmfsm.FsmVariables.GameObjectVariables.Where(x => string.CompareOrdinal(x.Name, variableName) == 0);
+                
+            commandServiceVariables.ToList()
+                .ForEach(x =>
+                {
+                    x.Value = inValue;
+                });
+        }        
 
         protected override void OnUpdate() {}
 
@@ -185,7 +236,23 @@ namespace JoyBrick.Walkio.Game.Hud.App
             //
             if (_canvas != null)
             {
+                RemoveCommandStreamAndInfoStream(_canvas);
                 GameObject.Destroy(_canvas);
+            }            
+        }
+        
+        private void RemoveCommandStreamAndInfoStream(GameObject inGO)
+        {
+            var commandStreamProducer = inGO.GetComponent<GameCommand.ICommandStreamProducer>();
+            if (commandStreamProducer != null)
+            {
+                CommandService.RemoveCommandStreamProducer(commandStreamProducer);
+            }
+
+            var infoPresenter = inGO.GetComponent<GameCommand.IInfoPresenter>();
+            if (infoPresenter != null)
+            {
+                CommandService.RemoveInfoStreamPresenter(infoPresenter);
             }            
         }
         

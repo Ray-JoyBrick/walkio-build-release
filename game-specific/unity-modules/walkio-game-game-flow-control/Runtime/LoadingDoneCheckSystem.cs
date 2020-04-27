@@ -29,7 +29,7 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
                 .Buffer(1)
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"LoadingDoneCheckSystem - Construct - DoneLoadingAsset");
+                    _logger.Debug($"LoadingDoneCheckSystem - Construct - DoneLoadingAsset for App");
                     //
                     FlowControl.StartSetting(new GameCommon.FlowControlContext
                     {
@@ -43,6 +43,8 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
                 .Buffer(1)
                 .Subscribe(x =>
                 {
+                    _logger.Debug($"LoadingDoneCheckSystem - Construct - DoneLoadingAsset for Preparation");
+
                     //
                     FlowControl.StartSetting(new GameCommon.FlowControlContext
                     {
@@ -57,6 +59,8 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
                 .Buffer(2)
                 .Subscribe(x =>
                 {
+                    _logger.Debug($"LoadingDoneCheckSystem - Construct - DoneLoadingAsset for Stage");
+
                     //
                     FlowControl.StartSetting(new GameCommon.FlowControlContext
                     {

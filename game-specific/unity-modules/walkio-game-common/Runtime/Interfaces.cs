@@ -77,4 +77,9 @@ namespace JoyBrick.Walkio.Game.Common
         void StartCleaningAsset(string flowName);
 
     }
+
+    // public interface IInfoPresenter
+    // {
+    //     
+    // }
 }

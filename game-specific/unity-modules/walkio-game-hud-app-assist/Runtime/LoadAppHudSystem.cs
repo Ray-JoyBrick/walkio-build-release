@@ -1,4 +1,4 @@
-namespace JoyBrick.Walkio.Game.Hud.Preparation
+namespace JoyBrick.Walkio.Game.Hud.App.Assist
 {
     using System;
     using System.Collections.Generic;
@@ -16,22 +16,25 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
     using GameExtension = JoyBrick.Walkio.Game.Extension;
 
     [DisableAutoCreation]
-    public class LoadPreparationHudSystem : SystemBase
+    public class LoadAppHudSystem : SystemBase
     {
+        private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(LoadAppHudSystem));
+        
         //
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
 
-        //
         //
         private GameObject _canvasPrefab;
         private GameObject _viewLoadingPrefab;
         private ScriptableObject _timelineAsset;
         private ScriptableObject _i2Asset;
-        
+
+        //
         private GameObject _canvas;
 
-        // In case that Bootstrap does not realize interfaces such as ICommandService, etc. Explicitly make
-        // the reference here for later use.
+        // private View _loadView;
+
+        //
         public GameObject RefBootstrap { get; set; }
         public GameCommand.ICommandService CommandService { get; set; }
         // public GameCommand.IInfoPresenter InfoPresenter { get; set; }
@@ -40,26 +43,33 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
         //
         public void Construct()
         {
+            _logger.Debug($"LoadAppHudSystem Assist - Construct");
+            
             base.OnCreate();
-
+            
             //
             FlowControl.LoadingAsset
-                .Where(x => x.Name.Contains("Preparation"))
+                .Where(x => x.Name.Contains("App"))
                 .Subscribe(x =>
                 {
                     LoadingAsset();
                 })
-                .AddTo(_compositeDisposable);
-            
-            FlowControl.CleaningAsset
-                .Where(x => x.Name.Contains("Preparation"))
-                .Subscribe(x =>
-                {
-                    RemovingAssets();
-                })
-                .AddTo(_compositeDisposable);              
+                .AddTo(_compositeDisposable);            
+
+            // //
+            // CommandService.CommandStream
+            //     .Do(x => _logger.Debug($"LoadAppHudSystem Assist - Receive Command Stream: {x}"))
+            //     .Where(x => (x as GameCommand.ActivateLoadingViewCommand) != null)
+            //     .Subscribe(x =>
+            //     {
+            //         _logger.Debug($"LoadAppHudSystem Assist - Construct - Receive ActivateLoadingViewCommand");
+            //         var activateLoadingViewCommand = (x as GameCommand.ActivateLoadingViewCommand);
+            //         //
+            //         ActivateLoadingView(activateLoadingViewCommand.Flag);
+            //     })
+            //     .AddTo(_compositeDisposable);
         }
-        
+
         private void LoadingAsset()
         {
             //
@@ -78,19 +88,21 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
                     {
                         SceneManager.MoveGameObjectToScene(_canvas, scene);
                     }
-
+                    
                     AddCommandStreamAndInfoStream(_canvas);
                     SetReferenceToExtension(_canvas);
+
+                    ExtractView();
                             
                     //
                     FlowControl.FinishLoadingAsset(new GameCommon.FlowControlContext
                     {
-                        Name = "Preparation"
+                        Name = "App"
                     });
                 })
-                .AddTo(_compositeDisposable);         
+                .AddTo(_compositeDisposable);            
         }
-        
+
         private async Task<T> GetAsset<T>(string addressName)
         {
             var handle = Addressables.LoadAssetAsync<T>(addressName);
@@ -101,10 +113,10 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
         
         private async Task<(GameObject, GameObject, ScriptableObject, ScriptableObject)> Load()
         {
-            var canvasPrefabTask = GetAsset<GameObject>($"Hud - Canvas - Preparation");
-            var viewLoadingPrefabTask = GetAsset<GameObject>($"Hud - Preparation - View - Base Prefab");
-            var timelineAssetTask = GetAsset<ScriptableObject>($"Hud - Preparation - View - Base Timeline");
-            var i2AssetTask = GetAsset<ScriptableObject>($"Hud - Preparation - I2");
+            var canvasPrefabTask = GetAsset<GameObject>($"Hud - Canvas - App");
+            var viewLoadingPrefabTask = GetAsset<GameObject>($"Hud - App - View - Loading Prefab");
+            var timelineAssetTask = GetAsset<ScriptableObject>($"Hud - App - View - Loading Timeline");
+            var i2AssetTask = GetAsset<ScriptableObject>($"Hud - App - I2");
 
             var (canvasPrefab, viewLoadingPrefab, timelineAsset, i2Asset) =
                 (await canvasPrefabTask, await viewLoadingPrefabTask, await timelineAssetTask, await i2AssetTask);
@@ -126,7 +138,36 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
                 CommandService.AddInfoStreamPresenter(infoPresenter);
             }            
         }
+        
+        private void ExtractView()
+        {
+            foreach (Transform v in _canvas.transform)
+            {
+                // var view = v.GetComponent<View>();
+                // if (view != null)
+                // {
+                //     _loadView = view;
+                // }
+            }
+        }
 
+        // private void ActivateLoadingView(bool flag)
+        // {
+        //     _logger.Debug($"LoadAppHudSystem Assist - ActivateLoadingView - flag: {flag}");
+            
+        //     // TODO: Rename to follow the system use contract. Starting as "zz_"
+        //     if (flag)
+        //     {
+        //         GameExtension.BridgeExtension.SendEvent("Activate_Loading_View");
+        //         // GameExtension.BridgeExtension.SendEvent("zz_Activate_Loading_View");
+        //     }
+        //     else
+        //     {
+        //         GameExtension.BridgeExtension.SendEvent("Deactivate_Loading_View");
+        //         // GameExtension.BridgeExtension.SendEvent("zz_Deactivate_Loading_View");
+        //     }
+        // }
+        
         // TODO: Move hard reference to PlayMakerFSM to somewhere else
         // TODO: Assign reference to FSM may need a better approach
         private void SetReferenceToExtension(GameObject inGO)
@@ -165,10 +206,10 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
                 {
                     x.Value = inValue;
                 });
-        }
+        }        
 
         protected override void OnUpdate() {}
-        
+
         public void RemovingAssets()
         {
             //
@@ -182,16 +223,15 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
                 Addressables.ReleaseInstance(_viewLoadingPrefab);
             }
 
-            // Release for asset not necessary?
-            // if (_timelineAsset != null)
-            // {
-            //     Addressables.Release(_timelineAsset);
-            // }
-            //
-            // if (_i2Asset != null)
-            // {
-            //     Addressables.Release(_i2Asset);
-            // }
+            if (_timelineAsset != null)
+            {
+                Addressables.Release(_timelineAsset);
+            }
+
+            if (_i2Asset != null)
+            {
+                Addressables.Release(_i2Asset);
+            }
 
             //
             if (_canvas != null)
@@ -220,10 +260,8 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
         {
             base.OnDestroy();
 
-            //
             RemovingAssets();
-
-            //
+            
             _compositeDisposable?.Dispose();
         }
     }

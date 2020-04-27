@@ -22,6 +22,8 @@ namespace JoyBrick.Walkio.Game.Environment
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
 
         //
+        private ScriptableObject _levelSettingAsset;
+        private GameObject _levelSettingBlobAssetAuthoringPrefab;
         private ScriptableObject _waypointDataAsset;
         private GameObject _waypointPathBlobAssetAuthoringPrefab;
 
@@ -55,10 +57,13 @@ namespace JoyBrick.Walkio.Game.Environment
                 .Subscribe(result =>
                 {
                     //
-                    (_waypointDataAsset, _waypointPathBlobAssetAuthoringPrefab) = result;
+                    (_levelSettingAsset, _levelSettingBlobAssetAuthoringPrefab, _waypointDataAsset, _waypointPathBlobAssetAuthoringPrefab) = result;
                             
                     // //
+                    // var wpbaaPrefab = _waypointPathBlobAssetAuthoringPrefab.GetComponent<WaypointPathBlobAssetAuthoring>();
+                    // wpbaaPrefab.waypointDataAsset = _waypointDataAsset as WaypointData;
                     GameObject.Instantiate(_waypointPathBlobAssetAuthoringPrefab);
+                    // GameObject.Instantiate(wpbaaPrefab);
                     // _canvas = GameObject.Instantiate(_canvasPrefab);
                     // AddCommandStreamAndInfoStream(_canvas);
 
@@ -79,15 +84,17 @@ namespace JoyBrick.Walkio.Game.Environment
             return r;
         }
         
-        private async Task<(ScriptableObject, GameObject)> Load()
+        private async Task<(ScriptableObject, GameObject, ScriptableObject, GameObject)> Load()
         {
-            var waypointDataAssetTask = GetAsset<ScriptableObject>($"Waypoint Data");
+            var levelSettingAssetTask = GetAsset<ScriptableObject>($"Level Setting.asset");
+            var levelSettingBlobAssetAuthoringTask = GetAsset<GameObject>($"Level Setting BlobAsset Authoring");
+            var waypointDataAssetTask = GetAsset<ScriptableObject>($"Waypoint Data.asset");
             var waypointPathBlobAssetAuthoringTask = GetAsset<GameObject>($"Waypoint Path BlobAsset Authoring");
 
-            var (waypointDataAsset, waypointPathBlobAssetAuthoring) =
-                (await waypointDataAssetTask, await waypointPathBlobAssetAuthoringTask);
+            var (levelSettingAsset, levelSettingBlobAssetAuthoring, waypointDataAsset, waypointPathBlobAssetAuthoring) =
+                (await levelSettingAssetTask, await levelSettingBlobAssetAuthoringTask, await waypointDataAssetTask, await waypointPathBlobAssetAuthoringTask);
 
-            return (waypointDataAsset, waypointPathBlobAssetAuthoring);
+            return (levelSettingAsset, levelSettingBlobAssetAuthoring, waypointDataAsset, waypointPathBlobAssetAuthoring);
         }
 
         protected override void OnUpdate() {}
@@ -95,9 +102,24 @@ namespace JoyBrick.Walkio.Game.Environment
         public void RemovingAssets()
         {
             //
+            if (_levelSettingAsset != null)
+            {
+                Addressables.Release(_levelSettingAsset);
+            }
+            
+            if (_levelSettingBlobAssetAuthoringPrefab != null)
+            {
+                Addressables.ReleaseInstance(_levelSettingBlobAssetAuthoringPrefab);
+            }
+
             if (_waypointDataAsset != null)
             {
                 Addressables.Release(_waypointDataAsset);
+            }
+            
+            if (_waypointPathBlobAssetAuthoringPrefab != null)
+            {
+                Addressables.ReleaseInstance(_waypointPathBlobAssetAuthoringPrefab);
             }
         }
         

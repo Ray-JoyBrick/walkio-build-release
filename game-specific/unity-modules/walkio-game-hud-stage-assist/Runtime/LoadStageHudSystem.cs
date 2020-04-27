@@ -1,4 +1,4 @@
-namespace JoyBrick.Walkio.Game.Hud.Preparation
+namespace JoyBrick.Walkio.Game.Hud.Stage.Assist
 {
     using System;
     using System.Collections.Generic;
@@ -14,9 +14,9 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
     using GameCommon = JoyBrick.Walkio.Game.Common;
     using GameCommand = JoyBrick.Walkio.Game.Command;
     using GameExtension = JoyBrick.Walkio.Game.Extension;
-
+    
     [DisableAutoCreation]
-    public class LoadPreparationHudSystem : SystemBase
+    public class LoadStageHudSystem : SystemBase
     {
         //
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
@@ -30,8 +30,7 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
         
         private GameObject _canvas;
 
-        // In case that Bootstrap does not realize interfaces such as ICommandService, etc. Explicitly make
-        // the reference here for later use.
+        //
         public GameObject RefBootstrap { get; set; }
         public GameCommand.ICommandService CommandService { get; set; }
         // public GameCommand.IInfoPresenter InfoPresenter { get; set; }
@@ -41,10 +40,10 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
         public void Construct()
         {
             base.OnCreate();
-
+            
             //
             FlowControl.LoadingAsset
-                .Where(x => x.Name.Contains("Preparation"))
+                .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
                     LoadingAsset();
@@ -52,7 +51,7 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
                 .AddTo(_compositeDisposable);
             
             FlowControl.CleaningAsset
-                .Where(x => x.Name.Contains("Preparation"))
+                .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
                     RemovingAssets();
@@ -69,6 +68,7 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
                 .Subscribe(result =>
                 {
                     //
+                    // _canvasPrefab = result;
                     (_canvasPrefab, _viewLoadingPrefab, _timelineAsset, _i2Asset) = result;
                             
                     //
@@ -85,10 +85,10 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
                     //
                     FlowControl.FinishLoadingAsset(new GameCommon.FlowControlContext
                     {
-                        Name = "Preparation"
+                        Name = "Stage"
                     });
                 })
-                .AddTo(_compositeDisposable);         
+                .AddTo(_compositeDisposable);        
         }
         
         private async Task<T> GetAsset<T>(string addressName)
@@ -101,17 +101,27 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
         
         private async Task<(GameObject, GameObject, ScriptableObject, ScriptableObject)> Load()
         {
-            var canvasPrefabTask = GetAsset<GameObject>($"Hud - Canvas - Preparation");
-            var viewLoadingPrefabTask = GetAsset<GameObject>($"Hud - Preparation - View - Base Prefab");
-            var timelineAssetTask = GetAsset<ScriptableObject>($"Hud - Preparation - View - Base Timeline");
-            var i2AssetTask = GetAsset<ScriptableObject>($"Hud - Preparation - I2");
+            var canvasPrefabTask = GetAsset<GameObject>($"Hud - Canvas - Stage");
+            var viewLoadingPrefabTask = GetAsset<GameObject>($"Hud - Stage - View - Base Prefab");
+            var timelineAssetTask = GetAsset<ScriptableObject>($"Hud - Stage - View - Base Timeline");
+            var i2AssetTask = GetAsset<ScriptableObject>($"Hud - Stage - I2");
 
             var (canvasPrefab, viewLoadingPrefab, timelineAsset, i2Asset) =
                 (await canvasPrefabTask, await viewLoadingPrefabTask, await timelineAssetTask, await i2AssetTask);
 
             return (canvasPrefab, viewLoadingPrefab, timelineAsset, i2Asset);
-        }
-
+        }        
+        
+        // private async Task<GameObject> Load()
+        // {
+        //     var addressName = $"Hud - Stage";
+        //     var handle = Addressables.LoadAssetAsync<GameObject>(addressName);
+        //
+        //     var r = await handle.Task;
+        //
+        //     return r;
+        // }
+        
         private void AddCommandStreamAndInfoStream(GameObject inGO)
         {
             var commandStreamProducer = inGO.GetComponent<GameCommand.ICommandStreamProducer>();
@@ -126,7 +136,7 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
                 CommandService.AddInfoStreamPresenter(infoPresenter);
             }            
         }
-
+        
         // TODO: Move hard reference to PlayMakerFSM to somewhere else
         // TODO: Assign reference to FSM may need a better approach
         private void SetReferenceToExtension(GameObject inGO)
@@ -182,16 +192,15 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
                 Addressables.ReleaseInstance(_viewLoadingPrefab);
             }
 
-            // Release for asset not necessary?
-            // if (_timelineAsset != null)
-            // {
-            //     Addressables.Release(_timelineAsset);
-            // }
-            //
-            // if (_i2Asset != null)
-            // {
-            //     Addressables.Release(_i2Asset);
-            // }
+            if (_timelineAsset != null)
+            {
+                Addressables.Release(_timelineAsset);
+            }
+
+            if (_i2Asset != null)
+            {
+                Addressables.Release(_i2Asset);
+            }
 
             //
             if (_canvas != null)
@@ -215,7 +224,7 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
                 CommandService.RemoveInfoStreamPresenter(infoPresenter);
             }            
         }
-        
+
         protected override void OnDestroy()
         {
             base.OnDestroy();
@@ -223,7 +232,6 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
             //
             RemovingAssets();
 
-            //
             _compositeDisposable?.Dispose();
         }
     }

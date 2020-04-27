@@ -33,6 +33,7 @@ namespace JoyBrick.Walkio.Game.Hud.Stage
         //
         public GameObject RefBootstrap { get; set; }
         public GameCommand.ICommandService CommandService { get; set; }
+        // public GameCommand.IInfoPresenter InfoPresenter { get; set; }
         public GameCommon.IFlowControl FlowControl { get; set; }
 
         //
@@ -72,6 +73,12 @@ namespace JoyBrick.Walkio.Game.Hud.Stage
                             
                     //
                     _canvas = GameObject.Instantiate(_canvasPrefab);
+                    var scene = SceneManager.GetSceneByName("Entry");
+                    if (scene.IsValid())
+                    {
+                        SceneManager.MoveGameObjectToScene(_canvas, scene);
+                    }
+
                     AddCommandStreamAndInfoStream(_canvas);
                     SetReferenceToExtension(_canvas);
                             
@@ -198,7 +205,23 @@ namespace JoyBrick.Walkio.Game.Hud.Stage
             //
             if (_canvas != null)
             {
+                RemoveCommandStreamAndInfoStream(_canvas);
                 GameObject.Destroy(_canvas);
+            }            
+        }
+        
+        private void RemoveCommandStreamAndInfoStream(GameObject inGO)
+        {
+            var commandStreamProducer = inGO.GetComponent<GameCommand.ICommandStreamProducer>();
+            if (commandStreamProducer != null)
+            {
+                CommandService.RemoveCommandStreamProducer(commandStreamProducer);
+            }
+
+            var infoPresenter = inGO.GetComponent<GameCommand.IInfoPresenter>();
+            if (infoPresenter != null)
+            {
+                CommandService.RemoveInfoStreamPresenter(infoPresenter);
             }            
         }
 

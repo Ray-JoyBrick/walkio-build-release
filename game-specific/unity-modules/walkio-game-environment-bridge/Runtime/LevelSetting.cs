@@ -5,9 +5,13 @@ namespace JoyBrick.Walkio.Game.Environment
     
     public class LevelSetting : ScriptableObject
     {
+        //
         public int hGridCount;
         public int vGridCount;
 
         public int gridCellCount;
+
+        //
+        public int aiControlCount;
     }
 }
