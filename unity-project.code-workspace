@@ -1,17 +1,17 @@
 {
 	"folders": [
 		{
-			"path": "asset-manipulation-unity"
+			"path": "asset-unification-unity"
 		},
 		{
-			"path": "behavior-centric-unity"
+			"path": "behavior-unification-unity"
 		},
 		{
 			"path": "complete-unity"
 		}
   ],
   "settings": {
-    "workbench.colorTheme": "Night Owl Light",
+    "workbench.colorTheme": "Night Owl",
 
     "files.exclude": {
       "**/*.csproj": true,
