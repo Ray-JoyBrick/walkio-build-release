@@ -19,7 +19,8 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
             RemoveGroup(assetSettings, "Assets - Hud - App");
             RemoveGroup(assetSettings, "Assets - Hud - App - Assist");
             RemoveGroup(assetSettings, "Assets - Hud - Preparation");
-            RemoveGroup(assetSettings, "Assets - Hud - Stage");            
+            RemoveGroup(assetSettings, "Assets - Hud - Stage");
+            RemoveGroup(assetSettings, "Assets - Hud - Stage - Assist");
         }
 
         private static void RemoveGroup(AddressableAssetSettings assetSettings, string groupName)
@@ -48,6 +49,7 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
             var appAssistGroup = CreateGroup(assetSettings, "Assets - Hud - App - Assist");
             var preparationGroup = CreateGroup(assetSettings, "Assets - Hud - Preparation");
             var stageGroup = CreateGroup(assetSettings, "Assets - Hud - Stage");
+            var stageAssistGroup = CreateGroup(assetSettings, "Assets - Hud - Stage - Assist");
             
             //
             PlaceAssetIntoGroup_Common(assetSettings, commonGroup);
@@ -55,6 +57,7 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
             PlaceAssetIntoGroup_AppAssist(assetSettings, appAssistGroup);
             PlaceAssetIntoGroup_Preparation(assetSettings, preparationGroup);
             PlaceAssetIntoGroup_Stage(assetSettings, stageGroup);
+            PlaceAssetIntoGroup_StageAssist(assetSettings, stageAssistGroup);
         }
 
         private static AddressableAssetGroup CreateGroup(AddressableAssetSettings assetSettings, string groupName)
@@ -168,6 +171,20 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
                 relativeViewLoadingTimelineAsset,
                 label,
                 "Hud - App - View - Loading Timeline");    
+
+            var relativeViewHelpPrefab =
+                Path.Combine(relativeAppFolderPath, "View - Help", "View - Help.prefab");
+            var relativeViewHelpTimelineAsset =
+                Path.Combine(relativeAppFolderPath, "View - Help", "View - Help.playable");
+
+            PlaceAssetInAddressble(assetSettings, assetGroup,
+                relativeViewHelpPrefab,
+                label,
+                "Hud - App - View - Help Prefab");
+            PlaceAssetInAddressble(assetSettings, assetGroup,
+                relativeViewHelpTimelineAsset,
+                label,
+                "Hud - App - View - Help Timeline");    
         }
 
         private static void PlaceAssetIntoGroup_AppAssist(
@@ -303,6 +320,46 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
                 label,
                 "Hud - Stage - View - Option Timeline");    
         }
+        
+        private static void PlaceAssetIntoGroup_StageAssist(
+            AddressableAssetSettings assetSettings,
+            AddressableAssetGroup assetGroup)
+        {
+            var label = "Hud - Stage - Assist";
+            assetSettings.AddLabel(label);
+            
+            var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game - Hud Design");
+            var relativeAppFolderPath = Path.Combine(relativeGameFolderPath, "Module - Hud - Stage - Assist");
+            
+            var canvasAssetPath = Path.Combine(relativeAppFolderPath, "Canvas.prefab");
+            
+            PlaceAssetInAddressble(assetSettings, assetGroup,
+                canvasAssetPath,
+                label,
+                "Hud - Canvas - Stage - Assist");
+            
+            var relativeI2Asset =
+                Path.Combine(relativeAppFolderPath, "Extension - I2", "I2Languages.asset");
+            
+            PlaceAssetInAddressble(assetSettings, assetGroup,
+                relativeI2Asset,
+                label,
+                "Hud - Stage - Assist - I2");            
+            
+            var relativeViewBasePrefab =
+                Path.Combine(relativeAppFolderPath, "View - Base", "View - Base.prefab");
+            var relativeViewBaseTimelineAsset =
+                Path.Combine(relativeAppFolderPath, "View - Base", "View - Base.playable");
+
+            PlaceAssetInAddressble(assetSettings, assetGroup,
+                relativeViewBasePrefab,
+                label,
+                "Hud - Stage - Assist - View - Base Prefab");
+            PlaceAssetInAddressble(assetSettings, assetGroup,
+                relativeViewBaseTimelineAsset,
+                label,
+                "Hud - Stage - Assist - View - Base Timeline");    
+        }        
 
         // This puts asset into addressable for according group, label
         private static void PlaceAssetInAddressble(

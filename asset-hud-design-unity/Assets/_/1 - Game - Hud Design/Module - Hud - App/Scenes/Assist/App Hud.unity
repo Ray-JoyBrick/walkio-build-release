@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &683886755 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4069214941539995710, guid: 2c242ad6e694b408eb954d0597a8e063, type: 3}
+  m_PrefabInstance: {fileID: 738427183}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &738427183
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -262,6 +267,14 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6799236097513102942, guid: 2c242ad6e694b408eb954d0597a8e063, type: 3}
+      propertyPath: fsm.variables.arrayVariables.Array.data[0].objectReferences.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6799236097513102942, guid: 2c242ad6e694b408eb954d0597a8e063, type: 3}
+      propertyPath: fsm.variables.arrayVariables.Array.data[0].objectReferences.Array.data[1]
+      value: 
+      objectReference: {fileID: 683886755}
     - target: {fileID: 9117137245323500532, guid: 2c242ad6e694b408eb954d0597a8e063, type: 3}
       propertyPath: m_fontColor.r
       value: 0.13333334
