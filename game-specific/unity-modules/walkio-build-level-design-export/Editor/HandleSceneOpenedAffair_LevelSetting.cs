@@ -61,6 +61,8 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
             levelSetting.vGridCount = levelOperator.zSubSceneCount;
             levelSetting.gridCellCount = levelOperator.gridCount;
 
+            levelSetting.aiControlCount = levelOperator.aiControlCount;
+
             return levelSetting;
         }
         

@@ -11,11 +11,16 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport
 
     public partial class LevelOperator : MonoBehaviour
     {
+        //
         public int xSubSceneCount;
         public int zSubSceneCount;
 
         public int gridCount;
-        
+
+        //
+        public int aiControlCount;
+
+        //
         public GameObject curvy;
     }
 }

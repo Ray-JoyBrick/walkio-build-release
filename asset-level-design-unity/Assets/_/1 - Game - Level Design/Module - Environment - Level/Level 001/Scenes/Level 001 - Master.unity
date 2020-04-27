@@ -9116,6 +9116,7 @@ MonoBehaviour:
   xSubSceneCount: 2
   zSubSceneCount: 3
   gridCount: 64
+  aiControlCount: 5
   curvy: {fileID: 361199425}
   subScenes:
   - {fileID: 102900000, guid: b796ab2041a70419f9865f6fcef81b91, type: 3}
