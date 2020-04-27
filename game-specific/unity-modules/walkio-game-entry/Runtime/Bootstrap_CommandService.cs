@@ -6,7 +6,7 @@ namespace JoyBrick.Walkio.Game
     using UniRx;
     
     using GameCommand = JoyBrick.Walkio.Game.Command;
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT     
+#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
     using GameExtension = JoyBrick.Walkio.Game.Extension;
 #endif
     
@@ -14,24 +14,19 @@ namespace JoyBrick.Walkio.Game
         GameCommand.ICommandService
     {
         //
-        private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
-        
-        private IObservable<int> SetupEcsDone => _notifySetupEcsDone.AsObservable();
-        private readonly Subject<int> _notifySetupEcsDone = new Subject<int>();
-        
-        // public IObservable<int> LoadAppHud => _notifyLoadAppHud.AsObservable();
-        // private readonly Subject<int> _notifyLoadAppHud = new Subject<int>();
-        
-        //
-        public readonly List<GameCommand.ICommandStreamProducer> _commandStreamProducers = new List<GameCommand.ICommandStreamProducer>();
+        public readonly List<GameCommand.ICommandStreamProducer> _commandStreamProducers =
+            new List<GameCommand.ICommandStreamProducer>();
 
-        public IObservable<GameCommand.ICommand> CommandStream => _rpCommands.Select(x => x).Switch();
+        public IObservable<GameCommand.ICommand> CommandStream =>
+            _rpCommands.Select(x => x).Switch();
         private readonly ReactiveProperty<IObservable<GameCommand.ICommand>> _rpCommands =
             new ReactiveProperty<IObservable<GameCommand.ICommand>>(Observable.Empty<GameCommand.ICommand>());
         private readonly Subject<GameCommand.ICommand> _notifyCommand = new Subject<GameCommand.ICommand>();
         
         public void AddCommandStreamProducer(GameCommand.ICommandStreamProducer commandStreamProducer)
         {
+            _logger.Debug($"Bootstrap - AddCommandStreamProducer - {commandStreamProducer}");
+            
             var existed =_commandStreamProducers.Exists(x => x == commandStreamProducer);
             if (existed) return;
             
@@ -39,8 +34,10 @@ namespace JoyBrick.Walkio.Game
             ReformCommandStream();
         }
         
-        void RemoveCommandStreamProducer(GameCommand.ICommandStreamProducer commandStreamProducer)
+        public void RemoveCommandStreamProducer(GameCommand.ICommandStreamProducer commandStreamProducer)
         {
+            _logger.Debug($"Bootstrap - RemoveCommandStreamProducer - {commandStreamProducer}");
+            
             var existed =_commandStreamProducers.Exists(x => x == commandStreamProducer);
             if (!existed) return;
             
@@ -59,18 +56,33 @@ namespace JoyBrick.Walkio.Game
             _rpCommands.Value = combinedObs;            
         }
         
-        public readonly List<GameCommand.IInfoPresenter> _infoPresenters = new List<GameCommand.IInfoPresenter>();
+        public readonly List<GameCommand.IInfoPresenter> _infoPresenters =
+            new List<GameCommand.IInfoPresenter>();
 
-        public IObservable<GameCommand.IInfo> InfoStream => _rpInfos.Select(x => x).Switch();
+        public IObservable<GameCommand.IInfo> InfoStream =>
+            _rpInfos.Select(x => x).Switch();
         private readonly ReactiveProperty<IObservable<GameCommand.IInfo>> _rpInfos =
             new ReactiveProperty<IObservable<GameCommand.IInfo>>(Observable.Empty<GameCommand.IInfo>());
 
         public void AddInfoStreamPresenter(GameCommand.IInfoPresenter infoPresenter)
         {
+            _logger.Debug($"Bootstrap - AddInfoStreamPresenter - {infoPresenter}");
+            
             var existed =_infoPresenters.Exists(x => x == infoPresenter);
             if (existed) return;
             
             _infoPresenters.Add(infoPresenter);
+            ReformInfoStream();
+        }
+
+        public void RemoveInfoStreamPresenter(GameCommand.IInfoPresenter infoPresenter)
+        {
+            _logger.Debug($"Bootstrap - RemoveInfoStreamPresenter - {infoPresenter}");
+            
+            var existed =_infoPresenters.Exists(x => x == infoPresenter);
+            if (!existed) return;
+
+            _infoPresenters.Remove(infoPresenter);
             ReformInfoStream();
         }
 
@@ -101,6 +113,13 @@ namespace JoyBrick.Walkio.Game
                 {
                     Flag = false
                 });
+            }
+            else if (String.CompareOrdinal(commandName, "Bring Up Help") == 0)
+            {
+                // _notifyCommand.OnNext(new GameCommand.ActivateLoadingViewCommand
+                // {
+                //     Flag = false
+                // });
             }
 #if COMPLETE_PROJECT || HUD_FLOW_PROJECT
             else if (String.CompareOrdinal(commandName, "Load Preparation") == 0)

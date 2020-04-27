@@ -3,9 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-// #if COMPLETE_PROJECT    
-//     using Microsoft.AppCenter.Unity.Distribute;
-// #endif
     using UniRx;
     using UniRx.Diagnostics;
     using Unity.Entities;
@@ -38,55 +35,33 @@
     {
         private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(Bootstrap));
 
+        //
+        private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
+
+        private IObservable<int> SetupEcsDone => _notifySetupEcsDone.AsObservable();
+        private readonly Subject<int> _notifySetupEcsDone = new Subject<int>();
+
+        //
         void Awake()
         {
-            // This will be used for AppCenter, as AppCenter does not have pre-processor define,
-            // Use custom COMPLETE_PROJECT to tell if AppCenter functionality should be turned on.
-// #if COMPLETE_PROJECT
-//             Distribute.ReleaseAvailable = OnReleaseAvailable;
-// #endif
+            //
+            SetupAppCenterCrashes();
+
+            //
+            SetupUniRxLogger();
         }
 
-// #if COMPLETE_PROJECT
-//         bool OnReleaseAvailable(ReleaseDetails releaseDetails)
-//         {
-//             // Look at releaseDetails public properties to get version information, release notes text or release notes URL
-//             string versionName = releaseDetails.ShortVersion;
-//             string versionCodeOrBuildNumber = releaseDetails.Version;
-//             string releaseNotes = releaseDetails.ReleaseNotes;
-//             Uri releaseNotesUrl = releaseDetails.ReleaseNotesUrl;
-//
-//             // (Do something with the values if you want)
-//
-//             // On mandatory update, user cannot postpone
-//             if (releaseDetails.MandatoryUpdate)
-//             {
-//                 // Force user to update (you should probably show some custom UI here)
-//                 Distribute.NotifyUpdateAction(UpdateAction.Update);
-//             }
-//             else
-//             {
-//                 // Allow user to update or postpone (you should probably show some custom UI here)
-//                 // "GetUserUpdateAction()" is not part of the SDK; it just represents a way of getting user response.
-//                 // This blocks the thread while awaiting the user's response! This example should not be used literally
-//                 UpdateAction updateAction = GetUserUpdateAction();
-//                 Distribute.NotifyUpdateAction(updateAction);
-//             }
-//             // Return true if you are using your own UI to get user response, false otherwise
-//             return true;
-//         }
-// #endif
-        
         void Start()
         {
-            SetupUniRxLogger();
-            
+            //
+            SetupAppCenterAnalytics();
+
             //
             SetupEcsDone
                 .Subscribe(x =>
                 {
-                    // _notifyLoadAppHud.OnNext(1);
-                    // StartInitializingAppwideService();
+                    // If assist is presented, has to wait till assist part is done.
+                    SetupFoundationFlow();
                 })
                 .AddTo(_compositeDisposable);
 
@@ -103,9 +78,6 @@
 
             //
             SetupAddressable();
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT            
-            AssignFsmVariableValue();
-#endif
         }
         
         private void SetupUniRxLogger()
@@ -143,8 +115,8 @@
         {
             _logger.Debug($"Bootstrap - HandleAddressableInitializeAsyncCompleted");
 
+            _notifyCanStartInitialSetup.OnNext(1);
             SetupEcsSystem();
-            SetupFoundationFlow();
         }
 
         private void SetupEcsSystem()
@@ -163,6 +135,11 @@
             var settingDoneCheckSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameGameFlowControl.SettingDoneCheckSystem>();
+            
+            var loadGameFlowSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameGameFlowControl.LoadGameFlowSystem>();
+            
 
             // App-wide
 #if COMPLETE_PROJECT || HUD_FLOW_PROJECT
@@ -197,10 +174,14 @@
             //
             loadingDoneCheckSystem.FlowControl = (GameCommon.IFlowControl) this;
             settingDoneCheckSystem.FlowControl = (GameCommon.IFlowControl) this;
+            loadGameFlowSystem.RefBootstrap = this.gameObject;
+            loadGameFlowSystem.FlowControl = (GameCommon.IFlowControl) this;
             
             // App-wide
 #if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+            loadAppHudSystem.RefBootstrap = this.gameObject;
             loadAppHudSystem.CommandService = (GameCommand.ICommandService) this;
+            // loadAppHudSystem.InfoPresenter = (GameCommand.IInfoPresenter) this;
             loadAppHudSystem.FlowControl = (GameCommon.IFlowControl) this;
             setupAppHudSystem.FlowControl = (GameCommon.IFlowControl) this;
 #endif
@@ -209,6 +190,7 @@
 #if COMPLETE_PROJECT || HUD_FLOW_PROJECT
             loadPreparationHudSystem.RefBootstrap = this.gameObject;
             loadPreparationHudSystem.CommandService = (GameCommand.ICommandService) this;
+            // loadPreparationHudSystem.InfoPresenter = (GameCommand.IInfoPresenter) this;
             loadPreparationHudSystem.FlowControl = (GameCommon.IFlowControl) this;
 #endif
 
@@ -216,6 +198,7 @@
 #if COMPLETE_PROJECT || HUD_FLOW_PROJECT
             loadStageHudSystem.RefBootstrap = this.gameObject;
             loadStageHudSystem.CommandService = (GameCommand.ICommandService) this;
+            // loadStageHudSystem.InfoPresenter = (GameCommand.IInfoPresenter) this;
             loadStageHudSystem.FlowControl = (GameCommon.IFlowControl) this;
 #endif
 
@@ -227,6 +210,7 @@
             //
             loadingDoneCheckSystem.Construct();
             settingDoneCheckSystem.Construct();
+            loadGameFlowSystem.Construct();
 
             // App-wide
 #if COMPLETE_PROJECT || HUD_FLOW_PROJECT
@@ -251,6 +235,7 @@
             // InitializationSystemGroup
             initializationSystemGroup.AddSystemToUpdateList(loadingDoneCheckSystem);
             initializationSystemGroup.AddSystemToUpdateList(settingDoneCheckSystem);
+            initializationSystemGroup.AddSystemToUpdateList(loadGameFlowSystem);
 
             // App-wide - InitializationSystemGroup
 #if COMPLETE_PROJECT || HUD_FLOW_PROJECT
@@ -270,7 +255,7 @@
             
 #if COMPLETE_PROJECT || LEVEL_FLOW_PROJECT
             initializationSystemGroup.AddSystemToUpdateList(loadEnvironmentSystem);
-#endif              
+#endif
         }
 
         private void SetupFoundationFlow()
@@ -282,76 +267,9 @@
             });
         }
 
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
-        private void AssignFsmVariableValue()
-        {
-            var pmfsms = FindObjectsOfType<PlayMakerFSM>();
-            
-            pmfsms.ToList().ForEach(x => SetReferenceToExtension(x.gameObject));
-        }
-
-        
-        // TODO: Move hard reference to PlayMakerFSM to somewhere else
-        // TODO: Assign reference to FSM may need a better approach
-        private void SetReferenceToExtension(GameObject inGO)
-        {
-            var pmfsms = new List<PlayMakerFSM>();
-
-            // Canvas itself
-            var comps = inGO.GetComponents<PlayMakerFSM>();
-            if (comps.Length > 0)
-            {
-                pmfsms.AddRange(comps);
-            }
-            
-            // Views under Canvas
-            foreach (Transform child in inGO.transform)
-            {
-                comps = child.GetComponents<PlayMakerFSM>();
-                if (comps.Length > 0)
-                {
-                    pmfsms.AddRange(comps);
-                }
-            }
-
-            pmfsms.ForEach(x => SetFsmVariableValue(x, "zz_Command Service", this.gameObject));
-            pmfsms.Clear();
-        }
-
-        // TODO: Make this in some static class so that other class can access as well
-        private static void SetFsmVariableValue(PlayMakerFSM pmfsm, string variableName, GameObject inValue)
-        {
-            var commandServiceVariables =
-                pmfsm.FsmVariables.GameObjectVariables.Where(x => string.CompareOrdinal(x.Name, variableName) == 0);
-                
-            commandServiceVariables.ToList()
-                .ForEach(x =>
-                {
-                    x.Value = inValue;
-                });
-        }
-#endif
-        
         private void OnDestroy()
         {
             _compositeDisposable?.Dispose();
         }
-        
-        // private void CreateWorld()
-        // {
-        //     var world = new World("Render");
-        //     var systemTypes = new List<System.Type>();
-        //     
-        //     DefaultWorldInitialization.AddSystemsToRootLevelSystemGroups(world, systemTypes);
-        //     
-        //     ScriptBehaviourUpdateOrder.UpdatePlayerLoop(world);
-        //
-        //     ScriptBehaviourUpdateOrder.SetPlayerLoop(PlayerLoop.GetDefaultPlayerLoop());
-        //
-        //     foreach (var w in World.All)
-        //     {
-        //         ScriptBehaviourUpdateOrder.UpdatePlayerLoop(w, ScriptBehaviourUpdateOrder.CurrentPlayerLoop);
-        //     }
-        // }
     }
 }
