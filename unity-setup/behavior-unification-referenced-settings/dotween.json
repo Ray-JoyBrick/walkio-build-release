@@ -1,6 +1,6 @@
 {
   "name": "Demigiant",
-  "use": true,
+  "use": false,
   "toSymlink": [
     {
       "name": "dotween-package/DOTween",

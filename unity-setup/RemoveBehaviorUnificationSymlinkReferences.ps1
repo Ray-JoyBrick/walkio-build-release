@@ -3,7 +3,7 @@ Import-Module -Name .\HandleReferences -Verbose
 #
 New-Variable `
     -Name referencedSettingFolder `
-    -Value "behavior-centric-referenced-settings" `
+    -Value "behavior-unification-referenced-settings" `
     -Option private
 
 New-Variable `
@@ -13,7 +13,7 @@ New-Variable `
 
 New-Variable `
     -Name projectName `
-    -Value "behavior-centric-unity" `
+    -Value "behavior-unification-unity" `
     -Option private
 
 #
