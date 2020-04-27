@@ -8,9 +8,14 @@
         "Unity.Collections",
         "Unity.Transforms",
         "Unity.Entities.Hybrid",
-        "Unity.Entities.Properties",
         "Unity.Mathematics",
-        "Unity.ResourceManager"
+        "Unity.ResourceManager",
+        "Unity.Transforms.Hybrid",
+        "UniRx",
+        "Walkio.Game.Common",
+        "Walkio.Game.Command",
+        "Walkio.Game.Extension",
+        "Walkio.Game.Template"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

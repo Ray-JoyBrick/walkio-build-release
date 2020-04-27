@@ -23,6 +23,7 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
             RemoveGroup(assetSettings, "Assets - Hud - Stage - Assist");
         }
 
+        // TODO: Extract to utility class
         private static void RemoveGroup(AddressableAssetSettings assetSettings, string groupName)
         {
             // Clean up what is already in
@@ -60,6 +61,7 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
             PlaceAssetIntoGroup_StageAssist(assetSettings, stageAssistGroup);
         }
 
+        // TODO: Extract to utility class
         private static AddressableAssetGroup CreateGroup(AddressableAssetSettings assetSettings, string groupName)
         {
             // Clean up what is already in
@@ -344,7 +346,7 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
             PlaceAssetInAddressble(assetSettings, assetGroup,
                 relativeI2Asset,
                 label,
-                "Hud - Stage - Assist - I2");            
+                "Hud - Stage - Assist - I2");
             
             var relativeViewBasePrefab =
                 Path.Combine(relativeAppFolderPath, "View - Base", "View - Base.prefab");
@@ -361,6 +363,7 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
                 "Hud - Stage - Assist - View - Base Timeline");    
         }        
 
+        // TODO: Extract to utility class
         // This puts asset into addressable for according group, label
         private static void PlaceAssetInAddressble(
             AddressableAssetSettings assetSettings,

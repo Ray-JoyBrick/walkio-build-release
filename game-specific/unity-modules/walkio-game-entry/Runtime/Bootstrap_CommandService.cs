@@ -6,7 +6,7 @@ namespace JoyBrick.Walkio.Game
     using UniRx;
     
     using GameCommand = JoyBrick.Walkio.Game.Command;
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT || HUD_FLOW_PROJECT
     using GameExtension = JoyBrick.Walkio.Game.Extension;
 #endif
     
@@ -121,7 +121,7 @@ namespace JoyBrick.Walkio.Game
                 //     Flag = false
                 // });
             }
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT || HUD_FLOW_PROJECT
             else if (String.CompareOrdinal(commandName, "Load Preparation") == 0)
             {
                 GameExtension.BridgeExtension.SendEvent("zz_Exit Current Flow");

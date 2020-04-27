@@ -16,6 +16,14 @@
     public struct Unit : IComponentData
     {
     }
+
+    public struct NeutralForce : IComponentData
+    {
+    }
+
+    public struct TeamForce : IComponentData
+    {
+    }
     
     //
     public struct UnitBuffer : IBufferElementData

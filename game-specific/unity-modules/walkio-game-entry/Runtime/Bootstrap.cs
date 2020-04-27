@@ -16,7 +16,7 @@
     
     using GameGameFlowControl = JoyBrick.Walkio.Game.GameFlowControl;
 
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT || HUD_FLOW_PROJECT
 
     using GameHudApp = JoyBrick.Walkio.Game.Hud.App;
     using GameHudPreparation = JoyBrick.Walkio.Game.Hud.Preparation;
@@ -24,7 +24,7 @@
     
 #endif
     
-#if COMPLETE_PROJECT || LEVEL_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT || LEVEL_FLOW_PROJECT
     
     using GameEnvironment = JoyBrick.Walkio.Game.Environment;
     
@@ -142,7 +142,7 @@
             
 
             // App-wide
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT || HUD_FLOW_PROJECT
             var loadAppHudSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameHudApp.LoadAppHudSystem>();
@@ -152,20 +152,20 @@
 #endif
             
             // Preparation-wide
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT || HUD_FLOW_PROJECT
             var loadPreparationHudSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameHudPreparation.LoadPreparationHudSystem>();
 #endif
 
             // Stage-wide
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT || HUD_FLOW_PROJECT
             var loadStageHudSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameHudStage.LoadStageHudSystem>();
 #endif
             
-#if COMPLETE_PROJECT || LEVEL_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT || LEVEL_FLOW_PROJECT
             var loadEnvironmentSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameEnvironment.LoadEnvironmentSystem>();
@@ -178,7 +178,7 @@
             loadGameFlowSystem.FlowControl = (GameCommon.IFlowControl) this;
             
             // App-wide
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT || HUD_FLOW_PROJECT
             loadAppHudSystem.RefBootstrap = this.gameObject;
             loadAppHudSystem.CommandService = (GameCommand.ICommandService) this;
             // loadAppHudSystem.InfoPresenter = (GameCommand.IInfoPresenter) this;
@@ -187,7 +187,7 @@
 #endif
             
             // Preparation-wide
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT || HUD_FLOW_PROJECT
             loadPreparationHudSystem.RefBootstrap = this.gameObject;
             loadPreparationHudSystem.CommandService = (GameCommand.ICommandService) this;
             // loadPreparationHudSystem.InfoPresenter = (GameCommand.IInfoPresenter) this;
@@ -195,14 +195,14 @@
 #endif
 
             // Stage-wide
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT || HUD_FLOW_PROJECT
             loadStageHudSystem.RefBootstrap = this.gameObject;
             loadStageHudSystem.CommandService = (GameCommand.ICommandService) this;
             // loadStageHudSystem.InfoPresenter = (GameCommand.IInfoPresenter) this;
             loadStageHudSystem.FlowControl = (GameCommon.IFlowControl) this;
 #endif
 
-#if COMPLETE_PROJECT || LEVEL_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT || LEVEL_FLOW_PROJECT
             loadEnvironmentSystem.CommandService = (GameCommand.ICommandService) this;
             loadEnvironmentSystem.FlowControl = (GameCommon.IFlowControl) this;
 #endif
@@ -213,22 +213,22 @@
             loadGameFlowSystem.Construct();
 
             // App-wide
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT || HUD_FLOW_PROJECT
             loadAppHudSystem.Construct();
             setupAppHudSystem.Construct();
 #endif
             
             // Preparation-wide
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT || HUD_FLOW_PROJECT
             loadPreparationHudSystem.Construct();
 #endif
             
             // Stage-wide
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT || HUD_FLOW_PROJECT
             loadStageHudSystem.Construct();
 #endif
             
-#if COMPLETE_PROJECT || LEVEL_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT || LEVEL_FLOW_PROJECT
             loadEnvironmentSystem.Construct();
 #endif            
             
@@ -238,22 +238,22 @@
             initializationSystemGroup.AddSystemToUpdateList(loadGameFlowSystem);
 
             // App-wide - InitializationSystemGroup
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT || HUD_FLOW_PROJECT
             initializationSystemGroup.AddSystemToUpdateList(loadAppHudSystem);
             initializationSystemGroup.AddSystemToUpdateList(setupAppHudSystem);
 #endif
             
             // Preparation-wide - InitializationSystemGroup
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT || HUD_FLOW_PROJECT
             initializationSystemGroup.AddSystemToUpdateList(loadPreparationHudSystem);
 #endif
             
             // Stage-wide - InitializationSystemGroup
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT || HUD_FLOW_PROJECT
             initializationSystemGroup.AddSystemToUpdateList(loadStageHudSystem);
 #endif
             
-#if COMPLETE_PROJECT || LEVEL_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT || LEVEL_FLOW_PROJECT
             initializationSystemGroup.AddSystemToUpdateList(loadEnvironmentSystem);
 #endif
         }
