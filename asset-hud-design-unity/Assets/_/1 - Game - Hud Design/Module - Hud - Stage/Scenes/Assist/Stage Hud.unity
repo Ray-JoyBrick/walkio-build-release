@@ -549,6 +549,10 @@ PrefabInstance:
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 898762147038522195, guid: b5dadbaecd20f4632bc3474475515e51, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 968286154988521625, guid: b5dadbaecd20f4632bc3474475515e51, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 900
@@ -584,6 +588,10 @@ PrefabInstance:
     - target: {fileID: 1553777862975394530, guid: b5dadbaecd20f4632bc3474475515e51, type: 3}
       propertyPath: m_textInfo.pageCount
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2150980234502476494, guid: b5dadbaecd20f4632bc3474475515e51, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3275169817967740760, guid: b5dadbaecd20f4632bc3474475515e51, type: 3}
       propertyPath: m_Name
