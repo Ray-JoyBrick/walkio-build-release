@@ -1,0 +1,10 @@
+{
+  "name": "Ludiq",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "Bolt",
+      "to": "Assets/Ludiq"
+    }
+  ]
+}

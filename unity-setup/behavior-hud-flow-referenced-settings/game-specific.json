@@ -7,6 +7,10 @@
       "to": "Assets/_/1 - Game/Module - Entry/Scripts/Runtime"
     },
     {
+      "name": "unity-modules/walkio-game-game-flow-control/Prefabs",
+      "to": "Assets/_/1 - Game/Module - Game Flow Control/Prefabs"
+    },
+    {
       "name": "preprocess-assets/external-data",
       "to": "Assets/_/1 - Game/Preprocess Assets/external-data"
     },
