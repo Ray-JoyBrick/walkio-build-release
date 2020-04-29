@@ -6,6 +6,8 @@
 *.meta
 !*.*.meta
 
+Ludiq.Generated.meta
+
 !_
 !AddressableAssetsData
 # Some Unity package create assets under Assets/Editor folder and unsure if these can be moved
