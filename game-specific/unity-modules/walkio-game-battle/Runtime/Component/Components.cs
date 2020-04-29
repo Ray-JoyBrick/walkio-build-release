@@ -24,6 +24,14 @@
     public struct TeamForce : IComponentData
     {
     }
+
+    public struct MoveOnPath : IComponentData
+    {
+        public int StartIndex;
+        public int EndIndex;
+
+        public int AtIndex;
+    }
     
     //
     public struct UnitBuffer : IBufferElementData

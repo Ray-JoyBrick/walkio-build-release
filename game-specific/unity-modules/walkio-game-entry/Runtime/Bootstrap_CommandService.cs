@@ -142,7 +142,14 @@ namespace JoyBrick.Walkio.Game
                 {
                 });
             }
-            
+            else if (String.CompareOrdinal(commandName, "Stage Play Time Up") == 0)
+            {
+                // _notifyCommand.OnNext(new GameCommand.CreateNeutralForceUnit
+                // {
+                // });
+                
+                GameExtension.BridgeExtension.SendEvent("zz_Exit Current Flow");
+            }
 #endif
         }
     }

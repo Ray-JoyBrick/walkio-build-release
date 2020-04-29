@@ -69,7 +69,7 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
             FlowControl.DoneSettingAsset
                 .Where(x => x.Name.Contains("Stage"))
                 // Should be loading from some settings
-                .Buffer(2)
+                .Buffer(4)
                 .Subscribe(x =>
                 {
                     //

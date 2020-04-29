@@ -4,13 +4,15 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
     using Command;
     using UniRx;
     using Unity.Entities;
-
+    using UnityEngine;
     using GameCommon = JoyBrick.Walkio.Game.Common;
 
+    [DisableAutoCreation]
     public class CleanupSystem : SystemBase
     {
         //
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
+        private EntityArchetype _removeStageUseEventEntityArcehtype;
 
         // Should separate into
         // Flow state
@@ -21,16 +23,37 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
 
         public void Construct()
         {
-            // FlowControl.CleaningAsset
-            //     .Where(x => x.Name.Contains("Preparation"))
-            //     .Buffer(1)
-            //     .Subscribe(x =>
-            //     {
-            //     })
-            //     .AddTo(_compositeDisposable);         
-            
+            FlowControl.CleaningAsset
+                .Where(x => x.Name.Contains("Stage"))
+                .Subscribe(x =>
+                {
+                    // RemovingStageUseEntities();
+                    EntityManager.CreateEntity(_removeStageUseEventEntityArcehtype);
+                })
+                .AddTo(_compositeDisposable);     
+        }
+
+        protected override void OnCreate()
+        {
+            base.OnCreate();
+
+            _removeStageUseEventEntityArcehtype = EntityManager.CreateArchetype(
+                typeof(GameCommon.RemoveStageUse),
+                typeof(GameCommon.StageUse));
         }
 
         protected override void OnUpdate() {}
+
+        // private void RemovingStageUseEntities()
+        // {
+        //     // var _stageUseEntityQuery = EntityManager.CreateEntityQuery(typeof(GameCommon.StageUse));
+        // }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            
+            _compositeDisposable?.Dispose();
+        }
     }
 }

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6435340609736176111
+--- !u!1 &650967775607471759
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6435340609736176105}
-  - component: {fileID: 6435340609736176104}
+  - component: {fileID: 3199016410449222652}
+  - component: {fileID: 3107855302181169475}
   m_Layer: 0
-  m_Name: Create Neutral Force Unit
+  m_Name: Play Time Countdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6435340609736176105
+--- !u!4 &3199016410449222652
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6435340609736176111}
+  m_GameObject: {fileID: 650967775607471759}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,13 +31,13 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6435340609736176104
+--- !u!114 &3107855302181169475
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6435340609736176111}
+  m_GameObject: {fileID: 650967775607471759}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1384774831, guid: e743331561ef77147ae48cda9bcb8209, type: 3}
@@ -47,15 +47,15 @@ MonoBehaviour:
     dataVersion: 2
     usedInTemplate: {fileID: 0}
     name: FSM
-    startState: "\u958B\u59CB\u6642\u6E96\u5099"
+    startState: "\u958B\u59CB\u6642\u8A2D\u5B9A"
     states:
-    - name: "\u958B\u59CB\u6642\u6E96\u5099"
+    - name: "\u958B\u59CB\u6642\u8A2D\u5B9A"
       description: 
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 71
-        y: 103
+        x: 55
+        y: 110
         width: 100
         height: 32
       isBreakpoint: 0
@@ -66,7 +66,7 @@ MonoBehaviour:
           name: FINISHED
           isSystemEvent: 1
           isGlobal: 0
-        toState: "\u7B49\u5F85\u4E00\u6BB5\u6642\u9593"
+        toState: "\u5012\u6578"
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -109,27 +109,91 @@ MonoBehaviour:
         paramName: []
         paramDataPos: 
         paramByteDataSize: 
-    - name: "\u7522\u751F\u4E2D\u7ACB\u55AE\u4F4D"
+    - name: "\u5012\u6578"
       description: 
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 370
-        y: 230
-        width: 102
+        x: 275
+        y: 171
+        width: 100
         height: 32
       isBreakpoint: 0
       isSequence: 0
       hideUnused: 0
       transitions:
       - fsmEvent:
-          name: FINISHED
-          isSystemEvent: 1
+          name: Time Up
+          isSystemEvent: 0
           isGlobal: 0
-        toState: "\u7B49\u5F85\u4E00\u6BB5\u6642\u9593"
+        toState: "\u6642\u9593\u7D50\u675F"
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
+      actionData:
+        actionNames:
+        - HutongGames.PlayMaker.Actions.Wait
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 48c01101
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams:
+        - useVariable: 1
+          name: Max Countdown Time
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 20
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams:
+        - Time Up
+        byteData: 00
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0f0000001700000001000000
+        paramName:
+        - time
+        - finishEvent
+        - realTime
+        paramDataPos: 000000000000000000000000
+        paramByteDataSize: 000000000000000001000000
+    - name: "\u6642\u9593\u7D50\u675F"
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 277
+        y: 252
+        width: 100
+        height: 16
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions: []
       actionData:
         actionNames:
         - JoyBrick.Walkio.Game.Extension.PlayMaker.Actions.GetCommandService
@@ -162,7 +226,7 @@ MonoBehaviour:
           tooltip: 
           showInInspector: 0
           networkSync: 0
-          value: Create Neutral Force Unit
+          value: Stage Play Time Up
         fsmObjectParams: []
         fsmVarParams: []
         fsmArrayParams: []
@@ -187,150 +251,6 @@ MonoBehaviour:
         - commandName
         paramDataPos: 0000000000000000
         paramByteDataSize: 0000000000000000
-    - name: "\u7B49\u5F85\u4E00\u6BB5\u6642\u9593"
-      description: 
-      colorIndex: 0
-      position:
-        serializedVersion: 2
-        x: 371
-        y: 125
-        width: 102
-        height: 32
-      isBreakpoint: 0
-      isSequence: 0
-      hideUnused: 0
-      transitions:
-      - fsmEvent:
-          name: Time Up
-          isSystemEvent: 0
-          isGlobal: 0
-        toState: "\u7522\u751F\u4E2D\u7ACB\u55AE\u4F4D"
-        linkStyle: 0
-        linkConstraint: 0
-        colorIndex: 0
-      actionData:
-        actionNames:
-        - HutongGames.PlayMaker.Actions.Wait
-        customNames:
-        - 
-        actionEnabled: 01
-        actionIsOpen: 01
-        actionStartIndex: 00000000
-        actionHashCodes: 48c01101
-        unityObjectParams: []
-        fsmGameObjectParams: []
-        fsmOwnerDefaultParams: []
-        animationCurveParams: []
-        functionCallParams: []
-        fsmTemplateControlParams: []
-        fsmEventTargetParams: []
-        fsmPropertyParams: []
-        layoutOptionParams: []
-        fsmStringParams: []
-        fsmObjectParams: []
-        fsmVarParams: []
-        fsmArrayParams: []
-        fsmEnumParams: []
-        fsmFloatParams:
-        - useVariable: 1
-          name: Spawn Time Interval
-          tooltip: 
-          showInInspector: 1
-          networkSync: 0
-          value: 1
-        fsmIntParams: []
-        fsmBoolParams: []
-        fsmVector2Params: []
-        fsmVector3Params: []
-        fsmColorParams: []
-        fsmRectParams: []
-        fsmQuaternionParams: []
-        stringParams:
-        - Time Up
-        byteData: 00
-        arrayParamSizes: 
-        arrayParamTypes: []
-        customTypeSizes: 
-        customTypeNames: []
-        paramDataType: 0f0000001700000001000000
-        paramName:
-        - time
-        - finishEvent
-        - realTime
-        paramDataPos: 000000000000000000000000
-        paramByteDataSize: 000000000000000001000000
-    - name: "\u5047\u8A2D\u5728\u95DC\u5361\u5230\u6642\u624D\u80FD\u958B\u59CB"
-      description: 
-      colorIndex: 0
-      position:
-        serializedVersion: 2
-        x: 52
-        y: 194
-        width: 162
-        height: 32
-      isBreakpoint: 0
-      isSequence: 0
-      hideUnused: 0
-      transitions:
-      - fsmEvent:
-          name: Time Up
-          isSystemEvent: 0
-          isGlobal: 0
-        toState: "\u7B49\u5F85\u4E00\u6BB5\u6642\u9593"
-        linkStyle: 0
-        linkConstraint: 0
-        colorIndex: 0
-      actionData:
-        actionNames:
-        - HutongGames.PlayMaker.Actions.Wait
-        customNames:
-        - 
-        actionEnabled: 01
-        actionIsOpen: 01
-        actionStartIndex: 00000000
-        actionHashCodes: 48c01101
-        unityObjectParams: []
-        fsmGameObjectParams: []
-        fsmOwnerDefaultParams: []
-        animationCurveParams: []
-        functionCallParams: []
-        fsmTemplateControlParams: []
-        fsmEventTargetParams: []
-        fsmPropertyParams: []
-        layoutOptionParams: []
-        fsmStringParams: []
-        fsmObjectParams: []
-        fsmVarParams: []
-        fsmArrayParams: []
-        fsmEnumParams: []
-        fsmFloatParams:
-        - useVariable: 0
-          name: 
-          tooltip: 
-          showInInspector: 0
-          networkSync: 0
-          value: 2
-        fsmIntParams: []
-        fsmBoolParams: []
-        fsmVector2Params: []
-        fsmVector3Params: []
-        fsmColorParams: []
-        fsmRectParams: []
-        fsmQuaternionParams: []
-        stringParams:
-        - Time Up
-        byteData: 00
-        arrayParamSizes: 
-        arrayParamTypes: []
-        customTypeSizes: 
-        customTypeNames: []
-        paramDataType: 0f0000001700000001000000
-        paramName:
-        - time
-        - finishEvent
-        - realTime
-        paramDataPos: 000000000000000000000000
-        paramByteDataSize: 000000000000000001000000
     events:
     - name: FINISHED
       isSystemEvent: 1
@@ -342,11 +262,11 @@ MonoBehaviour:
     variables:
       floatVariables:
       - useVariable: 1
-        name: Spawn Time Interval
+        name: Max Countdown Time
         tooltip: 
         showInInspector: 1
         networkSync: 0
-        value: 1
+        value: 300
       intVariables: []
       boolVariables: []
       stringVariables: []

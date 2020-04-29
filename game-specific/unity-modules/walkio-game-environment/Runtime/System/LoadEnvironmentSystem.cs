@@ -110,7 +110,8 @@ namespace JoyBrick.Walkio.Game.Environment
             base.OnCreate();
             
             _entityArchetype = EntityManager.CreateArchetype(
-                 typeof(TheEnvironment));
+                 typeof(TheEnvironment),
+                 typeof(GameCommon.StageUse));
         }
 
         protected override void OnUpdate() {}

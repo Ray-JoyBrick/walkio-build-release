@@ -64,7 +64,7 @@ namespace JoyBrick.Walkio.Game.Environment
                         ++index;
                     }
 
-                    waypointPath.EndIndex = index;
+                    waypointPath.EndIndex = index - 1;
 
                     waypointPathArray[wPathIndex] = waypointPath;
                 }

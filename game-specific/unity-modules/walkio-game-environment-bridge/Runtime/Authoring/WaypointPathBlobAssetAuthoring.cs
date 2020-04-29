@@ -4,6 +4,8 @@
     using Unity.Entities;
     using UnityEngine;
     
+    using GameCommon = JoyBrick.Walkio.Game.Common;
+    
     public class WaypointPathBlobAssetAuthoring :
         MonoBehaviour
        
@@ -22,6 +24,7 @@
         {
             // dstManager.AddComponent<RemoveAfterConversion>(entity);
             // // dstManager.AddComponentObject(entity, tileDetailAsset);
+            dstManager.AddComponentData<GameCommon.StageUse>(entity, new GameCommon.StageUse());
         }
 
 #endif

@@ -137,11 +137,16 @@
             var settingDoneCheckSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameGameFlowControl.SettingDoneCheckSystem>();
+            var cleanupSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameGameFlowControl.CleanupSystem>();
+            var cleanupStageUseEntitySystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameGameFlowControl.CleanupStageUseEntitySystem>();
             
             var loadGameFlowSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameGameFlowControl.LoadGameFlowSystem>();
-            
 
             // App-wide
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT || HUD_FLOW_PROJECT
@@ -177,11 +182,16 @@
             var loadEnvironmentSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameEnvironment.LoadEnvironmentSystem>();
+
+            var moveOnPathSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameBattle.MoveOnPathSystem>();
 #endif
 
             //
             loadingDoneCheckSystem.FlowControl = (GameCommon.IFlowControl) this;
             settingDoneCheckSystem.FlowControl = (GameCommon.IFlowControl) this;
+            cleanupSystem.FlowControl = (GameCommon.IFlowControl) this;
             loadGameFlowSystem.RefBootstrap = this.gameObject;
             loadGameFlowSystem.FlowControl = (GameCommon.IFlowControl) this;
             
@@ -215,16 +225,22 @@
             loadStageFlowSystem.CommandService = (GameCommand.ICommandService) this;
             loadStageFlowSystem.FlowControl = (GameCommon.IFlowControl) this;
 
+            loadBattleSystem.RefBootstrap = this.gameObject;
             loadBattleSystem.CommandService = (GameCommand.ICommandService) this;
             loadBattleSystem.FlowControl = (GameCommon.IFlowControl) this;
 
             loadEnvironmentSystem.CommandService = (GameCommand.ICommandService) this;
             loadEnvironmentSystem.FlowControl = (GameCommon.IFlowControl) this;
+            
+            //
+            moveOnPathSystem.FlowControl = (GameCommon.IFlowControl) this;
+            
 #endif
             
             //
             loadingDoneCheckSystem.Construct();
             settingDoneCheckSystem.Construct();
+            cleanupSystem.Construct();
             loadGameFlowSystem.Construct();
 
             // App-wide
@@ -247,11 +263,15 @@
             loadStageFlowSystem.Construct();
             loadBattleSystem.Construct();
             loadEnvironmentSystem.Construct();
+            
+            moveOnPathSystem.Construct();
 #endif            
             
             // InitializationSystemGroup
             initializationSystemGroup.AddSystemToUpdateList(loadingDoneCheckSystem);
             initializationSystemGroup.AddSystemToUpdateList(settingDoneCheckSystem);
+            initializationSystemGroup.AddSystemToUpdateList(cleanupSystem);
+            initializationSystemGroup.AddSystemToUpdateList(cleanupStageUseEntitySystem);
             initializationSystemGroup.AddSystemToUpdateList(loadGameFlowSystem);
 
             // App-wide - InitializationSystemGroup
@@ -274,6 +294,8 @@
             initializationSystemGroup.AddSystemToUpdateList(loadStageFlowSystem);
             initializationSystemGroup.AddSystemToUpdateList(loadBattleSystem);
             initializationSystemGroup.AddSystemToUpdateList(loadEnvironmentSystem);
+            
+            simulationSystemGroup.AddSystemToUpdateList(moveOnPathSystem);
 #endif
         }
 

@@ -71,7 +71,7 @@ namespace JoyBrick.Walkio.Build.BattleExport.Editor
             AddressableAssetSettings assetSettings,
             AddressableAssetGroup assetGroup)
         {
-            var label = "Flow";
+            var label = "Battle";
             assetSettings.AddLabel(label);
             
             var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game");
@@ -83,13 +83,28 @@ namespace JoyBrick.Walkio.Build.BattleExport.Editor
             // var relativeFontAtlas =
             //     Path.Combine(relativeCommonFolderPath, "Data Assets", "Font Atlas");
 
-            var activateCanvasGroupAssetPath = Path.Combine(relativeExtensionPlayer, "Neutral Force Unit.prefab");
+            var neutralForceUnitAssetPath = Path.Combine(relativeExtensionPlayer, "Neutral Force Unit.prefab");
+            var teamForceUnitAssetPath = Path.Combine(relativeExtensionPlayer, "Team Force Unit.prefab");
+            var teamForceSetAssetPath = Path.Combine(relativeExtensionPlayer, "Team Force Set.prefab");
+            var battleUsePoolAssetPath = Path.Combine(relativeExtensionPlayer, "Pool.prefab");
             // var deactivateCanvasGroupAssetPath = Path.Combine(relativeExtensionPlayer, "Deactivate Canvas Group.asset");
 
             PlaceAssetInAddressble(assetSettings, assetGroup,
-                activateCanvasGroupAssetPath,
+                neutralForceUnitAssetPath,
                 label,
                 "Neutral Force Unit");
+            PlaceAssetInAddressble(assetSettings, assetGroup,
+                teamForceUnitAssetPath,
+                label,
+                "Team Force Unit");
+            PlaceAssetInAddressble(assetSettings, assetGroup,
+                teamForceSetAssetPath,
+                label,
+                "Team Force Set");
+            PlaceAssetInAddressble(assetSettings, assetGroup,
+                battleUsePoolAssetPath,
+                label,
+                "Battle Use Pool");
         }
 
         // This puts asset into addressable for according group, label

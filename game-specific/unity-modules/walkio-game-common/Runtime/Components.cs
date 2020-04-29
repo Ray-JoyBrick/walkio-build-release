@@ -11,4 +11,14 @@ namespace JoyBrick.Walkio.Game.Common
     {
         public int ZoneIndex;
     }
+
+    public struct RemoveStageUse : IComponentData
+    {
+        
+    }
+    
+    //
+    public struct StageUse : IComponentData
+    {
+    }
 }

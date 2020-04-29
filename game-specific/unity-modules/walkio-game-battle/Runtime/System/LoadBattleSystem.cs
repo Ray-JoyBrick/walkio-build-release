@@ -14,6 +14,8 @@ namespace JoyBrick.Walkio.Game.Battle
     using GameCommon = JoyBrick.Walkio.Game.Common;
     using GameCommand = JoyBrick.Walkio.Game.Command;
     using GameExtension = JoyBrick.Walkio.Game.Extension;
+    
+    using GameEnvironment = JoyBrick.Walkio.Game.Environment;
 
     [DisableAutoCreation]
     public class LoadBattleSystem : SystemBase
@@ -31,6 +33,7 @@ namespace JoyBrick.Walkio.Game.Battle
 
         //
         private GameObject _battleUsePool;
+        private EntityQuery _theEnvironmentQuery;
 
         //
         public GameObject RefBootstrap { get; set; }
@@ -54,6 +57,14 @@ namespace JoyBrick.Walkio.Game.Battle
                 })
                 .AddTo(_compositeDisposable);            
 
+            FlowControl.CleaningAsset
+                .Where(x => x.Name.Contains("Stage"))
+                .Subscribe(x =>
+                {
+                    RemovingAssets();
+                })
+                .AddTo(_compositeDisposable); 
+
             // //
             // CommandService.CommandStream
             //     .Do(x => _logger.Debug($"Receive Command Stream: {x}"))
@@ -66,6 +77,16 @@ namespace JoyBrick.Walkio.Game.Battle
             //         ActivateLoadingView(activateLoadingViewCommand.Flag);
             //     })
             //     .AddTo(_compositeDisposable);
+            
+            CommandService.CommandStream
+                .Where(x => (x as GameCommand.CreateNeutralForceUnit) != null)
+                .Subscribe(x =>
+                {
+                    _logger.Debug($"LoadBattleSystem - Construct - Receive CreateNeutralForceUnit");
+                    CreateNeutralForceUnit(_neutralForceUnitPrefab);
+
+                })
+                .AddTo(_compositeDisposable);
         }
 
         private void LoadingAsset()
@@ -118,7 +139,47 @@ namespace JoyBrick.Walkio.Game.Battle
 
             return (battleUsePoolPrefab, teamForceSetPrefab, teamForceUnitPrefab, neutralForceUnitPrefab);
         }
-        
+
+        private void CreateNeutralForceUnit(GameObject prefab)
+        {
+            // This should be converted to entity automatically
+            
+            var entity = _theEnvironmentQuery.GetSingletonEntity();
+            var levelWaypointPathLookup = EntityManager.GetComponentData<GameEnvironment.LevelWaypointPathLookup>(entity);
+
+            var pathCount = levelWaypointPathLookup.WaypointPathBlobAssetRef.Value.WaypointPaths.Length;
+            var rnd = new Unity.Mathematics.Random((uint)System.DateTime.UtcNow.Ticks);
+
+            var randomIndex = rnd.NextInt(0, pathCount);
+            var waypointPath = levelWaypointPathLookup.WaypointPathBlobAssetRef.Value.WaypointPaths[randomIndex];
+
+            var startingPosition =
+                levelWaypointPathLookup.WaypointPathBlobAssetRef.Value.Waypoints[waypointPath.StartIndex];
+            Debug.Log($"waypoint pos: {startingPosition} start: {waypointPath.StartIndex} end: {waypointPath.EndIndex}");
+
+            var neutralForceAuthoring = prefab.GetComponent<NeutralForceAuthoring>();
+            if (neutralForceAuthoring != null)
+            {
+                neutralForceAuthoring.startPathIndex = waypointPath.StartIndex;
+                neutralForceAuthoring.endPathIndex = waypointPath.EndIndex;
+                neutralForceAuthoring.startingPosition = startingPosition;
+            }
+            
+            GameObject.Instantiate(prefab);
+        }
+
+        protected override void OnCreate()
+        {
+            base.OnCreate();
+            
+            _theEnvironmentQuery = GetEntityQuery(new EntityQueryDesc
+            {
+                All = new ComponentType[] { typeof(GameEnvironment.TheEnvironment) }
+            });
+            
+            RequireForUpdate(_theEnvironmentQuery);
+        }
+
         protected override void OnUpdate() {}
 
         public void RemovingAssets()
@@ -127,6 +188,11 @@ namespace JoyBrick.Walkio.Game.Battle
             if (_battleUsePoolPrefab != null)
             {
                 Addressables.ReleaseInstance(_battleUsePoolPrefab);
+            }
+            
+            if (_neutralForceUnitPrefab != null)
+            {
+                Addressables.ReleaseInstance(_neutralForceUnitPrefab);
             }
             
             // if (_viewLoadingPrefab != null)
