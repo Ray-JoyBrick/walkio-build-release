@@ -1,0 +1,10 @@
+{
+    "name": "gamevanilla",
+    "use": true,
+    "toSymlink": [
+      {
+        "name": "UltimateCleanGUIPack",
+        "to": "Assets/Standard Assets/UltimateCleanGUIPack"
+      }
+    ]
+}
