@@ -24,15 +24,13 @@ namespace JoyBrick.Walkio.Game.Battle
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
 
         //
-        private GameObject _canvasPrefab;
-        private GameObject _viewLoadingPrefab;
-        private ScriptableObject _timelineAsset;
-        private ScriptableObject _i2Asset;
+        private GameObject _battleUsePoolPrefab;
+        private GameObject _teamForceSetPrefab;
+        private GameObject _teamForceUnitPrefab;
+        private GameObject _neutralForceUnitPrefab;
 
         //
-        private GameObject _canvas;
-
-        // private View _loadView;
+        private GameObject _battleUsePool;
 
         //
         public GameObject RefBootstrap { get; set; }
@@ -79,14 +77,14 @@ namespace JoyBrick.Walkio.Game.Battle
                 .Subscribe(result =>
                 {
                     //
-                    (_canvasPrefab, _viewLoadingPrefab, _timelineAsset, _i2Asset) = result;
+                    (_battleUsePoolPrefab, _teamForceSetPrefab, _teamForceUnitPrefab, _neutralForceUnitPrefab) = result;
                             
                     //
-                    _canvas = GameObject.Instantiate(_canvasPrefab);
+                    _battleUsePool = GameObject.Instantiate(_battleUsePoolPrefab);
                     var scene = SceneManager.GetSceneByName("Entry");
                     if (scene.IsValid())
                     {
-                        SceneManager.MoveGameObjectToScene(_canvas, scene);
+                        SceneManager.MoveGameObjectToScene(_battleUsePool, scene);
                     }
                     
                     // AddCommandStreamAndInfoStream(_canvas);
@@ -108,29 +106,29 @@ namespace JoyBrick.Walkio.Game.Battle
             return r;
         }
         
-        private async Task<(GameObject, GameObject, ScriptableObject, ScriptableObject)> Load()
+        private async Task<(GameObject, GameObject, GameObject, GameObject)> Load()
         {
-            var canvasPrefabTask = GetAsset<GameObject>($"Hud - Canvas - App");
-            var viewLoadingPrefabTask = GetAsset<GameObject>($"Hud - App - View - Loading Prefab");
-            var timelineAssetTask = GetAsset<ScriptableObject>($"Hud - App - View - Loading Timeline");
-            var i2AssetTask = GetAsset<ScriptableObject>($"Hud - App - I2");
+            var battleUsePoolPrefabTask = GetAsset<GameObject>($"Battle Use Pool");
+            var teamForceSetPrefabTask = GetAsset<GameObject>($"Team Force Set");
+            var teamForceUnitPrefabTask = GetAsset<GameObject>($"Team Force Unit");
+            var neutralForceUnitPrefabTask = GetAsset<GameObject>($"Neutral Force Unit");
 
-            var (canvasPrefab, viewLoadingPrefab, timelineAsset, i2Asset) =
-                (await canvasPrefabTask, await viewLoadingPrefabTask, await timelineAssetTask, await i2AssetTask);
+            var (battleUsePoolPrefab, teamForceSetPrefab, teamForceUnitPrefab, neutralForceUnitPrefab) =
+                (await battleUsePoolPrefabTask, await teamForceSetPrefabTask, await teamForceUnitPrefabTask, await neutralForceUnitPrefabTask);
 
-            return (canvasPrefab, viewLoadingPrefab, timelineAsset, i2Asset);
+            return (battleUsePoolPrefab, teamForceSetPrefab, teamForceUnitPrefab, neutralForceUnitPrefab);
         }
         
         protected override void OnUpdate() {}
 
         public void RemovingAssets()
         {
-            // //
-            // if (_canvasPrefab != null)
-            // {
-            //     Addressables.ReleaseInstance(_canvasPrefab);
-            // }
             //
+            if (_battleUsePoolPrefab != null)
+            {
+                Addressables.ReleaseInstance(_battleUsePoolPrefab);
+            }
+            
             // if (_viewLoadingPrefab != null)
             // {
             //     Addressables.ReleaseInstance(_viewLoadingPrefab);
@@ -145,13 +143,12 @@ namespace JoyBrick.Walkio.Game.Battle
             // {
             //     Addressables.Release(_i2Asset);
             // }
+            
             //
-            // //
-            // if (_canvas != null)
-            // {
-            //     RemoveCommandStreamAndInfoStream(_canvas);
-            //     GameObject.Destroy(_canvas);
-            // }            
+            if (_battleUsePool != null)
+            {
+                GameObject.Destroy(_battleUsePool);
+            }            
         }
         
         protected override void OnDestroy()

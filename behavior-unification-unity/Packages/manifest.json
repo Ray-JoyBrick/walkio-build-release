@@ -42,6 +42,7 @@
     "walkio.game.input-control": "file:../../game-specific/unity-modules/walkio-game-input-control",
     "walkio.game.pathfinding": "file:../../game-specific/unity-modules/walkio-game-pathfinding",
     "walkio.game.player": "file:../../game-specific/unity-modules/walkio-game-player",
+    "walkio.game.stage-flow-control": "file:../../game-specific/unity-modules/walkio-game-stage-flow-control",
     "walkio.game.template": "file:../../game-specific/unity-modules/walkio-game-template",
     "walkio.game.utility": "file:../../game-specific/unity-modules/walkio-game-utility",
     "com.unity.modules.ai": "1.0.0",

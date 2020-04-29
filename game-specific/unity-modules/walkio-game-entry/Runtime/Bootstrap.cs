@@ -26,7 +26,9 @@
     
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT || LEVEL_FLOW_PROJECT
     
+    using GameBattle = JoyBrick.Walkio.Game.Battle;
     using GameEnvironment = JoyBrick.Walkio.Game.Environment;
+    using GameStageFlowControl = JoyBrick.Walkio.Game.StageFlowControl;
     
 #endif
     
@@ -166,6 +168,12 @@
 #endif
             
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT || LEVEL_FLOW_PROJECT
+            var loadStageFlowSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameStageFlowControl.LoadStageFlowSystem>();
+            var loadBattleSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameBattle.LoadBattleSystem>();
             var loadEnvironmentSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameEnvironment.LoadEnvironmentSystem>();
@@ -203,6 +211,13 @@
 #endif
 
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT || LEVEL_FLOW_PROJECT
+            loadStageFlowSystem.RefBootstrap = this.gameObject;
+            loadStageFlowSystem.CommandService = (GameCommand.ICommandService) this;
+            loadStageFlowSystem.FlowControl = (GameCommon.IFlowControl) this;
+
+            loadBattleSystem.CommandService = (GameCommand.ICommandService) this;
+            loadBattleSystem.FlowControl = (GameCommon.IFlowControl) this;
+
             loadEnvironmentSystem.CommandService = (GameCommand.ICommandService) this;
             loadEnvironmentSystem.FlowControl = (GameCommon.IFlowControl) this;
 #endif
@@ -229,6 +244,8 @@
 #endif
             
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT || LEVEL_FLOW_PROJECT
+            loadStageFlowSystem.Construct();
+            loadBattleSystem.Construct();
             loadEnvironmentSystem.Construct();
 #endif            
             
@@ -254,6 +271,8 @@
 #endif
             
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT || LEVEL_FLOW_PROJECT
+            initializationSystemGroup.AddSystemToUpdateList(loadStageFlowSystem);
+            initializationSystemGroup.AddSystemToUpdateList(loadBattleSystem);
             initializationSystemGroup.AddSystemToUpdateList(loadEnvironmentSystem);
 #endif
         }

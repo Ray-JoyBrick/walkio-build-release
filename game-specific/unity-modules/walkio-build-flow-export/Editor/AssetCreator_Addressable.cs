@@ -16,6 +16,7 @@ namespace JoyBrick.Walkio.Build.FlowExport.Editor
             
             // Create group
             RemoveGroup(assetSettings, "Assets - Flow");
+            RemoveGroup(assetSettings, "Assets - Stage Flow");
         }
 
         private static void RemoveGroup(AddressableAssetSettings assetSettings, string groupName)
@@ -39,10 +40,12 @@ namespace JoyBrick.Walkio.Build.FlowExport.Editor
             var assetSettings = UnityEditor.AddressableAssets.AddressableAssetSettingsDefaultObject.Settings;
             
             // Create group
-            var commonGroup = CreateGroup(assetSettings, "Assets - Flow");
+            var gameFlowGroup = CreateGroup(assetSettings, "Assets - Game Flow");
+            var stageFlowGroup = CreateGroup(assetSettings, "Assets - Stage Flow");
             
             //
-            PlaceAssetIntoGroup_Flow(assetSettings, commonGroup);
+            PlaceAssetIntoGroup_GameFlow(assetSettings, gameFlowGroup);
+            PlaceAssetIntoGroup_StageFlow(assetSettings, stageFlowGroup);
         }
 
         private static AddressableAssetGroup CreateGroup(AddressableAssetSettings assetSettings, string groupName)
@@ -67,11 +70,11 @@ namespace JoyBrick.Walkio.Build.FlowExport.Editor
         }
         
         //
-        private static void PlaceAssetIntoGroup_Flow(
+        private static void PlaceAssetIntoGroup_GameFlow(
             AddressableAssetSettings assetSettings,
             AddressableAssetGroup assetGroup)
         {
-            var label = "Flow";
+            var label = "Game Flow";
             assetSettings.AddLabel(label);
             
             var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game");
@@ -90,6 +93,37 @@ namespace JoyBrick.Walkio.Build.FlowExport.Editor
                 activateCanvasGroupAssetPath,
                 label,
                 "Game Flow");
+        }
+
+        //
+        private static void PlaceAssetIntoGroup_StageFlow(
+            AddressableAssetSettings assetSettings,
+            AddressableAssetGroup assetGroup)
+        {
+            var label = "Stage Flow";
+            assetSettings.AddLabel(label);
+            
+            var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game");
+            // var relativeCommonFolderPath = Path.Combine(relativeGameFolderPath, "Module - Game Flow Control");
+
+            var relativeExtensionPlayer =
+                Path.Combine(relativeGameFolderPath, "Module - Stage Flow Control", "Prefabs");
+            
+            // var relativeFontAtlas =
+            //     Path.Combine(relativeCommonFolderPath, "Data Assets", "Font Atlas");
+
+            var createNeutralForceAssetPath = Path.Combine(relativeExtensionPlayer, "Create Neutral Force Unit.prefab");
+            var createTeamForceAssetPath = Path.Combine(relativeExtensionPlayer, "Create Team Force Unit.prefab");
+            // var deactivateCanvasGroupAssetPath = Path.Combine(relativeExtensionPlayer, "Deactivate Canvas Group.asset");
+
+            PlaceAssetInAddressble(assetSettings, assetGroup,
+                createNeutralForceAssetPath,
+                label,
+                "Create Neutral Force Unit");
+            PlaceAssetInAddressble(assetSettings, assetGroup,
+                createTeamForceAssetPath,
+                label,
+                "Create Team Force Unit");
         }
 
         // This puts asset into addressable for according group, label

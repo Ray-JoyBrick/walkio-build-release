@@ -17,4 +17,9 @@ namespace JoyBrick.Walkio.Game.Command
     {
         public string FlowName { get; set; }
     }
+    
+    //
+    public class CreateNeutralForceUnit : ICommand
+    {
+    }
 }

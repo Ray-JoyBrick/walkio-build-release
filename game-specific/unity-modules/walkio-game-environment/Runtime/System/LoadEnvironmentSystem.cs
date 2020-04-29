@@ -28,10 +28,15 @@ namespace JoyBrick.Walkio.Game.Environment
         private GameObject _waypointPathBlobAssetAuthoringPrefab;
 
         //
+        private EntityArchetype _entityArchetype;
+
+        //
         public GameCommand.ICommandService CommandService { get; set; }
         public GameCommon.IFlowControl FlowControl { get; set; }
 
-        //
+        // Although Construct called before OnCreate, waiting for observable stream will occur way
+        // after OnCreate being called. And OnCreate should be called just once, observable stream
+        // might be triggered many times during gameplay.
         public void Construct()
         {
             _logger.Debug($"LoadEnvironmentSystem - Construct");
@@ -43,6 +48,9 @@ namespace JoyBrick.Walkio.Game.Environment
                 .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
+                    // Create Singleton Entity first
+                    var theEnvironmentEntity = EntityManager.CreateEntity(_entityArchetype);
+                    
                     LoadingAsset();
                 })
                 .AddTo(_compositeDisposable);            
@@ -95,6 +103,14 @@ namespace JoyBrick.Walkio.Game.Environment
                 (await levelSettingAssetTask, await levelSettingBlobAssetAuthoringTask, await waypointDataAssetTask, await waypointPathBlobAssetAuthoringTask);
 
             return (levelSettingAsset, levelSettingBlobAssetAuthoring, waypointDataAsset, waypointPathBlobAssetAuthoring);
+        }
+
+        protected override void OnCreate()
+        {
+            base.OnCreate();
+            
+            _entityArchetype = EntityManager.CreateArchetype(
+                 typeof(TheEnvironment));
         }
 
         protected override void OnUpdate() {}

@@ -56,7 +56,7 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
             FlowControl.DoneLoadingAsset
                 .Where(x => x.Name.Contains("Stage"))
                 // Should be loading from some settings
-                .Buffer(2)
+                .Buffer(4)
                 .Subscribe(x =>
                 {
                     _logger.Debug($"LoadingDoneCheckSystem - Construct - DoneLoadingAsset for Stage");

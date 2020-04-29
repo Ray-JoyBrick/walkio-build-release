@@ -136,6 +136,13 @@ namespace JoyBrick.Walkio.Game
                 //     FlowName = "Stage"
                 // });
             }
+            else if (String.CompareOrdinal(commandName, "Create Neutral Force Unit") == 0)
+            {
+                _notifyCommand.OnNext(new GameCommand.CreateNeutralForceUnit
+                {
+                });
+            }
+            
 #endif
         }
     }
