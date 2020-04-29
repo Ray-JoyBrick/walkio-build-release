@@ -3,8 +3,8 @@
   "use": true,
   "toSymlink": [
     {
-      "name": "Bolt",
-      "to": "Assets/Ludiq"
+      "name": "Ludiq",
+      "to": "Assets/Ludiq/Ludiq"
     }
   ]
 }
