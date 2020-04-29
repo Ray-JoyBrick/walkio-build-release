@@ -3,7 +3,7 @@ Import-Module -Name .\HandleReferences -Verbose
 #
 New-Variable `
     -Name referencedSettingFolder `
-    -Value "asset-manipulation-referenced-settings" `
+    -Value "asset-unification-referenced-settings" `
     -Option private
 
 New-Variable `
@@ -13,11 +13,11 @@ New-Variable `
 
 New-Variable `
     -Name projectName `
-    -Value "asset-manipulation-unity" `
+    -Value "asset-unification-unity" `
     -Option private
 
 #
-Write-Host "Copy References`nProject: $projectName`nSettings: $referencedSettingFolder`nReference: $referenceFolder" `
+Write-Host "Remove References`nProject: $projectName`nSettings: $referencedSettingFolder`nReference: $referenceFolder" `
     -ForegroundColor Blue
 
 #
@@ -26,4 +26,4 @@ Symlink-InReferences `
     $referencedSettingFolder `
     $referenceFolder `
     $projectName `
-    ${function:Copy-Asset}
+    ${function:Remove-SymlinkOrNormal}

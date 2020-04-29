@@ -4,7 +4,7 @@
   "toSymlink": [
     {
       "name": "Ludiq",
-      "to": "Assets/Ludiq"
+      "to": "Assets/Ludiq/Ludiq"
     }
   ]
 }

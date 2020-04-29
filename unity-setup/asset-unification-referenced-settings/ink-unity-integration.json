@@ -1,6 +1,6 @@
 {
   "name": "inkle",
-  "use": false,
+  "use": true,
   "toSymlink": [
     {
       "name": "ink-unity-integration/Assets/Plugins/Ink",

@@ -3,10 +3,6 @@
   "use": true,
   "toSymlink": [
     {
-      "name": "preprocess-assets/design-use",
-      "to": "Assets/_/1 - Game/Preprocess Assets/design-use"
-    },
-    {
       "name": "development-assets/Gizmos/JoyBrick",
       "to": "Assets/Gizmos/JoyBrick"
     },

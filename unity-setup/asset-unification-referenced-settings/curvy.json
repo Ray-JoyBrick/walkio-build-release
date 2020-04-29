@@ -1,25 +1,25 @@
 {
   "name": "ToolBuddy",
-  "use": false,
+  "use": true,
   "toSymlink": [
     {
-      "name": "Curvy/Curvy",
+      "name": "Curvy/Plugins/Curvy",
       "to": "Assets/Plugins/Curvy"
     },
     {
-      "name": "Curvy/Curvy Examples",
+      "name": "Curvy/Plugins/Curvy Examples",
       "to": "Assets/Plugins/Curvy Examples"
     },
     {
-      "name": "Curvy/Curvy Resources",
+      "name": "Curvy/Plugins/Curvy Resources",
       "to": "Assets/Plugins/Curvy Resources"
     },
     {
-      "name": "Curvy/DevTools",
+      "name": "Curvy/Plugins/DevTools",
       "to": "Assets/Plugins/DevTools"
     },
     {
-      "name": "Curvy/LibTessDotNet",
+      "name": "Curvy/Plugins/LibTessDotNet",
       "to": "Assets/Plugins/LibTessDotNet"
     }
   ]
