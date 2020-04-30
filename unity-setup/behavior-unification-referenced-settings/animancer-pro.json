@@ -1,6 +1,6 @@
 {
   "name": "Kybernetik",
-  "use": false,
+  "use": true,
   "toSymlink": [
     {
       "name": "Plugins/Animancer",

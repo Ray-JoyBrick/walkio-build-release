@@ -7,6 +7,10 @@
       "to": "Assets/_/1 - Game/Module - Entry/Scripts/Runtime"
     },
     {
+      "name": "unity-modules/walkio-game-entry-assist/Runtime",
+      "to": "Assets/_/1 - Game/Module - Entry - Assist/Scripts/Runtime"
+    },    
+    {
       "name": "preprocess-assets/external-data",
       "to": "Assets/_/1 - Game/Preprocess Assets/external-data"
     },

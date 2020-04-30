@@ -1,6 +1,6 @@
 {
   "name": "Ilia Novikov",
-  "use": false,
+  "use": true,
   "toSymlink": [
     {
       "name": "New UI Widgets",
