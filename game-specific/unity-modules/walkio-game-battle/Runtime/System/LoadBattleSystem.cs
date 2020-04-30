@@ -87,6 +87,15 @@ namespace JoyBrick.Walkio.Game.Battle
 
                 })
                 .AddTo(_compositeDisposable);
+
+            CommandService.CommandStream
+                .Where(x => (x as GameCommand.PlaceTeamForceLeader) != null)
+                .Subscribe(x =>
+                {
+                    _logger.Debug($"LoadBattleSystem - Construct - Receive PlaceTeamForceLeader");
+                    PlaceTeamForceLeader();
+                })
+                .AddTo(_compositeDisposable);
         }
 
         private void LoadingAsset()
@@ -166,6 +175,11 @@ namespace JoyBrick.Walkio.Game.Battle
             }
             
             GameObject.Instantiate(prefab);
+        }
+
+        private void PlaceTeamForceLeader()
+        {
+            // _battleUsePool.GetComponent<Pool>()
         }
 
         protected override void OnCreate()

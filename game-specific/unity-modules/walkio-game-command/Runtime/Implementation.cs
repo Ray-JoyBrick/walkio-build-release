@@ -22,4 +22,8 @@ namespace JoyBrick.Walkio.Game.Command
     public class CreateNeutralForceUnit : ICommand
     {
     }
+
+    public class PlaceTeamForceLeader : ICommand
+    {
+    }
 }

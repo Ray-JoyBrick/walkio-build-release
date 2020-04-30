@@ -21,6 +21,7 @@
     "com.unity.timeline": "1.3.2",
     "com.unity.ugui": "1.0.0",
     "walkio.build.level-design-export": "file:../../game-specific/unity-modules/walkio-build-level-design-export",
+    "walkio.game.common": "file:../../game-specific/unity-modules/walkio-game-common",
     "walkio.game.environment-bridge": "file:../../game-specific/unity-modules/walkio-game-environment-bridge",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",

@@ -121,7 +121,7 @@ namespace JoyBrick.Walkio.Game
                 //     Flag = false
                 // });
             }
-#if COMPLETE_PROJECT || BEHAVIOR_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             else if (String.CompareOrdinal(commandName, "Load Preparation") == 0)
             {
                 GameExtension.BridgeExtension.SendEvent("zz_Exit Current Flow");
@@ -150,6 +150,11 @@ namespace JoyBrick.Walkio.Game
                 
                 GameExtension.BridgeExtension.SendEvent("zz_Exit Current Flow");
             }
+            // else if (String.CompareOrdinal(commandName, "Place All Team Force Leader") == 0)
+            // {
+            //     var pool = FindObjectOfType<HellTap.PoolKit.Pool>();
+            // }
+            
 #endif
         }
     }

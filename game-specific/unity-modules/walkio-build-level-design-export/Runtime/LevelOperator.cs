@@ -22,5 +22,6 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport
 
         //
         public GameObject curvy;
+        public GameObject spawnPointContainer;
     }
 }

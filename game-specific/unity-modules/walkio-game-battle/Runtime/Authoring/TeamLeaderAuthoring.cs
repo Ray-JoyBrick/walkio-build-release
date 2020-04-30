@@ -10,8 +10,14 @@
         MonoBehaviour,
         IConvertGameObjectToEntity
     {
+        private Entity _entity;
+        
         public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
         {
+            //
+            _entity = entity;
+            
+            //
             dstManager.AddComponentData(entity, new CopyTransformFromGameObject());
             dstManager.AddComponentData<GameCommon.StageUse>(entity, new GameCommon.StageUse());
         }

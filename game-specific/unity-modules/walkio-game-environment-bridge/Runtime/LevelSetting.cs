@@ -13,5 +13,15 @@ namespace JoyBrick.Walkio.Game.Environment
 
         //
         public int aiControlCount;
+
+        public WaypointPath waypointPath;
+        
+        //
+        public List<Vector3> spawnPoints;
+        
+        //
+        public List<Texture2D> gridTextures;
+
+        public List<TextAsset> astarGraphDatas;
     }
 }

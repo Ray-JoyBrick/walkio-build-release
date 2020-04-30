@@ -50,10 +50,16 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
                             Debug.Log($"All sub scenes of {currentMasterScene.name} are loaded");
                             
                             //
-                            CreateLevelSettingPart(currentMasterScene);
                             CreateWaypointPathPart(currentMasterScene);
                             CreateObstacleGridPart(currentMasterScene);
                             CreateAStarGraphPart(currentMasterScene);
+
+                            var spawnPointList = CreateSpawnPointList(currentMasterScene);
+
+                            // Should actually gather everything from the previous
+                            CreateLevelSettingPart(
+                                currentMasterScene,
+                                spawnPointList);
                         }
                     }
                 }

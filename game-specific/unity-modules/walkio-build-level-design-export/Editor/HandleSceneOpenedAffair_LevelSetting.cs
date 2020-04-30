@@ -14,9 +14,9 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
 
     public static partial class HandleSceneOpenedAffair
     {
-        private static void CreateLevelSettingPart(Scene masterScene)
+        private static void CreateLevelSettingPart(Scene masterScene, List<Transform> spawnPointList)
         {
-            var levelSettingAsset = CreateLevelSetting(masterScene);
+            var levelSettingAsset = CreateLevelSetting(masterScene, spawnPointList);
             var gameObject = CreateLevelSettingBlobAssetAuthoringGameObject();
             var levelSettingBlobAssetAuthoring =
                 gameObject.GetComponent<GameEnvironment.LevelSettingBlobAssetAuthoring>();
@@ -49,7 +49,9 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
             }
         }
 
-        private static GameEnvironment.LevelSetting CreateLevelSetting(Scene masterScene)
+        private static GameEnvironment.LevelSetting CreateLevelSetting(
+            Scene masterScene,
+            List<Transform> spawnPointList)
         {
             var levelOperator = GetComponentAtScene<LevelOperator>(masterScene);
 
@@ -62,6 +64,9 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
             levelSetting.gridCellCount = levelOperator.gridCount;
 
             levelSetting.aiControlCount = levelOperator.aiControlCount;
+
+            levelSetting.spawnPoints = new List<Vector3>();
+            levelSetting.spawnPoints.AddRange(spawnPointList.Select(x => x.position));
 
             return levelSetting;
         }
