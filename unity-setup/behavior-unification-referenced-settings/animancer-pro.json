@@ -3,7 +3,7 @@
   "use": false,
   "toSymlink": [
     {
-      "name": "Animancer",
+      "name": "Plugins/Animancer",
       "to": "Assets/Plugins/Animancer"
     }
   ]

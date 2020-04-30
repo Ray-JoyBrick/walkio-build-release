@@ -1,6 +1,6 @@
 {
     "name": "ricimi",
-    "use": true,
+    "use": false,
     "toSymlink": [
       {
         "name": "GUIPack-Clean and Minimalist",
