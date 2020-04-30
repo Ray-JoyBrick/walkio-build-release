@@ -190,6 +190,10 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 9192930653022631379, guid: 08df97f5435d1bb479cf5b04629627e3, type: 3}
+      propertyPath: originalParent
+      value: 
+      objectReference: {fileID: 6860544408660082929}
     - target: {fileID: 9219489900601153723, guid: 08df97f5435d1bb479cf5b04629627e3, type: 3}
       propertyPath: m_Name
       value: View - Base

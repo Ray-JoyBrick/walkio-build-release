@@ -92,7 +92,7 @@ namespace JoyBrick.Walkio.Game.Hud.App.Assist
                     AddCommandStreamAndInfoStream(_canvas);
                     SetReferenceToExtension(_canvas);
 
-                    ExtractView();
+                    ExtractView(_canvas);
                             
                     //
                     FlowControl.FinishLoadingAsset(new GameCommon.FlowControlContext
@@ -113,10 +113,10 @@ namespace JoyBrick.Walkio.Game.Hud.App.Assist
         
         private async Task<(GameObject, GameObject, ScriptableObject, ScriptableObject)> Load()
         {
-            var canvasPrefabTask = GetAsset<GameObject>($"Hud - Canvas - App");
-            var viewLoadingPrefabTask = GetAsset<GameObject>($"Hud - App - View - Loading Prefab");
-            var timelineAssetTask = GetAsset<ScriptableObject>($"Hud - App - View - Loading Timeline");
-            var i2AssetTask = GetAsset<ScriptableObject>($"Hud - App - I2");
+            var canvasPrefabTask = GetAsset<GameObject>($"Hud - Canvas - App - Assist");
+            var viewLoadingPrefabTask = GetAsset<GameObject>($"Hud - App - Assist - View - Base Prefab");
+            var timelineAssetTask = GetAsset<ScriptableObject>($"Hud - App - Assist - View - Base Timeline");
+            var i2AssetTask = GetAsset<ScriptableObject>($"Hud - App - Assist - I2");
 
             var (canvasPrefab, viewLoadingPrefab, timelineAsset, i2Asset) =
                 (await canvasPrefabTask, await viewLoadingPrefabTask, await timelineAssetTask, await i2AssetTask);
@@ -136,37 +136,29 @@ namespace JoyBrick.Walkio.Game.Hud.App.Assist
             if (infoPresenter != null)
             {
                 CommandService.AddInfoStreamPresenter(infoPresenter);
-            }            
-        }
-        
-        private void ExtractView()
-        {
-            foreach (Transform v in _canvas.transform)
-            {
-                // var view = v.GetComponent<View>();
-                // if (view != null)
-                // {
-                //     _loadView = view;
-                // }
             }
         }
-
-        // private void ActivateLoadingView(bool flag)
-        // {
-        //     _logger.Debug($"LoadAppHudSystem Assist - ActivateLoadingView - flag: {flag}");
+        
+        private void ExtractView(GameObject parent)
+        {
+            var collectAssistView = GameObject.FindObjectOfType<CollectAssistView>();
+            if (collectAssistView == null) return;
             
-        //     // TODO: Rename to follow the system use contract. Starting as "zz_"
-        //     if (flag)
-        //     {
-        //         GameExtension.BridgeExtension.SendEvent("Activate_Loading_View");
-        //         // GameExtension.BridgeExtension.SendEvent("zz_Activate_Loading_View");
-        //     }
-        //     else
-        //     {
-        //         GameExtension.BridgeExtension.SendEvent("Deactivate_Loading_View");
-        //         // GameExtension.BridgeExtension.SendEvent("zz_Deactivate_Loading_View");
-        //     }
-        // }
+            foreach (Transform v in parent.transform)
+            {
+                var movableView = v.GetComponent<MovableView>();
+                if (movableView != null)
+                {
+                    movableView.transform.SetParent(collectAssistView.viewContainer);
+                    var rectTransform = movableView.GetComponent<RectTransform>();
+                    if (rectTransform != null)
+                    {
+                        rectTransform.offsetMax = Vector2.zero;
+                        rectTransform.offsetMin = Vector2.zero;
+                    }
+                }
+            }
+        }
         
         // TODO: Move hard reference to PlayMakerFSM to somewhere else
         // TODO: Assign reference to FSM may need a better approach

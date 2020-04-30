@@ -375,6 +375,50 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 6342621427925758080, guid: 422b955c240443745b4dbfbdbb5ba684, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6342621427925758080, guid: 422b955c240443745b4dbfbdbb5ba684, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6342621427925758080, guid: 422b955c240443745b4dbfbdbb5ba684, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6342621427925758080, guid: 422b955c240443745b4dbfbdbb5ba684, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6342621427925758080, guid: 422b955c240443745b4dbfbdbb5ba684, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6352014086066943417, guid: 422b955c240443745b4dbfbdbb5ba684, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6352014086066943417, guid: 422b955c240443745b4dbfbdbb5ba684, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6352014086066943417, guid: 422b955c240443745b4dbfbdbb5ba684, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6352014086066943417, guid: 422b955c240443745b4dbfbdbb5ba684, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6352014086066943417, guid: 422b955c240443745b4dbfbdbb5ba684, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6352014086066943417, guid: 422b955c240443745b4dbfbdbb5ba684, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6860544408660082929, guid: 422b955c240443745b4dbfbdbb5ba684, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

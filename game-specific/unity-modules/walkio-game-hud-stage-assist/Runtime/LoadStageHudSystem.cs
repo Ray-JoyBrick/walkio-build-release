@@ -15,6 +15,8 @@ namespace JoyBrick.Walkio.Game.Hud.Stage.Assist
     using GameCommand = JoyBrick.Walkio.Game.Command;
     using GameExtension = JoyBrick.Walkio.Game.Extension;
     
+    using GameHudAppAssist = JoyBrick.Walkio.Game.Hud.App.Assist;
+    
     [DisableAutoCreation]
     public class LoadStageHudSystem : SystemBase
     {
@@ -29,6 +31,8 @@ namespace JoyBrick.Walkio.Game.Hud.Stage.Assist
         private ScriptableObject _i2Asset;
         
         private GameObject _canvas;
+        
+        private readonly List<GameObject> _childViews = new List<GameObject>();
 
         //
         public GameObject RefBootstrap { get; set; }
@@ -81,6 +85,8 @@ namespace JoyBrick.Walkio.Game.Hud.Stage.Assist
 
                     AddCommandStreamAndInfoStream(_canvas);
                     SetReferenceToExtension(_canvas);
+                    
+                    ExtractView(_canvas);
                             
                     //
                     FlowControl.FinishLoadingAsset(new GameCommon.FlowControlContext
@@ -101,10 +107,10 @@ namespace JoyBrick.Walkio.Game.Hud.Stage.Assist
         
         private async Task<(GameObject, GameObject, ScriptableObject, ScriptableObject)> Load()
         {
-            var canvasPrefabTask = GetAsset<GameObject>($"Hud - Canvas - Stage");
-            var viewLoadingPrefabTask = GetAsset<GameObject>($"Hud - Stage - View - Base Prefab");
-            var timelineAssetTask = GetAsset<ScriptableObject>($"Hud - Stage - View - Base Timeline");
-            var i2AssetTask = GetAsset<ScriptableObject>($"Hud - Stage - I2");
+            var canvasPrefabTask = GetAsset<GameObject>($"Hud - Canvas - Stage - Assist");
+            var viewLoadingPrefabTask = GetAsset<GameObject>($"Hud - Stage - Assist - View - Base Prefab");
+            var timelineAssetTask = GetAsset<ScriptableObject>($"Hud - Stage - Assist - View - Base Timeline");
+            var i2AssetTask = GetAsset<ScriptableObject>($"Hud - Stage - Assist - I2");
 
             var (canvasPrefab, viewLoadingPrefab, timelineAsset, i2Asset) =
                 (await canvasPrefabTask, await viewLoadingPrefabTask, await timelineAssetTask, await i2AssetTask);
@@ -135,6 +141,28 @@ namespace JoyBrick.Walkio.Game.Hud.Stage.Assist
             {
                 CommandService.AddInfoStreamPresenter(infoPresenter);
             }            
+        }
+        
+        private void ExtractView(GameObject parent)
+        {
+            var collectAssistView = GameObject.FindObjectOfType<GameHudAppAssist.CollectAssistView>();
+            if (collectAssistView == null) return;
+            
+            foreach (Transform v in parent.transform)
+            {
+                var movableView = v.GetComponent<GameHudAppAssist.MovableView>();
+                if (movableView != null)
+                {
+                    _childViews.Add(movableView.gameObject);
+                    movableView.transform.SetParent(collectAssistView.viewContainer);
+                    var rectTransform = movableView.GetComponent<RectTransform>();
+                    if (rectTransform != null)
+                    {
+                        rectTransform.offsetMax = Vector2.zero;
+                        rectTransform.offsetMin = Vector2.zero;
+                    }
+                }
+            }
         }
         
         // TODO: Move hard reference to PlayMakerFSM to somewhere else
@@ -202,6 +230,11 @@ namespace JoyBrick.Walkio.Game.Hud.Stage.Assist
                 Addressables.Release(_i2Asset);
             }
 
+            if (_childViews.Any())
+            {
+                _childViews.ForEach(cv => GameObject.Destroy(cv));
+            }
+            
             //
             if (_canvas != null)
             {
