@@ -2,7 +2,9 @@
 {
     using System;
     using System.Linq;
+#if COMPLETE_PROJECT
     using Microsoft.AppCenter.Unity.Distribute;
+#endif
     using UniRx;
     using Unity.Entities;
     using UnityEngine;
@@ -12,7 +14,7 @@
     using GameCommand = JoyBrick.Walkio.Game.Command;
     using GameCommon = JoyBrick.Walkio.Game.Common;
 
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT
 
     using GameHudAppAssist = JoyBrick.Walkio.Game.Hud.App.Assist;
     // using GameHudPreparation = JoyBrick.Walkio.Game.Hud.Preparation;
@@ -98,7 +100,7 @@
             var presentationSystemGroup = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<PresentationSystemGroup>();
             
             // App-wide
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             var loadAppHudSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameHudAppAssist.LoadAppHudSystem>();
@@ -108,14 +110,14 @@
 #endif
             
             // Stage-wide
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             var loadStageHudSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameHudStageAssist.LoadStageHudSystem>();
 #endif
 
             // App-wide
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             loadAppHudSystem.RefBootstrap = _assistable.RefGameObject;
             loadAppHudSystem.CommandService = _assistable.RefGameObject.GetComponent<GameCommand.ICommandService>();
             // // loadAppHudSystem.InfoPresenter = (GameCommand.IInfoPresenter) this;
@@ -124,7 +126,7 @@
 #endif
 
             // Stage-wide
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             loadStageHudSystem.RefBootstrap = _assistable.RefGameObject;
             loadStageHudSystem.CommandService = _assistable.RefGameObject.GetComponent<GameCommand.ICommandService>();
             // // loadStageHudSystem.InfoPresenter = (GameCommand.IInfoPresenter) this;
@@ -132,24 +134,24 @@
 #endif
 
             // App-wide
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             loadAppHudSystem.Construct();
             // // setupAppHudSystem.Construct();
 #endif
 
             // Stage-wide
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             loadStageHudSystem.Construct();
 #endif
 
             // App-wide - InitializationSystemGroup
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             initializationSystemGroup.AddSystemToUpdateList(loadAppHudSystem);
             // // initializationSystemGroup.AddSystemToUpdateList(setupAppHudSystem);
 #endif
 
             // Stage-wide - InitializationSystemGroup
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             initializationSystemGroup.AddSystemToUpdateList(loadStageHudSystem);
 #endif
         }

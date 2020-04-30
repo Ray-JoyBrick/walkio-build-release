@@ -46,7 +46,7 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
                     GameExtension.BridgeExtension.SendEvent("zz_App Done Setting");
 
                     //
-                    FlowControl.FinishSetting(new GameCommon.FlowControlContext
+                    FlowControl.FinishAllSetting(new GameCommon.FlowControlContext
                     {
                         Name = "App"
                     });
@@ -59,7 +59,7 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
                 .Subscribe(x =>
                 {
                     //
-                    FlowControl.FinishSetting(new GameCommon.FlowControlContext
+                    FlowControl.FinishAllSetting(new GameCommon.FlowControlContext
                     {
                         Name = "Preparation"
                     });
@@ -69,11 +69,11 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
             FlowControl.DoneSettingAsset
                 .Where(x => x.Name.Contains("Stage"))
                 // Should be loading from some settings
-                .Buffer(4)
+                .Buffer(3)
                 .Subscribe(x =>
                 {
                     //
-                    FlowControl.FinishSetting(new GameCommon.FlowControlContext
+                    FlowControl.FinishAllSetting(new GameCommon.FlowControlContext
                     {
                         Name = "Stage"
                     });

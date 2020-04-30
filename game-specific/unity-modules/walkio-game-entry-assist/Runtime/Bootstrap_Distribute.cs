@@ -2,14 +2,16 @@ namespace JoyBrick.Walkio.Game.Assist
 {
     using System;
     using System.Linq;
+#if COMPLETE_PROJECT
     using Microsoft.AppCenter.Unity.Distribute;
+#endif
     using UniRx;
     using Unity.Entities;
     using UnityEngine;
     using UnityEngine.Events;
     using UnityEngine.SceneManagement;
 
-#if COMPLETE_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT
 
     using GameHudAppAssist = JoyBrick.Walkio.Game.Hud.App.Assist;
     // using GameHudPreparation = JoyBrick.Walkio.Game.Hud.Preparation;

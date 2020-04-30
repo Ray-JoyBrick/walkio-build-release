@@ -27,7 +27,7 @@ namespace JoyBrick.Walkio.Game.Battle
         public void Construct()
         {
             //
-            FlowControl.DoneSettingAsset
+            FlowControl.AllDoneSettingAsset
                 .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {

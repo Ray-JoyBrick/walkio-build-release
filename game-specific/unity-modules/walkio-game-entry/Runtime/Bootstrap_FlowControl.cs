@@ -26,6 +26,11 @@ namespace JoyBrick.Walkio.Game
         private readonly Subject<GameCommon.FlowControlContext> _notifyDoneSettingAsset =
             new Subject<GameCommon.FlowControlContext>();
 
+        public IObservable<GameCommon.FlowControlContext> AllDoneSettingAsset =>
+            _notifyAllDoneSettingAsset.AsObservable();
+        private readonly Subject<GameCommon.FlowControlContext> _notifyAllDoneSettingAsset =
+            new Subject<GameCommon.FlowControlContext>();
+
         public IObservable<GameCommon.FlowControlContext> CleaningAsset => _notifyCleaningAsset.AsObservable();
         private readonly Subject<GameCommon.FlowControlContext> _notifyCleaningAsset =
             new Subject<GameCommon.FlowControlContext>();
@@ -51,6 +56,11 @@ namespace JoyBrick.Walkio.Game
         public void FinishSetting(GameCommon.FlowControlContext context)
         {
             _notifyDoneSettingAsset.OnNext(context);
+        }
+
+        public void FinishAllSetting(GameCommon.FlowControlContext context)
+        {
+            _notifyAllDoneSettingAsset.OnNext(context);
         }
 
         public void StartCleaningAsset(string flowName)
