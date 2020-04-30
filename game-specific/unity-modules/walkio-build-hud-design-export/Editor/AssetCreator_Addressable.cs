@@ -212,7 +212,7 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
             PlaceAssetInAddressble(assetSettings, assetGroup,
                 relativeI2Asset,
                 label,
-                "Hud - App - Assist - I2");            
+                "Hud - App - Assist - I2");
             
             var relativeViewLoadingPrefab =
                 Path.Combine(relativeAppFolderPath, "View - Base", "View - Base.prefab");
@@ -226,7 +226,15 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
             PlaceAssetInAddressble(assetSettings, assetGroup,
                 relativeViewLoadingTimelineAsset,
                 label,
-                "Hud - App - Assist - View - Base Timeline");    
+                "Hud - App - Assist - View - Base Timeline");
+
+            //
+            var relativeViewInitialPrefab =
+                Path.Combine(relativeAppFolderPath, "View - Initial", "View - Initial.prefab");
+            PlaceAssetInAddressble(assetSettings, assetGroup,
+                relativeViewInitialPrefab,
+                label,
+                "Hud - App - Assist - View - Initial Prefab");
         }
 
         private static void PlaceAssetIntoGroup_Preparation(
