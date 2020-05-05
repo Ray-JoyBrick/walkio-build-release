@@ -27,6 +27,15 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
         {
             var directoryPath = Path.Combine("Assets", "_", "1 - Game - Level Design");
             var environmentDirectoryPath = Path.Combine(directoryPath, "Module - Environment - Level");
+            
+            var levelOverallAffairAssetPath = Path.Combine(environmentDirectoryPath, "Level Overall Affair.asset");
+            var levelOverallAffair = AssetDatabase.LoadAssetAtPath<LevelOverallAffair>(levelOverallAffairAssetPath);
+
+            if (levelOverallAffair != null)
+            {
+                levelOverallAffair.doGeneration = true;
+            }
+            
             var level001EnvDirectoryPath = Path.Combine(environmentDirectoryPath, "Level 001");
             var level001SceneDirectoryPath = Path.Combine(level001EnvDirectoryPath, "Scenes");
             var level001ScenePath = Path.Combine(level001SceneDirectoryPath, "Level 001 - Master.unity");
@@ -34,56 +43,31 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
             // AssetDatabase.LoadAssetAtPath<Scene>(level001ScenePath);
 
             var scene = UnityEditor.SceneManagement.EditorSceneManager.OpenScene(level001ScenePath);
-            // UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Level 001 - Master");
-            // EditorSceneManager.LoadSceneAsync()
+        }
+        
+        [PropertyOrder(-10)]
+        [HorizontalGroup]
+        [Button(ButtonSizes.Large)]
+        public void OpenLevel002()
+        {
+            var directoryPath = Path.Combine("Assets", "_", "1 - Game - Level Design");
+            var environmentDirectoryPath = Path.Combine(directoryPath, "Module - Environment - Level");
+            
+            var levelOverallAffairAssetPath = Path.Combine(environmentDirectoryPath, "Level Overall Affair.asset");
+            var levelOverallAffair = AssetDatabase.LoadAssetAtPath<LevelOverallAffair>(levelOverallAffairAssetPath);
 
-            // var waypointData = ScriptableObject.CreateInstance<WaypointData>();
-            //
-            //
-            // var rootGameObjects = scene.GetRootGameObjects();
-            // rootGameObjects.ToList().ForEach(x =>
-            // {
-            //     //
-            //     // if (string.Compare(x.name, "Curvy") == 0)
-            //     var lo = x.GetComponent<LevelOperator>();
-            //     if (lo != null)
-            //     {
-            //         var curvyRoot = lo.curvy;
-            //         waypointData.waypointPaths = new List<WaypointPath>();
-            //         foreach (Transform curvy in curvyRoot.transform)
-            //         {
-            //             // curvy.GetComponent<CurvySpline>()
-            //             
-            //             var wp = new WaypointPath();
-            //             wp.waypoints = new List<Waypoint>();
-            //             waypointData.waypointPaths.Add(wp);
-            //             foreach (Transform waypoint in curvy)
-            //             {
-            //                 wp.waypoints.Add(new Waypoint
-            //                 {
-            //                     location = waypoint.position
-            //                 });
-            //                 Debug.Log(waypoint);
-            //             }
-            //         }
-            //     }
-            // });
-            //
-            // //
-            // var generatedDirectoryPath = Path.Combine(Application.dataPath, "_", "1 - Game - Level Design - Generated");
-            // var levelDirectoryPath = Path.Combine(generatedDirectoryPath, "Levels");
-            // CreateDirectoryIfNotExisted(generatedDirectoryPath);
-            // CreateDirectoryIfNotExisted(levelDirectoryPath);
-            //
-            // var level001DirectoryPath = Path.Combine(levelDirectoryPath, "level001");
-            // CreateDirectoryIfNotExisted(level001DirectoryPath);
-            //
-            // var relativeWaypointDataAssetPath = Path.Combine("Assets", "_", "1 - Game - Level Design - Generated",
-            //     "Levels", "level001");
-            // var waypointDataAssetPath = Path.Combine(relativeWaypointDataAssetPath, "Waypoint Data.asset");
-            //
-            // AssetDatabase.CreateAsset(waypointData, waypointDataAssetPath);
-            // AssetDatabase.SaveAssets();
+            if (levelOverallAffair != null)
+            {
+                levelOverallAffair.doGeneration = true;
+            }
+            
+            var level001EnvDirectoryPath = Path.Combine(environmentDirectoryPath, "Level 002");
+            var level001SceneDirectoryPath = Path.Combine(level001EnvDirectoryPath, "Scenes");
+            var level001ScenePath = Path.Combine(level001SceneDirectoryPath, "Level 002 - Master.unity");
+
+            // AssetDatabase.LoadAssetAtPath<Scene>(level001ScenePath);
+
+            var scene = UnityEditor.SceneManagement.EditorSceneManager.OpenScene(level001ScenePath);
         }
 
         [HorizontalGroup]
@@ -101,16 +85,8 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
         }
 
         [HorizontalGroup]
-        [Button(ButtonSizes.Large)]
-        public void SomeButton3() { }
-
-        [HorizontalGroup]
         [Button(ButtonSizes.Large), GUIColor(0, 1, 0)]
         public void SomeButton4() { }
-
-        [HorizontalGroup]
-        [Button(ButtonSizes.Large), GUIColor(1, 0.5f, 0)]
-        public void SomeButton5() { }
 
         [TableList]
         public List<SomeType> SomeTableData;

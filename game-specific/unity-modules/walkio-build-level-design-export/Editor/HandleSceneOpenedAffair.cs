@@ -22,10 +22,11 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
         {
             EditorSceneManager.sceneOpened += (scene, mode) =>
             {
-                Debug.Log($"HandleSceneOpenedAffair - Setup - Opened Scene: {scene.name}");
+                Debug.Log($"Build - LevelDesignExport - HandleSceneOpenedAffair - Setup - Opened Scene: {scene.name}");
                 
                 // TODO: Apply this to all master scenes rather than Level 001
-                if (String.CompareOrdinal(scene.name, "Level 001 - Master") == 0)
+                // if (String.CompareOrdinal(scene.name, "Level 001 - Master") == 0)
+                if (scene.name.Contains("Master"))
                 {
                     currentMasterScene = scene;
                     loadedSubSceneCount = 0;
@@ -37,7 +38,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
                     var levelOperator = GetComponentAtScene<LevelOperator>(currentMasterScene);
                     if (levelOperator != null)
                     {
-                        Debug.Log($"s.name: {scene.name} scene name: {scene.name}");
+                        Debug.Log($"Build - LevelDesignExport - HandleSceneOpenedAffair - s.name: {scene.name} scene name: {scene.name}");
                         var existed = levelOperator.subScenes.Exists(s => String.CompareOrdinal(s.name, scene.name) == 0);
                         if (existed)
                         {
@@ -47,23 +48,60 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
                         if (loadedSubSceneCount == levelOperator.subScenes.Count)
                         {
                             // All sub scenes are loaded
-                            Debug.Log($"All sub scenes of {currentMasterScene.name} are loaded");
+                            Debug.Log($"Build - LevelDesignExport - HandleSceneOpenedAffair - All sub scenes of {currentMasterScene.name} are loaded");
+
+                            var doGeneration = false;
+                            var levelOverallAffairAssetPath = Path.Combine("Assets", "_", "1 - Game - Level Design",
+                                "Module - Environment - Level", "Level Overall Affair.asset");
+                            var levelOverallAffair = AssetDatabase.LoadAssetAtPath<LevelOverallAffair>(levelOverallAffairAssetPath);
+                            if (levelOverallAffair != null)
+                            {
+                                doGeneration = levelOverallAffair.doGeneration;
+                            }
+
+                            if (doGeneration)
+                            {
+                                var index =
+                                    levelOverallAffair.masterSceneNames.FindIndex(x =>
+                                        String.Compare(x, currentMasterScene.name, StringComparison.Ordinal) == 0);
+
+                                var levelName = string.Empty;
+                                if (index >= 0)
+                                {
+                                    levelName = levelOverallAffair.masterSceneToLevelNames[index];
+                                }
+                                
+                                //
+                                ProcessEachPart(levelName);
+                            }
                             
-                            //
-                            CreateWaypointPathPart(currentMasterScene);
-                            CreateObstacleGridPart(currentMasterScene);
-                            CreateAStarGraphPart(currentMasterScene);
-
-                            var spawnPointList = CreateSpawnPointList(currentMasterScene);
-
-                            // Should actually gather everything from the previous
-                            CreateLevelSettingPart(
-                                currentMasterScene,
-                                spawnPointList);
+                            if (levelOverallAffair != null)
+                            {
+                                levelOverallAffair.doGeneration = false;
+                            }
                         }
                     }
                 }
             };
+        }
+
+        private static void ProcessEachPart(string levelName)
+        {
+            //
+            CreateWaypointPathPart(currentMasterScene);
+            var texturePaths =
+                CreateObstacleGridPart(levelName, currentMasterScene);
+            var aStarGraphDataPath =
+                CreateAStarGraphPart("Level 001", levelName, currentMasterScene);
+
+            var spawnPointList = CreateSpawnPointList(currentMasterScene);
+
+            // Should actually gather everything from the previous
+            CreateLevelSettingPart(
+                currentMasterScene,
+                spawnPointList,
+                texturePaths,
+                aStarGraphDataPath);
         }
 
         private static void HandleMasterSceneOpened(Scene scene, OpenSceneMode mode)
@@ -82,7 +120,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
             {
                 //
                 var assetPath = AssetDatabase.GetAssetPath(x);
-                Debug.Log(assetPath);
+                // Debug.Log(assetPath);
                 UnityEditor.SceneManagement.EditorSceneManager.OpenScene(assetPath, OpenSceneMode.Additive);
             });
         }

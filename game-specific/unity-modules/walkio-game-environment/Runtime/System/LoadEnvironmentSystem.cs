@@ -1,6 +1,7 @@
 namespace JoyBrick.Walkio.Game.Environment
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
     using UniRx;
     using Unity.Entities;
@@ -66,7 +67,18 @@ namespace JoyBrick.Walkio.Game.Environment
                 {
                     //
                     (_levelSettingAsset, _levelSettingBlobAssetAuthoringPrefab, _waypointDataAsset, _waypointPathBlobAssetAuthoringPrefab) = result;
-                            
+
+                    var levelSetting = _levelSettingAsset as LevelSetting;
+                    if (levelSetting != null)
+                    {
+                        // var desc =
+                        //     levelSetting.gridTextures.Aggregate("", (acc, next) => $"{acc} {next}");
+                        // _logger.Debug($"LoadEnvironmentSystem - LoadingAsset\n{desc}");
+                        levelSetting.gridTextures.ForEach(gt =>
+                        {
+                            AssignDataFromTexture(gt);
+                        });
+                    }
                     // //
                     // var wpbaaPrefab = _waypointPathBlobAssetAuthoringPrefab.GetComponent<WaypointPathBlobAssetAuthoring>();
                     // wpbaaPrefab.waypointDataAsset = _waypointDataAsset as WaypointData;
@@ -103,6 +115,20 @@ namespace JoyBrick.Walkio.Game.Environment
                 (await levelSettingAssetTask, await levelSettingBlobAssetAuthoringTask, await waypointDataAssetTask, await waypointPathBlobAssetAuthoringTask);
 
             return (levelSettingAsset, levelSettingBlobAssetAuthoring, waypointDataAsset, waypointPathBlobAssetAuthoring);
+        }
+
+        private void AssignDataFromTexture(Texture2D texture2D)
+        {
+            var width = texture2D.width;
+            var height = texture2D.height;
+            var array = texture2D.GetRawTextureData<Color32>();
+            // var array = texture2D.GetRawTextureData<byte>();
+            _logger.Debug($"texture length: {array.Length} format: {texture2D.format} width: {width} height: {height}");
+            
+            for (var i = 0; i < array.Length; ++i)
+            {
+                var color = array[i];
+            }
         }
 
         protected override void OnCreate()

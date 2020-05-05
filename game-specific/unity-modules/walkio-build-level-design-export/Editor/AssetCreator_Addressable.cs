@@ -88,6 +88,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
             var relativeLevelSettingPathPath = Path.Combine(relativeLevel001Path, "level-setting");
             var relativeObstacleTexturePathPath = Path.Combine(relativeLevel001Path, "obstacle-texture");
             var relativeWaypointPathPath = Path.Combine(relativeLevel001Path, "waypoint-path");
+            var relativeAStarDataPathPath = Path.Combine(relativeLevel001Path, "astar-data");
 
             var absoluteLevel001LevelSettingPath = Path.Combine(Application.dataPath, "_", "1 - Game - Level Design - Generated",
                 "Levels", "level001", "level-setting");
@@ -97,6 +98,9 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
 
             var absoluteLevel001WaypointDataPath = Path.Combine(Application.dataPath, "_", "1 - Game - Level Design - Generated",
                 "Levels", "level001", "waypoint-path");
+
+            var absoluteLevel001AStarDataPath = Path.Combine(Application.dataPath, "_", "1 - Game - Level Design - Generated",
+                "Levels", "level001", "astar-data");
 
             var label = "level001";
             assetSettings.AddLabel(label);
@@ -163,6 +167,25 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
                 }
             }
 
+            {
+                DirectoryInfo di = new DirectoryInfo(absoluteLevel001AStarDataPath);
+                //
+                var astarDataFileInfos = di.EnumerateFiles().Where(fi => fi.Extension.CompareTo(".meta") != 0);
+            
+                foreach (var astarDataFileInfo in astarDataFileInfos)
+                {
+                    var fileName = astarDataFileInfo.Name;
+                    var strippedFileName = fileName.Replace(".bytes", "");
+            
+                    var astarDataPath = Path.Combine(relativeAStarDataPathPath, fileName);
+                    // var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath);
+                
+                    Debug.Log(astarDataPath);
+            
+                    PlaceAssetInAddressble(assetSettings, assetGroup, astarDataPath,
+                        label, strippedFileName);
+                }
+            }
             
             // {
             //     DirectoryInfo di = new DirectoryInfo(absoluteLevel001WaypointDataPath);

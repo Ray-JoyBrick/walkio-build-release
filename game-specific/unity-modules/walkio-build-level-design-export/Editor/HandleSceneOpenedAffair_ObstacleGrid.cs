@@ -14,84 +14,60 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
 
     public static partial class HandleSceneOpenedAffair
     {
-        private static void CreateObstacleGridPart(Scene masterScene)
+        private static IEnumerable<string> CreateObstacleGridPart(string levelName, Scene masterScene)
         {
-            CreateObstacleTexture(masterScene);
+            var texturePaths = CreateObstacleTexture(levelName, masterScene);
+
+            return texturePaths;
         }
 
-        private static void CreateObstacleTexture(Scene masterScene)
+        private static IEnumerable<string> CreateObstacleTexture(string levelName, Scene masterScene)
         {
             var levelOperator = GetComponentAtScene<LevelOperator>(masterScene);
-            if (levelOperator == null) return;
+            if (levelOperator == null) return Enumerable.Empty<string>();
 
-            for (var h = 0; h < levelOperator.zSubSceneCount; ++h)
+            var texturePaths = new List<string>();
+            for (var hSubSceneIndex = 0; hSubSceneIndex < levelOperator.zSubSceneCount; ++hSubSceneIndex)
             {
-                for (var w = 0; w < levelOperator.xSubSceneCount; ++w)
+                for (var wSubSceneIndex = 0; wSubSceneIndex < levelOperator.xSubSceneCount; ++wSubSceneIndex)
                 {
-                    var i = h * levelOperator.xSubSceneCount + w;
+                    var i = hSubSceneIndex * levelOperator.xSubSceneCount + wSubSceneIndex;
                     
                     var sceneAsset = levelOperator.subScenes[i];
                     var subScene = EditorSceneManager.GetSceneByName(sceneAsset.name);
                 
-                    // levelOperator.zSubSceneCount
-                    // levelOperator.xSubSceneCount
+                    var basePosition = new Vector3(
+                        wSubSceneIndex * levelOperator.gridCount, 
+                        0, 
+                        hSubSceneIndex * levelOperator.gridCount);
+                    var texturePath =
+                        HandleObstacleForSubScene(
+                            levelName,
+                            i, subScene, basePosition,
+                            levelOperator.gridCount,
+                            levelOperator.gridCount);
                     
-                    var basePosition = new Vector3(w * levelOperator.gridCount, 0, h * levelOperator.gridCount);
-                    HandleObstacleForSubScene(i, subScene, basePosition);
+                    texturePaths.Add(texturePath);
                 }
             }
-            
-            // for (var i = 0; i < levelOperator.subScenes.Count; ++i)
-            // {
-            //     var sceneAsset = levelOperator.subScenes[i];
-            //     var subScene = EditorSceneManager.GetSceneByName(sceneAsset.name);
-            //     
-            //     // levelOperator.zSubSceneCount
-            //     // levelOperator.xSubSceneCount
-            //     
-            //     var basePosition = new Vector3(0, 0, 0);
-            //     HandleObstacleForSubScene(i, subScene, basePosition);
-            // }
+
+            return texturePaths;
         }
 
-        private static void HandleObstacleForSubScene(int index, Scene subScene, Vector3 basePosition)
+        private static string HandleObstacleForSubScene(
+            string levelName,
+            int index,
+            Scene subScene,
+            Vector3 basePosition,
+            int wCellCount,
+            int hCellCount)
         {
             Debug.Log($"HandleObstacleForSubScene - {subScene}");
-            
-             // var environmentRoot = GetComponentAtScene<EnvironmentRoot>(subScene);
-             // if (environmentRoot == null) return;
-             //
-             // var floorRoot = GetComponentAtScene<FloorRoot>(subScene);
-             // if (floorRoot == null) return;
-             //
-             // // Store the original state
-             // var floorRootActive = floorRoot.isActiveAndEnabled;
-             // var environmentRootActive = environmentRoot.isActiveAndEnabled;
-             //
-             // // Test floor first
-             // floorRoot.gameObject.SetActive(true);
-             // environmentRoot.gameObject.SetActive(false);
-             //
-             // var floorTexture = MakeTextureBasedOnFloor(basePosition);
-             //
-             // // Test Environment second
-             // environmentRoot.gameObject.SetActive(true);
-             // floorRoot.gameObject.SetActive(false);
-             //
-             // var environmentTexture = MakeTextureBasedOnEnvironment(basePosition);
-             //
-             // // floorTexture.EncodeToPNG();
-             //
-             // // Restore the state
-             // floorRoot.gameObject.SetActive(floorRootActive);
-             // environmentRoot.gameObject.SetActive(environmentRootActive);
-             //
-             // var combinedTexture = CombineObstacleTexture(floorTexture, environmentTexture);
 
-             var inBoundaryFloorTexture = MakeTextureBasedOnInBoundaryFloor(64, 64, basePosition);
-             var outBoundaryFloorTexture = MakeTextureBasedOnOutBoundaryFloor(64, 64, basePosition);
-             var obstacleTexture = MakeTextureBasedOnObstacle(64, 64, basePosition);
-             var areaTexture = MakeTextureBasedOnArea(64, 64, basePosition);
+             var inBoundaryFloorTexture = MakeTextureBasedOnInBoundaryFloor(wCellCount, hCellCount, basePosition);
+             var outBoundaryFloorTexture = MakeTextureBasedOnOutBoundaryFloor(wCellCount, hCellCount, basePosition);
+             var obstacleTexture = MakeTextureBasedOnObstacle(wCellCount, hCellCount, basePosition);
+             var areaTexture = MakeTextureBasedOnArea(wCellCount, hCellCount, basePosition);
 
              var combinedTexture = CombineTextures(new List<Texture2D>
              {
@@ -107,10 +83,10 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
              Utility.CreateDirectoryIfNotExisted(generatedDirectoryPath);
              Utility.CreateDirectoryIfNotExisted(levelDirectoryPath);
             
-             var level001DirectoryPath = Path.Combine(levelDirectoryPath, "level001");
-             Utility.CreateDirectoryIfNotExisted(level001DirectoryPath);
+             var specificLevelDirectoryPath = Path.Combine(levelDirectoryPath, levelName);
+             Utility.CreateDirectoryIfNotExisted(specificLevelDirectoryPath);
 
-             var obstacleTextureDirectoryPath = Path.Combine(level001DirectoryPath, "obstacle-texture");
+             var obstacleTextureDirectoryPath = Path.Combine(specificLevelDirectoryPath, "obstacle-texture");
              Utility.CreateDirectoryIfNotExisted(obstacleTextureDirectoryPath);
              
              var obstacleTextureAssetPath = Path.Combine(obstacleTextureDirectoryPath, $"obstacle{index:0000}.png");
@@ -120,22 +96,30 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
              AssetDatabase.Refresh();
              
              var obstacleTextureAssetLevelPath = Path.Combine("Assets", "_", "1 - Game - Level Design - Generated",
-                 "Levels", "level001", "obstacle-texture");
+                 "Levels", levelName, "obstacle-texture");
              var relativeObstacleTextureAssetPath = Path.Combine(obstacleTextureAssetLevelPath, $"obstacle{index:0000}.png");
              
              var textureImporter = AssetImporter.GetAtPath(relativeObstacleTextureAssetPath) as TextureImporter;
 
-             textureImporter.filterMode = FilterMode.Point;
-             textureImporter.maxTextureSize = 64;
+             if (textureImporter != null)
+             {
+                 textureImporter.filterMode = FilterMode.Point;
+                 
+                 // Check this discussion to know how to get the next power of 2 number for
+                 // any given number
+                 // https://stackoverflow.com/questions/466204/rounding-up-to-next-power-of-2
+                 var nextPowerOfTwo = Mathf.Pow(2, Mathf.Ceil((Mathf.Log(wCellCount) / Mathf.Log(2))));
+                 textureImporter.maxTextureSize = (int)nextPowerOfTwo;
 
-             textureImporter.mipmapEnabled = false;
+                 textureImporter.mipmapEnabled = false;
+
+                 textureImporter.isReadable = true;
              
-             EditorUtility.SetDirty(textureImporter);
-             textureImporter.SaveAndReimport();
+                 EditorUtility.SetDirty(textureImporter);
+                 textureImporter.SaveAndReimport();
+             }
 
-             //
-             // AssetDatabase.CreateAsset(floorTexture, obstacleTextureAssetPath);
-             // AssetDatabase.SaveAssets();              
+             return relativeObstacleTextureAssetPath;
         }
 
         //

@@ -220,15 +220,15 @@ namespace JoyBrick.Walkio.Game.Hud.Stage.Assist
                 Addressables.ReleaseInstance(_viewLoadingPrefab);
             }
 
-            if (_timelineAsset != null)
-            {
-                Addressables.Release(_timelineAsset);
-            }
-
-            if (_i2Asset != null)
-            {
-                Addressables.Release(_i2Asset);
-            }
+            // if (_timelineAsset != null)
+            // {
+            //     Addressables.Release(_timelineAsset);
+            // }
+            //
+            // if (_i2Asset != null)
+            // {
+            //     Addressables.Release(_i2Asset);
+            // }
 
             if (_childViews.Any())
             {

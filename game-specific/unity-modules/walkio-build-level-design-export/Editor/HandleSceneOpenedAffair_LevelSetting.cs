@@ -14,9 +14,13 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
 
     public static partial class HandleSceneOpenedAffair
     {
-        private static void CreateLevelSettingPart(Scene masterScene, List<Transform> spawnPointList)
+        private static void CreateLevelSettingPart(
+            Scene masterScene,
+            List<Transform> spawnPointList,
+            IEnumerable<string> texturePaths,
+            string aStarGraphDataPath)
         {
-            var levelSettingAsset = CreateLevelSetting(masterScene, spawnPointList);
+            var levelSettingAsset = CreateLevelSetting(masterScene, spawnPointList, texturePaths, aStarGraphDataPath);
             var gameObject = CreateLevelSettingBlobAssetAuthoringGameObject();
             var levelSettingBlobAssetAuthoring =
                 gameObject.GetComponent<GameEnvironment.LevelSettingBlobAssetAuthoring>();
@@ -51,7 +55,9 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
 
         private static GameEnvironment.LevelSetting CreateLevelSetting(
             Scene masterScene,
-            List<Transform> spawnPointList)
+            List<Transform> spawnPointList,
+            IEnumerable<string> texturePaths,
+            string aStarGraphDataPath)
         {
             var levelOperator = GetComponentAtScene<LevelOperator>(masterScene);
 
@@ -67,6 +73,14 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
 
             levelSetting.spawnPoints = new List<Vector3>();
             levelSetting.spawnPoints.AddRange(spawnPointList.Select(x => x.position));
+            
+            levelSetting.gridTextures = new List<Texture2D>();
+            var obstacleTextures = texturePaths.Select(tp => AssetDatabase.LoadAssetAtPath<Texture2D>(tp));
+            levelSetting.gridTextures.AddRange(obstacleTextures);
+
+            var aStarGraphData = AssetDatabase.LoadAssetAtPath<TextAsset>(aStarGraphDataPath);
+            levelSetting.astarGraphDatas = new List<TextAsset>();
+            levelSetting.astarGraphDatas.Add(aStarGraphData);
 
             return levelSetting;
         }

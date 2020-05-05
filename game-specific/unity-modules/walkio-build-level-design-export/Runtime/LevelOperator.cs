@@ -17,6 +17,9 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport
 
         public int gridCount;
 
+        public int widthCellCount;
+        public int heightCellCount;
+
         //
         public int aiControlCount;
 
