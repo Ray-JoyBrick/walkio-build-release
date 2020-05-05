@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "complete-unity"
+    },
+    {
+			"path": "game-specific"
 		}
   ],
   "settings": {

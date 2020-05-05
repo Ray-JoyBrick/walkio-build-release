@@ -1,0 +1,10 @@
+{
+  "name": "Opsive",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "Third Person Controller",
+      "to": "Assets/Standard Assets/Third Person Controller"
+    }
+  ]
+}
