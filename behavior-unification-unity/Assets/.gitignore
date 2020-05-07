@@ -6,6 +6,8 @@
 *.meta
 !*.*.meta
 
+!PhysicsCategoryNames.asset
+
 !_
 # Some Unity package create assets under Assets/Editor folder and unsure if these can be moved
 !Editor
