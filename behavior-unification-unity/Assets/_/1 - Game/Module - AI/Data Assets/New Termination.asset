@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 701c5d8bd1c704db8b5f6d23b982b4f4, type: 3}
   m_Name: New Termination
   m_EditorClassIdentifier: 
-  m_Namespace: 
   m_Parameters: []
   m_Criteria: []
   m_TerminalReward: 0
