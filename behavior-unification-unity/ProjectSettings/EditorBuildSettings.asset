@@ -12,5 +12,5 @@ EditorBuildSettings:
     path: Assets/_/1 - Game/Module - Entry - Assist/Scenes/Entry - Assist.unity
     guid: c24fac58ac4d0ce488545c4983badff6
   m_configObjects:
-    com.unity.addressableassets: {fileID: 11400000, guid: b39c2f6b0f3034590a02fa5d791da6e0,
+    com.unity.addressableassets: {fileID: 11400000, guid: e46e327bed445644badf4fbf71077b34,
       type: 2}
