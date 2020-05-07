@@ -43,14 +43,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b925f5b398e17453d97a108c188e8960, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolName: My Pool Name
+  poolName: Team Leader Pool
   poolType: 0
   poolWasJustCreatedByAPI: 0
   enablePoolEvents: 0
   enablePoolProtection: 1
   dontDestroyOnLoad: 0
   poolItems:
-  - prefabToPool: {fileID: 3413873918580826401, guid: b88c043cc29195b4db3725d50d29f629,
+  - prefabToPool: {fileID: 6408535543692404519, guid: 5d92606c6c6284ec2b1f010d754bb4e2,
       type: 3}
     poolSizeOptions: 0
     poolSize: 10

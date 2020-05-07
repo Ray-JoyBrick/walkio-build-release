@@ -236,12 +236,11 @@ GameObject:
   - component: {fileID: 9014700017726578748}
   - component: {fileID: -3048127109927340123}
   - component: {fileID: -4685658004840492896}
+  - component: {fileID: 5662937597880181536}
   - component: {fileID: 4031694397967071068}
   - component: {fileID: -8830328093731937374}
   - component: {fileID: -7791101907616675101}
   - component: {fileID: -7891507541015889798}
-  - component: {fileID: 7847740321572156825}
-  - component: {fileID: -590697838059517841}
   m_Layer: 31
   m_Name: Character_BusinessMan_Shirt_01
   m_TagString: Untagged
@@ -610,7 +609,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  drawGizmos: 1
+  drawGizmos: 0
   detailedGizmos: 0
   startEndModifier:
     addPoints: 0
@@ -734,6 +733,55 @@ MonoBehaviour:
       m_Override: 0
       m_Value: 0000000000000000
   m_ConvexRadius_Deprecated: -1
+--- !u!114 &5662937597880181536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6408535543692404519}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccea9ea98e38942e0b0938c27ed1903e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MotionType: 1
+  m_Mass: 1
+  m_LinearDamping: 0.01
+  m_AngularDamping: 0.05
+  m_InitialLinearVelocity:
+    x: 0
+    y: 0
+    z: 0
+  m_InitialAngularVelocity:
+    x: 0
+    y: 0
+    z: 0
+  m_GravityFactor: 0
+  m_OverrideDefaultMassDistribution: 0
+  m_CenterOfMass:
+    x: 0
+    y: 0
+    z: 0
+  m_Orientation:
+    Value:
+      x: 0
+      y: 0
+      z: 0
+    RotationOrder: 4
+  m_InertiaTensor:
+    x: 0.4
+    y: 0.4
+    z: 0.4
+  m_CustomTags:
+    Tag00: 0
+    Tag01: 0
+    Tag02: 0
+    Tag03: 0
+    Tag04: 0
+    Tag05: 0
+    Tag06: 0
+    Tag07: 0
 --- !u!114 &4031694397967071068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -783,84 +831,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aiLerp: {fileID: 9014700017726578748}
---- !u!114 &7847740321572156825
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6408535543692404519}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd8ac131c09d04008af565adfda708ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_PlanDefinition: {fileID: 11400000, guid: 2ab3abac6b2304f47a2948c3956b0b31, type: 2}
-  m_InitializeOnStart: 0
-  m_SearchSettings:
-    SearchIterationsPerUpdate: 1
-    StateExpansionBudgetPerIteration: 1
-    UseCustomSearchFrequency: 0
-    MinFramesPerSearchUpdate: 0
-    CapPlanSize: 0
-    MaxStatesInPlan: 0
-    StopPlanningWhenToleranceAchieved: 0
-    RootPolicyValueTolerance: 0
-    CapPlanUpdates: 0
-    MaxUpdates: 2147483647
-    GraphSelectionJobMode: 0
-    GraphBackpropagationJobMode: 0
-  m_ExecutionSettings:
-    ExecutionMode: 0
-    MaximumDecisionTolerance: 3.4028235e+38
-    MinimumPlanSize: 0
-    MinimumSearchTime: 0
-  m_WorldObjectQuery:
-    m_Filters: []
-  m_ActionExecuteInfos: []
-  m_AutoUpdate: 0
---- !u!114 &-590697838059517841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6408535543692404519}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d7b55c7ecdb49a4a89fa5e6f9022861, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startWhenEnabled: 1
-  asynchronousLoad: 0
-  pauseWhenDisabled: 0
-  restartWhenComplete: 0
-  logTaskChanges: 0
-  group: 0
-  resetValuesOnRestart: 0
-  externalBehavior: {fileID: 0}
-  mBehaviorSource:
-    behaviorName: Behavior
-    behaviorDescription: 
-    mTaskData:
-      types:
-      - BehaviorDesigner.Runtime.Tasks.EntryTask
-      - BehaviorDesigner.Runtime.Tasks.Log
-      parentIndex: ffffffff00000000
-      startIndex: 000000000a000000
-      variableStartIndex: 
-      JSONSerialization: 
-      fieldSerializationData:
-        typeName: []
-        fieldNameHash: 2944782b951203e811c37978c4a37522ae07a096e44d14616fd219c3a5f3b63149269a1caac4f9012944782b951203e811c37978c4a37522ae07a096e44d14616fd219c3a5f3b63149269a1caac4f90151a40e3b4a6364919b4e61913473910fa12eb9359aed0e8cebd80b8c8d6aa171
-        startIndex: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000014000000150000001600000017000000170000001800000019000000
-        dataPosition: 0000000004000000090000000a0000000b00000013000000130000001400000015000000190000001d000000210000002400000025000000260000002e0000002e0000002f0000003000000034000000380000005d0000005d000000690000008c0000008c000000
-        unityObjects: []
-        byteData: 00000000456e74727901000080d1430000f04100000000000000000000010000004c6f670100000080bf00000243000000000000000000004265686176696f7244657369676e65722e52756e74696d652e536861726564537472696e674a75737420437265617465644265686176696f7244657369676e65722e52756e74696d652e536861726564426f6f6c00
-        byteDataArray: 00000000456e74727901000080d1430000f04100000000000000000000010000004c6f670100000080bf00000243000000000000000000004265686176696f7244657369676e65722e52756e74696d652e536861726564537472696e674a75737420437265617465644265686176696f7244657369676e65722e52756e74696d652e536861726564426f6f6c00
-      Version: 1.6.5
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
 --- !u!1 &6408535543692408247
 GameObject:
   m_ObjectHideFlags: 0

@@ -150,11 +150,19 @@ namespace JoyBrick.Walkio.Game
                 
                 GameExtension.BridgeExtension.SendEvent("zz_Exit Current Flow");
             }
-            // else if (String.CompareOrdinal(commandName, "Place All Team Force Leader") == 0)
-            // {
-            //     var pool = FindObjectOfType<HellTap.PoolKit.Pool>();
-            // }
-            
+            else if (String.CompareOrdinal(commandName, "Place All Team Force Leader") == 0)
+            {
+                // var pool = FindObjectOfType<HellTap.PoolKit.Pool>();
+                
+                _notifyCommand.OnNext(new GameCommand.PlaceTeamForceLeader
+                {
+                });
+            }
+            else if (String.CompareOrdinal(commandName, "Create Team Leader From Pool") == 0)
+            {
+                CreateTeamLeaderFromPool();
+            }
+
 #endif
         }
     }

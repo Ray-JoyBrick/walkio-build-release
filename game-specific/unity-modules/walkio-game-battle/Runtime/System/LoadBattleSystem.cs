@@ -6,6 +6,7 @@ namespace JoyBrick.Walkio.Game.Battle
     using System.Threading.Tasks;
     using UniRx;
     using Unity.Entities;
+    using Unity.Mathematics;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
     using UnityEngine.ResourceManagement.ResourceProviders;
@@ -88,6 +89,7 @@ namespace JoyBrick.Walkio.Game.Battle
                 })
                 .AddTo(_compositeDisposable);
 
+            // Might be better to create another system and leave this system simply responsible for creation
             CommandService.CommandStream
                 .Where(x => (x as GameCommand.PlaceTeamForceLeader) != null)
                 .Subscribe(x =>
@@ -164,6 +166,9 @@ namespace JoyBrick.Walkio.Game.Battle
 
             var startingPosition =
                 levelWaypointPathLookup.WaypointPathBlobAssetRef.Value.Waypoints[waypointPath.StartIndex];
+            // var adjustedStartingPosition = new float3(startingPosition.x, 10.0f, startingPosition.z);
+            // var adjustedStartingPosition = new float3(startingPosition.x, 0.0f, startingPosition.z);
+            // var adjustedStartingPosition = new float3(5.0f, 2.0f, 5.0f);
             Debug.Log($"waypoint pos: {startingPosition} start: {waypointPath.StartIndex} end: {waypointPath.EndIndex}");
 
             var neutralForceAuthoring = prefab.GetComponent<NeutralForceAuthoring>();
@@ -172,6 +177,7 @@ namespace JoyBrick.Walkio.Game.Battle
                 neutralForceAuthoring.startPathIndex = waypointPath.StartIndex;
                 neutralForceAuthoring.endPathIndex = waypointPath.EndIndex;
                 neutralForceAuthoring.startingPosition = startingPosition;
+                // neutralForceAuthoring.startingPosition = adjustedStartingPosition;
             }
             
             GameObject.Instantiate(prefab);
@@ -179,7 +185,20 @@ namespace JoyBrick.Walkio.Game.Battle
 
         private void PlaceTeamForceLeader()
         {
+            _logger.Debug($"LoadBattleSystem - Construct - PlaceTeamForceLeader");
+
+            // At this time, should safely assumed that there exists level settings to be used
             // _battleUsePool.GetComponent<Pool>()
+
+            var loadEnvironmentSystem = World.GetExistingSystem<GameEnvironment.LoadEnvironmentSystem>();
+            var levelSetting = loadEnvironmentSystem.LevelSettingAsset as GameEnvironment.LevelSetting;
+
+            var aiControlCount = levelSetting.aiControlCount;
+            for (var i = 0; i < aiControlCount; ++i)
+            {
+                _logger.Debug($"LoadBattleSystem - Construct - PlaceTeamForceLeader - Create ai: {i}");
+                CommandService?.SendCommand("Create Team Leader From Pool");
+            }
         }
 
         protected override void OnCreate()
