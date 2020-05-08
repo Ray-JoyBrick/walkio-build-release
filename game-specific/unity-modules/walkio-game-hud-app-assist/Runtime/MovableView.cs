@@ -4,6 +4,8 @@
 
     public class MovableView : MonoBehaviour
     {
+        public string inDropdownName;
+        
         public Transform originalParent;
     }
 }

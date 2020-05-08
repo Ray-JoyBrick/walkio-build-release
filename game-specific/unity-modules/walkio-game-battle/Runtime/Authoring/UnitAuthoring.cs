@@ -15,6 +15,27 @@
 
             // For cleanup use
             dstManager.AddComponentData<GameCommon.StageUse>(entity, new GameCommon.StageUse());
+            
+#if UNITY_EDITOR
+
+            var neutralForceAuthoring = GetComponent<NeutralForceAuthoring>();
+            var teamForceAuthoring = GetComponent<TeamForceAuthoring>();
+            var teamLeaderAuthoring = GetComponent<TeamLeaderAuthoring>();
+
+            if (teamLeaderAuthoring != null)
+            {
+                // Let Team Leader Authoring do the naming
+            }
+            else if (teamForceAuthoring != null)
+            {
+                dstManager.SetName(entity, "Team Unit");
+            }
+            else if (neutralForceAuthoring != null)
+            {
+                dstManager.SetName(entity, "Neutral Unit");
+            }
+
+#endif            
         }
     }
 }

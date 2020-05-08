@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3838001061827962870}
   - component: {fileID: 5271208424079328318}
   - component: {fileID: 1813284956685254027}
+  - component: {fileID: 7371150452526495963}
   - component: {fileID: 1591956850300929502}
   - component: {fileID: 751739839374371370}
   - component: {fileID: 1705352445660794560}
@@ -172,6 +173,27 @@ MonoBehaviour:
     Tag05: 0
     Tag06: 0
     Tag07: 0
+--- !u!114 &7371150452526495963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4570268007021104363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb54ea4f67dc17342bcd49954c53502d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DrawColliders: 1
+  DrawColliderEdges: 1
+  DrawColliderAabbs: 1
+  DrawBroadphase: 0
+  DrawMassProperties: 1
+  DrawContacts: 0
+  DrawCollisionEvents: 0
+  DrawTriggerEvents: 0
+  DrawJoints: 0
 --- !u!114 &1591956850300929502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,12 +206,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 861e1fa7f4219dd4aba916a343fec9a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPathIndex: 17
-  endPathIndex: 22
+  startPathIndex: 0
+  endPathIndex: 7
   startingPosition:
-    x: 5
-    y: 2
-    z: 5
+    x: 6.863
+    y: 0
+    z: 37
 --- !u!114 &751739839374371370
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -114,6 +114,7 @@ namespace JoyBrick.Walkio.Build.FlowExport.Editor
 
             var createNeutralForceAssetPath = Path.Combine(relativeExtensionPlayer, "Create Neutral Force Unit.prefab");
             var createTeamForceAssetPath = Path.Combine(relativeExtensionPlayer, "Create Team Force Unit.prefab");
+            var createPlayerTeamLeaderAssetPath = Path.Combine(relativeExtensionPlayer, "Create Team Force Leader - Player.prefab");
             var playTimeCountdownAssetPath = Path.Combine(relativeExtensionPlayer, "Play Time Countdown.prefab");
             // var deactivateCanvasGroupAssetPath = Path.Combine(relativeExtensionPlayer, "Deactivate Canvas Group.asset");
 
@@ -124,7 +125,12 @@ namespace JoyBrick.Walkio.Build.FlowExport.Editor
             PlaceAssetInAddressble(assetSettings, assetGroup,
                 createTeamForceAssetPath,
                 label,
-                "Create Team Force Unit");            PlaceAssetInAddressble(assetSettings, assetGroup,
+                "Create Team Force Unit");
+            PlaceAssetInAddressble(assetSettings, assetGroup,
+                createPlayerTeamLeaderAssetPath,
+                label,
+                "Create Player Team Force Leader");
+            PlaceAssetInAddressble(assetSettings, assetGroup,
                 playTimeCountdownAssetPath,
                 label,
                 "Play Time Countdown");

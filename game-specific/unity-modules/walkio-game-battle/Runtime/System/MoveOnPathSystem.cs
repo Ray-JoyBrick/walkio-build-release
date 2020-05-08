@@ -49,7 +49,7 @@ namespace JoyBrick.Walkio.Game.Battle
                 {
                     _canUpdate = false;
                 })
-                .AddTo(_compositeDisposable);                
+                .AddTo(_compositeDisposable);
         }
 
         protected override void OnCreate()
@@ -167,6 +167,13 @@ namespace JoyBrick.Walkio.Game.Battle
                 .Run();
             
             _entityCommandBufferSystem.AddJobHandleForProducer(Dependency);
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            _compositeDisposable?.Dispose();
         }
     }
 }

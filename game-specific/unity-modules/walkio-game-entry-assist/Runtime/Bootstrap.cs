@@ -74,7 +74,7 @@
                     _assistable = assistables.First().GetComponent<IBootstrapAssistable>();
                     _assistable?.AddAssistant((IBootstrapAssistant) this);
                 }
-            }            
+            }
         }
 
         void Start()

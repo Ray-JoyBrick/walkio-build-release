@@ -149,13 +149,7 @@ namespace JoyBrick.Walkio.Game.Hud.App.Assist
                 var movableView = v.GetComponent<MovableView>();
                 if (movableView != null)
                 {
-                    movableView.transform.SetParent(collectAssistView.viewContainer);
-                    var rectTransform = movableView.GetComponent<RectTransform>();
-                    if (rectTransform != null)
-                    {
-                        rectTransform.offsetMax = Vector2.zero;
-                        rectTransform.offsetMin = Vector2.zero;
-                    }
+                    collectAssistView.PlaceViewInContainer(movableView.gameObject, movableView.inDropdownName);
                 }
             }
         }

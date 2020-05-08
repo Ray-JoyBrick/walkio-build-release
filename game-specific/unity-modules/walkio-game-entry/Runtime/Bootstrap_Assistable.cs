@@ -5,6 +5,11 @@ namespace JoyBrick.Walkio.Game
     using UniRx;
     using UnityEngine;
 
+    using GameCommand = JoyBrick.Walkio.Game.Command;
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT
+    using GameExtension = JoyBrick.Walkio.Game.Extension;
+#endif
+
     public partial class Bootstrap :
         IBootstrapAssistable
     {
@@ -21,6 +26,19 @@ namespace JoyBrick.Walkio.Game
             if (!existed)
             {
                 _assistants.Add(assistant);
+            }
+        }
+
+        public void ExecuteAction(int actionIndex, int times)
+        {
+            if (actionIndex == 10)
+            {
+                for (var i = 0; i < times; ++i)
+                {
+                    _notifyCommand.OnNext(new GameCommand.CreateNeutralForceUnit
+                    {
+                    });
+                }
             }
         }
     }

@@ -1,5 +1,5 @@
 {
-    "name": "Walkio.Game.Player",
+    "name": "Walkio.Game.Input-Control",
     "references": [
         "Unity.Addressables",
         "Unity.Entities",
@@ -8,9 +8,18 @@
         "Unity.Collections",
         "Unity.Transforms",
         "Unity.Entities.Hybrid",
+        "Unity.Entities.Properties",
+        "Unity.InputSystem",
         "Unity.Mathematics",
         "Unity.ResourceManager",
-        "Walkio.Game.Input-Control"
+        "UniRx",
+        "AstarPathfindingProject",
+        "PackageTools",
+        "ALINE",
+        "Walkio.Game.Command",
+        "Walkio.Game.Common",
+        "Walkio.Game.Template",
+        "Walkio.Game.Utility"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -5,7 +5,7 @@ namespace JoyBrick.Walkio.Game
 
     public interface IBootstrapAssistant
     {
-        
+        void SendCommand(string command);
     }
     
     public interface IBootstrapAssistable
@@ -15,5 +15,8 @@ namespace JoyBrick.Walkio.Game
         IObservable<int> CanStartInitialSetup { get; }
         
         void AddAssistant(IBootstrapAssistant assistant);
+        
+        //
+        void ExecuteAction(int actionIndex, int times);
     }
 }

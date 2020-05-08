@@ -46,7 +46,7 @@ MonoBehaviour:
   poolName: Team Leader Pool
   poolType: 0
   poolWasJustCreatedByAPI: 0
-  enablePoolEvents: 0
+  enablePoolEvents: 1
   enablePoolProtection: 1
   dontDestroyOnLoad: 0
   poolItems:
@@ -77,7 +77,7 @@ MonoBehaviour:
     despawnAfterHowManySeconds: 5
     despawnRandomRangeMin: 2
     despawnRandomRangeMax: 5
-    notifications: 0
+    notifications: 1
     enableInstantiateDelegates: 0
     enableDestroyDelegates: 0
     maxInstancesSpawnedAtOnce: 0
@@ -86,7 +86,47 @@ MonoBehaviour:
     timeSincePoolLastInitializedAnInstance: 0
     timeSincePoolLastSpawnedAnInstance: 0
     timeSincePoolLastDespawnedAnInstance: 0
-    tab: 0
+    tab: 3
+    instanceSpawnedProgressBar: 0
+    instanceSpawnedProgressBarLerped: 0
+    prefabTabIsOpen: 1
+  - prefabToPool: {fileID: 3930252602610631095, guid: 94c52d5dcc660f14bbfd7fe0de814565,
+      type: 3}
+    poolSizeOptions: 0
+    poolSize: 1
+    limitPoolSize: 100
+    keepOrganized: 1
+    recycleSpawnedObjects: 0
+    resetScaleOnEverySpawn: 0
+    spawnedItemScale: 0
+    customSpawnScale: {x: 1, y: 1, z: 1}
+    customSpawnScaleMin: {x: 0, y: 0, z: 0}
+    customSpawnScaleMax: {x: 1, y: 1, z: 1}
+    customSpawnScaleProportionalMin: 0
+    customSpawnScaleProportionalMax: 1
+    resetLayerOnEverySpawn: 0
+    spawnedItemLayer: 0
+    customSpawnLayer: 0
+    useLazyPreloading: 0
+    lazyPreloadingInstancesOnAwake: 1
+    lazyPreloadingInitialDelay: 1
+    lazyPreloadingInstancesPerPass: 1
+    lazyPreloadingDelayBetweenPasses: 0.2
+    enableAutoDespawn: 0
+    despawnMode: 0
+    despawnAfterHowManySeconds: 5
+    despawnRandomRangeMin: 2
+    despawnRandomRangeMax: 5
+    notifications: 1
+    enableInstantiateDelegates: 0
+    enableDestroyDelegates: 0
+    maxInstancesSpawnedAtOnce: 0
+    totalNumberOfSpawns: 0
+    totalNumberOfDespawns: 0
+    timeSincePoolLastInitializedAnInstance: 0
+    timeSincePoolLastSpawnedAnInstance: 0
+    timeSincePoolLastDespawnedAnInstance: 0
+    tab: 3
     instanceSpawnedProgressBar: 0
     instanceSpawnedProgressBarLerped: 0
     prefabTabIsOpen: 1

@@ -92,10 +92,18 @@ namespace JoyBrick.Walkio.Game.Battle
             // Might be better to create another system and leave this system simply responsible for creation
             CommandService.CommandStream
                 .Where(x => (x as GameCommand.PlaceTeamForceLeader) != null)
+                .Select(x => (x as GameCommand.PlaceTeamForceLeader))
                 .Subscribe(x =>
                 {
                     _logger.Debug($"LoadBattleSystem - Construct - Receive PlaceTeamForceLeader");
-                    PlaceTeamForceLeader();
+                    if (x.Kind == GameCommand.TeamForceLeaderKind.NpcUse)
+                    {
+                        PlaceNpcTeamForceLeader();
+                    }
+                    else if (x.Kind == GameCommand.TeamForceLeaderKind.PlayerUse)
+                    {
+                        PlacePlayerTeamForceLeader();
+                    }
                 })
                 .AddTo(_compositeDisposable);
         }
@@ -183,9 +191,9 @@ namespace JoyBrick.Walkio.Game.Battle
             GameObject.Instantiate(prefab);
         }
 
-        private void PlaceTeamForceLeader()
+        private void PlaceNpcTeamForceLeader()
         {
-            _logger.Debug($"LoadBattleSystem - Construct - PlaceTeamForceLeader");
+            _logger.Debug($"LoadBattleSystem - Construct - PlaceNpcTeamForceLeader");
 
             // At this time, should safely assumed that there exists level settings to be used
             // _battleUsePool.GetComponent<Pool>()
@@ -197,8 +205,22 @@ namespace JoyBrick.Walkio.Game.Battle
             for (var i = 0; i < aiControlCount; ++i)
             {
                 _logger.Debug($"LoadBattleSystem - Construct - PlaceTeamForceLeader - Create ai: {i}");
-                CommandService?.SendCommand("Create Team Leader From Pool");
+                CommandService?.SendCommand("Create Npc Team Leader From Pool");
             }
+        }
+        
+        private void PlacePlayerTeamForceLeader()
+        {
+            _logger.Debug($"LoadBattleSystem - Construct - PlacePlayerTeamForceLeader");
+
+            // At this time, should safely assumed that there exists level settings to be used
+            // _battleUsePool.GetComponent<Pool>()
+
+            // Should load player setting that is allowed for the game play
+            // var loadEnvironmentSystem = World.GetExistingSystem<GameEnvironment.LoadEnvironmentSystem>();
+            // var levelSetting = loadEnvironmentSystem.LevelSettingAsset as GameEnvironment.LevelSetting;
+
+            CommandService?.SendCommand("Create Player Team Leader From Pool");
         }
 
         protected override void OnCreate()

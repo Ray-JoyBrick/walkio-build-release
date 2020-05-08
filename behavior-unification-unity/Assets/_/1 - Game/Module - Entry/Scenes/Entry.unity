@@ -244,6 +244,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ee6e4bb8147072439f853acee55f729, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  quickPlayerCamera: {fileID: 5070165665016735642, guid: 54a7791978a19bc408bf6e82a145f2fb,
+    type: 3}
 --- !u!4 &530082056
 Transform:
   m_ObjectHideFlags: 0
@@ -573,7 +575,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
   orthographic: 1

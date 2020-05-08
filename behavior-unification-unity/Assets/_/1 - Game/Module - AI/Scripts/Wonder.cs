@@ -11,7 +11,7 @@
         
         void Start()
         {
-            StartCoroutine(TimedPickDest());
+            // StartCoroutine(TimedPickDest());
         }
 
         private IEnumerator TimedPickDest()

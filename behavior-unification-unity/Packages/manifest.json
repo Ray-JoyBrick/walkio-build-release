@@ -41,7 +41,6 @@
     "walkio.game.hud-preparation": "file:../../game-specific/unity-modules/walkio-game-hud-preparation",
     "walkio.game.hud-stage": "file:../../game-specific/unity-modules/walkio-game-hud-stage",
     "walkio.game.hud-stage.assist": "file:../../game-specific/unity-modules/walkio-game-hud-stage-assist",
-    "walkio.game.input-control": "file:../../game-specific/unity-modules/walkio-game-input-control",
     "walkio.game.pathfinding": "file:../../game-specific/unity-modules/walkio-game-pathfinding",
     "walkio.game.player": "file:../../game-specific/unity-modules/walkio-game-player",
     "walkio.game.stage-flow-control": "file:../../game-specific/unity-modules/walkio-game-stage-flow-control",

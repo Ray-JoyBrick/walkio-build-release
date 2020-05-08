@@ -202,6 +202,11 @@
             var moveOnPathSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameBattle.MoveOnPathSystem>();
+            
+            var unitHitCheckSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameBattle.UnitHitCheckSystem>();
+            
 #endif
 
             //
@@ -257,6 +262,8 @@
             //
             moveOnPathSystem.FlowControl = (GameCommon.IFlowControl) this;
             
+            unitHitCheckSystem.FlowControl = (GameCommon.IFlowControl) this;
+            
 #endif
             
             //
@@ -293,6 +300,7 @@
             setupEnvironmentSystem.Construct();
             
             moveOnPathSystem.Construct();
+            unitHitCheckSystem.Construct();
 #endif            
             
             // InitializationSystemGroup
@@ -330,6 +338,7 @@
             initializationSystemGroup.AddSystemToUpdateList(setupEnvironmentSystem);
             
             simulationSystemGroup.AddSystemToUpdateList(moveOnPathSystem);
+            simulationSystemGroup.AddSystemToUpdateList(unitHitCheckSystem);
 #endif
         }
 

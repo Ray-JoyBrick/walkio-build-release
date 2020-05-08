@@ -13,11 +13,13 @@
         "Unity.ResourceManager",
         "Unity.Transforms.Hybrid",
         "UniRx",
+        "PoolKit",
         "Walkio.Game.Common",
         "Walkio.Game.Command",
         "Walkio.Game.Environment",
         "Walkio.Game.Environment-Bridge",
         "Walkio.Game.Extension",
+        "Walkio.Game.Input-Control",
         "Walkio.Game.Template"
     ],
     "includePlatforms": [],

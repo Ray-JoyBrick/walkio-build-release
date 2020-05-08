@@ -23,10 +23,12 @@ namespace JoyBrick.Walkio.Game.StageFlowControl
         //
         private GameObject _createNeutralPrefab;
         private GameObject _createTeamPrefab;
+        private GameObject _createPlayerTeamLeaderPrefab;
         private GameObject _playTimeCountdownPrefab;
 
         private GameObject _createNeutral;
         private GameObject _createTeam;
+        private GameObject _createPlayerTeamLeader;
         private GameObject _playTimeCountdown;
         
         //
@@ -76,22 +78,25 @@ namespace JoyBrick.Walkio.Game.StageFlowControl
                 .Subscribe(result =>
                 {
                     //
-                    (_createNeutralPrefab, _createTeamPrefab, _playTimeCountdownPrefab) = result;
+                    (_createNeutralPrefab, _createTeamPrefab, _createPlayerTeamLeaderPrefab, _playTimeCountdownPrefab) = result;
                             
                     //
                     _createNeutral = GameObject.Instantiate(_createNeutralPrefab);
                     _createTeam = GameObject.Instantiate(_createTeamPrefab);
+                    _createPlayerTeamLeader = GameObject.Instantiate(_createPlayerTeamLeaderPrefab);
                     _playTimeCountdown = GameObject.Instantiate(_playTimeCountdownPrefab);
                     var scene = SceneManager.GetSceneByName("Entry");
                     if (scene.IsValid())
                     {
                         SceneManager.MoveGameObjectToScene(_createNeutral, scene);
                         SceneManager.MoveGameObjectToScene(_createTeam, scene);
+                        SceneManager.MoveGameObjectToScene(_createPlayerTeamLeader, scene);
                         SceneManager.MoveGameObjectToScene(_playTimeCountdown, scene);
                     }
 
                     SetReferenceToExtension(_createNeutral);
                     SetReferenceToExtension(_createTeam);
+                    SetReferenceToExtension(_createPlayerTeamLeader);
                     SetReferenceToExtension(_playTimeCountdown);
                     // AddCommandStreamAndInfoStream(_canvas);
                     //
@@ -123,16 +128,17 @@ namespace JoyBrick.Walkio.Game.StageFlowControl
             return r;
         }
 
-        private async Task<(GameObject, GameObject, GameObject)> Load()
+        private async Task<(GameObject, GameObject, GameObject, GameObject)> Load()
         {
             var createNeutralPrefabTask = GetAsset<GameObject>($"Create Neutral Force Unit");
             var createTeamPrefabTask = GetAsset<GameObject>($"Create Team Force Unit");
+            var createPlayerTeamLeaderPrefabTask = GetAsset<GameObject>($"Create Player Team Force Leader");
             var playTimeCountdownPrefabTask = GetAsset<GameObject>($"Play Time Countdown");
         
-            var (createNeutralPrefab, createTeamPrefab, playTimeCountdownPrefab) =
-                (await createNeutralPrefabTask, await createTeamPrefabTask, await playTimeCountdownPrefabTask);
+            var (createNeutralPrefab, createTeamPrefab, createPlayerTeamLeaderPrefab, playTimeCountdownPrefab) =
+                (await createNeutralPrefabTask, await createTeamPrefabTask, await createPlayerTeamLeaderPrefabTask, await playTimeCountdownPrefabTask);
         
-            return (createNeutralPrefab, createTeamPrefab, playTimeCountdownPrefab);
+            return (createNeutralPrefab, createTeamPrefab, createPlayerTeamLeaderPrefab, playTimeCountdownPrefab);
         }
         
         // TODO: Move hard reference to PlayMakerFSM to somewhere else
@@ -189,9 +195,14 @@ namespace JoyBrick.Walkio.Game.StageFlowControl
             if (_createTeamPrefab != null)
             {
                 Addressables.ReleaseInstance(_createTeamPrefab);
+            }
+            
+            if (_createPlayerTeamLeaderPrefab != null)
+            {
+                Addressables.ReleaseInstance(_createPlayerTeamLeaderPrefab);
             }            
             
-            if (_createTeamPrefab != null)
+            if (_playTimeCountdownPrefab != null)
             {
                 Addressables.ReleaseInstance(_playTimeCountdownPrefab);
             }
@@ -204,7 +215,12 @@ namespace JoyBrick.Walkio.Game.StageFlowControl
             if (_createTeam != null)
             {
                 GameObject.Destroy(_createTeam);
-            }            
+            }
+
+            if (_createPlayerTeamLeader != null)
+            {
+                GameObject.Destroy(_createPlayerTeamLeader);
+            }
             if (_playTimeCountdown != null)
             {
                 GameObject.Destroy(_playTimeCountdown);

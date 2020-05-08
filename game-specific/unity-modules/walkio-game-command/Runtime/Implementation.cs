@@ -23,7 +23,14 @@ namespace JoyBrick.Walkio.Game.Command
     {
     }
 
+    public enum TeamForceLeaderKind
+    {
+        NpcUse,
+        PlayerUse
+    }
+
     public class PlaceTeamForceLeader : ICommand
     {
+        public TeamForceLeaderKind Kind { get; set; }
     }
 }

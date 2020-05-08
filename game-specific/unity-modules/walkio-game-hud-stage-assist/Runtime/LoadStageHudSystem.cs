@@ -154,13 +154,8 @@ namespace JoyBrick.Walkio.Game.Hud.Stage.Assist
                 if (movableView != null)
                 {
                     _childViews.Add(movableView.gameObject);
-                    movableView.transform.SetParent(collectAssistView.viewContainer);
-                    var rectTransform = movableView.GetComponent<RectTransform>();
-                    if (rectTransform != null)
-                    {
-                        rectTransform.offsetMax = Vector2.zero;
-                        rectTransform.offsetMin = Vector2.zero;
-                    }
+                    
+                    collectAssistView.PlaceViewInContainer(movableView.gameObject, movableView.inDropdownName);
                 }
             }
         }

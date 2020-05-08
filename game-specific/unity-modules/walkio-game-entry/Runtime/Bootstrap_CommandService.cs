@@ -6,7 +6,7 @@ namespace JoyBrick.Walkio.Game
     using UniRx;
     
     using GameCommand = JoyBrick.Walkio.Game.Command;
-#if COMPLETE_PROJECT || BEHAVIOR_PROJECT || HUD_FLOW_PROJECT
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT
     using GameExtension = JoyBrick.Walkio.Game.Extension;
 #endif
     
@@ -156,14 +156,31 @@ namespace JoyBrick.Walkio.Game
                 
                 _notifyCommand.OnNext(new GameCommand.PlaceTeamForceLeader
                 {
+                    Kind = GameCommand.TeamForceLeaderKind.NpcUse
                 });
             }
-            else if (String.CompareOrdinal(commandName, "Create Team Leader From Pool") == 0)
+            else if (String.CompareOrdinal(commandName, "Place Player Team Force Leader") == 0)
             {
-                CreateTeamLeaderFromPool();
+                // var pool = FindObjectOfType<HellTap.PoolKit.Pool>();
+                
+                _notifyCommand.OnNext(new GameCommand.PlaceTeamForceLeader
+                {
+                    Kind = GameCommand.TeamForceLeaderKind.PlayerUse
+                });
+            }            
+            else if (String.CompareOrdinal(commandName, "Create Npc Team Leader From Pool") == 0)
+            {
+                CreateNpcTeamLeaderFromPool();
+            }
+            else if (String.CompareOrdinal(commandName, "Create Player Team Leader From Pool") == 0)
+            {
+                CreatePlayerTeamLeaderFromPool();
             }
 
 #endif
+
+            // Let assistants handle command
+            _assistants.ForEach(x => x.SendCommand(commandName));
         }
     }
 }
