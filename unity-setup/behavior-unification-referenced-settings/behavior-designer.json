@@ -13,6 +13,10 @@
     {
       "name": "Behavior Designer/Behavior Designer",
       "to": "Assets/Standard Assets/Behavior Designer"
+    },
+    {
+      "name": "Behavior Designer/Behavior Designer Movement",
+      "to": "Assets/Standard Assets/Behavior Designer Movement"
     }
   ]
 }
