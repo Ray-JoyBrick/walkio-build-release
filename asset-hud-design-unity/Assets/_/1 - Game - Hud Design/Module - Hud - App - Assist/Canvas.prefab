@@ -888,6 +888,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewContainer: {fileID: 6352014086066943417}
+  viewSelectionDropdown: {fileID: 8522123976578442144}
 --- !u!1 &4541904147174597046
 GameObject:
   m_ObjectHideFlags: 0
