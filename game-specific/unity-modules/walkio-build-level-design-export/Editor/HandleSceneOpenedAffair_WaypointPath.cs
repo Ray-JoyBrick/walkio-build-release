@@ -41,7 +41,7 @@
                 //
                 {
                     var prefabName = "Waypoint Path BlobAsset Authoring.prefab";
-
+                
                     SaveGameObjectAsPrefabTo(absoluteStartingPath, relativeStartingPath, assetDirectoryPath, prefabName, gameObject);
                     // Remove game object from scene after saving
                     GameObject.DestroyImmediate(gameObject);

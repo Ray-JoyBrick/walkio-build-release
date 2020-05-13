@@ -1,6 +1,7 @@
 namespace JoyBrick.Walkio.Game.Environment
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Pathfinding;
@@ -47,9 +48,9 @@ namespace JoyBrick.Walkio.Game.Environment
         public void Construct()
         {
             _logger.Debug($"LoadEnvironmentSystem - Construct");
-            
+
             base.OnCreate();
-            
+
             //
             FlowControl.LoadingAsset
                 .Where(x => x.Name.Contains("Stage"))
@@ -57,10 +58,10 @@ namespace JoyBrick.Walkio.Game.Environment
                 {
                     // Create Singleton Entity first
                     var theEnvironmentEntity = EntityManager.CreateEntity(_entityArchetype);
-                    
+
                     LoadingAsset();
                 })
-                .AddTo(_compositeDisposable);            
+                .AddTo(_compositeDisposable);
         }
 
         private void LoadingAsset()
@@ -72,9 +73,8 @@ namespace JoyBrick.Walkio.Game.Environment
                 .Subscribe(result =>
                 {
                     //
-                    (_levelSettingAsset, _levelSettingBlobAssetAuthoringPrefab, _waypointDataAsset, _waypointPathBlobAssetAuthoringPrefab, _sceneInstance) = result;
+                    (_levelSettingAsset, _sceneInstance) = result;
 
-                    
                     //
                     var levelSetting = _levelSettingAsset as LevelSetting;
                     if (levelSetting != null)
@@ -82,17 +82,22 @@ namespace JoyBrick.Walkio.Game.Environment
                         // var desc =
                         //     levelSetting.gridTextures.Aggregate("", (acc, next) => $"{acc} {next}");
                         // _logger.Debug($"LoadEnvironmentSystem - LoadingAsset\n{desc}");
-                        levelSetting.gridTextures.ForEach(gt =>
-                        {
-                            AssignDataFromTexture(gt);
-                        });
-                        
+                        // levelSetting.gridTextures.ForEach(gt =>
+                        // {
+                        //     AssignDataFromTexture(gt);
+                        // });
+
+                        var gridTileCount2D = new Vector2Int(levelSetting.hGridCount, levelSetting.vGridCount);
+                        var gridTileCellCount2D = new Vector2Int(levelSetting.gridCellCount, levelSetting.gridCellCount);
+                        SetupGridMap(levelSetting.gridMapAuthoringPrefab, levelSetting.gridTextures, gridTileCount2D, gridTileCellCount2D);
+
                         SetupPathfinder(_sceneInstance.Scene, levelSetting.astarGraphDatas.First());
                     }
                     // //
                     // var wpbaaPrefab = _waypointPathBlobAssetAuthoringPrefab.GetComponent<WaypointPathBlobAssetAuthoring>();
                     // wpbaaPrefab.waypointDataAsset = _waypointDataAsset as WaypointData;
-                    GameObject.Instantiate(_waypointPathBlobAssetAuthoringPrefab);
+                    // GameObject.Instantiate(_waypointPathBlobAssetAuthoringPrefab);
+                    GameObject.Instantiate(levelSetting.waypointPathAuthoringPrefab);
                     // GameObject.Instantiate(wpbaaPrefab);
                     // _canvas = GameObject.Instantiate(_canvasPrefab);
                     // AddCommandStreamAndInfoStream(_canvas);
@@ -103,7 +108,7 @@ namespace JoyBrick.Walkio.Game.Environment
                         Name = "Stage"
                     });
                 })
-                .AddTo(_compositeDisposable);            
+                .AddTo(_compositeDisposable);
         }
 
         private async Task<T> GetAsset<T>(string addressName)
@@ -121,24 +126,49 @@ namespace JoyBrick.Walkio.Game.Environment
 
             return r;
         }
-        
-        private async Task<(ScriptableObject, GameObject, ScriptableObject, GameObject, SceneInstance)> Load()
+
+        private async Task<(ScriptableObject, SceneInstance)> Load()
         {
             var levelSettingAssetTask = GetAsset<ScriptableObject>($"Level Setting.asset");
-            var levelSettingBlobAssetAuthoringTask = GetAsset<GameObject>($"Level Setting BlobAsset Authoring");
-            var waypointDataAssetTask = GetAsset<ScriptableObject>($"Waypoint Data.asset");
-            var waypointPathBlobAssetAuthoringTask = GetAsset<GameObject>($"Waypoint Path BlobAsset Authoring");
-
             var levelMainSceneAssetTask = GetScene("Level 001");
 
-            var (levelSettingAsset, levelSettingBlobAssetAuthoring, waypointDataAsset, waypointPathBlobAssetAuthoring) =
-                (await levelSettingAssetTask, await levelSettingBlobAssetAuthoringTask, await waypointDataAssetTask, await waypointPathBlobAssetAuthoringTask);
-
+            var levelSettingAsset = await levelSettingAssetTask;
             var sceneInstance = await levelMainSceneAssetTask;
 
-            return (levelSettingAsset, levelSettingBlobAssetAuthoring, waypointDataAsset, waypointPathBlobAssetAuthoring, sceneInstance);
+            return (levelSettingAsset, sceneInstance);
         }
 
+        // private async Task<(ScriptableObject, GameObject, ScriptableObject, GameObject, SceneInstance)> Load()
+        // {
+        //     var levelSettingAssetTask = GetAsset<ScriptableObject>($"Level Setting.asset");
+        //     var levelSettingBlobAssetAuthoringTask = GetAsset<GameObject>($"Level Setting BlobAsset Authoring");
+        //     var waypointDataAssetTask = GetAsset<ScriptableObject>($"Waypoint Data.asset");
+        //     var waypointPathBlobAssetAuthoringTask = GetAsset<GameObject>($"Waypoint Path BlobAsset Authoring");
+        //
+        //     var levelMainSceneAssetTask = GetScene("Level 001");
+        //
+        //     var (levelSettingAsset, levelSettingBlobAssetAuthoring, waypointDataAsset, waypointPathBlobAssetAuthoring) =
+        //         (await levelSettingAssetTask, await levelSettingBlobAssetAuthoringTask, await waypointDataAssetTask, await waypointPathBlobAssetAuthoringTask);
+        //
+        //     var sceneInstance = await levelMainSceneAssetTask;
+        //
+        //     return (levelSettingAsset, levelSettingBlobAssetAuthoring, waypointDataAsset, waypointPathBlobAssetAuthoring, sceneInstance);
+        // }
+
+        private void SetupGridMap(GameObject prefab, IList<Texture2D> texture2Ds, Vector2Int gridTileCount2D, Vector2Int gridTileCellCount2D)
+        {
+            var gridCells =
+                Utility.GridHelper.GetGridObstacleIndicesFromTextures(texture2Ds, gridTileCount2D, gridTileCellCount2D);
+
+            var authoring = prefab.GetComponent<GridMapBlobAssetAuthoring>();
+            if (authoring != null)
+            {
+                authoring.gridCells = gridCells;
+
+                GameObject.Instantiate(authoring);
+            }
+        }
+        
         private void AssignDataFromTexture(Texture2D texture2D)
         {
             var width = texture2D.width;
@@ -210,20 +240,20 @@ namespace JoyBrick.Walkio.Game.Environment
                 Addressables.Release(_levelSettingAsset);
             }
             
-            if (_levelSettingBlobAssetAuthoringPrefab != null)
-            {
-                Addressables.ReleaseInstance(_levelSettingBlobAssetAuthoringPrefab);
-            }
+            // if (_levelSettingBlobAssetAuthoringPrefab != null)
+            // {
+            //     Addressables.ReleaseInstance(_levelSettingBlobAssetAuthoringPrefab);
+            // }
 
-            if (_waypointDataAsset != null)
-            {
-                Addressables.Release(_waypointDataAsset);
-            }
+            // if (_waypointDataAsset != null)
+            // {
+            //     Addressables.Release(_waypointDataAsset);
+            // }
             
-            if (_waypointPathBlobAssetAuthoringPrefab != null)
-            {
-                Addressables.ReleaseInstance(_waypointPathBlobAssetAuthoringPrefab);
-            }
+            // if (_waypointPathBlobAssetAuthoringPrefab != null)
+            // {
+            //     Addressables.ReleaseInstance(_waypointPathBlobAssetAuthoringPrefab);
+            // }
 
             // This async process flow won't start
             var asyncOperation =

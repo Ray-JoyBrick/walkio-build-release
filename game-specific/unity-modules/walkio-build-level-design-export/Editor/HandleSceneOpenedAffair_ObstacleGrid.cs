@@ -20,6 +20,39 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
 
             return texturePaths;
         }
+        
+        // private static void CreateObstacleGridPart_AuthoringPrefab(Scene masterScene)
+        // {
+        //     var gameObject = CreateGridMapBlobAssetAuthoringGameObject();
+        //     var gridMapBlobAssetAuthoring =
+        //         gameObject.GetComponent<GameEnvironment.GridMapBlobAssetAuthoring>();
+        //
+        //     if (gridMapBlobAssetAuthoring != null)
+        //     {
+        //         // waypointPathBlobAssetAuthoring.waypointDataAsset = waypointDataAsset;
+        //
+        //         var absoluteStartingPath = Application.dataPath;
+        //         var relativeStartingPath = "Assets";
+        //         var assetDirectoryPath = Path.Combine("_", "1 - Game - Level Design - Generated",
+        //             "Levels", "level001", "waypoint-path");
+        //
+        //         //
+        //         {
+        //             var assetName = "Waypoint Data.asset";
+        //
+        //             SaveAssetTo(absoluteStartingPath, relativeStartingPath, assetDirectoryPath, assetName, waypointDataAsset);
+        //         }
+        //         //
+        //         {
+        //             var prefabName = "Waypoint Path BlobAsset Authoring.prefab";
+        //
+        //             SaveGameObjectAsPrefabTo(absoluteStartingPath, relativeStartingPath, assetDirectoryPath, prefabName, gameObject);
+        //             // Remove game object from scene after saving
+        //             GameObject.DestroyImmediate(gameObject);
+        //             EditorSceneManager.SaveScene(currentMasterScene);
+        //         }
+        //     }
+        // }
 
         private static IEnumerable<string> CreateObstacleTexture(string levelName, Scene masterScene)
         {
@@ -552,6 +585,16 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
             }
 
             return texture;
-        }        
+        }
+        
+        private static GameObject CreateGridMapBlobAssetAuthoringGameObject()
+        {
+            // TODO: This creates new game object on scene, which has to be removed later to no alert the scene
+            var createdInstance = new GameObject();
+            createdInstance.AddComponent<GameEnvironment.GridMapBlobAssetAuthoring>();
+            createdInstance.AddComponent<ConvertToEntity>();
+
+            return createdInstance;
+        }
     }
 }

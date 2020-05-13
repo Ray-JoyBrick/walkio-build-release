@@ -25,8 +25,13 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
             var levelSettingBlobAssetAuthoring =
                 gameObject.GetComponent<GameEnvironment.LevelSettingBlobAssetAuthoring>();
 
+            var gridMapGameObject = CreateGridMapBlobAssetAuthoringGameObject();
+            var gridMapBlobAssetAuthoring =
+                gridMapGameObject.GetComponent<GameEnvironment.GridMapBlobAssetAuthoring>();
+
             if (levelSettingAsset != null
-                && levelSettingBlobAssetAuthoring != null)
+                && levelSettingBlobAssetAuthoring != null
+                && gridMapBlobAssetAuthoring != null)
             {
                 levelSettingBlobAssetAuthoring.levelSettingAsset = levelSettingAsset;
                 
@@ -35,12 +40,9 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
                 var assetDirectoryPath = Path.Combine("_", "1 - Game - Level Design - Generated",
                     "Levels", "level001", "level-setting");
                 
-                //
-                {
-                    var assetName = "Level Setting.asset";
+                var assetDirectoryWaypointPath = Path.Combine("_", "1 - Game - Level Design - Generated",
+                    "Levels", "level001", "waypoint-path");
                 
-                    SaveAssetTo(absoluteStartingPath, relativeStartingPath, assetDirectoryPath, assetName, levelSettingAsset);
-                }
                 //
                 {
                     var prefabName = "Level Setting BlobAsset Authoring.prefab";
@@ -49,6 +51,40 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
                     // Remove game object from scene after saving
                     GameObject.DestroyImmediate(gameObject);
                     EditorSceneManager.SaveScene(currentMasterScene);
+
+                    var prefabPath = Path.Combine(relativeStartingPath, assetDirectoryPath, prefabName);
+                    var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+
+                    levelSettingAsset.levelSettingAuthoringPrefab = prefab;
+                }
+                //
+                {
+                    var prefabName = "Waypoint Path BlobAsset Authoring.prefab";
+                
+                    var prefabPath = Path.Combine(relativeStartingPath, assetDirectoryWaypointPath, prefabName);
+                    var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+
+                    levelSettingAsset.waypointPathAuthoringPrefab = prefab;
+                }
+                //
+                {
+                    var prefabName = "Grid Map BlobAsset Authoring.prefab";
+                
+                    SaveGameObjectAsPrefabTo(absoluteStartingPath, relativeStartingPath, assetDirectoryPath, prefabName, gridMapGameObject);
+                    // Remove game object from scene after saving
+                    GameObject.DestroyImmediate(gridMapGameObject);
+                    EditorSceneManager.SaveScene(currentMasterScene);
+
+                    var prefabPath = Path.Combine(relativeStartingPath, assetDirectoryPath, prefabName);
+                    var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+
+                    levelSettingAsset.gridMapAuthoringPrefab = prefab;
+                }
+                //
+                {
+                    var assetName = "Level Setting.asset";
+                
+                    SaveAssetTo(absoluteStartingPath, relativeStartingPath, assetDirectoryPath, assetName, levelSettingAsset);
                 }
             }
         }
