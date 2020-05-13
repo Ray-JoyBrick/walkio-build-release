@@ -56,7 +56,7 @@ namespace JoyBrick.Walkio.Game.Battle
                 {
                     LoadingAsset();
                 })
-                .AddTo(_compositeDisposable);            
+                .AddTo(_compositeDisposable);
 
             FlowControl.CleaningAsset
                 .Where(x => x.Name.Contains("Stage"))
@@ -85,7 +85,6 @@ namespace JoyBrick.Walkio.Game.Battle
                 {
                     _logger.Debug($"LoadBattleSystem - Construct - Receive CreateNeutralForceUnit");
                     CreateNeutralForceUnit(_neutralForceUnitPrefab);
-
                 })
                 .AddTo(_compositeDisposable);
 

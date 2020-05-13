@@ -6,10 +6,21 @@ namespace JoyBrick.Walkio.Game
     using Opsive.UltimateCharacterController.Input;
     using Opsive.UltimateCharacterController.Utility;
     using Pathfinding;
+    using Unity.Entities;
     using UnityEngine;
     using UnityEngine.AI.Planner.Controller;
     using UnityEngine.SceneManagement;
+
+    //
     using GameInputControl = JoyBrick.Walkio.Game.InputControl;
+
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT
+    
+    using GameBattle = JoyBrick.Walkio.Game.Battle;
+    using GameEnvironment = JoyBrick.Walkio.Game.Environment;
+    using GameStageFlowControl = JoyBrick.Walkio.Game.StageFlowControl;
+    
+#endif
 
     public partial class Bootstrap :
         IPoolKitListener
@@ -27,7 +38,8 @@ namespace JoyBrick.Walkio.Game
                 0,
                 Random.Range(0, 100.0f));
             var spawned = pool.Spawn("Character_BusinessMan_Shirt_01", randomPosition, Quaternion.identity);
-            
+
+            //
             var decisionController = spawned.GetComponent<DecisionController>();
             if (decisionController != null)
             {
@@ -53,6 +65,9 @@ namespace JoyBrick.Walkio.Game
             // {
             //     aiLerp.enabled = true;
             // }
+
+            var manageUnitSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameBattle.ManageUnitSystem>();
+            manageUnitSystem?.Units.Add(spawned.gameObject);
         }
 
         private void CreatePlayerTeamLeaderFromPool()

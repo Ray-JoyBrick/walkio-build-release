@@ -148,10 +148,29 @@ namespace JoyBrick.Walkio.Game.Environment
         public BlobArray<float3> Waypoints;
     }
     
+    // public struct WaypointPath
+    // {
+    //     public int StartIndex;
+    //     public int EndIndex;
+    // }
+
+    public struct GridMapBlobAsset
+    {
+        // public BlobArray<WaypointPath> WaypointPaths;
+        public BlobArray<int> Indices;
+    }
+
     public struct LevelWaypointPathLookup : IComponentData
     {
         public BlobAssetReference<WaypointPathBlobAsset> WaypointPathBlobAssetRef;
     }
+
+    public struct LevelGridMapLookup : IComponentData
+    {
+        public BlobAssetReference<GridMapBlobAsset> GridMapBlobAssetRef;
+    }
+    
+    
 
     //
     public struct GridCellDetail
@@ -238,5 +257,47 @@ namespace JoyBrick.Walkio.Game.Environment
     public struct PathfindGroup : IComponentData
     {
         public int Index;
+    }
+
+    // Entity of FlowFieldTile
+    public struct FlowFieldTile : IComponentData
+    {
+        public int HorizontalCount;
+        public int VerticalCount;        
+    }
+
+    public struct FlowFieldTileCellBuffer : IBufferElementData
+    {
+        public int Index;
+        public static implicit operator int(FlowFieldTileCellBuffer b) => b.Index;
+        public static implicit operator FlowFieldTileCellBuffer(int v) => new FlowFieldTileCellBuffer { Index = v };
+    }
+
+    public struct FlowFieldTileInCellBuffer : IBufferElementData
+    {
+        public int Index;
+        public static implicit operator int(FlowFieldTileInCellBuffer b) => b.Index;
+        public static implicit operator FlowFieldTileInCellBuffer(int v) => new FlowFieldTileInCellBuffer { Index = v };
+    }
+
+    public struct FlowFieldTileOutCellBuffer : IBufferElementData
+    {
+        public int Index;
+        public static implicit operator int(FlowFieldTileOutCellBuffer b) => b.Index;
+        public static implicit operator FlowFieldTileOutCellBuffer(int v) => new FlowFieldTileOutCellBuffer { Index = v };
+    }
+
+    // Entity of FlowFieldTilePath
+    public struct FlowFieldTilePath : IComponentData
+    {
+        public int GoalIndex;
+    }
+
+    public struct FlowFieldTileBuffer : IBufferElementData
+    {
+        public Entity Value;
+
+        public static implicit operator Entity(FlowFieldTileBuffer b) => b.Value;
+        public static implicit operator FlowFieldTileBuffer(Entity v) => new FlowFieldTileBuffer { Value = v };
     }
 }

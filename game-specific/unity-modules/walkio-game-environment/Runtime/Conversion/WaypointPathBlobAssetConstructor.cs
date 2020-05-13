@@ -15,18 +15,17 @@ namespace JoyBrick.Walkio.Game.Environment
 
         protected override void OnUpdate()
         {
-            _logger.Debug($"WaypointPathBlobAsset - Constructor - OnUpdate");
-
-            var authoring =
+            var authorings =
                 GetEntityQuery(typeof(WaypointPathBlobAssetAuthoring))
                     .ToComponentArray<WaypointPathBlobAssetAuthoring>();
-            
-            if (authoring.Length == 0) return;
-            
-            _logger.Debug($"WaypointPathBlobAsset - Constructor - OnUpdate - authoring length is more than 0");
-            
+
+            if (authorings.Length == 0) return;
+
+            //
+            _logger.Debug($"WaypointPathBlobAsset - Constructor - OnUpdate - Authoring found, proceed");
+
             BlobAssetReference<WaypointPathBlobAsset> waypointPathBlobAssetReference;
-            
+
             using (var blobBuilder = new BlobBuilder(Allocator.Temp))
             {
                 ref var waypointPathBlobAsset = ref blobBuilder.ConstructRoot<WaypointPathBlobAsset>();
@@ -35,20 +34,21 @@ namespace JoyBrick.Walkio.Game.Environment
                 // converted into entity, that scriptable object which is ScriptableObject + IComponentData
                 // becoming part of the entity.
                 // The question is, can this conversion takes place only when ScriptableObject is loaded?
-                var  waypointPathAuthoring = GetEntityQuery(typeof(WaypointPathBlobAssetAuthoring)).ToComponentArray<WaypointPathBlobAssetAuthoring>()[0];
-    
-                var pathCount = waypointPathAuthoring.waypointDataAsset.waypointPaths.Count;
+                // var  waypointPathAuthoring = GetEntityQuery(typeof(WaypointPathBlobAssetAuthoring)).ToComponentArray<WaypointPathBlobAssetAuthoring>()[0];
+                var  authoring = authorings[0];
+
+                var pathCount = authoring.waypointDataAsset.waypointPaths.Count;
                 var pathEndStartCount = pathCount * 2;
                 var waypointPathArray = blobBuilder.Allocate(ref waypointPathBlobAsset.WaypointPaths, pathCount);
-                var waypointCount = waypointPathAuthoring.waypointDataAsset.waypointPaths
+                var waypointCount = authoring.waypointDataAsset.waypointPaths
                     .Aggregate(0, (acc, next) => acc + next.waypoints.Count);
                 var waypointDataArray = blobBuilder.Allocate(ref waypointPathBlobAsset.Waypoints, waypointCount);
 
                 var index = 0;
 
-                for (var wPathIndex = 0; wPathIndex < waypointPathAuthoring.waypointDataAsset.waypointPaths.Count; ++ wPathIndex)
+                for (var wPathIndex = 0; wPathIndex < authoring.waypointDataAsset.waypointPaths.Count; ++ wPathIndex)
                 {
-                    var wPath = waypointPathAuthoring.waypointDataAsset.waypointPaths[wPathIndex];
+                    var wPath = authoring.waypointDataAsset.waypointPaths[wPathIndex];
                     var startIndex = wPathIndex * 2 + 0;
                     var endIndex = wPathIndex * 2 + 1;
                     var waypointPath = new WaypointPath();
@@ -71,7 +71,8 @@ namespace JoyBrick.Walkio.Game.Environment
                 
                 waypointPathBlobAssetReference = blobBuilder.CreateBlobAssetReference<WaypointPathBlobAsset>(Allocator.Persistent);
             }
-    
+
+            //
             var environmentQuery = DstEntityManager.CreateEntityQuery(typeof(TheEnvironment));
             var environmentEntity = environmentQuery.GetSingletonEntity();
             
@@ -80,5 +81,5 @@ namespace JoyBrick.Walkio.Game.Environment
                 WaypointPathBlobAssetRef = waypointPathBlobAssetReference
             });
         }
-    }    
+    }
 }

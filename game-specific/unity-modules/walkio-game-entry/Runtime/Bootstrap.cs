@@ -11,6 +11,7 @@
     using UnityEngine.AddressableAssets.ResourceLocators;
     using UnityEngine.ResourceManagement.AsyncOperations;
 
+    //
     using GameCommon = JoyBrick.Walkio.Game.Common;
     using GameCommand = JoyBrick.Walkio.Game.Command;
     
@@ -40,9 +41,13 @@
         //
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
 
+        //
         private IObservable<int> SetupEcsDone => _notifySetupEcsDone.AsObservable();
         private readonly Subject<int> _notifySetupEcsDone = new Subject<int>();
 
+        // //
+        // private EntityManager _entityManager;
+        
         //
         void Awake()
         {
@@ -80,14 +85,9 @@
 
             //
             SetupAddressable();
-        }
-        
-        private void SetupUniRxLogger()
-        {
-            ObservableLogger.Listener
-                .SubscribeOn(Scheduler.ThreadPool)
-                .LogToUnityDebug()
-                .AddTo(_compositeDisposable);
+            
+            // //
+            // _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
         }
         
         private void SetupAddressable()
@@ -199,13 +199,27 @@
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameEnvironment.SetupEnvironmentSystem>();
 
+            var manageUnitSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameBattle.ManageUnitSystem>();
+
+            //
+            var createTeamForceUnitSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameBattle.CreateTeamForceUnitSystem>();
+
+            //
             var moveOnPathSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameBattle.MoveOnPathSystem>();
             
-            var unitHitCheckSystem =
+            var neutralForceUnitHitCheckSystem =
                 World.DefaultGameObjectInjectionWorld
-                    .GetOrCreateSystem<GameBattle.UnitHitCheckSystem>();
+                    .GetOrCreateSystem<GameBattle.NeutralForceUnitHitCheckSystem>();
+
+            var pickupHitCheckSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameBattle.PickupHitCheckSystem>();
             
 #endif
 
@@ -254,18 +268,25 @@
 
             loadEnvironmentSystem.CommandService = (GameCommand.ICommandService) this;
             loadEnvironmentSystem.FlowControl = (GameCommon.IFlowControl) this;
-            
+
             setupStageFlowSystem.FlowControl = (GameCommon.IFlowControl) this;
             setupBattleSystem.FlowControl = (GameCommon.IFlowControl) this;
             setupEnvironmentSystem.FlowControl = (GameCommon.IFlowControl) this;
-            
+
+            manageUnitSystem.FlowControl = (GameCommon.IFlowControl) this;
+
+            //
+            createTeamForceUnitSystem.CommandService = (GameCommand.ICommandService) this;
+            createTeamForceUnitSystem.FlowControl = (GameCommon.IFlowControl) this;
+
             //
             moveOnPathSystem.FlowControl = (GameCommon.IFlowControl) this;
-            
-            unitHitCheckSystem.FlowControl = (GameCommon.IFlowControl) this;
-            
+
+            neutralForceUnitHitCheckSystem.FlowControl = (GameCommon.IFlowControl) this;
+            pickupHitCheckSystem.FlowControl = (GameCommon.IFlowControl) this;
+
 #endif
-            
+
             //
             loadingDoneCheckSystem.Construct();
             settingDoneCheckSystem.Construct();
@@ -277,32 +298,39 @@
             loadAppHudSystem.Construct();
             setupAppHudSystem.Construct();
 #endif
-            
+
             // Preparation-wide
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             loadPreparationHudSystem.Construct();
             setupPreparationHudSystem.Construct();
 #endif
-            
+
             // Stage-wide
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             loadStageHudSystem.Construct();
             setupStageHudSystem.Construct();
 #endif
-            
+
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             loadStageFlowSystem.Construct();
             loadBattleSystem.Construct();
             loadEnvironmentSystem.Construct();
-            
+
             setupStageFlowSystem.Construct();
             setupBattleSystem.Construct();
             setupEnvironmentSystem.Construct();
             
+            //
+            manageUnitSystem.Construct();
+
+            //
+            createTeamForceUnitSystem.Construct();
+
             moveOnPathSystem.Construct();
-            unitHitCheckSystem.Construct();
-#endif            
-            
+            neutralForceUnitHitCheckSystem.Construct();
+            pickupHitCheckSystem.Construct();
+#endif
+
             // InitializationSystemGroup
             initializationSystemGroup.AddSystemToUpdateList(loadingDoneCheckSystem);
             initializationSystemGroup.AddSystemToUpdateList(settingDoneCheckSystem);
@@ -315,19 +343,19 @@
             initializationSystemGroup.AddSystemToUpdateList(loadAppHudSystem);
             initializationSystemGroup.AddSystemToUpdateList(setupAppHudSystem);
 #endif
-            
+
             // Preparation-wide - InitializationSystemGroup
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             initializationSystemGroup.AddSystemToUpdateList(loadPreparationHudSystem);
             initializationSystemGroup.AddSystemToUpdateList(setupPreparationHudSystem);
 #endif
-            
+
             // Stage-wide - InitializationSystemGroup
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             initializationSystemGroup.AddSystemToUpdateList(loadStageHudSystem);
             initializationSystemGroup.AddSystemToUpdateList(setupStageHudSystem);
 #endif
-            
+
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT || LEVEL_FLOW_PROJECT
             initializationSystemGroup.AddSystemToUpdateList(loadStageFlowSystem);
             initializationSystemGroup.AddSystemToUpdateList(loadBattleSystem);
@@ -336,9 +364,15 @@
             initializationSystemGroup.AddSystemToUpdateList(setupStageFlowSystem);
             initializationSystemGroup.AddSystemToUpdateList(setupBattleSystem);
             initializationSystemGroup.AddSystemToUpdateList(setupEnvironmentSystem);
+
+            //
+            initializationSystemGroup.AddSystemToUpdateList(manageUnitSystem);
             
+            initializationSystemGroup.AddSystemToUpdateList(createTeamForceUnitSystem);
+
             simulationSystemGroup.AddSystemToUpdateList(moveOnPathSystem);
-            simulationSystemGroup.AddSystemToUpdateList(unitHitCheckSystem);
+            simulationSystemGroup.AddSystemToUpdateList(neutralForceUnitHitCheckSystem);
+            simulationSystemGroup.AddSystemToUpdateList(pickupHitCheckSystem);
 #endif
         }
 

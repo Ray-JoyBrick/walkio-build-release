@@ -35,7 +35,7 @@
                 dstManager.SetName(entity, "Neutral Unit");
             }
 
-#endif            
+#endif
         }
     }
 }

@@ -23,6 +23,7 @@
 
     public struct TeamForce : IComponentData
     {
+        public int TeamId;
     }
 
     public struct MoveOnPath : IComponentData

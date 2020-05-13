@@ -9,13 +9,12 @@ namespace JoyBrick.Walkio.Game.Environment
     {
         protected override void OnUpdate()
         {
-            Debug.Log($"GridCellIndexBlobAssetConstructor - OnUpdate");
-            
             var authoring =
                 GetEntityQuery(typeof(GridCellIndexBlobAssetAuthoring))
                     .ToComponentArray<GridCellIndexBlobAssetAuthoring>();
 
             if (authoring.Length == 0) return;
+            Debug.Log($"GridCellIndexBlobAssetConstructor - OnUpdate");
 
             BlobAssetReference<GridCellDetailIndexBlobAsset> gridCellDetailIndexBlobAssetReference;
             

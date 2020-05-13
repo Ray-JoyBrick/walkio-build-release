@@ -33,4 +33,11 @@ namespace JoyBrick.Walkio.Game.Command
     {
         public TeamForceLeaderKind Kind { get; set; }
     }
+    
+    //
+    public class CreateTeamForceUnit : ICommand
+    {
+        public int TeamId { get; set; }
+        public int UnitKind { get; set; }
+    }
 }

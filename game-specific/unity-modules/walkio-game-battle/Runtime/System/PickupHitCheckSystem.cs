@@ -9,40 +9,37 @@ namespace JoyBrick.Walkio.Game.Battle
     using GameCommon = JoyBrick.Walkio.Game.Common;
     using GameEnvironment = JoyBrick.Walkio.Game.Environment;
 
-    [System.Serializable]
-    public struct AbsorbableUnit : IComponentData
+    // [System.Serializable]
+    public struct Pickup : IComponentData
     {
-        public float restoredAmount;
-    }
-    
-    [System.Serializable]
-    public struct Power : IComponentData
-    {
-        public float Value;
-        public float MaxValue;
+        public int Id;
+        public bool Interacted;
     }
 
-    [System.Serializable]
-    public struct PlayerCharacter : IComponentData
+    public struct UnitInteractWithPickup : IComponentData
     {
     }
     
     [DisableAutoCreation]
     [UpdateAfter(typeof(EndFramePhysicsSystem))]
-    public class UnitHitCheckSystem : SystemBase
+    public class PickupHitCheckSystem : SystemBase
     {
-        private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(MoveOnPathSystem));
+        private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(PickupHitCheckSystem));
 
         //
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
-        
+
+        //
         private BuildPhysicsWorld _buildPhysicsWorldSystem;
         private StepPhysicsWorld _stepPhysicsWorldSystem;
         private EndFramePhysicsSystem _endFramePhysicsSystem;
         private BeginSimulationEntityCommandBufferSystem _entityCommandBufferSystem;
 
+        private EntityArchetype _eventEntityArchetype;
+
+        //
         private bool _canUpdate;
-        
+
         public GameCommon.IFlowControl FlowControl { get; set; }
 
         public void Construct()
@@ -52,7 +49,7 @@ namespace JoyBrick.Walkio.Game.Battle
                 .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"UnitHitCheckSystem - Construct - Receive DoneSettingAsset");
+                    _logger.Debug($"PickupHitCheckSystem - Construct - Receive AllDoneSettingAsset");
                     _canUpdate = true;
                 })
                 .AddTo(_compositeDisposable);
@@ -67,51 +64,57 @@ namespace JoyBrick.Walkio.Game.Battle
         }
         
         // [BurstCompile]
-        struct AbsorbNpcSystemJob : ITriggerEventsJob
+        struct PickupHitCheckSystemJob : ITriggerEventsJob
         {
+            //
+            public EntityArchetype eventEntityArchetype;
             public EntityCommandBuffer entityCommandBuffer;
 
-            public ComponentDataFromEntity<AbsorbableUnit> absorbableUnitGroup;
-            public ComponentDataFromEntity<Power> powerGroup;
-            [ReadOnly] public ComponentDataFromEntity<PlayerCharacter> playerCharacterGroup;
+            //
+            public ComponentDataFromEntity<AbsorbablePickup> absorbablePickupGroup;
+            [ReadOnly] public ComponentDataFromEntity<AbsorbPickup> absorbPickupGroup;
 
             public void Execute(TriggerEvent triggerEvent)
             {
                 var entityA = triggerEvent.Entities.EntityA;
                 var entityB = triggerEvent.Entities.EntityB;
 
-                var entityAIsAbsorbableUnit = absorbableUnitGroup.Exists(entityA);
-                var entityBIsPlayerCharacter = playerCharacterGroup.Exists(entityB);
+                var entityAIsAbsorbablePickup = absorbablePickupGroup.Exists(entityA);
+                var entityBIsAbsorbPickup = absorbPickupGroup.Exists(entityB);
                 
-                if (entityAIsAbsorbableUnit && entityBIsPlayerCharacter)
+                if (entityAIsAbsorbablePickup && entityBIsAbsorbPickup)
                 {
-                    _logger.Debug($"entityAIsAbsorbableUnit && entityBIsPlayerCharacter");
+                    _logger.Debug($"entityAIsAbsorbablePickup && entityBIsAbsorbPickup");
 
-                    var absorbableUnit = absorbableUnitGroup[entityA];
-                    var power = powerGroup[entityB];
+                    var pickupUnit = absorbablePickupGroup[entityA];
 
-                    power.Value += absorbableUnit.restoredAmount;
-                    powerGroup[entityB] = power;
+                    if (!pickupUnit.Interacted)
+                    {
+                        var absorbPickup = absorbPickupGroup[entityB];
 
-                    entityCommandBuffer.DestroyEntity(entityA);
+                        pickupUnit.Interacted = true;
+
+                        entityCommandBuffer.CreateEntity(eventEntityArchetype);
+                    }
                 }
                 else
                 {
-                    // Debug.Log($"not entityAIsHealthPickup && entityBIsPlayerCharacter");
-
-                    var entityAIsPlayerCharacter = playerCharacterGroup.Exists(entityA);
-                    var entityBIsAbsorbableUnit = absorbableUnitGroup.Exists(entityB);
-                    if (entityAIsPlayerCharacter && entityBIsAbsorbableUnit)
+                    var entityAIsAbsorbPickup = absorbPickupGroup.Exists(entityA);
+                    var entityBIsAbsorbablePickup = absorbablePickupGroup.Exists(entityB);
+                    if (entityAIsAbsorbPickup && entityBIsAbsorbablePickup)
                     {
-                        _logger.Debug($"entityAIsPlayerCharacter && entityBIsAbsorbableUnit");
+                        _logger.Debug($"entityAIsAbsorbPickup && entityBIsAbsorbablePickup");
 
-                        var absorbableUnit = absorbableUnitGroup[entityB];
-                        var power = powerGroup[entityA];
+                        var pickupUnit = absorbablePickupGroup[entityB];
 
-                        power.Value = math.clamp(power.Value + absorbableUnit.restoredAmount, 0, power.MaxValue);
-                        powerGroup[entityA] = power;
+                        if (!pickupUnit.Interacted)
+                        {
+                            var absorbPickup = absorbPickupGroup[entityA];
 
-                        entityCommandBuffer.DestroyEntity(entityB);
+                            pickupUnit.Interacted = true;
+
+                            entityCommandBuffer.CreateEntity(eventEntityArchetype);
+                        }
                     }
                 }
             }
@@ -125,6 +128,9 @@ namespace JoyBrick.Walkio.Game.Battle
             _stepPhysicsWorldSystem = World.GetOrCreateSystem<StepPhysicsWorld>();
             _endFramePhysicsSystem = World.GetOrCreateSystem<EndFramePhysicsSystem>();
             _entityCommandBufferSystem = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
+
+            _eventEntityArchetype = EntityManager.CreateArchetype(
+                typeof(UnitInteractWithPickup));
         }        
 
         protected override void OnUpdate()
@@ -134,12 +140,12 @@ namespace JoyBrick.Walkio.Game.Battle
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
             var concurrentCommandBuffer = commandBuffer.ToConcurrent();
             
-            var job = new AbsorbNpcSystemJob
+            var job = new PickupHitCheckSystemJob
             {
+                eventEntityArchetype = _eventEntityArchetype,
                 entityCommandBuffer = commandBuffer,
-                absorbableUnitGroup = GetComponentDataFromEntity<AbsorbableUnit>(),
-                powerGroup = GetComponentDataFromEntity<Power>(),
-                playerCharacterGroup = GetComponentDataFromEntity<PlayerCharacter>(true)
+                absorbablePickupGroup = GetComponentDataFromEntity<AbsorbablePickup>(),
+                absorbPickupGroup = GetComponentDataFromEntity<AbsorbPickup>(true)
             };
 
             Dependency = job.Schedule(
