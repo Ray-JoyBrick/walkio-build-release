@@ -109,16 +109,30 @@ namespace JoyBrick.Walkio.Game.Battle
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
             var concurrentCommandBuffer = commandBuffer.ToConcurrent();
 
+            var loadBattleSystem = World.GetExistingSystem<LoadBattleSystem>();
+            var teamForceUnitPrefab = loadBattleSystem.TeamForceUnitPrefab;
+
             Entities
                 .WithAll<CreateTeamForceUnitEvent>()
                 .ForEach((Entity entity, TeamForceUnitCreationContext teamForceUnitCreationContext) =>
                 {
-                    var createdEntity = commandBuffer.CreateEntity(_entityArchetype);
-
-                    commandBuffer.SetComponent(createdEntity, new TeamForce
+                    // var createdEntity = commandBuffer.CreateEntity(_entityArchetype);
+                    //
+                    // commandBuffer.SetComponent(createdEntity, new TeamForce
+                    // {
+                    //     TeamId = teamForceUnitCreationContext.TeamId
+                    // });
+                    
+                    // commandBuffer.Instantiate(teamForceUnitPrefab)
+                    var teamForceAuthoring = teamForceUnitPrefab.GetComponent<TeamForceAuthoring>();
+                    if (teamForceAuthoring != null)
                     {
-                        TeamId = teamForceUnitCreationContext.TeamId
-                    });
+                        teamForceAuthoring.teamId = teamForceUnitCreationContext.TeamId;
+                    }
+                    GameObject.Instantiate(teamForceUnitPrefab);
+                    
+                    //
+                    commandBuffer.DestroyEntity(entity);
                 })
                 // .Schedule();
                 .WithoutBurst()

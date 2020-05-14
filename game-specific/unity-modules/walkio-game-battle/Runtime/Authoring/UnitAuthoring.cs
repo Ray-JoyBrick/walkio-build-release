@@ -4,6 +4,7 @@
     using UnityEngine;
     
     using GameCommon = JoyBrick.Walkio.Game.Common;
+    using GameEnvironment = JoyBrick.Walkio.Game.Environment;
 
     public class UnitAuthoring :
         MonoBehaviour,
@@ -16,8 +17,6 @@
             // For cleanup use
             dstManager.AddComponentData<GameCommon.StageUse>(entity, new GameCommon.StageUse());
             
-#if UNITY_EDITOR
-
             var neutralForceAuthoring = GetComponent<NeutralForceAuthoring>();
             var teamForceAuthoring = GetComponent<TeamForceAuthoring>();
             var teamLeaderAuthoring = GetComponent<TeamLeaderAuthoring>();
@@ -28,14 +27,19 @@
             }
             else if (teamForceAuthoring != null)
             {
+                dstManager.AddComponentData(entity, new GameEnvironment.MoveOnFlowFieldTile());
+                dstManager.AddComponentData(entity, new GameEnvironment.MoveOnFlowFieldTileInfo());
+                
+#if UNITY_EDITOR
                 dstManager.SetName(entity, "Team Unit");
+#endif
             }
             else if (neutralForceAuthoring != null)
             {
+#if UNITY_EDITOR
                 dstManager.SetName(entity, "Neutral Unit");
-            }
-
 #endif
+            }
         }
     }
 }

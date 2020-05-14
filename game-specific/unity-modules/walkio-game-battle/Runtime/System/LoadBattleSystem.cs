@@ -42,6 +42,8 @@ namespace JoyBrick.Walkio.Game.Battle
         // public GameCommand.IInfoPresenter InfoPresenter { get; set; }
         public GameCommon.IFlowControl FlowControl { get; set; }
 
+        public GameObject TeamForceUnitPrefab => _teamForceUnitPrefab;
+
         //
         public void Construct()
         {
@@ -88,6 +90,16 @@ namespace JoyBrick.Walkio.Game.Battle
                 })
                 .AddTo(_compositeDisposable);
 
+            // CommandService.CommandStream
+            //     .Where(x => (x as GameCommand.CreateTeamForceUnit) != null)
+            //     .Select(x => (x as GameCommand.CreateTeamForceUnit))
+            //     .Subscribe(x =>
+            //     {
+            //         _logger.Debug($"LoadBattleSystem - Construct - Receive CreateTeamForceUnit");
+            //         // CreateTeamForceUnit(_teamForceUnitPrefab, x.TeamId);
+            //     })
+            //     .AddTo(_compositeDisposable);
+            
             // Might be better to create another system and leave this system simply responsible for creation
             CommandService.CommandStream
                 .Where(x => (x as GameCommand.PlaceTeamForceLeader) != null)
@@ -187,6 +199,36 @@ namespace JoyBrick.Walkio.Game.Battle
                 // neutralForceAuthoring.startingPosition = adjustedStartingPosition;
             }
             
+            GameObject.Instantiate(prefab);
+        }
+        
+        private void CreateTeamForceUnit(GameObject prefab, int teamId)
+        {
+            // This should be converted to entity automatically
+            
+            // var entity = _theEnvironmentQuery.GetSingletonEntity();
+            // var levelWaypointPathLookup = EntityManager.GetComponentData<GameEnvironment.LevelWaypointPathLookup>(entity);
+            //
+            // var pathCount = levelWaypointPathLookup.WaypointPathBlobAssetRef.Value.WaypointPaths.Length;
+            // var rnd = new Unity.Mathematics.Random((uint)System.DateTime.UtcNow.Ticks);
+            //
+            // var randomIndex = rnd.NextInt(0, pathCount);
+            // var waypointPath = levelWaypointPathLookup.WaypointPathBlobAssetRef.Value.WaypointPaths[randomIndex];
+            //
+            // var startingPosition =
+            //     levelWaypointPathLookup.WaypointPathBlobAssetRef.Value.Waypoints[waypointPath.StartIndex];
+            // // var adjustedStartingPosition = new float3(startingPosition.x, 10.0f, startingPosition.z);
+            // // var adjustedStartingPosition = new float3(startingPosition.x, 0.0f, startingPosition.z);
+            // // var adjustedStartingPosition = new float3(5.0f, 2.0f, 5.0f);
+            // Debug.Log($"waypoint pos: {startingPosition} start: {waypointPath.StartIndex} end: {waypointPath.EndIndex}");
+
+            var teamForceAuthoring = prefab.GetComponent<TeamForceAuthoring>();
+            if (teamForceAuthoring != null)
+            {
+                teamForceAuthoring.teamId = teamId;
+            }
+
+            //
             GameObject.Instantiate(prefab);
         }
 

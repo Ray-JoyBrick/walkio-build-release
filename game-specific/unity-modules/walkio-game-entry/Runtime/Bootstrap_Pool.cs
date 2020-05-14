@@ -67,6 +67,16 @@ namespace JoyBrick.Walkio.Game
             // }
 
             var manageUnitSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameBattle.ManageUnitSystem>();
+            var teamLeaderAuthoring = spawned.GetComponent<GameBattle.TeamLeaderAuthoring>();
+            if (teamLeaderAuthoring != null)
+            {
+                var teamLeaderEntity = teamLeaderAuthoring.OwnedEntity;
+                World.DefaultGameObjectInjectionWorld.EntityManager.SetComponentData(teamLeaderEntity, new GameBattle.TeamForce
+                {
+                    TeamId = manageUnitSystem.Units.Count
+                });
+            }
+            //
             manageUnitSystem?.Units.Add(spawned.gameObject);
         }
 
@@ -106,6 +116,19 @@ namespace JoyBrick.Walkio.Game
             {
                 controllingRoute.autoGenerate = false;
             }
+            
+            var manageUnitSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameBattle.ManageUnitSystem>();
+            var teamLeaderAuthoring = spawned.GetComponent<GameBattle.TeamLeaderAuthoring>();
+            if (teamLeaderAuthoring != null)
+            {
+                var teamLeaderEntity = teamLeaderAuthoring.OwnedEntity;
+                World.DefaultGameObjectInjectionWorld.EntityManager.SetComponentData(teamLeaderEntity, new GameBattle.TeamForce
+                {
+                    TeamId = manageUnitSystem.Units.Count
+                });
+            }
+            //
+            manageUnitSystem?.Units.Add(spawned.gameObject);
 
             // // Setup input
             // spawned.gameObject.AddComponent<GameInputControl.PlayerInputControl>();

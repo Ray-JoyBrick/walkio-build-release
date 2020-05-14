@@ -6,6 +6,7 @@
     using UnityEngine;
 
     using GameCommon = JoyBrick.Walkio.Game.Common;
+    using GameEnvironment = JoyBrick.Walkio.Game.Environment;
     using GameInputControl = JoyBrick.Walkio.Game.InputControl;
 
     public class TeamLeaderAuthoring :
@@ -18,6 +19,8 @@
         private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(TeamLeaderAuthoring));
         
         private Entity _entity = Entity.Null;
+
+        public Entity OwnedEntity => _entity;
         
         public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
         {
@@ -26,6 +29,12 @@
             
             //
             dstManager.AddComponentData(entity, new CopyTransformFromGameObject());
+
+            dstManager.AddComponentData(entity, new GameEnvironment.TeamLeader());
+            dstManager.AddComponentData(entity, new MonitorTileChange());
+            dstManager.AddComponentData(entity, new MoveToTarget());
+            
+            //
             dstManager.AddComponentData<GameCommon.StageUse>(entity, new GameCommon.StageUse());
             
 #if UNITY_EDITOR

@@ -82,6 +82,12 @@ namespace JoyBrick.Walkio.Game.Common
 
     }
 
+    public interface IAStarPathService
+    {
+        void CalculatePath(int teamId, int timeTick, List<Vector3> startPoints, Vector3 targetPoint,
+            System.Action<int, int, Vector3, List<List<Vector3>>> callback);
+    }
+
     // public interface IInfoPresenter
     // {
     //     

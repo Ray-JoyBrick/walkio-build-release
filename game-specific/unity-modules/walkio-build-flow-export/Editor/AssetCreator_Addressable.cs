@@ -15,7 +15,7 @@ namespace JoyBrick.Walkio.Build.FlowExport.Editor
             var assetSettings = UnityEditor.AddressableAssets.AddressableAssetSettingsDefaultObject.Settings;
             
             // Create group
-            RemoveGroup(assetSettings, "Assets - Flow");
+            RemoveGroup(assetSettings, "Assets - Game Flow");
             RemoveGroup(assetSettings, "Assets - Stage Flow");
         }
 
@@ -105,35 +105,16 @@ namespace JoyBrick.Walkio.Build.FlowExport.Editor
             
             var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game");
             // var relativeCommonFolderPath = Path.Combine(relativeGameFolderPath, "Module - Game Flow Control");
-
-            var relativeExtensionPlayer =
-                Path.Combine(relativeGameFolderPath, "Module - Stage Flow Control", "Prefabs");
             
-            // var relativeFontAtlas =
-            //     Path.Combine(relativeCommonFolderPath, "Data Assets", "Font Atlas");
+            var relativeDataAssetFolder = 
+                Path.Combine(relativeGameFolderPath, "Module - Stage Flow Control", "Data Assets");
 
-            var createNeutralForceAssetPath = Path.Combine(relativeExtensionPlayer, "Create Neutral Force Unit.prefab");
-            var createTeamForceAssetPath = Path.Combine(relativeExtensionPlayer, "Create Team Force Unit.prefab");
-            var createPlayerTeamLeaderAssetPath = Path.Combine(relativeExtensionPlayer, "Create Team Force Leader - Player.prefab");
-            var playTimeCountdownAssetPath = Path.Combine(relativeExtensionPlayer, "Play Time Countdown.prefab");
-            // var deactivateCanvasGroupAssetPath = Path.Combine(relativeExtensionPlayer, "Deactivate Canvas Group.asset");
+            var controlFlowAssetPath = Path.Combine(relativeDataAssetFolder, "Control Flow Data.asset");
 
             PlaceAssetInAddressble(assetSettings, assetGroup,
-                createNeutralForceAssetPath,
+                controlFlowAssetPath,
                 label,
-                "Create Neutral Force Unit");
-            PlaceAssetInAddressble(assetSettings, assetGroup,
-                createTeamForceAssetPath,
-                label,
-                "Create Team Force Unit");
-            PlaceAssetInAddressble(assetSettings, assetGroup,
-                createPlayerTeamLeaderAssetPath,
-                label,
-                "Create Player Team Force Leader");
-            PlaceAssetInAddressble(assetSettings, assetGroup,
-                playTimeCountdownAssetPath,
-                label,
-                "Play Time Countdown");
+                "Control Flow Data");
         }
 
         // This puts asset into addressable for according group, label

@@ -66,7 +66,7 @@ MonoBehaviour:
           name: Time Up
           isSystemEvent: 0
           isGlobal: 0
-        toState: "\u7B49\u5F85\u4E00\u6BB5\u6642\u9593 2"
+        toState: "\u7522\u751F\u5718\u968A\u968A\u9577"
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -121,13 +121,13 @@ MonoBehaviour:
         - realTime
         paramDataPos: 000000000000000000000000
         paramByteDataSize: 000000000000000001000000
-    - name: "\u7522\u751F\u5718\u968A\u968A\u54E1"
+    - name: "\u7522\u751F\u5718\u968A\u968A\u9577"
       description: 
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 270
-        y: 275
+        x: 234
+        y: 155
         width: 102
         height: 16
       isBreakpoint: 0
@@ -166,7 +166,7 @@ MonoBehaviour:
           tooltip: 
           showInInspector: 0
           networkSync: 0
-          value: Place Team Force Unit
+          value: Place All Team Force Leader
         fsmObjectParams: []
         fsmVarParams: []
         fsmArrayParams: []
@@ -191,78 +191,6 @@ MonoBehaviour:
         - commandName
         paramDataPos: 0000000000000000
         paramByteDataSize: 0000000000000000
-    - name: "\u7B49\u5F85\u4E00\u6BB5\u6642\u9593 2"
-      description: 
-      colorIndex: 0
-      position:
-        serializedVersion: 2
-        x: 179
-        y: 204
-        width: 112
-        height: 32
-      isBreakpoint: 0
-      isSequence: 0
-      hideUnused: 0
-      transitions:
-      - fsmEvent:
-          name: Time Up
-          isSystemEvent: 0
-          isGlobal: 0
-        toState: "\u7522\u751F\u5718\u968A\u968A\u54E1"
-        linkStyle: 0
-        linkConstraint: 0
-        colorIndex: 0
-      actionData:
-        actionNames:
-        - HutongGames.PlayMaker.Actions.Wait
-        customNames:
-        - 
-        actionEnabled: 01
-        actionIsOpen: 01
-        actionStartIndex: 00000000
-        actionHashCodes: 48c01101
-        unityObjectParams: []
-        fsmGameObjectParams: []
-        fsmOwnerDefaultParams: []
-        animationCurveParams: []
-        functionCallParams: []
-        fsmTemplateControlParams: []
-        fsmEventTargetParams: []
-        fsmPropertyParams: []
-        layoutOptionParams: []
-        fsmStringParams: []
-        fsmObjectParams: []
-        fsmVarParams: []
-        fsmArrayParams: []
-        fsmEnumParams: []
-        fsmFloatParams:
-        - useVariable: 1
-          name: Spawn Time Interval
-          tooltip: 
-          showInInspector: 1
-          networkSync: 0
-          value: 1
-        fsmIntParams: []
-        fsmBoolParams: []
-        fsmVector2Params: []
-        fsmVector3Params: []
-        fsmColorParams: []
-        fsmRectParams: []
-        fsmQuaternionParams: []
-        stringParams:
-        - Time Up
-        byteData: 00
-        arrayParamSizes: 
-        arrayParamTypes: []
-        customTypeSizes: 
-        customTypeNames: []
-        paramDataType: 0f0000001700000001000000
-        paramName:
-        - time
-        - finishEvent
-        - realTime
-        paramDataPos: 000000000000000000000000
-        paramByteDataSize: 000000000000000001000000
     events:
     - name: FINISHED
       isSystemEvent: 1
@@ -279,12 +207,6 @@ MonoBehaviour:
         showInInspector: 0
         networkSync: 0
         value: 0
-      - useVariable: 1
-        name: Spawn Time Interval
-        tooltip: 
-        showInInspector: 1
-        networkSync: 0
-        value: 1
       intVariables: []
       boolVariables: []
       stringVariables: []
@@ -307,7 +229,7 @@ MonoBehaviour:
       enumVariables: []
       categories:
       - 
-      variableCategoryIDs: 000000000000000000000000
+      variableCategoryIDs: 0000000000000000
     description: 
     docUrl: 
     showStateLabel: 0

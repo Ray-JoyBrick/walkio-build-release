@@ -258,12 +258,27 @@ namespace JoyBrick.Walkio.Game.Environment
     {
         public int Index;
     }
+    
+    //
+    public struct DiscardFlowFieldTile : IComponentData
+    {
+    }
+
+    public struct DiscardedFlowFieldTile : IComponentData
+    {
+    }
 
     // Entity of FlowFieldTile
     public struct FlowFieldTile : IComponentData
     {
+        public int Index;
+        
         public int HorizontalCount;
-        public int VerticalCount;        
+        public int VerticalCount;
+
+        public int TimeTick;
+
+        public Entity NextFlowFieldTile;
     }
 
     public struct FlowFieldTileCellBuffer : IBufferElementData
@@ -299,5 +314,14 @@ namespace JoyBrick.Walkio.Game.Environment
 
         public static implicit operator Entity(FlowFieldTileBuffer b) => b.Value;
         public static implicit operator FlowFieldTileBuffer(Entity v) => new FlowFieldTileBuffer { Value = v };
+    }
+
+    public struct MoveOnFlowFieldTile : IComponentData
+    {
+    }
+
+    public struct MoveOnFlowFieldTileInfo : IComponentData
+    {
+        public Entity OnTile;
     }
 }

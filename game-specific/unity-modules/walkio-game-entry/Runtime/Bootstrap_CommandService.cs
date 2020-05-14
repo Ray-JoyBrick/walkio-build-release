@@ -167,7 +167,15 @@ namespace JoyBrick.Walkio.Game
                 {
                     Kind = GameCommand.TeamForceLeaderKind.PlayerUse
                 });
-            }            
+            }
+            else if (String.CompareOrdinal(commandName, "Place Team Force Unit") == 0)
+            {
+                _notifyCommand.OnNext(new GameCommand.CreateTeamForceUnit
+                {
+                    TeamId = 1,
+                    UnitKind = 1
+                });
+            }
             else if (String.CompareOrdinal(commandName, "Create Npc Team Leader From Pool") == 0)
             {
                 CreateNpcTeamLeaderFromPool();

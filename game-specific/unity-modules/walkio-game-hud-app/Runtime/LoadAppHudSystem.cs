@@ -58,7 +58,7 @@ namespace JoyBrick.Walkio.Game.Hud.App
 
             //
             CommandService.CommandStream
-                .Do(x => _logger.Debug($"Receive Command Stream: {x}"))
+                // .Do(x => _logger.Debug($"Receive Command Stream: {x}"))
                 .Where(x => (x as GameCommand.ActivateLoadingViewCommand) != null)
                 .Subscribe(x =>
                 {

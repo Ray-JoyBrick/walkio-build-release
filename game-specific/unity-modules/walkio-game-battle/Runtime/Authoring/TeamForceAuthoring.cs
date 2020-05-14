@@ -35,9 +35,14 @@ namespace JoyBrick.Walkio.Game.Battle
         MonoBehaviour,
         IConvertGameObjectToEntity
     {
+        public int teamId;
+        
         public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
         {
-            dstManager.AddComponentData(entity, new TeamForce());
+            dstManager.AddComponentData(entity, new TeamForce
+            {
+                TeamId = teamId
+            });
 
             // //
             // dstManager.AddComponentData(entity, new PickupAbsorbable());

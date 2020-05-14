@@ -117,19 +117,11 @@ MonoBehaviour:
         x: 370
         y: 230
         width: 102
-        height: 32
+        height: 16
       isBreakpoint: 0
       isSequence: 0
       hideUnused: 0
-      transitions:
-      - fsmEvent:
-          name: FINISHED
-          isSystemEvent: 1
-          isGlobal: 0
-        toState: "\u7B49\u5F85\u4E00\u6BB5\u6642\u9593"
-        linkStyle: 0
-        linkConstraint: 0
-        colorIndex: 0
+      transitions: []
       actionData:
         actionNames:
         - JoyBrick.Walkio.Game.Extension.PlayMaker.Actions.GetCommandService

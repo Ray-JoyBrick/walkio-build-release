@@ -26,6 +26,16 @@
         public int TeamId;
     }
 
+    public struct MonitorTileChange : IComponentData
+    {
+        
+    }
+
+    public struct MoveToTarget : IComponentData
+    {
+        public Entity AtTile;
+    }
+
     public struct MoveOnPath : IComponentData
     {
         public int StartIndex;

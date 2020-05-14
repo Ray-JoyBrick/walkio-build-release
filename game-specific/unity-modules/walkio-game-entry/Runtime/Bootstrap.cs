@@ -208,11 +208,31 @@
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameBattle.CreateTeamForceUnitSystem>();
 
+            var teamUnitToPathSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameBattle.TeamUnitToPathSystem>();
+
+            //
+            var adjustMoveToTargetFlowFieldSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameBattle.AdjustMoveToTargetFlowFieldSystem>();
+            var cleanUpFlowFieldSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameBattle.CleanUpFlowFieldSystem>();
+
             //
             var moveOnPathSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameBattle.MoveOnPathSystem>();
-            
+
+            var assignFlowFieldTileToTeamUnitSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameBattle.AssignFlowFieldTileToTeamUnitSystem>();
+
+            var moveOnFlowFieldTileSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameBattle.MoveOnFlowFieldTileSystem>();
+
             var neutralForceUnitHitCheckSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameBattle.NeutralForceUnitHitCheckSystem>();
@@ -279,8 +299,18 @@
             createTeamForceUnitSystem.CommandService = (GameCommand.ICommandService) this;
             createTeamForceUnitSystem.FlowControl = (GameCommon.IFlowControl) this;
 
+            teamUnitToPathSystem.FlowControl = (GameCommon.IFlowControl) this;
+            teamUnitToPathSystem.AStarPathService = (GameCommon.IAStarPathService) this;
+            
+            //
+            adjustMoveToTargetFlowFieldSystem.FlowControl = (GameCommon.IFlowControl) this;
+            
+            cleanUpFlowFieldSystem.FlowControl = (GameCommon.IFlowControl) this;
+
             //
             moveOnPathSystem.FlowControl = (GameCommon.IFlowControl) this;
+            assignFlowFieldTileToTeamUnitSystem.FlowControl = (GameCommon.IFlowControl) this;
+            moveOnFlowFieldTileSystem.FlowControl = (GameCommon.IFlowControl) this;
 
             neutralForceUnitHitCheckSystem.FlowControl = (GameCommon.IFlowControl) this;
             pickupHitCheckSystem.FlowControl = (GameCommon.IFlowControl) this;
@@ -325,8 +355,18 @@
 
             //
             createTeamForceUnitSystem.Construct();
+            
+            teamUnitToPathSystem.Construct();
+            
+            //
+            adjustMoveToTargetFlowFieldSystem.Construct();
+
+            cleanUpFlowFieldSystem.Construct();
 
             moveOnPathSystem.Construct();
+            assignFlowFieldTileToTeamUnitSystem.Construct();
+            moveOnFlowFieldTileSystem.Construct();
+            
             neutralForceUnitHitCheckSystem.Construct();
             pickupHitCheckSystem.Construct();
 #endif
@@ -370,7 +410,16 @@
             
             initializationSystemGroup.AddSystemToUpdateList(createTeamForceUnitSystem);
 
+            initializationSystemGroup.AddSystemToUpdateList(teamUnitToPathSystem);
+            
+            //
+            simulationSystemGroup.AddSystemToUpdateList(adjustMoveToTargetFlowFieldSystem);
+            simulationSystemGroup.AddSystemToUpdateList(cleanUpFlowFieldSystem);
+
             simulationSystemGroup.AddSystemToUpdateList(moveOnPathSystem);
+            simulationSystemGroup.AddSystemToUpdateList(assignFlowFieldTileToTeamUnitSystem);
+            simulationSystemGroup.AddSystemToUpdateList(moveOnFlowFieldTileSystem);
+
             simulationSystemGroup.AddSystemToUpdateList(neutralForceUnitHitCheckSystem);
             simulationSystemGroup.AddSystemToUpdateList(pickupHitCheckSystem);
 #endif

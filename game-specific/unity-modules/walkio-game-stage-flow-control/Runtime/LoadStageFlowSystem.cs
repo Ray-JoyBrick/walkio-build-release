@@ -31,6 +31,8 @@ namespace JoyBrick.Walkio.Game.StageFlowControl
         private GameObject _createPlayerTeamLeader;
         private GameObject _playTimeCountdown;
         
+        private readonly List<GameObject> _createdFlowInstances = new List<GameObject>();
+        
         //
         public GameObject RefBootstrap { get; set; }
         public GameCommand.ICommandService CommandService { get; set; }
@@ -78,26 +80,46 @@ namespace JoyBrick.Walkio.Game.StageFlowControl
                 .Subscribe(result =>
                 {
                     //
-                    (_createNeutralPrefab, _createTeamPrefab, _createPlayerTeamLeaderPrefab, _playTimeCountdownPrefab) = result;
-                            
-                    //
-                    _createNeutral = GameObject.Instantiate(_createNeutralPrefab);
-                    _createTeam = GameObject.Instantiate(_createTeamPrefab);
-                    _createPlayerTeamLeader = GameObject.Instantiate(_createPlayerTeamLeaderPrefab);
-                    _playTimeCountdown = GameObject.Instantiate(_playTimeCountdownPrefab);
-                    var scene = SceneManager.GetSceneByName("Entry");
-                    if (scene.IsValid())
-                    {
-                        SceneManager.MoveGameObjectToScene(_createNeutral, scene);
-                        SceneManager.MoveGameObjectToScene(_createTeam, scene);
-                        SceneManager.MoveGameObjectToScene(_createPlayerTeamLeader, scene);
-                        SceneManager.MoveGameObjectToScene(_playTimeCountdown, scene);
-                    }
+                    // (_createNeutralPrefab, _createTeamPrefab, _createPlayerTeamLeaderPrefab, _playTimeCountdownPrefab) = result;
 
-                    SetReferenceToExtension(_createNeutral);
-                    SetReferenceToExtension(_createTeam);
-                    SetReferenceToExtension(_createPlayerTeamLeader);
-                    SetReferenceToExtension(_playTimeCountdown);
+                    var controlFlowDataAsset = result;
+
+                    var controlFlowData = result as ControlFlowData;
+                    if (controlFlowData != null)
+                    {
+                        var scene = SceneManager.GetSceneByName("Entry");
+
+                        controlFlowData.flowPrefabs.ForEach(prefab =>
+                        {
+                            var instance = GameObject.Instantiate(prefab);
+                            if (scene.IsValid())
+                            {
+                                SceneManager.MoveGameObjectToScene(instance, scene);
+                            }
+                            SetReferenceToExtension(instance);
+
+                            _createdFlowInstances.Add(instance);
+                        });
+                    }
+                            
+                    // //
+                    // _createNeutral = GameObject.Instantiate(_createNeutralPrefab);
+                    // _createTeam = GameObject.Instantiate(_createTeamPrefab);
+                    // _createPlayerTeamLeader = GameObject.Instantiate(_createPlayerTeamLeaderPrefab);
+                    // _playTimeCountdown = GameObject.Instantiate(_playTimeCountdownPrefab);
+                    // var scene = SceneManager.GetSceneByName("Entry");
+                    // if (scene.IsValid())
+                    // {
+                    //     SceneManager.MoveGameObjectToScene(_createNeutral, scene);
+                    //     SceneManager.MoveGameObjectToScene(_createTeam, scene);
+                    //     SceneManager.MoveGameObjectToScene(_createPlayerTeamLeader, scene);
+                    //     SceneManager.MoveGameObjectToScene(_playTimeCountdown, scene);
+                    // }
+
+                    // SetReferenceToExtension(_createNeutral);
+                    // SetReferenceToExtension(_createTeam);
+                    // SetReferenceToExtension(_createPlayerTeamLeader);
+                    // SetReferenceToExtension(_playTimeCountdown);
                     // AddCommandStreamAndInfoStream(_canvas);
                     //
                     // ExtractView();
@@ -127,19 +149,29 @@ namespace JoyBrick.Walkio.Game.StageFlowControl
         
             return r;
         }
-
-        private async Task<(GameObject, GameObject, GameObject, GameObject)> Load()
+        
+        private async Task<ScriptableObject> Load()
         {
-            var createNeutralPrefabTask = GetAsset<GameObject>($"Create Neutral Force Unit");
-            var createTeamPrefabTask = GetAsset<GameObject>($"Create Team Force Unit");
-            var createPlayerTeamLeaderPrefabTask = GetAsset<GameObject>($"Create Player Team Force Leader");
-            var playTimeCountdownPrefabTask = GetAsset<GameObject>($"Play Time Countdown");
+            var controlFlowDataAssetTask = GetAsset<ScriptableObject>($"Control Flow Data");
+            
+            var controlFlowDataAsset=
+                await controlFlowDataAssetTask;
         
-            var (createNeutralPrefab, createTeamPrefab, createPlayerTeamLeaderPrefab, playTimeCountdownPrefab) =
-                (await createNeutralPrefabTask, await createTeamPrefabTask, await createPlayerTeamLeaderPrefabTask, await playTimeCountdownPrefabTask);
-        
-            return (createNeutralPrefab, createTeamPrefab, createPlayerTeamLeaderPrefab, playTimeCountdownPrefab);
+            return controlFlowDataAsset;
         }
+
+        // private async Task<(GameObject, GameObject, GameObject, GameObject)> Load()
+        // {
+        //     var createNeutralPrefabTask = GetAsset<GameObject>($"Create Neutral Force Unit");
+        //     var createTeamPrefabTask = GetAsset<GameObject>($"Create Team Force Unit");
+        //     var createPlayerTeamLeaderPrefabTask = GetAsset<GameObject>($"Create Player Team Force Leader");
+        //     var playTimeCountdownPrefabTask = GetAsset<GameObject>($"Play Time Countdown");
+        //
+        //     var (createNeutralPrefab, createTeamPrefab, createPlayerTeamLeaderPrefab, playTimeCountdownPrefab) =
+        //         (await createNeutralPrefabTask, await createTeamPrefabTask, await createPlayerTeamLeaderPrefabTask, await playTimeCountdownPrefabTask);
+        //
+        //     return (createNeutralPrefab, createTeamPrefab, createPlayerTeamLeaderPrefab, playTimeCountdownPrefab);
+        // }
         
         // TODO: Move hard reference to PlayMakerFSM to somewhere else
         // TODO: Assign reference to FSM may need a better approach
@@ -186,45 +218,48 @@ namespace JoyBrick.Walkio.Game.StageFlowControl
 
         public void RemovingAssets()
         {
+            // //
+            // if (_createNeutralPrefab != null)
+            // {
+            //     Addressables.ReleaseInstance(_createNeutralPrefab);
+            // }
             //
-            if (_createNeutralPrefab != null)
-            {
-                Addressables.ReleaseInstance(_createNeutralPrefab);
-            }
-
-            if (_createTeamPrefab != null)
-            {
-                Addressables.ReleaseInstance(_createTeamPrefab);
-            }
-            
-            if (_createPlayerTeamLeaderPrefab != null)
-            {
-                Addressables.ReleaseInstance(_createPlayerTeamLeaderPrefab);
-            }            
-            
-            if (_playTimeCountdownPrefab != null)
-            {
-                Addressables.ReleaseInstance(_playTimeCountdownPrefab);
-            }
-
+            // if (_createTeamPrefab != null)
+            // {
+            //     Addressables.ReleaseInstance(_createTeamPrefab);
+            // }
             //
-            if (_createNeutral != null)
-            {
-                GameObject.Destroy(_createNeutral);
-            }            
-            if (_createTeam != null)
-            {
-                GameObject.Destroy(_createTeam);
-            }
+            // if (_createPlayerTeamLeaderPrefab != null)
+            // {
+            //     Addressables.ReleaseInstance(_createPlayerTeamLeaderPrefab);
+            // }            
+            //
+            // if (_playTimeCountdownPrefab != null)
+            // {
+            //     Addressables.ReleaseInstance(_playTimeCountdownPrefab);
+            // }
 
-            if (_createPlayerTeamLeader != null)
-            {
-                GameObject.Destroy(_createPlayerTeamLeader);
-            }
-            if (_playTimeCountdown != null)
-            {
-                GameObject.Destroy(_playTimeCountdown);
-            }            
+            // //
+            // if (_createNeutral != null)
+            // {
+            //     GameObject.Destroy(_createNeutral);
+            // }            
+            // if (_createTeam != null)
+            // {
+            //     GameObject.Destroy(_createTeam);
+            // }
+            //
+            // if (_createPlayerTeamLeader != null)
+            // {
+            //     GameObject.Destroy(_createPlayerTeamLeader);
+            // }
+            // if (_playTimeCountdown != null)
+            // {
+            //     GameObject.Destroy(_playTimeCountdown);
+            // }
+            
+            _createdFlowInstances.ForEach(instance => GameObject.Destroy(instance));
+            _createdFlowInstances.Clear();
         }
 
         protected override void OnDestroy()
