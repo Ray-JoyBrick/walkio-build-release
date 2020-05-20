@@ -13,9 +13,10 @@ TagManager:
   - UI
   - 
   - 
-  - In Boundary Floor
-  - Out Boundary Floor
+  - Ground Base
+  - Ground
   - Obstacle
+  - Decoration
   - Area
   - 
   - 
@@ -30,13 +31,12 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Enemy
+  - MovingPlatform
+  - VisualEffect
+  - Overlay
+  - SubCharacter
+  - Character
   m_SortingLayers:
   - name: Default
     uniqueID: 0

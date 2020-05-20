@@ -3718,7 +3718,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &480119045
 PrefabInstance:
@@ -6149,64 +6149,6 @@ Transform:
   m_Father: {fileID: 755999078}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &806331721
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 806331724}
-  - component: {fileID: 806331723}
-  - component: {fileID: 806331722}
-  m_Layer: 0
-  m_Name: New Game Object
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &806331722
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 806331721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea7d7495833204790ba1d3a8755397f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ConversionMode: 0
---- !u!114 &806331723
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 806331721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7af7d86e37b74cb6bb302227cabf3274, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridCells: 
---- !u!4 &806331724
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 806331721}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &836118500
 Mesh:
   m_ObjectHideFlags: 0
@@ -7388,10 +7330,6 @@ MonoBehaviour:
   - {fileID: 102900000, guid: 65340c59835f04c2bb1f8378c9bbf42a, type: 3}
   - {fileID: 102900000, guid: 15b45bbfe0afd43c198bd691df7fdc4f, type: 3}
   - {fileID: 102900000, guid: 4b2b80f7935cf4c0f90b54275cc2a060, type: 3}
-  buttonCreateInBoundaryLayer: Create In Boundary Layer
-  buttonCreateOutBoundaryLayer: Create Out Boundary Layer
-  buttonCreateObstacleLayer: Create Obstacle Layer
-  buttonCreateAreaLayer: Create Area Layer
 --- !u!4 &937174063
 Transform:
   m_ObjectHideFlags: 0
@@ -7472,64 +7410,6 @@ MonoBehaviour:
   m_ConnectionSyncPosition: 0
   m_ConnectionSyncRotation: 0
   m_Connection: {fileID: 0}
---- !u!1 &941433358
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 941433361}
-  - component: {fileID: 941433360}
-  - component: {fileID: 941433359}
-  m_Layer: 0
-  m_Name: New Game Object
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &941433359
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 941433358}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea7d7495833204790ba1d3a8755397f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ConversionMode: 0
---- !u!114 &941433360
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 941433358}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ef226e6fea19af40a4d90aaabf8486b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waypointDataAsset: {fileID: 0}
---- !u!4 &941433361
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 941433358}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &941905712
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7731,7 +7611,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   data:
-    dataString: UEsDBBQAAAgIAABAIezHpOsH8wEAANMDAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFtk09v4jAQxb8KynmLSEL5s8elqD0UWJEeqlZ7mNiTxKpjs44NFMR3X9txIFX3FPLGv+fMm+EckQoUEI1qC5SZJvo5GA2TH4OISKGlUSs4LpWSyupeRc4zdkJ/LLbCAfgH5ByfkJWVDqc6ccFZnfuj91at4ZhxuXNsOmrfl7TEZxSlrhzpRSa2WDIpwi2p1ZAyLdUL4xjEOJlZWQfh9ZvydlVMg45zbWll0CoKOe5B6EcFuyozqgCCK0mdbfQg11Jv8a9hCiN3FhobjDVcSM4ZReV8CuAN9osrbKovN3SFF1QKmPhfRWGfIMF+29UfUAPjros2qObD/j4Poj1w4770Lh5cXL9Qrtra+x/32t6XQb27RuXyU1KDtpG2Hkc3EKt+hufJPb1dIRVB+ksaQZsFCmt3IybjgKTD6TxJ0kmaBnY++QaHuwPaTsKx8+H9bDyedmQ8TzzaVPLgQtwYzZnAWy6usLazWUghkLgW+gPosDDEGyYQFDY6sw9SbQT/fH3rYSjcaq5hX1t2YbRmoryxpWH0a9bRZFYQBJwi5JQWeX43mibJOM5zQkk8oQmJfBdMMM2A/7b+XHfh2nXvzV9A7R23SOykB34F3Z5RBYdHdqplbyeYKGRG7J6ITetxbdtuCHCbMF36/0WGvgWHRudLdPkHUEsDBBQAAAgIAABAIeysRkksbwAAAHoAAAAJACQAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0Bq1YqSy0qzszPU7JSMNEz1jM00lFQSi9KLMgoBooYgjilmSkgdrSSmUVacmpiqnlqYlJKSlpSkq6BuZGRiWFSUnJKsqFZilGyUixQfUllQapfYm4qRE9AYklGWmZeSmZeul5QanJicYk7yHCl2FoAUEsBAi0AFAAACAgAAEAh7Mek6wfzAQAA0wMAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAAEAh7KxGSSxvAAAAegAAAAkAJAAAAAAAAAAAAAAAQAIAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAAD6AgAAAAA=
+    dataString: UEsDBBQAAAgIAABAIezHpOsH8wEAANMDAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFtk09v4jAQxb8KynmLSEL5s8elqD0UWJEeqlZ7mNiTxKpjs44NFMR3X9txIFX3FPLGv+fMm+EckQoUEI1qC5SZJvo5GA2TH4OISKGlUSs4LpWSyupeRc4zdkJ/LLbCAfgH5ByfkJWVDqc6ccFZnfuj91at4ZhxuXNsOmrfl7TEZxSlrhzpRSa2WDIpwi2p1ZAyLdUL4xjEOJlZWQfh9ZvydlVMg45zbWll0CoKOe5B6EcFuyozqgCCK0mdbfQg11Jv8a9hCiN3FhobjDVcSM4ZReV8CuAN9osrbKovN3SFF1QKmPhfRWGfIMF+29UfUAPjros2qObD/j4Poj1w4770Lh5cXL9Qrtra+x/32t6XQb27RuXyU1KDtpG2Hkc3EKt+hufJPb1dIRVB+ksaQZsFCmt3IybjgKTD6TxJ0kmaBnY++QaHuwPaTsKx8+H9bDyedmQ8TzzaVPLgQtwYzZnAWy6usLazWUghkLgW+gPosDDEGyYQFDY6sw9SbQT/fH3rYSjcaq5hX1t2YbRmoryxpWH0a9bRZFYQBJwi5JQWeX43mibJOM5zQkk8oQmJfBdMMM2A/7b+XHfh2nXvzV9A7R23SOykB34F3Z5RBYdHdqplbyeYKGRG7J6ITetxbdtuCHCbMF36/0WGvgWHRudLdPkHUEsDBBQAAAgIAABAIezLDqtxbwAAAHoAAAAJACQAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0Bq1YqSy0qzszPU7JSMNEz1jMy01FQSi9KLMgoBooYgjilmSkgdrSSmUVacmpiqnlqYlJKSlpSkq6BuZGRiWFSUnJKsqFZilGyUixQfUllQapfYm4qRE9AYklGWmZeSmZeul5QanJicYk7yHCl2FoAUEsBAi0AFAAACAgAAEAh7Mek6wfzAQAA0wMAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAAEAh7MsOq3FvAAAAegAAAAkAJAAAAAAAAAAAAAAAQAIAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAAD6AgAAAAA=
     upgradeData: 
     file_cachedStartup: {fileID: 0}
     data_cachedStartup: 
@@ -11476,7 +11356,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-7390
+  m_Name: pb_Mesh-1530
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
