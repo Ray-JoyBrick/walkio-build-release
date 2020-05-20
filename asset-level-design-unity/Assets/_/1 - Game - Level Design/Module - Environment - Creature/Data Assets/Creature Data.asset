@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61d29921d1af7a145845b5e2623b1982, type: 3}
+  m_Name: Creature Data
+  m_EditorClassIdentifier: 
+  npcTeamLeaderPrefabs:
+  - {fileID: 314981809004650020, guid: 36afc4b051344ec4f918d5e98ce97c83, type: 3}
+  playerTeamLeaderPrefabs:
+  - {fileID: 9068720510483288166, guid: 155c98f76c2af304785f5d8009ab336c, type: 3}
+  npcTeamUnitPrefabs:
+  - {fileID: 3760503463849146831, guid: 0413c1c5fa622944a8b3ddea4ecb2c37, type: 3}
+  npcNeutralUnitPrefabs:
+  - {fileID: 7410759052918932263, guid: c5568e85157499149a9c9c917a1fad87, type: 3}
+  relatedAssets:
+  - {fileID: 11400000, guid: f1af47b87076f1343a6f40c9590f9d51, type: 2}

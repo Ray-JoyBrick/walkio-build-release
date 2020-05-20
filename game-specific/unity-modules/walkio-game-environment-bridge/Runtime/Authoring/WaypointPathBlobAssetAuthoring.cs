@@ -17,7 +17,9 @@
 
     {
         public WaypointData waypointDataAsset;
-        
+
+        public List<WaypointPath> waypointPaths;
+
 #if !IGNORE_RUNTIME_BEHAVIOR
 
         public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)

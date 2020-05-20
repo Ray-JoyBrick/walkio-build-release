@@ -24,7 +24,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport
         public int aiControlCount;
 
         //
-        public GameObject curvy;
+        public GameObject curvyPathContainer;
         public GameObject spawnPointContainer;
     }
 }

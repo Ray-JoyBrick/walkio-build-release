@@ -66,6 +66,7 @@ MonoBehaviour:
     m_LabelNames:
     - default
     - level001
+    - Creature
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: be0d7cb4f38238a469e0ad5d1e889a2f, type: 2}

@@ -12,7 +12,8 @@ namespace JoyBrick.Walkio.Game.Environment
         public GameObject levelSettingAuthoringPrefab;
 
         [Header("Waypoint Settings")]
-        public WaypointPath waypointPath;
+        public List<WaypointPath> waypointPaths;
+        // public WaypointPath waypointPath;
         public GameObject waypointPathAuthoringPrefab;
         
         //

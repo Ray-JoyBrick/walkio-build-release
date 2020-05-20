@@ -22,6 +22,7 @@ MonoBehaviour:
     baseFolderName: 1 - Game - Level Design
     generationBaseFolderName: 1 - Game - Level Design - Generated
     levelModuleFolderName: Module - Environment - Level
+    creatureModuleFolderName: Module - Environment - Creature
   behaviorUnificationProjectData:
     baseFolderName: 1 - Game
   completeProjectData:

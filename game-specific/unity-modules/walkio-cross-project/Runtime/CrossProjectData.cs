@@ -29,6 +29,7 @@
             public string generationBaseFolderName;
 
             public string levelModuleFolderName;
+            public string creatureModuleFolderName;
         }
 
         [System.Serializable]

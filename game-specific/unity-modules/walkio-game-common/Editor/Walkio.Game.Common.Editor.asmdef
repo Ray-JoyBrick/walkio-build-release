@@ -1,6 +1,8 @@
 {
     "name": "Walkio.Game.Common.Editor",
     "references": [
+        "Unity.Addressables",
+        "Unity.Addressables.Editor",      
         "Unity.Entities",
         "UniRx"
     ],

@@ -8,7 +8,9 @@ namespace JoyBrick.Walkio.Game.Editor.Assist
     using UnityEditor.SceneManagement;
     using UnityEngine;
     using UnityEngine.SceneManagement;
-    
+
+    //
+    using Common = JoyBrick.Walkio.Common;
     using GameAssist = JoyBrick.Walkio.Game.Assist;
 
     [InitializeOnLoad]
@@ -32,7 +34,7 @@ namespace JoyBrick.Walkio.Game.Editor.Assist
                 }
                 else
                 {
-                    var levelOperator = GetComponentAtScene<GameAssist.LevelOperator>(currentMasterScene);
+                    var levelOperator = Common.Utility.GetComponentAtScene<GameAssist.LevelOperator>(currentMasterScene);
                     if (levelOperator != null)
                     {
                         Debug.Log($"Game - Assist - HandleSceneOpenedAffair - s.name: {scene.name} scene name: {scene.name}");
@@ -55,7 +57,7 @@ namespace JoyBrick.Walkio.Game.Editor.Assist
         private static void HandleMasterSceneOpened(Scene scene, OpenSceneMode mode)
         {
             var rootGameObjects = scene.GetRootGameObjects();
-            var levelOperator = GetComponentAtScene<GameAssist.LevelOperator>(scene);
+            var levelOperator = Common.Utility.GetComponentAtScene<GameAssist.LevelOperator>(scene);
             if (levelOperator == null) return;
             
             LoadSubScenes(levelOperator.subScenes);

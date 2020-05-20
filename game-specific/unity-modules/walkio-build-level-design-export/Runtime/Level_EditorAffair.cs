@@ -13,6 +13,9 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport
     using UnityEngine.ProBuilder;
     using UnityEngine.ProBuilder.MeshOperations;
     using UnityEngine.SceneManagement;
+    
+    //
+    using Common = JoyBrick.Walkio.Common;
 
     public partial class Level
     {
@@ -31,7 +34,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport
 
             var mScene = EditorSceneManager.OpenScene(masterScenePath);
 
-            var levelOperator = GetComponentAtScene<LevelOperator>(mScene);
+            var levelOperator = Common.Utility.GetComponentAtScene<LevelOperator>(mScene);
 
             var absoluteMasterScenePath = masterScenePath.Replace("Assets", Application.dataPath);
             var absoluteScenesFolder = Directory.GetParent(absoluteMasterScenePath);
@@ -68,7 +71,9 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport
                 var sceneAssets =
                     subScenes.Select(subScene =>
                         {
-                            var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(subScene.path);
+                            var adjustedScenePath = subScene.path.Replace(Application.dataPath, "Assets");
+                            
+                            var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(adjustedScenePath);
 
                             return sceneAsset;
                         })
@@ -81,29 +86,18 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport
             AssetDatabase.SaveAssets();
         }
 
-        
-        private static T GetComponentAtScene<T>(Scene scene) where T : UnityEngine.Component
-        {
-            T comp = default;
-
-            if (!scene.IsValid()) return comp;
-
-            var foundGOs =
-                scene.GetRootGameObjects()
-                    .Where(x => x.GetComponent<T>() != null)
-                    .ToList();
-
-            if (foundGOs != null && foundGOs.Any())
-            {
-                var foundGO = foundGOs.First();
-                comp = foundGO.GetComponent<T>();
-            }
-
-            return comp;
-        }
-
         private static void SetupSubScene(Scene subScene, Vector2Int cellCount, Vector3 tilePosition)
         {
+            //
+            var crossProjectData = AssetDatabase.LoadAssetAtPath<CrossProject.CrossProjectData>(
+                "Packages/walkio.cross-project/Data Assets/Cross Project Data.asset");
+
+            //
+            var relativeAssetFolderName = "Assets";
+            var projectBaseFolderName = crossProjectData.commonProjectData.projectBaseFolderName;
+            var baseFolderName = crossProjectData.assetLevelDesignProjectData.baseFolderName;
+            var levelModuleFolderName = crossProjectData.assetLevelDesignProjectData.levelModuleFolderName;
+            
             var groundBaseRootGameObject = new GameObject("Ground Base Root");
             groundBaseRootGameObject.AddComponent<GroundBaseRoot>();
 
@@ -142,7 +136,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport
             if (meshRenderer)
             {
                 var materialPath = Path.Combine(
-                    "Assets", "_", "1 - Game - Level Design", "Module - Environment - Level", "Common",
+                    relativeAssetFolderName, projectBaseFolderName, baseFolderName, levelModuleFolderName, "Common",
                     "Material - Ground Base.mat");
                 var material = AssetDatabase.LoadAssetAtPath<Material>(materialPath);
                 if (material != null)
@@ -151,12 +145,38 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport
                 }
             }
 
-            
+            mesh.gameObject.AddComponent<BoxCollider>();
+
             EditorSceneManager.MoveGameObjectToScene(groundBaseRootGameObject, subScene);
             EditorSceneManager.MoveGameObjectToScene(environmentRootGameObject, subScene);
             EditorSceneManager.MoveGameObjectToScene(areaRootGameObject, subScene);
         }
 
+#if ODIN_INSPECTOR
+        [Button("Sync to Master Scene Level Operator"), GUIColor(0, 1, 0)]
+        [ShowInInspector]
+#endif
+        public void SyncToMasterSceneLevelOperator()
+        {
+            if (masterScene == null) return;
+
+            var masterScenePath = AssetDatabase.GetAssetPath(masterScene);
+
+            var mScene = EditorSceneManager.OpenScene(masterScenePath);
+
+            var levelOperator = Common.Utility.GetComponentAtScene<LevelOperator>(mScene);
+
+            if (levelOperator == null) return;
+
+            levelOperator.xSubSceneCount = tileCount.x;
+            levelOperator.zSubSceneCount = tileCount.y;
+
+            levelOperator.widthCellCount = tileCellCount.x;
+            levelOperator.heightCellCount = tileCellCount.y;
+            
+            levelOperator.aiControlCount = aiControl;
+        }
+        
 #if ODIN_INSPECTOR
         [Button("Remove Sub Scene"), GUIColor(1, 0, 0)]
         [ShowInInspector]
@@ -168,7 +188,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport
             var masterScenePath = AssetDatabase.GetAssetPath(masterScene);
             var mScene = EditorSceneManager.OpenScene(masterScenePath);
 
-            var levelOperator = GetComponentAtScene<LevelOperator>(mScene);
+            var levelOperator = Common.Utility.GetComponentAtScene<LevelOperator>(mScene);
 
             var subScenePaths =
                 includedSubScenes

@@ -12,6 +12,10 @@ namespace JoyBrick.Walkio.Game.Environment.Creature
     public class LeaderAuthoring :
         MonoBehaviour,
         IConvertGameObjectToEntity
+
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT
+        , IPoolKitListener
+#endif
     {
         //
         private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(LeaderAuthoring));
@@ -38,17 +42,22 @@ namespace JoyBrick.Walkio.Game.Environment.Creature
             dstManager.AddComponentData<GameCommon.StageUse>(entity, new GameCommon.StageUse());
 
 #if UNITY_EDITOR
-
-            dstManager.SetName(entity, "Team Leader");
-            
+            var entityName = dstManager.GetName(entity);
+            dstManager.SetName(entity, $"{entityName} Leader");
 #endif
+
         }
 
         //
+        public void OnSpawn(
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
-        public void OnSpawn(Pool pool)
+            Pool pool
+#endif
+            )
         {
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             _logger.Debug($"TeamLeaderAuthoring - OnSpawn - pool: {pool.name}");
+#endif
             if (_entity != Entity.Null)
             {
                 World.DefaultGameObjectInjectionWorld.EntityManager.RemoveComponent<Disabled>(_entity);
@@ -61,8 +70,6 @@ namespace JoyBrick.Walkio.Game.Environment.Creature
 #endif
             }
         }
-#endif
-
 
         public void OnDespawn()
         {

@@ -37,6 +37,14 @@ namespace JoyBrick.Walkio.Game.Environment.Creature
 
     public struct FlowFieldGoal : IComponentData
     {
-        
+    }
+
+    public struct MoveOnFlowFieldTile : IComponentData
+    {
+    }
+
+    public struct MoveOnFlowFieldTileInfo : IComponentData
+    {
+        public Entity OnTile;
     }
 }

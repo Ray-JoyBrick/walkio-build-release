@@ -21,6 +21,12 @@ namespace JoyBrick.Walkio.Game.Environment.Creature
 
             //
             dstManager.AddComponentData(entity, new GameCommon.StageUse());
+
+#if UNITY_EDITOR
+            var entityName = dstManager.GetName(entity);
+            dstManager.SetName(entity, $"{entityName} Team");
+#endif
+
         }
     }
 }

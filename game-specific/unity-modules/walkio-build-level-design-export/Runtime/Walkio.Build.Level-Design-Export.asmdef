@@ -3,7 +3,8 @@
     "references": [
         "Unity.Addressables",
         "Unity.ProBuilder",
-        "Walkio.Common.Across"
+        "Walkio.Common.Across",
+        "Walkio.Cross-Project"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

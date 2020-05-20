@@ -3,7 +3,8 @@
     "references": [
         "Unity.Entities",
         "Unity.Entities.Hybrid",
-        "Unity.Entities.Properties",  
+        "Unity.Entities.Properties",
+        "Unity.Mathematics",
         "Unity.Transforms",
         "Unity.Transforms.Hybrid", 
         "UniRx",

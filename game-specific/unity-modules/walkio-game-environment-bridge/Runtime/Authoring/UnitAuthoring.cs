@@ -1,16 +1,19 @@
 ﻿namespace JoyBrick.Walkio.Game.Environment.Creature
 {
     using Unity.Entities;
+    using Unity.Mathematics;
+    using Unity.Transforms;
     using UnityEngine;
     
     using GameCommon = JoyBrick.Walkio.Game.Common;
 
     public enum EUnitMovementStyle
     {
+        ControlledMove,
         MoveOnWaypointPath,
-        MoveOnAStarPath,
-        MoveOnFlowFieldTile,
-        MoveOnCollider
+        // MoveOnAStarPath,
+        MoveOnFlowFieldTile
+        // MoveOnCollider
     }
     
     public class UnitAuthoring :
@@ -28,8 +31,15 @@
         {
             dstManager.AddComponentData(entity, new Unit());
 
-            if (unitMovementStyle == EUnitMovementStyle.MoveOnWaypointPath)
+            if (unitMovementStyle == EUnitMovementStyle.ControlledMove)
             {
+            }
+            else if (unitMovementStyle == EUnitMovementStyle.MoveOnWaypointPath)
+            {
+                // startingPosition = transform.position;
+                
+                transform.position = new Vector3(startingPosition.x, startingPosition.y, startingPosition.z);
+
                 dstManager.AddComponentData(entity, new MoveOnWaypointPath
                 {
                     StartIndex = startPathIndex,
@@ -37,46 +47,26 @@
 
                     AtIndex = startPathIndex
                 });
-            }
-            else if (unitMovementStyle == EUnitMovementStyle.MoveOnAStarPath)
-            {
                 
+                // dstManager.SetComponentData(entity, new Translation
+                // {
+                //     Value = (float3)startingPosition
+                // });
             }
             else if (unitMovementStyle == EUnitMovementStyle.MoveOnFlowFieldTile)
             {
-                
-            }
-            else if (unitMovementStyle == EUnitMovementStyle.MoveOnCollider)
-            {
-                
+                dstManager.AddComponentData(entity, new MoveOnFlowFieldTile());
+                dstManager.AddComponentData(entity, new MoveOnFlowFieldTileInfo());
             }
 
-             // For cleanup use
+            // For cleanup use
              dstManager.AddComponentData(entity, new GameCommon.StageUse());
-            
-//             var neutralForceAuthoring = GetComponent<NeutralForceAuthoring>();
-//             var teamForceAuthoring = GetComponent<TeamForceAuthoring>();
-//             var teamLeaderAuthoring = GetComponent<TeamLeaderAuthoring>();
 
-//             if (teamLeaderAuthoring != null)
-//             {
-//                 // Let Team Leader Authoring do the naming
-//             }
-//             else if (teamForceAuthoring != null)
-//             {
-//                 dstManager.AddComponentData(entity, new GameEnvironment.MoveOnFlowFieldTile());
-//                 dstManager.AddComponentData(entity, new GameEnvironment.MoveOnFlowFieldTileInfo());
-                
-// #if UNITY_EDITOR
-//                 dstManager.SetName(entity, "Team Unit");
-// #endif
-//             }
-//             else if (neutralForceAuthoring != null)
-//             {
-// #if UNITY_EDITOR
-//                 dstManager.SetName(entity, "Neutral Unit");
-// #endif
-//             }
+#if UNITY_EDITOR
+            var entityName = dstManager.GetName(entity);
+            dstManager.SetName(entity, $"{entityName} Unit");
+#endif
+
         }
     }
 }
