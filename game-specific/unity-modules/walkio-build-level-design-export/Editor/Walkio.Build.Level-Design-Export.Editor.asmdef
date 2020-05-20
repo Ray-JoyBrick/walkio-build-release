@@ -9,10 +9,12 @@
         "AstarPathfindingProjectEditor",
         "PackageTools",
         "AstarPackageToolsEditor",
-        "ALINE",
-        "ALINEPackageToolsEditor",
+        "Walkio.Common.Across",
+        "Walkio.Common.Editor",
+        "Walkio.Cross-Project",
         "Walkio.Build.Level-Design-Export",
-        "Walkio.Game.Environment-Bridge"
+        "Walkio.Game.Environment-Bridge",
+        "Drawing"
     ],
     "includePlatforms": [
         "Editor"

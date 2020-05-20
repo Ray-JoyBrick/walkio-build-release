@@ -1,10 +1,11 @@
 {
     "name": "Walkio.Build.Level-Design-Export",
     "references": [
-        "Unity.Addressables"
+        "Unity.Addressables",
+        "Unity.ProBuilder",
+        "Walkio.Common.Across"
     ],
-    "includePlatforms": [
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

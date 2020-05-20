@@ -1,4 +1,4 @@
-namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
+namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
 {
     using Sirenix.OdinInspector;
     using Sirenix.OdinInspector.Editor;

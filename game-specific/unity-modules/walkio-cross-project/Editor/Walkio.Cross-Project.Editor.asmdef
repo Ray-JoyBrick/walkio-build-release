@@ -1,0 +1,18 @@
+{
+    "name": "Walkio.Cross-Project.Editor",
+    "references": [
+      "Walkio.Common.Across",
+      "Walkio.Common.Editor"
+    ],
+    "includePlatforms": [
+      "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

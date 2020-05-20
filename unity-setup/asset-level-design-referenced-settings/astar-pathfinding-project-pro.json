@@ -3,8 +3,8 @@
   "use": true,
   "toSymlink": [
     {
-      "name": "AstarPathfindingProject",
-      "to": "Assets/AstarPathfindingProject"
+      "name": "Samples",
+      "to": "Assets/Samples/A_ Pathfinding Project"
     }
   ]
 }

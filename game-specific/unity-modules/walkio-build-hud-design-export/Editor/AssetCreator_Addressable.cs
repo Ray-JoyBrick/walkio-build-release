@@ -124,15 +124,15 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
             PlaceAssetInAddressble(assetSettings, assetGroup,
                 chineseFontAtlasAssetPath,
                 label,
-                "Hud - Chinese Font Atlas");            
+                "Hud - Chinese Font Atlas");
             PlaceAssetInAddressble(assetSettings, assetGroup,
                 englishFontAtlasAssetPath,
                 label,
-                "Hud - English Font Atlas");            
+                "Hud - English Font Atlas");
             PlaceAssetInAddressble(assetSettings, assetGroup,
                 japaneseFontAtlasAssetPath,
                 label,
-                "Hud - Japanese Font Atlas");            
+                "Hud - Japanese Font Atlas");
         }
 
         private static void PlaceAssetIntoGroup_App(
@@ -144,7 +144,14 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
             
             var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game - Hud Design");
             var relativeAppFolderPath = Path.Combine(relativeGameFolderPath, "Module - Hud - App");
-            
+
+            var hudDataAssetPath = Path.Combine(relativeAppFolderPath, "Hud Data.asset");
+
+            PlaceAssetInAddressble(assetSettings, assetGroup,
+                hudDataAssetPath,
+                label,
+                "Hud - App - Hud Data");
+
             var canvasAssetPath = Path.Combine(relativeAppFolderPath, "Canvas.prefab");
             
             PlaceAssetInAddressble(assetSettings, assetGroup,
@@ -158,7 +165,7 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
             PlaceAssetInAddressble(assetSettings, assetGroup,
                 relativeI2Asset,
                 label,
-                "Hud - App - I2");            
+                "Hud - App - I2");
             
             var relativeViewLoadingPrefab =
                 Path.Combine(relativeAppFolderPath, "View - Loading", "View - Loading.prefab");
@@ -198,7 +205,14 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
             
             var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game - Hud Design");
             var relativeAppFolderPath = Path.Combine(relativeGameFolderPath, "Module - Hud - App - Assist");
-            
+
+            var hudDataAssetPath = Path.Combine(relativeAppFolderPath, "Hud Data.asset");
+
+            PlaceAssetInAddressble(assetSettings, assetGroup,
+                hudDataAssetPath,
+                label,
+                "Hud - App Assist - Hud Data");
+
             var canvasAssetPath = Path.Combine(relativeAppFolderPath, "Canvas.prefab");
             
             PlaceAssetInAddressble(assetSettings, assetGroup,
@@ -246,7 +260,14 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
             
             var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game - Hud Design");
             var relativeAppFolderPath = Path.Combine(relativeGameFolderPath, "Module - Hud - Preparation");
-            
+
+            var hudDataAssetPath = Path.Combine(relativeAppFolderPath, "Hud Data.asset");
+
+            PlaceAssetInAddressble(assetSettings, assetGroup,
+                hudDataAssetPath,
+                label,
+                "Hud - Preparation - Hud Data");
+
             var canvasAssetPath = Path.Combine(relativeAppFolderPath, "Canvas.prefab");
             
             PlaceAssetInAddressble(assetSettings, assetGroup,
@@ -286,7 +307,14 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
             
             var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game - Hud Design");
             var relativeAppFolderPath = Path.Combine(relativeGameFolderPath, "Module - Hud - Stage");
-            
+
+            var hudDataAssetPath = Path.Combine(relativeAppFolderPath, "Hud Data.asset");
+
+            PlaceAssetInAddressble(assetSettings, assetGroup,
+                hudDataAssetPath,
+                label,
+                "Hud - Stage - Hud Data");
+
             var canvasAssetPath = Path.Combine(relativeAppFolderPath, "Canvas.prefab");
             
             PlaceAssetInAddressble(assetSettings, assetGroup,
@@ -340,7 +368,14 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
             
             var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game - Hud Design");
             var relativeAppFolderPath = Path.Combine(relativeGameFolderPath, "Module - Hud - Stage - Assist");
-            
+
+            var hudDataAssetPath = Path.Combine(relativeAppFolderPath, "Hud Data.asset");
+
+            PlaceAssetInAddressble(assetSettings, assetGroup,
+                hudDataAssetPath,
+                label,
+                "Hud - Stage Assist - Hud Data");
+
             var canvasAssetPath = Path.Combine(relativeAppFolderPath, "Canvas.prefab");
             
             PlaceAssetInAddressble(assetSettings, assetGroup,

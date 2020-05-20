@@ -1,0 +1,10 @@
+{
+  "name": "Unity Technology",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "Pro Builder/Samples/ProBuilder",
+      "to": "Assets/Samples/ProBuilder"
+    }
+  ]
+}

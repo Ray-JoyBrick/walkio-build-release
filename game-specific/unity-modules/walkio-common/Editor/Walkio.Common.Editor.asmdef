@@ -1,0 +1,17 @@
+{
+    "name": "Walkio.Common.Editor",
+    "references": [
+      "Walkio.Common.Across"
+    ],
+    "includePlatforms": [
+      "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

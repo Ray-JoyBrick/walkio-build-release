@@ -1,4 +1,4 @@
-namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
+namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
 {
     using System;
     using System.Collections.Generic;
@@ -10,6 +10,8 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
     using UnityEngine;
     using UnityEngine.SceneManagement;
 
+    //
+    using Common = JoyBrick.Walkio.Common;
     using GameEnvironment = JoyBrick.Walkio.Game.Environment;
 
     public static partial class HandleSceneOpenedAffair
@@ -56,7 +58,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
 
         private static IEnumerable<string> CreateObstacleTexture(string levelName, Scene masterScene)
         {
-            var levelOperator = GetComponentAtScene<LevelOperator>(masterScene);
+            var levelOperator = Common.Utility.GetComponentAtScene<LevelOperator>(masterScene);
             if (levelOperator == null) return Enumerable.Empty<string>();
 
             var texturePaths = new List<string>();
@@ -113,14 +115,14 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
              // Save the texture
              var generatedDirectoryPath = Path.Combine(Application.dataPath, "_", "1 - Game - Level Design - Generated");
              var levelDirectoryPath = Path.Combine(generatedDirectoryPath, "Levels");
-             Utility.CreateDirectoryIfNotExisted(generatedDirectoryPath);
-             Utility.CreateDirectoryIfNotExisted(levelDirectoryPath);
+             Common.Utility.CreateDirectoryIfNotExisted(generatedDirectoryPath);
+             Common.Utility.CreateDirectoryIfNotExisted(levelDirectoryPath);
             
              var specificLevelDirectoryPath = Path.Combine(levelDirectoryPath, levelName);
-             Utility.CreateDirectoryIfNotExisted(specificLevelDirectoryPath);
+             Common.Utility.CreateDirectoryIfNotExisted(specificLevelDirectoryPath);
 
              var obstacleTextureDirectoryPath = Path.Combine(specificLevelDirectoryPath, "obstacle-texture");
-             Utility.CreateDirectoryIfNotExisted(obstacleTextureDirectoryPath);
+             Common.Utility.CreateDirectoryIfNotExisted(obstacleTextureDirectoryPath);
              
              var obstacleTextureAssetPath = Path.Combine(obstacleTextureDirectoryPath, $"obstacle{index:0000}.png");
 

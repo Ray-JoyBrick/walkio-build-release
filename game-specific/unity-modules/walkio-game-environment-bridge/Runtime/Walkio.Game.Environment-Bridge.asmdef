@@ -3,6 +3,10 @@
     "references": [
         "Unity.Entities",
         "Unity.Entities.Hybrid",
+        "Unity.Entities.Properties",  
+        "Unity.Transforms",
+        "Unity.Transforms.Hybrid", 
+        "UniRx",
         "Walkio.Game.Common"
     ],
     "includePlatforms": [],

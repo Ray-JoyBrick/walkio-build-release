@@ -1,4 +1,4 @@
-﻿namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
+﻿namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
 {
     using System;
     using System.Collections.Generic;
@@ -10,6 +10,9 @@
     using UnityEngine;
     using UnityEngine.SceneManagement;
 
+    //
+    using Common = JoyBrick.Walkio.Common;
+    using CommonEditorPart = JoyBrick.Walkio.Common.EditorPart;
     using GameEnvironment = JoyBrick.Walkio.Game.Environment;
 
     // TODO: Rename, this class name brings only confusion
@@ -36,13 +39,13 @@
                 {
                     var assetName = "Waypoint Data.asset";
 
-                    SaveAssetTo(absoluteStartingPath, relativeStartingPath, assetDirectoryPath, assetName, waypointDataAsset);
+                    CommonEditorPart.Utility.SaveAssetTo(absoluteStartingPath, relativeStartingPath, assetDirectoryPath, assetName, waypointDataAsset);
                 }
                 //
                 {
                     var prefabName = "Waypoint Path BlobAsset Authoring.prefab";
                 
-                    SaveGameObjectAsPrefabTo(absoluteStartingPath, relativeStartingPath, assetDirectoryPath, prefabName, gameObject);
+                    CommonEditorPart.Utility.SaveGameObjectAsPrefabTo(absoluteStartingPath, relativeStartingPath, assetDirectoryPath, prefabName, gameObject);
                     // Remove game object from scene after saving
                     GameObject.DestroyImmediate(gameObject);
                     EditorSceneManager.SaveScene(currentMasterScene);
@@ -52,7 +55,7 @@
 
         private static GameEnvironment.WaypointData CreateWaypointData(Scene masterScene)
         {
-            var levelOperator = GetComponentAtScene<LevelOperator>(masterScene);
+            var levelOperator = Common.Utility.GetComponentAtScene<LevelOperator>(masterScene);
 
             if (levelOperator == null) return null;
 

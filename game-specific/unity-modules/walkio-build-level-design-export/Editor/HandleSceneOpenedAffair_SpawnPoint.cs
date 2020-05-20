@@ -1,4 +1,4 @@
-namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
+namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
 {
     using System;
     using System.Collections.Generic;
@@ -10,6 +10,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
     using UnityEngine;
     using UnityEngine.SceneManagement;
 
+    using Common = JoyBrick.Walkio.Common;
     using GameEnvironment = JoyBrick.Walkio.Game.Environment;
 
     // TODO: Rename, this class name brings only confusion
@@ -24,7 +25,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Editor
 
         private static List<Transform> CreateSpawnPointList(Scene masterScene)
         {
-            var levelOperator = GetComponentAtScene<LevelOperator>(masterScene);
+            var levelOperator = Common.Utility.GetComponentAtScene<LevelOperator>(masterScene);
 
             if (levelOperator == null) return null;
 
