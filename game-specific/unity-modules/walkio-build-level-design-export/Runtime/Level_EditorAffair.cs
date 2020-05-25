@@ -15,7 +15,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport
     using UnityEngine.SceneManagement;
     
     //
-    using Common = JoyBrick.Walkio.Common;
+    using GameCommon = JoyBrick.Walkio.Game.Common;
 
     public partial class Level
     {
@@ -34,7 +34,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport
 
             var mScene = EditorSceneManager.OpenScene(masterScenePath);
 
-            var levelOperator = Common.Utility.GetComponentAtScene<LevelOperator>(mScene);
+            var levelOperator = GameCommon.Utility.GetComponentAtScene<LevelOperator>(mScene);
 
             var absoluteMasterScenePath = masterScenePath.Replace("Assets", Application.dataPath);
             var absoluteScenesFolder = Directory.GetParent(absoluteMasterScenePath);
@@ -84,13 +84,16 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport
             }
 
             AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+
+            EditorSceneManager.SaveScene(mScene);
         }
 
         private static void SetupSubScene(Scene subScene, Vector2Int cellCount, Vector3 tilePosition)
         {
             //
-            var crossProjectData = AssetDatabase.LoadAssetAtPath<CrossProject.CrossProjectData>(
-                "Packages/walkio.cross-project/Data Assets/Cross Project Data.asset");
+            var crossProjectData = AssetDatabase.LoadAssetAtPath<GameCommon.CrossProjectData>(
+                "Packages/walkio.game.common/Data Assets/Cross Project Data.asset");
 
             //
             var relativeAssetFolderName = "Assets";
@@ -117,7 +120,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport
 
             // var groundBaseGameObject = new GameObject("Ground Base");
             // var mesh = ProBuilderMesh.Create();
-            var mesh = ShapeGenerator.GeneratePlane(PivotLocation.Center, cellCount.x, cellCount.y, cellCount.x / 2, cellCount.y / 2, Axis.Up);
+            var mesh = ShapeGenerator.GeneratePlane(PivotLocation.FirstVertex, cellCount.x, cellCount.y, cellCount.x / 2, cellCount.y / 2, Axis.Up);
             // mesh.CreateShapeFromPolygon();
             // mesh.
             
@@ -164,7 +167,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport
 
             var mScene = EditorSceneManager.OpenScene(masterScenePath);
 
-            var levelOperator = Common.Utility.GetComponentAtScene<LevelOperator>(mScene);
+            var levelOperator = GameCommon.Utility.GetComponentAtScene<LevelOperator>(mScene);
 
             if (levelOperator == null) return;
 
@@ -173,6 +176,8 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport
 
             levelOperator.widthCellCount = tileCellCount.x;
             levelOperator.heightCellCount = tileCellCount.y;
+
+            levelOperator.gridCount = tileCellCount.x;
             
             levelOperator.aiControlCount = aiControl;
         }
@@ -188,7 +193,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport
             var masterScenePath = AssetDatabase.GetAssetPath(masterScene);
             var mScene = EditorSceneManager.OpenScene(masterScenePath);
 
-            var levelOperator = Common.Utility.GetComponentAtScene<LevelOperator>(mScene);
+            var levelOperator = GameCommon.Utility.GetComponentAtScene<LevelOperator>(mScene);
 
             var subScenePaths =
                 includedSubScenes

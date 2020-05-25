@@ -69,34 +69,54 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
 
             return addressableAssetGroup;
         }
-        
+
         private static void PlaceAssetIntoGroup_Environment(
+            AddressableAssetSettings assetSettings,
+            AddressableAssetGroup assetGroup)
+        {
+            PlaceAssetIntoGroup_EnvironmentLevel(
+                "Level 004",
+                assetSettings, assetGroup);
+        }
+
+        private static void PlaceAssetIntoGroup_EnvironmentLevel(
+            string levelName,
             AddressableAssetSettings assetSettings,
             AddressableAssetGroup assetGroup)
         {
             var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game - Level Design - Generated");
             // var relativeCommonFolderPath = Path.Combine(relativeGameFolderPath, "Module - Environment - _Common");
-            var relativeLevelFolderPath = Path.Combine(relativeGameFolderPath, "Levels");
+            var relativeLevelFolderPath = Path.Combine(relativeGameFolderPath,
+                "Module - Environment - Level", "Levels");
             
-            var relativeLevel001Path = Path.Combine(relativeLevelFolderPath, "level001");
+            var relativeLevel001Path = Path.Combine(relativeLevelFolderPath, levelName);
             var relativeLevelSettingPathPath = Path.Combine(relativeLevel001Path, "level-setting");
-            var relativeObstacleTexturePathPath = Path.Combine(relativeLevel001Path, "obstacle-texture");
-            var relativeWaypointPathPath = Path.Combine(relativeLevel001Path, "waypoint-path");
+            // var relativeObstacleTexturePathPath = Path.Combine(relativeLevel001Path, "obstacle-texture");
+            // var relativeWaypointPathPath = Path.Combine(relativeLevel001Path, "waypoint-path");
             var relativeAStarDataPathPath = Path.Combine(relativeLevel001Path, "astar-data");
+            var relativeScenePath = Path.Combine(relativeLevel001Path, "scenes");
 
             var absoluteLevel001LevelSettingPath = Path.Combine(Application.dataPath, "_", "1 - Game - Level Design - Generated",
-                "Levels", "level001", "level-setting");
+                "Module - Environment - Level",
+                "Levels", levelName, "level-setting");
 
             var absoluteLevel001ObstacleTexturePath = Path.Combine(Application.dataPath, "_", "1 - Game - Level Design - Generated",
-                "Levels", "level001", "obstacle-texture");
+                "Module - Environment - Level",
+                "Levels", levelName, "obstacle-texture");
 
             var absoluteLevel001WaypointDataPath = Path.Combine(Application.dataPath, "_", "1 - Game - Level Design - Generated",
-                "Levels", "level001", "waypoint-path");
+                "Module - Environment - Level",
+                "Levels", levelName, "waypoint-path");
 
             var absoluteLevel001AStarDataPath = Path.Combine(Application.dataPath, "_", "1 - Game - Level Design - Generated",
-                "Levels", "level001", "astar-data");
+                "Module - Environment - Level",
+                "Levels", levelName, "astar-data");
 
-            var label = "level001";
+            var absoluteLevel001ScenePath = Path.Combine(Application.dataPath, "_", "1 - Game - Level Design - Generated",
+                "Module - Environment - Level",
+                "Levels", levelName, "scenes");
+
+            var label = $"{levelName}";
             assetSettings.AddLabel(label);
             
             {
@@ -120,46 +140,46 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
                 }
             }            
 
-            {
-                DirectoryInfo di = new DirectoryInfo(absoluteLevel001ObstacleTexturePath);
-                //
-                var obstacleTextureFileInfos = di.EnumerateFiles().Where(fi => fi.Extension.CompareTo(".meta") != 0);
-            
-                foreach (var obstacleTextureFileInfo in obstacleTextureFileInfos)
-                {
-                    var fileName = obstacleTextureFileInfo.Name;
-                    var strippedFileName = fileName.Replace(".png", "");
-            
-                    var obstacleTexturePath = Path.Combine(relativeObstacleTexturePathPath, fileName);
-                    // var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath);
-                
-                    Debug.Log(obstacleTexturePath);
-            
-                    LevelDesignExport.EditorPart.Utility.PlaceAssetInAddressble(assetSettings, assetGroup, obstacleTexturePath,
-                        label, strippedFileName);
-                }
-            }
+            // {
+            //     DirectoryInfo di = new DirectoryInfo(absoluteLevel001ObstacleTexturePath);
+            //     //
+            //     var obstacleTextureFileInfos = di.EnumerateFiles().Where(fi => fi.Extension.CompareTo(".meta") != 0);
+            //
+            //     foreach (var obstacleTextureFileInfo in obstacleTextureFileInfos)
+            //     {
+            //         var fileName = obstacleTextureFileInfo.Name;
+            //         var strippedFileName = fileName.Replace(".png", "");
+            //
+            //         var obstacleTexturePath = Path.Combine(relativeObstacleTexturePathPath, fileName);
+            //         // var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath);
+            //     
+            //         Debug.Log(obstacleTexturePath);
+            //
+            //         LevelDesignExport.EditorPart.Utility.PlaceAssetInAddressble(assetSettings, assetGroup, obstacleTexturePath,
+            //             label, strippedFileName);
+            //     }
+            // }
 
-            {
-                DirectoryInfo di = new DirectoryInfo(absoluteLevel001WaypointDataPath);
-                //
-                var waypointDataFileInfos = di.EnumerateFiles().Where(fi => fi.Extension.CompareTo(".meta") != 0);
-            
-                foreach (var waypointDataFileInfo in waypointDataFileInfos)
-                {
-                    var fileName = waypointDataFileInfo.Name;
-                    var strippedFileName = fileName.Replace(".asset", "");
-                    strippedFileName = fileName.Replace(".prefab", "");
-            
-                    var waypointDataPath = Path.Combine(relativeWaypointPathPath, fileName);
-                    // var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath);
-                
-                    Debug.Log(waypointDataPath);
-            
-                    LevelDesignExport.EditorPart.Utility.PlaceAssetInAddressble(assetSettings, assetGroup, waypointDataPath,
-                        label, strippedFileName);
-                }
-            }
+            // {
+            //     DirectoryInfo di = new DirectoryInfo(absoluteLevel001WaypointDataPath);
+            //     //
+            //     var waypointDataFileInfos = di.EnumerateFiles().Where(fi => fi.Extension.CompareTo(".meta") != 0);
+            //
+            //     foreach (var waypointDataFileInfo in waypointDataFileInfos)
+            //     {
+            //         var fileName = waypointDataFileInfo.Name;
+            //         var strippedFileName = fileName.Replace(".asset", "");
+            //         strippedFileName = fileName.Replace(".prefab", "");
+            //
+            //         var waypointDataPath = Path.Combine(relativeWaypointPathPath, fileName);
+            //         // var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath);
+            //     
+            //         Debug.Log(waypointDataPath);
+            //
+            //         LevelDesignExport.EditorPart.Utility.PlaceAssetInAddressble(assetSettings, assetGroup, waypointDataPath,
+            //             label, strippedFileName);
+            //     }
+            // }
 
             {
                 DirectoryInfo di = new DirectoryInfo(absoluteLevel001AStarDataPath);
@@ -180,6 +200,26 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
                         label, strippedFileName);
                 }
             }
+            
+            {
+                DirectoryInfo di = new DirectoryInfo(absoluteLevel001ScenePath);
+                //
+                var sceneFiles = di.EnumerateFiles().Where(fi => fi.Extension.CompareTo(".meta") != 0);
+            
+                foreach (var sceneFile in sceneFiles)
+                {
+                    var fileName = sceneFile.Name;
+                    var strippedFileName = fileName.Replace(".unity", "");
+            
+                    var scenePath = Path.Combine(relativeScenePath, fileName);
+                    // var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath);
+                
+                    Debug.Log(scenePath);
+            
+                    LevelDesignExport.EditorPart.Utility.PlaceAssetInAddressble(assetSettings, assetGroup, scenePath,
+                        label, strippedFileName);
+                }
+            }  
             
             // {
             //     DirectoryInfo di = new DirectoryInfo(absoluteLevel001WaypointDataPath);

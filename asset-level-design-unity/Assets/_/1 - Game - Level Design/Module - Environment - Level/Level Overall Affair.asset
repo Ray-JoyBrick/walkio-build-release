@@ -12,14 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03ad62b73b8e4cfa8aa4f08bf9e85f8d, type: 3}
   m_Name: Level Overall Affair
   m_EditorClassIdentifier: 
-  doGeneration: 1
+  doGeneration: 0
   masterSceneNames:
   - Level 001 - Master
   - Level 002 - Master
   - Level 003 - Master
   - Level 004 - Master
+  - Level 005 - Master
   masterSceneToLevelNames:
   - Level 001
   - Level 002
   - Level  003
   - Level 004
+  - Level 005

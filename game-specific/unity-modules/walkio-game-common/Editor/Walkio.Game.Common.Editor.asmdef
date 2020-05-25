@@ -4,7 +4,8 @@
         "Unity.Addressables",
         "Unity.Addressables.Editor",      
         "Unity.Entities",
-        "UniRx"
+        "UniRx",
+        "Walkio.Game.Common"
     ],
     "includePlatforms": [
       "Editor"

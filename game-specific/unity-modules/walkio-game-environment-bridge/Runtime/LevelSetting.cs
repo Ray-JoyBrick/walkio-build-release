@@ -6,17 +6,19 @@ namespace JoyBrick.Walkio.Game.Environment
     public class LevelSetting : ScriptableObject
     {
         //
+        [Header("General Settings")]
+        public string title;
 
         //
         public int aiControlCount;
         public GameObject levelSettingAuthoringPrefab;
 
-        [Header("Waypoint Settings")]
+        [Header("Waypoint Path Settings")]
         public List<WaypointPath> waypointPaths;
-        // public WaypointPath waypointPath;
         public GameObject waypointPathAuthoringPrefab;
         
         //
+        [Header("Spawn Point Settings")]
         public List<Vector3> spawnPoints;
         
         //
@@ -29,9 +31,12 @@ namespace JoyBrick.Walkio.Game.Environment
         public List<Texture2D> gridTextures;
         public GameObject gridMapAuthoringPrefab;
 
+        //
         [Header("AStar Pathfind Settings")]
         public List<TextAsset> astarGraphDatas;
 
         //
+        [Header("Loading Scene Settings")]
+        public List<string> sceneNames;
     }
 }

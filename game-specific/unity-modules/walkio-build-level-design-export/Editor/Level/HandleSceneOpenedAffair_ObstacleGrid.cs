@@ -11,7 +11,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
     using UnityEngine.SceneManagement;
 
     //
-    using Common = JoyBrick.Walkio.Common;
+    using GameCommon = JoyBrick.Walkio.Game.Common;
     using GameEnvironment = JoyBrick.Walkio.Game.Environment;
 
     public static partial class HandleSceneOpenedAffair
@@ -58,7 +58,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
 
         private static IEnumerable<string> CreateObstacleTexture(string levelName, Scene masterScene)
         {
-            var levelOperator = Common.Utility.GetComponentAtScene<LevelOperator>(masterScene);
+            var levelOperator = GameCommon.Utility.GetComponentAtScene<LevelOperator>(masterScene);
             if (levelOperator == null) return Enumerable.Empty<string>();
 
             var texturePaths = new List<string>();
@@ -71,6 +71,10 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
                     var sceneAsset = levelOperator.subScenes[i];
                     var subScene = EditorSceneManager.GetSceneByName(sceneAsset.name);
                 
+                    // var basePosition = new Vector3(
+                    //     wSubSceneIndex * levelOperator.gridCount, 
+                    //     0, 
+                    //     hSubSceneIndex * levelOperator.gridCount);
                     var basePosition = new Vector3(
                         wSubSceneIndex * levelOperator.gridCount, 
                         0, 
@@ -99,30 +103,36 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
         {
             Debug.Log($"HandleObstacleForSubScene - {subScene}");
 
-             var inBoundaryFloorTexture = MakeTextureBasedOnInBoundaryFloor(wCellCount, hCellCount, basePosition);
-             var outBoundaryFloorTexture = MakeTextureBasedOnOutBoundaryFloor(wCellCount, hCellCount, basePosition);
-             var obstacleTexture = MakeTextureBasedOnObstacle(wCellCount, hCellCount, basePosition);
-             var areaTexture = MakeTextureBasedOnArea(wCellCount, hCellCount, basePosition);
+             // var inBoundaryFloorTexture = MakeTextureBasedOnInBoundaryFloor(wCellCount, hCellCount, basePosition);
+             // var outBoundaryFloorTexture = MakeTextureBasedOnOutBoundaryFloor(wCellCount, hCellCount, basePosition);
+             // var obstacleTexture = MakeTextureBasedOnObstacle(wCellCount, hCellCount, basePosition);
+             // var areaTexture = MakeTextureBasedOnArea(wCellCount, hCellCount, basePosition);
+
+             var groundBaseTexture = MakeTextureBasedOnLayer(wCellCount, hCellCount, basePosition, "Ground Base",
+                 new Color32(0, 0, 0, 255), new Color32(0, 0, 0, 255));
+             var obstacleTexture = MakeTextureBasedOnLayer(wCellCount, hCellCount, basePosition, "Obstacle",
+                 new Color32(200, 200, 200, 255), new Color32(0, 0, 0, 255));
 
              var combinedTexture = CombineTextures(new List<Texture2D>
              {
-                 inBoundaryFloorTexture,
-                 outBoundaryFloorTexture,
+                 // inBoundaryFloorTexture,
+                 // outBoundaryFloorTexture,
+                 groundBaseTexture,
                  obstacleTexture,
-                 areaTexture
+                 // areaTexture
              });
              
              // Save the texture
              var generatedDirectoryPath = Path.Combine(Application.dataPath, "_", "1 - Game - Level Design - Generated");
-             var levelDirectoryPath = Path.Combine(generatedDirectoryPath, "Levels");
-             Common.Utility.CreateDirectoryIfNotExisted(generatedDirectoryPath);
-             Common.Utility.CreateDirectoryIfNotExisted(levelDirectoryPath);
+             var levelDirectoryPath = Path.Combine(generatedDirectoryPath, "Module - Environment - Level", "Levels");
+             GameCommon.Utility.CreateDirectoryIfNotExisted(generatedDirectoryPath);
+             GameCommon.Utility.CreateDirectoryIfNotExisted(levelDirectoryPath);
             
              var specificLevelDirectoryPath = Path.Combine(levelDirectoryPath, levelName);
-             Common.Utility.CreateDirectoryIfNotExisted(specificLevelDirectoryPath);
+             GameCommon.Utility.CreateDirectoryIfNotExisted(specificLevelDirectoryPath);
 
              var obstacleTextureDirectoryPath = Path.Combine(specificLevelDirectoryPath, "obstacle-texture");
-             Common.Utility.CreateDirectoryIfNotExisted(obstacleTextureDirectoryPath);
+             GameCommon.Utility.CreateDirectoryIfNotExisted(obstacleTextureDirectoryPath);
              
              var obstacleTextureAssetPath = Path.Combine(obstacleTextureDirectoryPath, $"obstacle{index:0000}.png");
 
@@ -131,6 +141,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
              AssetDatabase.Refresh();
              
              var obstacleTextureAssetLevelPath = Path.Combine("Assets", "_", "1 - Game - Level Design - Generated",
+                 "Module - Environment - Level",
                  "Levels", levelName, "obstacle-texture");
              var relativeObstacleTextureAssetPath = Path.Combine(obstacleTextureAssetLevelPath, $"obstacle{index:0000}.png");
              
@@ -155,6 +166,61 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
              }
 
              return relativeObstacleTextureAssetPath;
+        }
+
+        private static Texture2D MakeTextureBasedOnLayer(
+            int width, int height, Vector3 basePosition,
+            string layerName, Color32 hitColor, Color32 noHitColor)
+        {
+            Debug.Log($"HandleSceneOpenedAffair - MakeTextureBasedOnLayer - layerName: {layerName}");
+            
+            var texture = new Texture2D(width, height, TextureFormat.RGBA32, false);
+            var colors = new Color32[width * height];
+            
+            for (var z = 0; z < height; ++z)
+            {
+                for (var x = 0; x < width; ++x)
+                {
+                    var adjustedX = basePosition.x + x + 0.5f;
+                    var adjustedZ = basePosition.z + z + 0.5f;
+
+                    var w = adjustedX;
+                    var h = adjustedZ;
+                    var tx = x;
+                    var ty = z;
+                    
+                    var colorIndex = ty * width + tx;
+
+                    var layerMask = LayerMask.GetMask(layerName);
+                    var raycastHits =
+                        Physics.RaycastAll(
+                            new Ray(new Vector3(w, 100.0f, h), Vector3.down),
+                            150.0f, layerMask);
+                
+                    var castedRaycastHits = raycastHits.ToList();
+                    if (castedRaycastHits.Count > 0)
+                    {
+                        // Debug.Log($"HandleSceneOpenedAffair - MakeTextureBasedOnInBoundaryFloor - width: {width} height: {height} is in boundary floor");
+                    
+                        // Use the first one as there should be one
+                        var raycastHit = castedRaycastHits[0];
+                        
+                        // var color = new Color32(0, 0, 0, 255);
+
+                        colors[colorIndex] = hitColor;
+                    }
+                    else
+                    {
+                        // var color = new Color32(0, 0, 0, 255);
+
+                        colors[colorIndex] = noHitColor;
+                    }
+                }
+            }
+            
+            texture.SetPixels32(colors);
+
+            return texture;
         }
 
         //

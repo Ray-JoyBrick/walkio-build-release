@@ -9,6 +9,9 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Creature.EditorPart
     using UnityEngine;
 
     //
+    using GameCommon = JoyBrick.Walkio.Game.Common;
+    
+    //
     public partial class AssetCreator
     {
         [MenuItem("Assets/Walkio/Remove/Level Asset - Creature Addressable Group")]
@@ -73,8 +76,8 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Creature.EditorPart
             AddressableAssetGroup assetGroup)
         {
             //
-            var crossProjectData = AssetDatabase.LoadAssetAtPath<CrossProject.CrossProjectData>(
-                "Packages/walkio.cross-project/Data Assets/Cross Project Data.asset");
+            var crossProjectData = AssetDatabase.LoadAssetAtPath<GameCommon.CrossProjectData>(
+                "Packages/walkio.game.common/Data Assets/Cross Project Data.asset");
 
             //
             var relativeAssetFolderName = "Assets";

@@ -11,8 +11,8 @@
     using UnityEngine.SceneManagement;
 
     //
-    using Common = JoyBrick.Walkio.Common;
-    using CommonEditorPart = JoyBrick.Walkio.Common.EditorPart;
+    using GameCommon = JoyBrick.Walkio.Game.Common;
+    using GameCommonEditor = JoyBrick.Walkio.Game.Common.EditorPart;
     using GameEnvironment = JoyBrick.Walkio.Game.Environment;
 
     // TODO: Rename, this class name brings only confusion
@@ -74,7 +74,7 @@
 
         private static List<GameEnvironment.WaypointPath> CreateWaypointData(Scene masterScene)
         {
-            var levelOperator = Common.Utility.GetComponentAtScene<LevelOperator>(masterScene);
+            var levelOperator = GameCommon.Utility.GetComponentAtScene<LevelOperator>(masterScene);
 
             if (levelOperator == null) return null;
 

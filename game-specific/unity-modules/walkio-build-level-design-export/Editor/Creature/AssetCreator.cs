@@ -7,15 +7,15 @@
     using UnityEngine;
     
     //
-    using Common = JoyBrick.Walkio.Common;
+    using GameCommon = JoyBrick.Walkio.Game.Common;
 
     public partial class AssetCreator
     {
         [MenuItem("Assets/Walkio/Create/Generated Level Asset - Creature")]
         public static void CreateGeneratedCreature()
         {
-            var crossProjectData = AssetDatabase.LoadAssetAtPath<CrossProject.CrossProjectData>(
-                "Packages/walkio.cross-project/Data Assets/Cross Project Data.asset");
+            var crossProjectData = AssetDatabase.LoadAssetAtPath<GameCommon.CrossProjectData>(
+                "Packages/walkio.game.common/Data Assets/Cross Project Data.asset");
 
             //
             var absoluteAssetFolderName = Application.dataPath;
@@ -30,12 +30,12 @@
             var absoluteGenerationBasePath = Path.Combine(
                 Application.dataPath, projectBaseFolderName, generationBaseFolderName);
             
-            Common.Utility.CreateDirectoryIfNotExisted(absoluteGenerationBasePath);
+            GameCommon.Utility.CreateDirectoryIfNotExisted(absoluteGenerationBasePath);
 
             var absoluteModuleCreaturePath = Path.Combine(
                 absoluteGenerationBasePath, creatureModuleFolderName);
             
-            Common.Utility.CreateDirectoryIfNotExisted(absoluteModuleCreaturePath);
+            GameCommon.Utility.CreateDirectoryIfNotExisted(absoluteModuleCreaturePath);
                 
             var source01 = Path.Combine(
                 relativeAssetFolderName, projectBaseFolderName, baseFolderName, creatureModuleFolderName,

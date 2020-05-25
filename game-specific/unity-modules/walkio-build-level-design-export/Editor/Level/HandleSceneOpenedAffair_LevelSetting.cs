@@ -11,8 +11,8 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
     using UnityEngine.SceneManagement;
 
     //
-    using Common = JoyBrick.Walkio.Common;
-    using CommonEditorPart = JoyBrick.Walkio.Common.EditorPart;
+    using GameCommon = JoyBrick.Walkio.Game.Common;
+    using GameCommonEditor = JoyBrick.Walkio.Game.Common.EditorPart;
     using GameEnvironment = JoyBrick.Walkio.Game.Environment;
 
     public static partial class HandleSceneOpenedAffair
@@ -34,6 +34,8 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
             Scene masterScene,
             string levelName,
             IEnumerable<GameEnvironment.WaypointPath> waypointPaths,
+            List<Transform> spawnPoints,
+            IEnumerable<string> texturePaths,
             string aStarGraphDataPath)
         {
             //
@@ -73,8 +75,9 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
             //     "Common", "Prefabs", "Waypoint Path Blob Asset Authoring.prefab");
             
             //
-            var levelSettingAsset = CreateLevelSetting(masterScene,
-                waypointPaths, waypointPathBlobAssetAuthoringPrefab,
+            var levelSettingAsset = CreateLevelSetting(levelName, masterScene,
+                waypointPaths, spawnPoints, texturePaths,
+                waypointPathBlobAssetAuthoringPrefab,
                 levelSettingBlobAssetAuthoringPrefab,
                 aStarGraphDataPath);
 
@@ -96,7 +99,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
             {
                 var assetName = "Level Setting.asset";
                 
-                CommonEditorPart.Utility.SaveAssetTo(absoluteStartingPath, relativeStartingPath, assetDirectoryPath, assetName, levelSettingAsset);
+                GameCommonEditor.Utility.SaveAssetTo(absoluteStartingPath, relativeStartingPath, assetDirectoryPath, assetName, levelSettingAsset);
             }            
             // var assetDirectoryWaypointPath = Path.Combine("_", "1 - Game - Level Design - Generated",
             //     "Levels", "level004", "waypoint-path");
@@ -118,13 +121,16 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
         }
         
         private static GameEnvironment.LevelSetting CreateLevelSetting(
+            string levelName,
             Scene masterScene,
             IEnumerable<GameEnvironment.WaypointPath> waypointPaths,
+            List<Transform> spawnPoints,
+            IEnumerable<string> texturePaths,
             GameObject waypointPathBlobAssetAuthoringPrefab,
             GameObject levelSettingBlobAssetAuthoringPrefab,
             string aStarGraphDataPath)
         {
-            var levelOperator = Common.Utility.GetComponentAtScene<LevelOperator>(masterScene);
+            var levelOperator = GameCommon.Utility.GetComponentAtScene<LevelOperator>(masterScene);
 
             if (levelOperator == null) return null;
 
@@ -144,17 +150,23 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
             levelSetting.gridCellCount = levelOperator.gridCount;
             
             levelSetting.aiControlCount = levelOperator.aiControlCount;
+            
+            levelSetting.spawnPoints = new List<Vector3>();
+            levelSetting.spawnPoints.AddRange(spawnPoints.Select(x => x.position));
+
             //
-            // levelSetting.spawnPoints = new List<Vector3>();
-            // levelSetting.spawnPoints.AddRange(spawnPointList.Select(x => x.position));
-            //
-            // levelSetting.gridTextures = new List<Texture2D>();
-            // var obstacleTextures = texturePaths.Select(tp => AssetDatabase.LoadAssetAtPath<Texture2D>(tp));
-            // levelSetting.gridTextures.AddRange(obstacleTextures);
+            levelSetting.gridTextures = new List<Texture2D>();
+            var obstacleTextures = texturePaths.Select(tp => AssetDatabase.LoadAssetAtPath<Texture2D>(tp));
+            levelSetting.gridTextures.AddRange(obstacleTextures);
             
             var aStarGraphData = AssetDatabase.LoadAssetAtPath<TextAsset>(aStarGraphDataPath);
             levelSetting.astarGraphDatas = new List<TextAsset>();
             levelSetting.astarGraphDatas.Add(aStarGraphData);
+            
+            //
+            levelSetting.sceneNames = new List<string>();
+            levelSetting.sceneNames.Add(levelName);
+            levelSetting.sceneNames.AddRange(levelOperator.subScenes.Select(sceneAsset => sceneAsset.name));
 
             return levelSetting;
         }
@@ -193,7 +205,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
                 {
                     var prefabName = "Level Setting BlobAsset Authoring.prefab";
                 
-                    CommonEditorPart.Utility.SaveGameObjectAsPrefabTo(absoluteStartingPath, relativeStartingPath, assetDirectoryPath, prefabName, gameObject);
+                    GameCommonEditor.Utility.SaveGameObjectAsPrefabTo(absoluteStartingPath, relativeStartingPath, assetDirectoryPath, prefabName, gameObject);
                     // Remove game object from scene after saving
                     GameObject.DestroyImmediate(gameObject);
                     EditorSceneManager.SaveScene(currentMasterScene);
@@ -216,7 +228,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
                 {
                     var prefabName = "Grid Map BlobAsset Authoring.prefab";
                 
-                    CommonEditorPart.Utility.SaveGameObjectAsPrefabTo(absoluteStartingPath, relativeStartingPath, assetDirectoryPath, prefabName, gridMapGameObject);
+                    GameCommonEditor.Utility.SaveGameObjectAsPrefabTo(absoluteStartingPath, relativeStartingPath, assetDirectoryPath, prefabName, gridMapGameObject);
                     // Remove game object from scene after saving
                     GameObject.DestroyImmediate(gridMapGameObject);
                     EditorSceneManager.SaveScene(currentMasterScene);
@@ -230,7 +242,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
                 {
                     var assetName = "Level Setting.asset";
                 
-                    CommonEditorPart.Utility.SaveAssetTo(absoluteStartingPath, relativeStartingPath, assetDirectoryPath, assetName, levelSettingAsset);
+                    GameCommonEditor.Utility.SaveAssetTo(absoluteStartingPath, relativeStartingPath, assetDirectoryPath, assetName, levelSettingAsset);
                 }
             }
         }
@@ -241,7 +253,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
             IEnumerable<string> texturePaths,
             string aStarGraphDataPath)
         {
-            var levelOperator = Common.Utility.GetComponentAtScene<LevelOperator>(masterScene);
+            var levelOperator = GameCommon.Utility.GetComponentAtScene<LevelOperator>(masterScene);
 
             if (levelOperator == null) return null;
 

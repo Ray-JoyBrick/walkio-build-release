@@ -11,7 +11,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
     using UnityEngine.SceneManagement;
 
     //
-    using Common = JoyBrick.Walkio.Common;
+    using GameCommon = JoyBrick.Walkio.Game.Common;
     using GameEnvironment = JoyBrick.Walkio.Game.Environment;
 
     public static partial class HandleSceneOpenedAffair
@@ -36,14 +36,14 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
             
             var generatedDirectoryPath = Path.Combine(Application.dataPath, "_", "1 - Game - Level Design - Generated", "Module - Environment - Level");
             var levelDirectoryPath = Path.Combine(generatedDirectoryPath, "Levels");
-            Common.Utility.CreateDirectoryIfNotExisted(generatedDirectoryPath);
-            Common.Utility.CreateDirectoryIfNotExisted(levelDirectoryPath);
+            GameCommon.Utility.CreateDirectoryIfNotExisted(generatedDirectoryPath);
+            GameCommon.Utility.CreateDirectoryIfNotExisted(levelDirectoryPath);
             
             var specificLevelDirectoryPath = Path.Combine(levelDirectoryPath, outLevelName);
-            Common.Utility.CreateDirectoryIfNotExisted(specificLevelDirectoryPath);
+            GameCommon.Utility.CreateDirectoryIfNotExisted(specificLevelDirectoryPath);
 
             var obstacleTextureDirectoryPath = Path.Combine(specificLevelDirectoryPath, "astar-data");
-            Common.Utility.CreateDirectoryIfNotExisted(obstacleTextureDirectoryPath);
+            GameCommon.Utility.CreateDirectoryIfNotExisted(obstacleTextureDirectoryPath);
             
             //
 

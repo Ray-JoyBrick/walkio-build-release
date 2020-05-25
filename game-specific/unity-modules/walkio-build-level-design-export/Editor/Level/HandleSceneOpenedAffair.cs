@@ -10,7 +10,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
     using UnityEngine.SceneManagement;
 
     //
-    using Common = JoyBrick.Walkio.Common;
+    using GameCommon = JoyBrick.Walkio.Game.Common;
     using GameEnvironment = JoyBrick.Walkio.Game.Environment;
 
     [InitializeOnLoad]
@@ -37,7 +37,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
                 // if (scene.isSubScene)
                 else
                 {
-                    var levelOperator = Common.Utility.GetComponentAtScene<LevelOperator>(currentMasterScene);
+                    var levelOperator = GameCommon.Utility.GetComponentAtScene<LevelOperator>(currentMasterScene);
                     if (levelOperator != null)
                     {
                         Debug.Log($"Build - LevelDesignExport - HandleSceneOpenedAffair - s.name: {scene.name} scene name: {scene.name}");
@@ -93,21 +93,25 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
 
             //
             var waypointPaths = CreateWaypointPathPart(currentMasterScene);
-
-
-            // var texturePaths =
-            //     CreateObstacleGridPart(levelName, currentMasterScene);
+            
+            
+            var texturePaths =
+                CreateObstacleGridPart(levelName, currentMasterScene);
             var aStarGraphDataPath =
                 CreateAStarGraphPart(levelName, levelName, currentMasterScene);
+            
+            var spawnPointList = CreateSpawnPointList(currentMasterScene);
+
+            // var sceneNames = CreateScenePart(levelName, currentMasterScene);
             
             CreateLevelSettingPart(
                 currentMasterScene,
                 levelName,
                 waypointPaths,
+                spawnPointList,
+                texturePaths,
                 aStarGraphDataPath);
 
-            //
-            // var spawnPointList = CreateSpawnPointList(currentMasterScene);
             //
             // // Should actually gather everything from the previous
             // CreateLevelSettingPart(
@@ -121,7 +125,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
         {
             var rootGameObjects = scene.GetRootGameObjects();
             // var levelOperator = GetLevelOperatorAtScene(scene);
-            var levelOperator = Common.Utility.GetComponentAtScene<LevelOperator>(scene);
+            var levelOperator = GameCommon.Utility.GetComponentAtScene<LevelOperator>(scene);
             if (levelOperator == null) return;
             
             LoadSubScenes(levelOperator.subScenes);
@@ -129,13 +133,16 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
 
         private static void LoadSubScenes(List<SceneAsset> subScenes)
         {
-            subScenes.ForEach(x =>
-            {
-                //
-                var assetPath = AssetDatabase.GetAssetPath(x);
-                Debug.Log(assetPath);
-                UnityEditor.SceneManagement.EditorSceneManager.OpenScene(assetPath, OpenSceneMode.Additive);
-            });
+            subScenes
+                .Where(x => x != null)
+                .ToList()
+                .ForEach(x =>
+                {
+                    //
+                    var assetPath = AssetDatabase.GetAssetPath(x);
+                    Debug.Log(assetPath);
+                    UnityEditor.SceneManagement.EditorSceneManager.OpenScene(assetPath, OpenSceneMode.Additive);
+                });
         }
     }
 }
