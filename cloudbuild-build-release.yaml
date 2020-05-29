@@ -37,7 +37,7 @@ steps:
         pwsh-preview remove-dsstore.ps1
         pwsh-preview ./prepare-ucb-build-release/CopyNecessaryItem.ps1
         cd /workspace/game-unity/unity-setup
-        pwsh-preview CopyDailyTalkReferences.ps1
+        pwsh-preview CopyCompleteReferences.ps1
         cd /workspace
 
   - id: grab-ucb-build-release
