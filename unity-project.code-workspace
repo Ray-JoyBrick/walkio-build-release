@@ -1,6 +1,9 @@
 {
 	"folders": [
 		{
+			"path": "grid-tile-utility"
+		},
+		{
 			"path": "asset-unification-unity"
 		},
 		{
