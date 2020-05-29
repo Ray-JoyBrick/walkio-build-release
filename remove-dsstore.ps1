@@ -9,7 +9,7 @@ param(
     $startPath = (Split-Path $script:MyInvocation.MyCommand.Path)
     $foundPathLocations = Get-Childitem $startPath -Include $IncludedNames -Recurse -Force -ErrorAction SilentlyContinue
     $pathCount = $foundPathLocations.Length
-    Write-Output "Remove $pathCount localization from $startPath"
+    Write-Output "Remove $pathCount locations from $startPath"
     if ($foundPathLocations.Length -gt 0) {
         foreach ($pathLocation in $foundPathLocations) {
             Write-Host $pathLocation `

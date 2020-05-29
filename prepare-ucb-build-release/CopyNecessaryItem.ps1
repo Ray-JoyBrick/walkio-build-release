@@ -1,4 +1,4 @@
-# game-unity/prepare-ucb-make-asset
+# game-unity/prepare-ucb-build-release
 $currentScriptPath = (Split-Path $script:MyInvocation.MyCommand.Path)
 # game-unity
 $parentOfCurrentPath = (Get-Item $currentScriptPath).Parent.FullName
@@ -13,7 +13,7 @@ param(
     $assetManipulationUnityFolder = Join-Path -Path $parentOfCurrentPath -ChildPath "complete-unity"
     $foundPathLocations = Get-Childitem $assetManipulationUnityFolder -Include $IncludedNames -Recurse -Force -ErrorAction SilentlyContinue
     $pathCount = $foundPathLocations.Length
-    Write-Output "Remove $pathCount localtion from $assetManipulationUnityFolder"
+    Write-Output "Remove $pathCount locations from $assetManipulationUnityFolder"
     if ($foundPathLocations.Length -gt 0) {
         foreach ($pathLocation in $foundPathLocations) {
             Remove-Item $pathLocation -Recurse -Force
