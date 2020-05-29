@@ -8,9 +8,9 @@
         "Unity.Collections",
         "Unity.Transforms",
         "Unity.Entities.Hybrid",
-        "Unity.Entities.Properties",
         "Unity.Mathematics",
-        "Unity.ResourceManager"
+        "Unity.ResourceManager",
+        "Walkio.Game.Input-Control"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

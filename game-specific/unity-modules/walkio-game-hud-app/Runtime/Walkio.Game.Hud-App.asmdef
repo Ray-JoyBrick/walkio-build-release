@@ -11,8 +11,11 @@
         "Unity.Entities.Properties",
         "Unity.Mathematics",
         "Unity.ResourceManager",
-        "Walkio.3rd.Doozy",
-        "Walkio.Game.Common"
+        "UniRx",
+        "Walkio.Game.Common",
+        "Walkio.Game.Command",
+        "Walkio.Game.Extension",
+        "Walkio.Game.Template"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

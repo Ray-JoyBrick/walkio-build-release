@@ -1,0 +1,10 @@
+{
+  "name": "Demigiant",
+  "use": false,
+  "toSymlink": [
+    {
+      "name": "dotween-package/DOTween",
+      "to": "Assets/Standard Assets/DOTween"
+    }
+  ]
+}

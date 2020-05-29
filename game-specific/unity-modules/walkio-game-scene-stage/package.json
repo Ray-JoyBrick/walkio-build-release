@@ -1,0 +1,11 @@
+{
+  "name": "walkio.game.scene-stage",
+  "displayName": "_ Walkio Game Scene Stage",
+  "version": "0.1.0",
+  "unity": "2020.1",
+  "description": "Walkio Game Scene Stage",
+  "keywords": [
+  ],
+  "category": "",
+  "dependencies": {}
+}

@@ -1,0 +1,27 @@
+/*
+
+!.gitignore
+
+# General exclude rules move here
+*.meta
+!*.*.meta
+
+!PhysicsCategoryNames.asset
+
+!_
+# Some Unity package create assets under Assets/Editor folder and unsure if these can be moved
+!Editor
+!Editor Default Resources
+!Gizmos
+!Plugins
+!Resources
+# Not adding a sub folder gitignore file into Resources for clean purpose
+Resources/**
+!Resources/DOTweenSettings.asset
+!Resources/DOTweenSettings.asset.meta
+!Standard Assets
+# Not adding a sub folder gitignore file into StreamingAssets for clean purpose
+!StreamingAssets
+StreamingAssets/**
+!StreamingAssets/build.txt
+!StreamingAssets/build.txt.meta

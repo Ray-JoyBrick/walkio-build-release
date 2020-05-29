@@ -3,6 +3,7 @@ namespace JoyBrick.Walkio.Game.Environment
     using Unity.Entities;
     using UnityEngine;
 
+    // TODO: Move this to common module since it may apply to systems in any module
     [DisableAutoCreation]
     public class RemoveConvertedSystem : SystemBase
     {

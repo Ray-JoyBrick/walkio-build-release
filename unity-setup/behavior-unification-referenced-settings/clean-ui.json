@@ -1,0 +1,11 @@
+{
+    "name": "ricimi",
+    "use": false,
+    "toSymlink": [
+      {
+        "name": "GUIPack-Clean and Minimalist",
+        "to": "Assets/Standard Assets/GUIPack-Clean and Minimalist"
+      }
+    ]
+  }
+  

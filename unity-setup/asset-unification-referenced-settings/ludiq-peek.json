@@ -1,0 +1,14 @@
+{
+  "name": "Ludiq",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "Ludiq.Peek",
+      "to": "Assets/Ludiq/Ludiq.Peek"
+    },
+    {
+      "name": "Ludiq.PeekCore",
+      "to": "Assets/Ludiq/Ludiq.PeekCore"
+    }
+  ]
+}

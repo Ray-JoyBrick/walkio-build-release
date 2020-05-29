@@ -16,6 +16,33 @@
     public struct Unit : IComponentData
     {
     }
+
+    public struct NeutralForce : IComponentData
+    {
+    }
+
+    public struct TeamForce : IComponentData
+    {
+        public int TeamId;
+    }
+
+    public struct MonitorTileChange : IComponentData
+    {
+        
+    }
+
+    public struct MoveToTarget : IComponentData
+    {
+        public Entity AtTile;
+    }
+
+    public struct MoveOnPath : IComponentData
+    {
+        public int StartIndex;
+        public int EndIndex;
+
+        public int AtIndex;
+    }
     
     //
     public struct UnitBuffer : IBufferElementData

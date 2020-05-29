@@ -1,17 +1,23 @@
 {
 	"folders": [
 		{
-			"path": "asset-manipulation-unity"
+			"path": "grid-tile-utility"
 		},
 		{
-			"path": "behavior-centric-unity"
+			"path": "asset-unification-unity"
+		},
+		{
+			"path": "behavior-unification-unity"
 		},
 		{
 			"path": "complete-unity"
+    },
+    {
+			"path": "game-specific"
 		}
   ],
   "settings": {
-    "workbench.colorTheme": "Night Owl Light",
+    "workbench.colorTheme": "Night Owl",
 
     "files.exclude": {
       "**/*.csproj": true,

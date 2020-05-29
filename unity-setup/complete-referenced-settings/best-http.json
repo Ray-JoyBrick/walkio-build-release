@@ -1,0 +1,10 @@
+{
+  "name": "BestHTTP",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "Best HTTP",
+      "to": "Assets/Standard Assets/Best HTTP"
+    }
+  ]
+}

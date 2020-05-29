@@ -1,0 +1,11 @@
+{
+  "name": "walkio.common",
+  "displayName": "_ Walkio Common",
+  "version": "0.1.0",
+  "unity": "2020.1",
+  "description": "Walkio common utilities cross all game and build projects",
+  "keywords": [
+  ],
+  "category": "",
+  "dependencies": {}
+}

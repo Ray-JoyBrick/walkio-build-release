@@ -1,0 +1,14 @@
+{
+  "name": "Doozy Entertainment",
+  "use": false,
+  "toSymlink": [
+    {
+      "name": "Gizmos/Doozy",
+      "to": "Assets/Gizmos/Doozy"
+    },
+    {
+      "name": "Doozy",
+      "to": "Assets/Doozy"
+    }
+  ]
+}

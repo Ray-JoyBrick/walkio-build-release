@@ -1,0 +1,21 @@
+{
+    "name": "Walkio.Game.Common.Editor",
+    "references": [
+        "Unity.Addressables",
+        "Unity.Addressables.Editor",      
+        "Unity.Entities",
+        "UniRx",
+        "Walkio.Game.Common"
+    ],
+    "includePlatforms": [
+      "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

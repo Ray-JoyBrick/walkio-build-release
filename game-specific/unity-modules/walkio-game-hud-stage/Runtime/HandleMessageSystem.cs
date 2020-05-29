@@ -1,7 +1,7 @@
 namespace JoyBrick.Walkio.Game.Hud.Stage
 {
     using System;
-    using Doozy.Engine;
+    // using Doozy.Engine;
     using Unity.Entities;
     using UnityEngine;
     
@@ -20,33 +20,33 @@ namespace JoyBrick.Walkio.Game.Hud.Stage
                 EntityManager.CreateArchetype(
                     typeof(Common.LoadWorldMapRequest));
 
-            Message.AddListener<GameEventMessage>(OnDoozyMessage);
+            // Message.AddListener<GameEventMessage>(OnDoozyMessage);
         }
 
-        private void OnDoozyMessage(GameEventMessage message)
-        {
-            if (message == null) return;
-
-            var validMessage = string.IsNullOrEmpty(message.EventName);
-            if (validMessage) return;
-
-            var result = string.Compare(message.EventName, "Load Environment", StringComparison.Ordinal);
-            if (result == 0)
-            {
-                Debug.Log($"HandleMessageSystem - OnDoozyMessage - {message.EventName}");
-                var entity = EntityManager.CreateEntity(_eventEntityArchetype);
-                EntityManager.AddComponentData<Common.LoadWorldMapRequest>(entity, new Common.LoadWorldMapRequest
-                {
-                    WorldMapIndex = 0
-                });                
-            }
-        }
+        // private void OnDoozyMessage(GameEventMessage message)
+        // {
+        //     if (message == null) return;
+        //
+        //     var validMessage = string.IsNullOrEmpty(message.EventName);
+        //     if (validMessage) return;
+        //
+        //     var result = string.Compare(message.EventName, "Load Environment", StringComparison.Ordinal);
+        //     if (result == 0)
+        //     {
+        //         Debug.Log($"HandleMessageSystem - OnDoozyMessage - {message.EventName}");
+        //         var entity = EntityManager.CreateEntity(_eventEntityArchetype);
+        //         EntityManager.AddComponentData<Common.LoadWorldMapRequest>(entity, new Common.LoadWorldMapRequest
+        //         {
+        //             WorldMapIndex = 0
+        //         });                
+        //     }
+        // }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
             
-            Message.RemoveListener<GameEventMessage>(OnDoozyMessage);
+            // Message.RemoveListener<GameEventMessage>(OnDoozyMessage);
         }
 
         protected override void OnUpdate()

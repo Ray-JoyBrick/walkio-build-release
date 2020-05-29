@@ -1,0 +1,10 @@
+{
+  "name": "Wild Mage Games",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "AlmostEngine",
+      "to": "Assets/Standard Assets/AlmostEngine"
+    }
+  ]
+}

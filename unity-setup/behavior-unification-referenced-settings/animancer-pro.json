@@ -1,0 +1,10 @@
+{
+  "name": "Kybernetik",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "Plugins/Animancer",
+      "to": "Assets/Plugins/Animancer"
+    }
+  ]
+}

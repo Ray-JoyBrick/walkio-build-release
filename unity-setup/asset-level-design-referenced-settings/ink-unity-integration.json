@@ -1,0 +1,10 @@
+{
+  "name": "inkle",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "ink-unity-integration/Assets/Plugins/Ink",
+      "to": "Assets/Plugins/Ink"
+    }
+  ]
+}

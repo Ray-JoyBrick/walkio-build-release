@@ -1,0 +1,22 @@
+{
+  "name": "game-specific",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "preprocess-assets/external-data",
+      "to": "Assets/_/1 - Game - Hud Design/Preprocess Assets/external-data"
+    },
+    {
+      "name": "preprocess-assets/hud-design",
+      "to": "Assets/_/1 - Game - Hud Design/Preprocess Assets/hud-design"
+    },
+    {
+      "name": "development-assets/Gizmos/JoyBrick",
+      "to": "Assets/Gizmos/JoyBrick"
+    },
+    {
+      "name": "extend-3rd/Setting - Editor Console Pro",
+      "to": "Assets/_/5 - Misc/Setting - Editor Console Pro"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+    "name": "Walkio.Build.Level-Design-Export.Editor",
+    "references": [
+        "Unity.Addressables",
+        "Unity.Addressables.Editor",
+        "Unity.Entities",
+        "Unity.Entities.Hybrid",
+        "Unity.ProBuilder",
+        "Unity.Scenes.Hybrid",
+        "AstarPathfindingProject",
+        "AstarPathfindingProjectEditor",
+        "PackageTools",
+        "AstarPackageToolsEditor",
+        "Walkio.Game.Common",
+        "Walkio.Game.Common.Editor",
+        "Walkio.Build.Level-Design-Export",
+        "Walkio.Game.Environment-Bridge",
+        "Drawing"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
