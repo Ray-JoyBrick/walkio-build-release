@@ -48,15 +48,17 @@ steps:
       - |
         gcloud source repos clone ucb-build-release --project=walkio-271711
 
-  # - id: merge-ucb-build-release
-  #   name: "alpine:latest"
-  #   entrypoint: sh
-  #   args:
-  #     - -c
-  #     - |
-  #       apk update && apk add openssh-client rsync
-  #       rsync -avhr --exclude '.git' --delete /workspace/game-unity/complete-unity/ /workspace/ucb-build-release/
-
+  - id: merge-ucb-build-release
+    name: "alpine:latest"
+    entrypoint: sh
+    args:
+      - -c
+      - |
+        apk update && apk add openssh-client rsync
+        rsync -avhr --exclude '.git' --delete /workspace/game-unity/complete-unity/ /workspace/ucb-build-release/
+        ls -la /workspace/ucb-build-release
+        ls -la /workspace/ucb-build-release/Assets
+  
   # - id: commit-ucb-build-release
   #   name: gcr.io/cloud-builders/gcloud
   #   entrypoint: sh

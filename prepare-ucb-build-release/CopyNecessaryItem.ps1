@@ -28,8 +28,8 @@ Remove-UnityProjectUncessaryPart $names
 
 function Copy-ItemIn {
 param()
-    $prepareUcbBuildReleaseFolder = Join-Path -Path $parentOfCurrentPath -ChildPath "prepare-ucb-build-release"
-    $supplyToProjectFolder = Join-Path -Path $prepareUcbBuildReleaseFolder -ChildPath "supply-to-project"
+    # $prepareUcbBuildReleaseFolder = Join-Path -Path $parentOfCurrentPath -ChildPath "prepare-ucb-build-release"
+    $supplyToProjectFolder = Join-Path -Path $currentScriptPath -ChildPath "supply-to-project"
 
     # Get references to be symlinked
     $settingsFolder = Join-Path -Path $supplyToProjectFolder -ChildPath "settings"
