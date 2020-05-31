@@ -3,12 +3,12 @@
     "references": [
         "Unity.Entities",
         "Unity.Entities.Hybrid",
-        "Unity.Entities.Properties",
         "Unity.Mathematics",
         "Unity.Transforms",
-        "Unity.Transforms.Hybrid", 
+        "Unity.Transforms.Hybrid",
         "UniRx",
-        "Walkio.Game.Common"
+        "Walkio.Game.Common",
+        "PoolKit"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

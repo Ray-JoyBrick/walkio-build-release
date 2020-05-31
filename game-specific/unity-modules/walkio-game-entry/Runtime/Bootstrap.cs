@@ -53,6 +53,9 @@
         {
             //
             SetupAppCenterCrashes();
+            
+            //
+            SetupRemoteConfiguration();
 
             //
             SetupUniRxLogger();

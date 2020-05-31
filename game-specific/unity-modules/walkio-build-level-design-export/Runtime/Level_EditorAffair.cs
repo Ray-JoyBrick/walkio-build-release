@@ -7,8 +7,11 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport
 #if ODIN_INSPECTOR
     using Sirenix.OdinInspector;
 #endif
+
+#if UNITY_EDITOR
     using UnityEditor;
     using UnityEditor.SceneManagement;
+#endif
     using UnityEngine;
     using UnityEngine.ProBuilder;
     using UnityEngine.ProBuilder.MeshOperations;
@@ -20,6 +23,18 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport
     public partial class Level
     {
 #if UNITY_EDITOR
+
+#if ODIN_INSPECTOR
+        [VerticalGroup("Split/Right")]
+#endif
+        public List<SceneAsset> includedSubScenes;
+
+#if ODIN_INSPECTOR
+        [AssetsOnly]
+        [VerticalGroup(GeneralSettingsVerticalGroup)]
+#endif
+        public SceneAsset masterScene;
+
 
 #if ODIN_INSPECTOR
         [Button("Setup Master Scene"), GUIColor(0, 1, 0)]
