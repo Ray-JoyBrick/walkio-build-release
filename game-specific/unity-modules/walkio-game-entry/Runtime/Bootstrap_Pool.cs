@@ -6,9 +6,10 @@ namespace JoyBrick.Walkio.Game
     using Opsive.UltimateCharacterController.Input;
     using Opsive.UltimateCharacterController.Utility;
     using Pathfinding;
+    using Unity.AI.Planner.Controller;
     using Unity.Entities;
     using UnityEngine;
-    using UnityEngine.AI.Planner.Controller;
+    // using UnityEngine.AI.Planner.Controller;
     using UnityEngine.SceneManagement;
 
     //
@@ -39,12 +40,12 @@ namespace JoyBrick.Walkio.Game
                 Random.Range(0, 100.0f));
             var spawned = pool.Spawn("Character_BusinessMan_Shirt_01", randomPosition, Quaternion.identity);
 
-            //
-            var decisionController = spawned.GetComponent<DecisionController>();
-            if (decisionController != null)
-            {
-                decisionController.enabled = true;
-            }
+            // //
+            // var decisionController = spawned.GetComponent<IDecisionController>();
+            // if (decisionController != null)
+            // {
+            //     decisionController.enabled = true;
+            // }
 
             var behaviorTree = spawned.GetComponent<BehaviorTree>();
             if (behaviorTree != null)
@@ -92,11 +93,11 @@ namespace JoyBrick.Walkio.Game
 
             var spawned = pool.Spawn("Character_Female_Jacket_01", randomPosition, Quaternion.identity);
 
-            var decisionController = spawned.GetComponent<DecisionController>();
-            if (decisionController != null)
-            {
-                decisionController.enabled = false;
-            }
+            // var decisionController = spawned.GetComponent<IDecisionController>();
+            // if (decisionController != null)
+            // {
+            //     decisionController.enabled = false;
+            // }
 
             var behaviorTree = spawned.GetComponent<BehaviorTree>();
             if (behaviorTree != null)

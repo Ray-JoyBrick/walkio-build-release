@@ -65,17 +65,6 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport
 #endif
         public string notes;
 
-#if ODIN_INSPECTOR
-        [VerticalGroup("Split/Right")]
-#endif
-        public List<SceneAsset> includedSubScenes;
-
-#if ODIN_INSPECTOR
-        [AssetsOnly]
-        [VerticalGroup(GeneralSettingsVerticalGroup)]
-#endif
-        public SceneAsset masterScene;
-
 // #if ODIN_INSPECTOR
 //         [AssetsOnly]
 //         [VerticalGroup(GeneralSettingsVerticalGroup)]
