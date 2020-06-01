@@ -4,6 +4,9 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/_/1 - Game - Hud Design/Module - Hud - App/Scenes/Assist/App Hud.unity
+    guid: 705a947ea909e481ca52f681ecfe1279
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: a1a6697de73134b329cde421614db37a, type: 2}
