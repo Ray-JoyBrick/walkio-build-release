@@ -56,6 +56,9 @@
             
             //
             SetupRemoteConfiguration();
+            
+            //
+            SetupAuth();
 
             //
             SetupUniRxLogger();

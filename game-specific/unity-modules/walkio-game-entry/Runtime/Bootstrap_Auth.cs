@@ -2,7 +2,12 @@ namespace JoyBrick.Walkio.Game
 {
     public partial class Bootstrap
     {
-        private Firebase.Auth.FirebaseAuth _auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+        private Firebase.Auth.FirebaseAuth _auth;
+
+        private void SetupAuth()
+        {
+            _auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+        }
 
         private void Login()
         {

@@ -1,5 +1,5 @@
 {
-  "name": "walkio.game.hud-stage.assist",
+  "name": "com.walkio.game.hud-stage.assist",
   "displayName": "_ Walkio Game Hud - Stage Assist",
   "version": "0.1.0",
   "unity": "2020.1",
