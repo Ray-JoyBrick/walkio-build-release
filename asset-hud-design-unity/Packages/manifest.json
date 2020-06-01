@@ -7,7 +7,7 @@
     "com.github.siccity.xnode": "https://github.com/siccity/xNode.git",
     "com.neuecc.unirx": "https://github.com/neuecc/UniRx.git?path=Assets/Plugins/UniRx/Scripts",
     "com.unity.2d.sprite": "1.0.0",
-    "com.unity.addressables": "1.8.3",
+    "com.unity.addressables": "1.8.4",
     "com.unity.collab-proxy": "1.3.7",
     "com.unity.entities": "0.9.1-preview.15",
     "com.unity.ide.rider": "1.2.1",
@@ -23,11 +23,11 @@
     "walkio.game.command": "file:../../game-specific/unity-modules/walkio-game-command",
     "walkio.game.common": "file:../../game-specific/unity-modules/walkio-game-common",
     "walkio.game.extension": "file:../../game-specific/unity-modules/walkio-game-extension",
-    "walkio.game.hud-app": "file:../../game-specific/unity-modules/walkio-game-hud-app",
-    "walkio.game.hud-app.assist": "file:../../game-specific/unity-modules/walkio-game-hud-app-assist",
-    "walkio.game.hud-preparation": "file:../../game-specific/unity-modules/walkio-game-hud-preparation",
-    "walkio.game.hud-stage": "file:../../game-specific/unity-modules/walkio-game-hud-stage",
-    "walkio.game.hud-stage.assist": "file:../../game-specific/unity-modules/walkio-game-hud-stage-assist",
+    "com.walkio.game.hud-app": "file:../../game-specific/unity-modules/walkio-game-hud-app",
+    "com.walkio.game.hud-app.assist": "file:../../game-specific/unity-modules/walkio-game-hud-app-assist",
+    "com.walkio.game.hud-preparation": "file:../../game-specific/unity-modules/walkio-game-hud-preparation",
+    "com.walkio.game.hud-stage": "file:../../game-specific/unity-modules/walkio-game-hud-stage",
+    "com.walkio.game.hud-stage.assist": "file:../../game-specific/unity-modules/walkio-game-hud-stage-assist",
     "walkio.game.template": "file:../../game-specific/unity-modules/walkio-game-template",
     "walkio.game.utility": "file:../../game-specific/unity-modules/walkio-game-utility",
     "com.unity.modules.ai": "1.0.0",
@@ -63,6 +63,10 @@
     "com.unity.modules.xr": "1.0.0"
   },
   "lock": {
+    "com.cysharp.unitask": {
+      "revision": "HEAD",
+      "hash": "28e1fa98c9db7a6fbe5d3bf2bcaf7a82d89e5b9a"
+    },
     "com.github.siccity.xnode": {
       "revision": "HEAD",
       "hash": "a61bb3f87ea87a4851e4524b9c5f72f8835ae28f"
@@ -70,10 +74,6 @@
     "com.neuecc.unirx": {
       "revision": "HEAD",
       "hash": "284d5c50d3f1ddd9fa7df3d382ea904732a9c2ff"
-    },
-    "com.cysharp.unitask": {
-      "revision": "HEAD",
-      "hash": "28e1fa98c9db7a6fbe5d3bf2bcaf7a82d89e5b9a"
     }
   }
 }

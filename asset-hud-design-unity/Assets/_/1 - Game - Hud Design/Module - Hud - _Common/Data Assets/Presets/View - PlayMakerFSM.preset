@@ -1,0 +1,2163 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!181963792 &2655988077585873504
+Preset:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: View - PlayMakerFSM
+  m_TargetType:
+    m_NativeTypeID: 114
+    m_ManagedTypePPtr: {fileID: 1384774831, guid: e743331561ef77147ae48cda9bcb8209, type: 3}
+    m_ManagedTypeFallback: 
+  m_Properties:
+  - target: {fileID: 0}
+    propertyPath: m_Enabled
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorHideFlags
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorClassIdentifier
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.dataVersion
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.usedInTemplate
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.name
+    value: FSM
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.startState
+    value: "\u521D\u59CB\u8A2D\u5B9A"
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.size
+    value: 4
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].name
+    value: "\u521D\u59CB\u8A2D\u5B9A"
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].description
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].colorIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].position.x
+    value: 62
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].position.y
+    value: 109
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].position.width
+    value: 100
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].position.height
+    value: 16
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].isBreakpoint
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].isSequence
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].hideUnused
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].transitions.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.actionNames.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.customNames.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.actionEnabled.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.actionIsOpen.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.actionStartIndex.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.actionHashCodes.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.unityObjectParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.fsmGameObjectParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.fsmOwnerDefaultParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.animationCurveParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.functionCallParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.fsmTemplateControlParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.fsmEventTargetParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.fsmPropertyParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.layoutOptionParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.fsmStringParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.fsmObjectParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.fsmVarParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.fsmArrayParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.fsmEnumParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.fsmFloatParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.fsmIntParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.fsmBoolParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.fsmVector2Params.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.fsmVector3Params.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.fsmColorParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.fsmRectParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.fsmQuaternionParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.stringParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.byteData.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.arrayParamSizes.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.arrayParamTypes.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.customTypeSizes.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.customTypeNames.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.paramDataType.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.paramName.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.paramDataPos.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[0].actionData.paramByteDataSize.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].name
+    value: "Canvas\u8D77\u59CB\u9032\u5165\u6642\u8A2D\u5B9A"
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].description
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].colorIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].position.x
+    value: 229
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].position.y
+    value: 223
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].position.width
+    value: 158
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].position.height
+    value: 16
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].isBreakpoint
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].isSequence
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].hideUnused
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].transitions.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.actionNames.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.actionNames.Array.data[0]
+    value: HutongGames.PlayMaker.Actions.UiCanvasGroupSetProperties
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.customNames.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.customNames.Array.data[0]
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.actionEnabled.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.actionEnabled.Array.data[0]
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.actionIsOpen.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.actionIsOpen.Array.data[0]
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.actionStartIndex.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.actionStartIndex.Array.data[0]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.actionHashCodes.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.actionHashCodes.Array.data[0]
+    value: 24089108
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.unityObjectParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmGameObjectParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmOwnerDefaultParams.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmOwnerDefaultParams.Array.data[0].ownerOption
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmOwnerDefaultParams.Array.data[0].gameObject.useVariable
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmOwnerDefaultParams.Array.data[0].gameObject.name
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmOwnerDefaultParams.Array.data[0].gameObject.tooltip
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmOwnerDefaultParams.Array.data[0].gameObject.showInInspector
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmOwnerDefaultParams.Array.data[0].gameObject.networkSync
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmOwnerDefaultParams.Array.data[0].gameObject.value
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.animationCurveParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.functionCallParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmTemplateControlParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmEventTargetParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmPropertyParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.layoutOptionParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmStringParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmObjectParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmVarParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmArrayParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmEnumParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmFloatParams.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmFloatParams.Array.data[0].useVariable
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmFloatParams.Array.data[0].name
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmFloatParams.Array.data[0].tooltip
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmFloatParams.Array.data[0].showInInspector
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmFloatParams.Array.data[0].networkSync
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmFloatParams.Array.data[0].value
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmIntParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmBoolParams.Array.size
+    value: 4
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmBoolParams.Array.data[0].useVariable
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmBoolParams.Array.data[0].name
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmBoolParams.Array.data[0].tooltip
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmBoolParams.Array.data[0].showInInspector
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmBoolParams.Array.data[0].networkSync
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmBoolParams.Array.data[0].value
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmBoolParams.Array.data[1].useVariable
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmBoolParams.Array.data[1].name
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmBoolParams.Array.data[1].tooltip
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmBoolParams.Array.data[1].showInInspector
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmBoolParams.Array.data[1].networkSync
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmBoolParams.Array.data[1].value
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmBoolParams.Array.data[2].useVariable
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmBoolParams.Array.data[2].name
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmBoolParams.Array.data[2].tooltip
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmBoolParams.Array.data[2].showInInspector
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmBoolParams.Array.data[2].networkSync
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmBoolParams.Array.data[2].value
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmBoolParams.Array.data[3].useVariable
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmBoolParams.Array.data[3].name
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmBoolParams.Array.data[3].tooltip
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmBoolParams.Array.data[3].showInInspector
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmBoolParams.Array.data[3].networkSync
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmBoolParams.Array.data[3].value
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmVector2Params.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmVector3Params.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmColorParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmRectParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.fsmQuaternionParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.stringParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.byteData.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.byteData.Array.data[0]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.arrayParamSizes.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.arrayParamTypes.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.customTypeSizes.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.customTypeNames.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramDataType.Array.size
+    value: 7
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramDataType.Array.data[0]
+    value: 20
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramDataType.Array.data[1]
+    value: 15
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramDataType.Array.data[2]
+    value: 17
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramDataType.Array.data[3]
+    value: 17
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramDataType.Array.data[4]
+    value: 17
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramDataType.Array.data[5]
+    value: 17
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramDataType.Array.data[6]
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramName.Array.size
+    value: 7
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramName.Array.data[0]
+    value: gameObject
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramName.Array.data[1]
+    value: alpha
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramName.Array.data[2]
+    value: interactable
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramName.Array.data[3]
+    value: blocksRaycasts
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramName.Array.data[4]
+    value: ignoreParentGroup
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramName.Array.data[5]
+    value: resetOnExit
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramName.Array.data[6]
+    value: everyFrame
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramDataPos.Array.size
+    value: 7
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramDataPos.Array.data[0]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramDataPos.Array.data[1]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramDataPos.Array.data[2]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramDataPos.Array.data[3]
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramDataPos.Array.data[4]
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramDataPos.Array.data[5]
+    value: 3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramDataPos.Array.data[6]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramByteDataSize.Array.size
+    value: 7
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramByteDataSize.Array.data[0]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramByteDataSize.Array.data[1]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramByteDataSize.Array.data[2]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramByteDataSize.Array.data[3]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramByteDataSize.Array.data[4]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramByteDataSize.Array.data[5]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[1].actionData.paramByteDataSize.Array.data[6]
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].name
+    value: "\u5448\u73FE\u6B64\u756B\u9762"
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].description
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].colorIndex
+    value: 3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].position.x
+    value: 472
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].position.y
+    value: 227
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].position.width
+    value: 182
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].position.height
+    value: 48
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].isBreakpoint
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].isSequence
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].hideUnused
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].transitions.Array.size
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].transitions.Array.data[0].fsmEvent.name
+    value: Deactivating
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].transitions.Array.data[0].fsmEvent.isSystemEvent
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].transitions.Array.data[0].fsmEvent.isGlobal
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].transitions.Array.data[0].toState
+    value: "\u756B\u9762\u95DC\u9589\u6642\u8A2D\u5B9A"
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].transitions.Array.data[0].linkStyle
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].transitions.Array.data[0].linkConstraint
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].transitions.Array.data[0].colorIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].transitions.Array.data[1].fsmEvent.name
+    value: Deactivate_Loading_View
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].transitions.Array.data[1].fsmEvent.isSystemEvent
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].transitions.Array.data[1].fsmEvent.isGlobal
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].transitions.Array.data[1].toState
+    value: "\u756B\u9762\u95DC\u9589\u6642\u8A2D\u5B9A"
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].transitions.Array.data[1].linkStyle
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].transitions.Array.data[1].linkConstraint
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].transitions.Array.data[1].colorIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.actionNames.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.actionNames.Array.data[0]
+    value: HutongGames.PlayMaker.Actions.UiCanvasGroupSetProperties
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.customNames.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.customNames.Array.data[0]
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.actionEnabled.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.actionEnabled.Array.data[0]
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.actionIsOpen.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.actionIsOpen.Array.data[0]
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.actionStartIndex.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.actionStartIndex.Array.data[0]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.actionHashCodes.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.actionHashCodes.Array.data[0]
+    value: 24089108
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.unityObjectParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmGameObjectParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmOwnerDefaultParams.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmOwnerDefaultParams.Array.data[0].ownerOption
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmOwnerDefaultParams.Array.data[0].gameObject.useVariable
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmOwnerDefaultParams.Array.data[0].gameObject.name
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmOwnerDefaultParams.Array.data[0].gameObject.tooltip
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmOwnerDefaultParams.Array.data[0].gameObject.showInInspector
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmOwnerDefaultParams.Array.data[0].gameObject.networkSync
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmOwnerDefaultParams.Array.data[0].gameObject.value
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.animationCurveParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.functionCallParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmTemplateControlParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmEventTargetParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmPropertyParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.layoutOptionParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmStringParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmObjectParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmVarParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmArrayParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmEnumParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmFloatParams.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmFloatParams.Array.data[0].useVariable
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmFloatParams.Array.data[0].name
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmFloatParams.Array.data[0].tooltip
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmFloatParams.Array.data[0].showInInspector
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmFloatParams.Array.data[0].networkSync
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmFloatParams.Array.data[0].value
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmIntParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmBoolParams.Array.size
+    value: 4
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmBoolParams.Array.data[0].useVariable
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmBoolParams.Array.data[0].name
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmBoolParams.Array.data[0].tooltip
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmBoolParams.Array.data[0].showInInspector
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmBoolParams.Array.data[0].networkSync
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmBoolParams.Array.data[0].value
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmBoolParams.Array.data[1].useVariable
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmBoolParams.Array.data[1].name
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmBoolParams.Array.data[1].tooltip
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmBoolParams.Array.data[1].showInInspector
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmBoolParams.Array.data[1].networkSync
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmBoolParams.Array.data[1].value
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmBoolParams.Array.data[2].useVariable
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmBoolParams.Array.data[2].name
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmBoolParams.Array.data[2].tooltip
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmBoolParams.Array.data[2].showInInspector
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmBoolParams.Array.data[2].networkSync
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmBoolParams.Array.data[2].value
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmBoolParams.Array.data[3].useVariable
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmBoolParams.Array.data[3].name
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmBoolParams.Array.data[3].tooltip
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmBoolParams.Array.data[3].showInInspector
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmBoolParams.Array.data[3].networkSync
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmBoolParams.Array.data[3].value
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmVector2Params.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmVector3Params.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmColorParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmRectParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.fsmQuaternionParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.stringParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.byteData.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.byteData.Array.data[0]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.arrayParamSizes.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.arrayParamTypes.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.customTypeSizes.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.customTypeNames.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramDataType.Array.size
+    value: 7
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramDataType.Array.data[0]
+    value: 20
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramDataType.Array.data[1]
+    value: 15
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramDataType.Array.data[2]
+    value: 17
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramDataType.Array.data[3]
+    value: 17
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramDataType.Array.data[4]
+    value: 17
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramDataType.Array.data[5]
+    value: 17
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramDataType.Array.data[6]
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramName.Array.size
+    value: 7
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramName.Array.data[0]
+    value: gameObject
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramName.Array.data[1]
+    value: alpha
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramName.Array.data[2]
+    value: interactable
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramName.Array.data[3]
+    value: blocksRaycasts
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramName.Array.data[4]
+    value: ignoreParentGroup
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramName.Array.data[5]
+    value: resetOnExit
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramName.Array.data[6]
+    value: everyFrame
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramDataPos.Array.size
+    value: 7
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramDataPos.Array.data[0]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramDataPos.Array.data[1]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramDataPos.Array.data[2]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramDataPos.Array.data[3]
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramDataPos.Array.data[4]
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramDataPos.Array.data[5]
+    value: 3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramDataPos.Array.data[6]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramByteDataSize.Array.size
+    value: 7
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramByteDataSize.Array.data[0]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramByteDataSize.Array.data[1]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramByteDataSize.Array.data[2]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramByteDataSize.Array.data[3]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramByteDataSize.Array.data[4]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramByteDataSize.Array.data[5]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[2].actionData.paramByteDataSize.Array.data[6]
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].name
+    value: "\u756B\u9762\u95DC\u9589\u6642\u8A2D\u5B9A"
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].description
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].colorIndex
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].position.x
+    value: 726
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].position.y
+    value: 255
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].position.width
+    value: 114
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].position.height
+    value: 16
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].isBreakpoint
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].isSequence
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].hideUnused
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].transitions.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.actionNames.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.actionNames.Array.data[0]
+    value: HutongGames.PlayMaker.Actions.UiCanvasGroupSetProperties
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.customNames.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.customNames.Array.data[0]
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.actionEnabled.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.actionEnabled.Array.data[0]
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.actionIsOpen.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.actionIsOpen.Array.data[0]
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.actionStartIndex.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.actionStartIndex.Array.data[0]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.actionHashCodes.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.actionHashCodes.Array.data[0]
+    value: 24089108
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.unityObjectParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmGameObjectParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmOwnerDefaultParams.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmOwnerDefaultParams.Array.data[0].ownerOption
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmOwnerDefaultParams.Array.data[0].gameObject.useVariable
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmOwnerDefaultParams.Array.data[0].gameObject.name
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmOwnerDefaultParams.Array.data[0].gameObject.tooltip
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmOwnerDefaultParams.Array.data[0].gameObject.showInInspector
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmOwnerDefaultParams.Array.data[0].gameObject.networkSync
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmOwnerDefaultParams.Array.data[0].gameObject.value
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.animationCurveParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.functionCallParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmTemplateControlParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmEventTargetParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmPropertyParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.layoutOptionParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmStringParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmObjectParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmVarParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmArrayParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmEnumParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmFloatParams.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmFloatParams.Array.data[0].useVariable
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmFloatParams.Array.data[0].name
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmFloatParams.Array.data[0].tooltip
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmFloatParams.Array.data[0].showInInspector
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmFloatParams.Array.data[0].networkSync
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmFloatParams.Array.data[0].value
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmIntParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmBoolParams.Array.size
+    value: 4
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmBoolParams.Array.data[0].useVariable
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmBoolParams.Array.data[0].name
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmBoolParams.Array.data[0].tooltip
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmBoolParams.Array.data[0].showInInspector
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmBoolParams.Array.data[0].networkSync
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmBoolParams.Array.data[0].value
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmBoolParams.Array.data[1].useVariable
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmBoolParams.Array.data[1].name
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmBoolParams.Array.data[1].tooltip
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmBoolParams.Array.data[1].showInInspector
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmBoolParams.Array.data[1].networkSync
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmBoolParams.Array.data[1].value
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmBoolParams.Array.data[2].useVariable
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmBoolParams.Array.data[2].name
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmBoolParams.Array.data[2].tooltip
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmBoolParams.Array.data[2].showInInspector
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmBoolParams.Array.data[2].networkSync
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmBoolParams.Array.data[2].value
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmBoolParams.Array.data[3].useVariable
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmBoolParams.Array.data[3].name
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmBoolParams.Array.data[3].tooltip
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmBoolParams.Array.data[3].showInInspector
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmBoolParams.Array.data[3].networkSync
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmBoolParams.Array.data[3].value
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmVector2Params.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmVector3Params.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmColorParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmRectParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.fsmQuaternionParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.stringParams.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.byteData.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.byteData.Array.data[0]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.arrayParamSizes.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.arrayParamTypes.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.customTypeSizes.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.customTypeNames.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramDataType.Array.size
+    value: 7
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramDataType.Array.data[0]
+    value: 20
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramDataType.Array.data[1]
+    value: 15
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramDataType.Array.data[2]
+    value: 17
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramDataType.Array.data[3]
+    value: 17
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramDataType.Array.data[4]
+    value: 17
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramDataType.Array.data[5]
+    value: 17
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramDataType.Array.data[6]
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramName.Array.size
+    value: 7
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramName.Array.data[0]
+    value: gameObject
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramName.Array.data[1]
+    value: alpha
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramName.Array.data[2]
+    value: interactable
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramName.Array.data[3]
+    value: blocksRaycasts
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramName.Array.data[4]
+    value: ignoreParentGroup
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramName.Array.data[5]
+    value: resetOnExit
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramName.Array.data[6]
+    value: everyFrame
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramDataPos.Array.size
+    value: 7
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramDataPos.Array.data[0]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramDataPos.Array.data[1]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramDataPos.Array.data[2]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramDataPos.Array.data[3]
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramDataPos.Array.data[4]
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramDataPos.Array.data[5]
+    value: 3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramDataPos.Array.data[6]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramByteDataSize.Array.size
+    value: 7
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramByteDataSize.Array.data[0]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramByteDataSize.Array.data[1]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramByteDataSize.Array.data[2]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramByteDataSize.Array.data[3]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramByteDataSize.Array.data[4]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramByteDataSize.Array.data[5]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.states.Array.data[3].actionData.paramByteDataSize.Array.data[6]
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.events.Array.size
+    value: 6
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.events.Array.data[0].name
+    value: FINISHED
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.events.Array.data[0].isSystemEvent
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.events.Array.data[0].isGlobal
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.events.Array.data[1].name
+    value: Activate_Loading_View
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.events.Array.data[1].isSystemEvent
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.events.Array.data[1].isGlobal
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.events.Array.data[2].name
+    value: Activating View
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.events.Array.data[2].isSystemEvent
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.events.Array.data[2].isGlobal
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.events.Array.data[3].name
+    value: Canvas Just Initialize
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.events.Array.data[3].isSystemEvent
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.events.Array.data[3].isGlobal
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.events.Array.data[4].name
+    value: Deactivate_Loading_View
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.events.Array.data[4].isSystemEvent
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.events.Array.data[4].isGlobal
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.events.Array.data[5].name
+    value: Deactivating
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.events.Array.data[5].isSystemEvent
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.events.Array.data[5].isGlobal
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.globalTransitions.Array.size
+    value: 3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.globalTransitions.Array.data[0].fsmEvent.name
+    value: Canvas Just Initialize
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.globalTransitions.Array.data[0].fsmEvent.isSystemEvent
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.globalTransitions.Array.data[0].fsmEvent.isGlobal
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.globalTransitions.Array.data[0].toState
+    value: "Canvas\u8D77\u59CB\u9032\u5165\u6642\u8A2D\u5B9A"
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.globalTransitions.Array.data[0].linkStyle
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.globalTransitions.Array.data[0].linkConstraint
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.globalTransitions.Array.data[0].colorIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.globalTransitions.Array.data[1].fsmEvent.name
+    value: Activating View
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.globalTransitions.Array.data[1].fsmEvent.isSystemEvent
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.globalTransitions.Array.data[1].fsmEvent.isGlobal
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.globalTransitions.Array.data[1].toState
+    value: "\u5448\u73FE\u6B64\u756B\u9762"
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.globalTransitions.Array.data[1].linkStyle
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.globalTransitions.Array.data[1].linkConstraint
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.globalTransitions.Array.data[1].colorIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.globalTransitions.Array.data[2].fsmEvent.name
+    value: Activate_Loading_View
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.globalTransitions.Array.data[2].fsmEvent.isSystemEvent
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.globalTransitions.Array.data[2].fsmEvent.isGlobal
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.globalTransitions.Array.data[2].toState
+    value: "\u5448\u73FE\u6B64\u756B\u9762"
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.globalTransitions.Array.data[2].linkStyle
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.globalTransitions.Array.data[2].linkConstraint
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.globalTransitions.Array.data[2].colorIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.variables.floatVariables.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.variables.intVariables.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.variables.boolVariables.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.variables.stringVariables.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.variables.vector2Variables.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.variables.vector3Variables.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.variables.colorVariables.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.variables.rectVariables.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.variables.quaternionVariables.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.variables.gameObjectVariables.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.variables.objectVariables.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.variables.materialVariables.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.variables.textureVariables.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.variables.arrayVariables.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.variables.enumVariables.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.variables.categories.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.variables.categories.Array.data[0]
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.variables.variableCategoryIDs.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.description
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.docUrl
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.showStateLabel
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.maxLoopCount
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.watermark
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.password
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.locked
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.manualUpdate
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.keepDelayedEventsOnStateExit
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.preprocessed
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.ExposedEvents.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.RestartOnEnable
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.EnableDebugFlow
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.EnableBreakpoints
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.editorFlags
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.activeStateName
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.mouseEvents
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.handleLevelLoaded
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.handleTriggerEnter2D
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.handleTriggerExit2D
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.handleTriggerStay2D
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.handleCollisionEnter2D
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.handleCollisionExit2D
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.handleCollisionStay2D
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.handleTriggerEnter
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.handleTriggerExit
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.handleTriggerStay
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.handleCollisionEnter
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.handleCollisionExit
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.handleCollisionStay
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.handleParticleCollision
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.handleControllerColliderHit
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.handleJointBreak
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.handleJointBreak2D
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.handleOnGUI
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.handleFixedUpdate
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.handleLateUpdate
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.handleApplicationEvents
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.handleUiEvents
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.handleLegacyNetworking
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.handleAnimatorMove
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsm.handleAnimatorIK
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fsmTemplate
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: eventHandlerComponentsAdded
+    value: 0
+    objectReference: {fileID: 0}
+  m_ExcludedProperties: []
