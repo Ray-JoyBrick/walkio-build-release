@@ -8,7 +8,9 @@
         "Unity.Transforms.Hybrid",
         "UniRx",
         "Walkio.Game.Common",
-        "PoolKit"
+        "PoolKit",
+        "Unity.Physics",
+        "Unity.Physics.Hybrid"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

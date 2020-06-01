@@ -116,7 +116,6 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
                     AssetDatabase.CopyAsset(sourcePath, targetPath);
                     
                     scenePaths.Add(targetPath);
-                    
                 });
 
                 AssetDatabase.SaveAssets();
@@ -129,17 +128,45 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
 
                 // Setup master scene
                 var masterScene = EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Single);
+
+                var mainCamera = GameCommon.Utility.GetComponentAtScene<Camera>(masterScene);
+                if (mainCamera != null)
+                {
+                    mainCamera.gameObject.AddComponent<Cinemachine.CinemachineBrain>();
+                }
+                
+                var cmVCam1 = new GameObject("CM vcam1");
+                cmVCam1.AddComponent<Cinemachine.CinemachineVirtualCamera>();
+                
+                var volumeGO = new GameObject("Volume");
+                var volume = volumeGO.AddComponent<UnityEngine.Rendering.Volume>();
+                
+                var sourceVolumeProfilePath = Path.Combine("Assets", "_", "1 - Game - Level Design",
+                    "Module - Environment - Level", levelName, "Data Assets", $"Volume Profile.asset");
+
+                var targetVolumeProfilePath = Path.Combine("Assets", "_", "1 - Game - Level Design - Generated",
+                    "Module - Environment - Level", "Levels", levelName, "level-setting", $"Volume Profile.asset");
+
+                var volumeProfileCopied = AssetDatabase.CopyAsset(sourceVolumeProfilePath, targetVolumeProfilePath);
+                if (volumeProfileCopied)
+                {
+                    var volumeProfile = AssetDatabase.LoadAssetAtPath<UnityEngine.Rendering.VolumeProfile>(targetVolumeProfilePath);
+                    volume.profile = volumeProfile;
+                }
+
                 var colliderContainer = new GameObject("Container - Collider");
+                var triggerContainer = new GameObject("Container - Trigger");
                 var pathfinder = new GameObject("Pathfinder");
                 pathfinder.AddComponent<AstarPath>();
 
                 EditorSceneManager.SaveScene(masterScene, masterScenePath);
 
                 var colliderGameObjects = new List<GameObject>();
+                var triggerGameObjects = new List<GameObject>();
     
                 scenePaths.ForEach(scenePath =>
                 {
-                    var (sceneGameObjects, scene) = LoadAndHandleSubScene(scenePath);
+                    var (sceneGameObjects, tGameObjects, scene) = LoadAndHandleSubScene(scenePath);
                     
                     sceneGameObjects.ForEach(sceneGameObject =>
                     {
@@ -148,6 +175,15 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
                         Debug.Log($"CreateScenes - {sceneGameObject} after moving pos: {sceneGameObject.transform.position}");
                         
                         colliderGameObjects.Add(sceneGameObject);
+                    });
+                    
+                    tGameObjects.ForEach(triggerGameObject =>
+                    {
+                        Debug.Log($"CreateScenes - {triggerGameObject.name} before moving pos: {triggerGameObject.transform.position}");
+                        EditorSceneManager.MoveGameObjectToScene(triggerGameObject, masterScene);
+                        Debug.Log($"CreateScenes - {triggerGameObject} after moving pos: {triggerGameObject.transform.position}");
+                        
+                        triggerGameObjects.Add(triggerGameObject);
                     });
                     
                     EditorSceneManager.SaveScene(scene);
@@ -164,15 +200,28 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
                     colliderGameObjects
                         .Where(cgo => cgo.GetComponent<Collider>() == null)
                         .ToList();
+                var noTriggerGameObjects =
+                    triggerGameObjects
+                        .Where(cgo => cgo.GetComponent<Collider>() == null)
+                        .ToList();
                 // Group another having collider
                 var filteredColliderGameObjects =
                     colliderGameObjects
                         .Where(cgo => cgo.GetComponent<Collider>() != null)
                         .ToList();
+                var filteredTriggerGameObjects =
+                    triggerGameObjects
+                        .Where(cgo => cgo.GetComponent<Collider>() != null)
+                        .ToList();
+                
+                
 
                 // Remove game objects that have no collider
                 noColliderGameObjects.ForEach(cgo => GameObject.DestroyImmediate(cgo));
                 noColliderGameObjects.Clear();
+
+                noTriggerGameObjects.ForEach(cgo => GameObject.DestroyImmediate(cgo));
+                noTriggerGameObjects.Clear();
 
                 //
                 filteredColliderGameObjects.ForEach(cgo =>
@@ -197,13 +246,37 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
 
                     cgo.transform.SetParent(colliderContainer.transform);
                 });
+                
+                filteredTriggerGameObjects.ForEach(tgo =>
+                {
+                    var meshFilter = tgo.GetComponent<MeshFilter>();
+                    if (meshFilter != null)
+                    {
+                        GameObject.DestroyImmediate(meshFilter);
+                    }
+
+                    var proBuilderMesh = tgo.GetComponent<UnityEngine.ProBuilder.ProBuilderMesh>();
+                    if (proBuilderMesh != null)
+                    {
+                        GameObject.DestroyImmediate(proBuilderMesh);
+                    }
+
+                    var meshRenderer = tgo.GetComponent<MeshRenderer>();
+                    if (meshRenderer != null)
+                    {
+                        GameObject.DestroyImmediate(meshRenderer);
+                    }
+
+                    var collider = tgo.GetComponent<Collider>();
+                    collider.isTrigger = true;
+
+                    tgo.transform.SetParent(triggerContainer.transform);
+                });
 
                 EditorSceneManager.SaveScene(masterScene, masterScenePath);
 
                 scenePaths.ForEach(scenePath =>
                 {
-                    
-                    
                     var gameObject = new GameObject("sub scene");
                     var subScene = gameObject.AddComponent<Unity.Scenes.SubScene>();
 
@@ -246,7 +319,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
                 return (xTileIndex, zTileIndex);
             }
 
-            private (List<GameObject>, Scene) LoadAndHandleSubScene(string scenePath)
+            private (List<GameObject>, List<GameObject>, Scene) LoadAndHandleSubScene(string scenePath)
             {
                 Debug.Log($"LoadAndHandleSubScene - scenePath: {scenePath}");
 
@@ -277,60 +350,119 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
                 Debug.Log($"LoadAndHandleSubScene - gameObjects count: {gameObjects.Count}");
 
                 var colliderGameObjects = new List<GameObject>();
+                var triggerGameObjects = new List<GameObject>();
                 
                 gameObjects.ToList()
                     .ForEach(gameObject =>
                     {
                         if (gameObject.layer == LayerMask.NameToLayer("Ground Base"))
                         {
-                            Debug.Log($"LoadAndHandleSubScene - Ground Base: {gameObject.name}");
-                            var createdGameObject = GameObject.Instantiate(gameObject);
-                            createdGameObject.transform.position += offsetPosition;
-                            Debug.Log($"LoadAndHandleSubScene - {createdGameObject} pos: {createdGameObject.transform.position}");
-                            colliderGameObjects.Add(createdGameObject);
-
-                            var collider = gameObject.GetComponent<Collider>();
-                            if (collider != null)
-                            {
-                                Debug.Log($"LoadAndHandleSubScene - Ground Base: {gameObject.name} has collider");
-                                
-                                GameObject.DestroyImmediate(collider);
-                            }
+                            ProcessGameObjectAtLayer_GroundBase(gameObject, offsetPosition, colliderGameObjects);
                         }
                         else if (gameObject.layer == LayerMask.NameToLayer("Ground"))
                         {
-                            var collider = gameObject.GetComponent<Collider>();
-                            if (collider != null)
-                            {
-                                GameObject.DestroyImmediate(collider);
-                            }
+                            ProcessGameObjectAtLayer_Ground(gameObject);
                         }
                         else if (gameObject.layer == LayerMask.NameToLayer("Obstacle"))
                         {
-                            Debug.Log($"LoadAndHandleSubScene - Obstacle: {gameObject.name}");
-
-                            var createdGameObject = GameObject.Instantiate(gameObject);
-                            createdGameObject.transform.position += offsetPosition;
-                            Debug.Log($"LoadAndHandleSubScene - {createdGameObject} pos: {createdGameObject.transform.position}");
-                            colliderGameObjects.Add(createdGameObject);
-
-                            var collider = gameObject.GetComponent<Collider>();
-                            if (collider != null)
-                            {
-                                Debug.Log($"LoadAndHandleSubScene - Obstacle: {gameObject.name} has collider");
-                                
-                                GameObject.DestroyImmediate(collider);
-                            }
+                            ProcessGameObjectAtLayer_Obstacle(gameObject, offsetPosition, Level.tileCellCount.x, colliderGameObjects);
                         }
                         else if (gameObject.layer == LayerMask.NameToLayer("Decoration"))
                         {
-                            var collider = gameObject.GetComponents<Collider>().ToList();
-                            collider.ForEach(c => GameObject.DestroyImmediate(c));
+                            ProcessGameObjectAtLayer_Decoration(gameObject);
+                        }
+                        else if (gameObject.layer == LayerMask.NameToLayer("Area"))
+                        {
+                            ProcessGameObjectAtLayer_Area(gameObject, offsetPosition, Level.tileCellCount.x, triggerGameObjects);
                         }
                     });
 
-                return (colliderGameObjects, scene);
+                return (colliderGameObjects, triggerGameObjects, scene);
             }
+
+            private void ProcessGameObjectAtLayer_GroundBase(
+                GameObject gameObject,
+                Vector3 offsetPosition,
+                List<GameObject> colliderGameObjects)
+            {
+                Debug.Log($"LoadAndHandleSubScene - Ground Base: {gameObject.name}");
+                var createdGameObject = GameObject.Instantiate(gameObject);
+                createdGameObject.transform.position += offsetPosition;
+                Debug.Log($"LoadAndHandleSubScene - {createdGameObject} pos: {createdGameObject.transform.position}");
+                colliderGameObjects.Add(createdGameObject);
+
+                var collider = gameObject.GetComponent<Collider>();
+                if (collider != null)
+                {
+                    Debug.Log($"LoadAndHandleSubScene - Ground Base: {gameObject.name} has collider");
+                                
+                    GameObject.DestroyImmediate(collider);
+                }                
+            }
+            
+            private void ProcessGameObjectAtLayer_Ground(
+                GameObject gameObject)
+            {
+                var collider = gameObject.GetComponent<Collider>();
+                if (collider != null)
+                {
+                    GameObject.DestroyImmediate(collider);
+                }
+            }
+
+            private void ProcessGameObjectAtLayer_Obstacle(
+                GameObject gameObject,
+                Vector3 offsetPosition,
+                int tileCount,
+                List<GameObject> colliderGameObjects)
+            {
+                Debug.Log($"LoadAndHandleSubScene - Obstacle: {gameObject.name}");
+
+                var createdGameObject = GameObject.Instantiate(gameObject);
+                // This is more like workaround. Should be addressed later.
+                offsetPosition = new Vector3(offsetPosition.x + tileCount * 0.5f, offsetPosition.y, offsetPosition.z + tileCount * 0.5f);
+                createdGameObject.transform.position += offsetPosition;
+                Debug.Log($"LoadAndHandleSubScene - {createdGameObject} pos: {createdGameObject.transform.position}");
+                colliderGameObjects.Add(createdGameObject);
+
+                var collider = gameObject.GetComponent<Collider>();
+                if (collider != null)
+                {
+                    Debug.Log($"LoadAndHandleSubScene - Obstacle: {gameObject.name} has collider");
+                                
+                    GameObject.DestroyImmediate(collider);
+                }
+            }
+
+            private void ProcessGameObjectAtLayer_Decoration(
+                GameObject gameObject)
+            {
+                var collider = gameObject.GetComponents<Collider>().ToList();
+                collider.ForEach(c => GameObject.DestroyImmediate(c));
+            }
+
+            private void ProcessGameObjectAtLayer_Area(
+                GameObject gameObject,
+                Vector3 offsetPosition,
+                int tileCount,
+                List<GameObject> triggerGameObjects)
+            {
+                var createdGameObject = GameObject.Instantiate(gameObject);
+                // This is more like workaround. Should be addressed later.
+                offsetPosition = new Vector3(offsetPosition.x + tileCount * 0.5f, offsetPosition.y, offsetPosition.z + tileCount * 0.5f);
+                createdGameObject.transform.position += offsetPosition;
+                Debug.Log($"LoadAndHandleSubScene - {createdGameObject} pos: {createdGameObject.transform.position}");
+                triggerGameObjects.Add(createdGameObject);
+
+                var collider = gameObject.GetComponent<Collider>();
+                if (collider != null)
+                {
+                    Debug.Log($"LoadAndHandleSubScene - Area: {gameObject.name} has collider");
+                                
+                    GameObject.DestroyImmediate(collider);
+                }
+            }
+
 
             private List<GameObject> GetSceneGameObjects(Scene scene)
             {

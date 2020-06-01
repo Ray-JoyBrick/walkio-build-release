@@ -15,7 +15,9 @@
         "Walkio.Game.Common.Editor",
         "Walkio.Build.Level-Design-Export",
         "Walkio.Game.Environment-Bridge",
-        "Drawing"
+        "Drawing",
+        "Cinemachine",
+        "Unity.RenderPipelines.Core.Runtime"
     ],
     "includePlatforms": [
         "Editor"
