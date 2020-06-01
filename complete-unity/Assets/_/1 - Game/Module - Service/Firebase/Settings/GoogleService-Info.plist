@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>586984107556-7spibcbd6633p81arqhr17dn4onq0r7k.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.586984107556-7spibcbd6633p81arqhr17dn4onq0r7k</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA_iZw2pmrks8bEKySwEdKwGNm8EP4PeaQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>586984107556</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.cgs.Walkio</string>
+	<key>PROJECT_ID</key>
+	<string>walkio-271711</string>
+	<key>STORAGE_BUCKET</key>
+	<string>walkio-271711.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:586984107556:ios:a64749ca534b87731d32b1</string>
+	<key>DATABASE_URL</key>
+	<string>https://walkio-271711.firebaseio.com</string>
+</dict>
+</plist>

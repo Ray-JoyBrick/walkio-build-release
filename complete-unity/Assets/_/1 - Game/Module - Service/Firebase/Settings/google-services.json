@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "586984107556",
+    "firebase_url": "https://walkio-271711.firebaseio.com",
+    "project_id": "walkio-271711",
+    "storage_bucket": "walkio-271711.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:586984107556:android:6f4427ac2a92594e1d32b1",
+        "android_client_info": {
+          "package_name": "com.cgs.Walkio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "586984107556-7d2ur37kkvja3btmb1v54ode35uucg30.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDa8z5jCxXPyR3mc55DvVirwV_fX7g202M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "586984107556-7d2ur37kkvja3btmb1v54ode35uucg30.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "586984107556-7spibcbd6633p81arqhr17dn4onq0r7k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.cgs.Walkio"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
