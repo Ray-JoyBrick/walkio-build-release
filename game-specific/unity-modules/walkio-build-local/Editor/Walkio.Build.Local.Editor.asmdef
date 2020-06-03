@@ -1,6 +1,8 @@
 {
     "name": "Walkio.Build.Local.Editor",
     "references": [
+        "Walkio.Game.Common",
+        "Walkio.Game.Common.Editor"
     ],
     "includePlatforms": [
         "Editor"

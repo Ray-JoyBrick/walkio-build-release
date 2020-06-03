@@ -1,0 +1,10 @@
+{
+  "name": "Amplify Creations",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "AmplifyColor",
+      "to": "Assets/Standard Assets/AmplifyColor"
+    }
+  ]
+}

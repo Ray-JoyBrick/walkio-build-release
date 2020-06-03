@@ -1,0 +1,10 @@
+{
+  "name": "Code Stage",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "Advanced FPS Counter/Plugins/CodeStage",
+      "to": "Assets/Plugins/CodeStage"
+    }
+  ]
+}
