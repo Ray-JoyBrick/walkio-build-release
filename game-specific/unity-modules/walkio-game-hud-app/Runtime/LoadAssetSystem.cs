@@ -7,6 +7,7 @@ namespace JoyBrick.Walkio.Game.Hud.App
     using UnityEngine.ResourceManagement.ResourceProviders;
     using UnityEngine.SceneManagement;
 
+    using GameCommon = JoyBrick.Walkio.Game.Common;
     using GameTemplate = JoyBrick.Walkio.Game.Template;
     
     public class LoadAssetSystem :
@@ -21,7 +22,8 @@ namespace JoyBrick.Walkio.Game.Hud.App
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
 
         //
-        public void Setup(GameTemplate.AppwideSettings appwideSettings)
+        // public void Setup(GameTemplate.AppwideSettings appwideSettings)
+        public void Setup(GameCommon.AppwideSettings appwideSettings)
         {
             // ServiceManagement.LoadAppHud
             Observable.Empty<int>()

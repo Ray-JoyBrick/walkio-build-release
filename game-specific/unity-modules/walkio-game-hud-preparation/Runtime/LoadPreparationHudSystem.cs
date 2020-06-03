@@ -10,11 +10,15 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
     using UnityEngine.AddressableAssets;
     using UnityEngine.ResourceManagement.ResourceProviders;
     using UnityEngine.SceneManagement;
-    
+
+    //
     using GameCommon = JoyBrick.Walkio.Game.Common;
     using GameCommand = JoyBrick.Walkio.Game.Command;
     using GameExtension = JoyBrick.Walkio.Game.Extension;
 
+    //
+    [GameCommon.DoneLoadingAssetWait("Preparation")]
+    //
     [DisableAutoCreation]
     public class LoadPreparationHudSystem : SystemBase
     {

@@ -10,11 +10,15 @@ namespace JoyBrick.Walkio.Game.Hud.Stage
     using UnityEngine.AddressableAssets;
     using UnityEngine.ResourceManagement.ResourceProviders;
     using UnityEngine.SceneManagement;
-    
+
+    //
     using GameCommon = JoyBrick.Walkio.Game.Common;
     using GameCommand = JoyBrick.Walkio.Game.Command;
     using GameExtension = JoyBrick.Walkio.Game.Extension;
-    
+
+    //
+    [GameCommon.DoneLoadingAssetWait("Stage")]
+    //
     [DisableAutoCreation]
     public class LoadStageHudSystem : SystemBase
     {

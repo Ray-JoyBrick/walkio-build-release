@@ -6,15 +6,24 @@ namespace JoyBrick.Walkio.Build
     using UnityEditor.Build.Reporting;
     using UnityEngine;
 
+    //
+    using GameCommon = JoyBrick.Walkio.Game.Common;
+    using GameCommonEditor = JoyBrick.Walkio.Game.Common.EditorPart;
+
     class PreprocessBuildFlow : IPreprocessBuildWithReport
     {
         public int callbackOrder { get; }
         public void OnPreprocessBuild(BuildReport report)
         {
             Debug.Log($"PreprocessBuildFlow - OnPreprocessBuild - report: {report}");
+
+            // Setup app icon
             AppIconSetHelper.SetAndroidAdaptive();
             AppIconSetHelper.SetAndroidRound();
             AppIconSetHelper.SetAndroidLegacy();
+
+            // Setup app settings
+            GameCommonEditor.CountHelper.CountDoneLoadingAssetWaitAttribute();
         }
     }
 }

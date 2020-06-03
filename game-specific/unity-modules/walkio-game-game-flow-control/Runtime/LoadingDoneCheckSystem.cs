@@ -5,6 +5,7 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
     using UniRx;
     using Unity.Entities;
 
+    //
     using GameCommon = JoyBrick.Walkio.Game.Common;
     
     [DisableAutoCreation]
@@ -18,6 +19,7 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
         // Should separate into
         // Flow state
         // Command
+        public GameCommon.IGameSettingProvider GameSettingProvider { get; set; }
         public ICommandService CommandService { get; set; }
         
         public GameCommon.IFlowControl FlowControl { get; set; }
@@ -26,7 +28,7 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
         {
             FlowControl.DoneLoadingAsset
                 .Where(x => x.Name.Contains("App"))
-                .Buffer(1)
+                .Buffer(GameSettingProvider.GameSettings.doneLoadingAssetWaitForApp)
                 .Subscribe(x =>
                 {
                     _logger.Debug($"LoadingDoneCheckSystem - Construct - DoneLoadingAsset for App");
@@ -40,7 +42,7 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
 
             FlowControl.DoneLoadingAsset
                 .Where(x => x.Name.Contains("Preparation"))
-                .Buffer(1)
+                .Buffer(GameSettingProvider.GameSettings.doneLoadingAssetWaitForPreparation)
                 .Subscribe(x =>
                 {
                     _logger.Debug($"LoadingDoneCheckSystem - Construct - DoneLoadingAsset for Preparation");
@@ -56,7 +58,7 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
             FlowControl.DoneLoadingAsset
                 .Where(x => x.Name.Contains("Stage"))
                 // Should be loading from some settings
-                .Buffer(7)
+                .Buffer(GameSettingProvider.GameSettings.doneLoadingAssetWaitForStage)
                 .Subscribe(x =>
                 {
                     _logger.Debug($"LoadingDoneCheckSystem - Construct - DoneLoadingAsset for Stage");

@@ -41,7 +41,7 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
                 {
                     LoadingAsset();
                 })
-                .AddTo(_compositeDisposable);            
+                .AddTo(_compositeDisposable);
         }
 
         private void LoadingAsset()
@@ -74,7 +74,7 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
                         Name = "App"
                     });
                 })
-                .AddTo(_compositeDisposable);            
+                .AddTo(_compositeDisposable);
         }
 
         private async Task<GameObject> Load()

@@ -1,4 +1,4 @@
-﻿namespace JoyBrick.Walkio.Game.Template
+﻿namespace JoyBrick.Walkio.Game.Common
 {
     using UnityEngine;
 

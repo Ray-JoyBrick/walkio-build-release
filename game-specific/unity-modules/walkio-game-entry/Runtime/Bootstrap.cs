@@ -116,7 +116,7 @@
                     HandleAddressableInitializeAsyncCompleted();
                     _notifySetupEcsDone.OnNext(1);
                 })
-                .AddTo(_compositeDisposable);            
+                .AddTo(_compositeDisposable);
         }
 
         private void HandleAddressableInitializeAsyncCompleted()

@@ -10,7 +10,7 @@ namespace JoyBrick.Walkio.Game.Editor.Assist
     using UnityEngine.SceneManagement;
 
     //
-    using Common = JoyBrick.Walkio.Common;
+    using GameCommon = JoyBrick.Walkio.Game.Common;
     using GameAssist = JoyBrick.Walkio.Game.Assist;
 
     [InitializeOnLoad]

@@ -88,6 +88,11 @@ namespace JoyBrick.Walkio.Game.Common
             System.Action<int, int, Vector3, List<List<Vector3>>> callback);
     }
 
+    public interface IGameSettingProvider
+    {
+        GameSettings GameSettings { get; }
+    }
+
     // public interface IInfoPresenter
     // {
     //     
