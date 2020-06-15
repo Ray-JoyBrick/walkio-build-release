@@ -86,6 +86,8 @@
 
             //
             spawnNeutralUnitSystem.Construct();
+            
+            spawnTeamUnitSystem.Construct();
 
             //
             initializationSystemGroup.AddSystemToUpdateList(spawnNeutralUnitSystem);

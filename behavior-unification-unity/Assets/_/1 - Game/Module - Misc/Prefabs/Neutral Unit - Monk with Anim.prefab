@@ -166,7 +166,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6370004278849374742}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 201200d9a0db40a8aec45a733396bd01, type: 3}
+  m_Script: {fileID: 11500000, guid: 069327393215b41ae9820abee6734953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &-395594971502567482
@@ -178,13 +178,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6370004278849374742}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6bef7f7e82949f58025ff7c670a05d5, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b5c0e3cde4744423ada04fdb60cf487, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isLeader: 0
   moveStyle: 1
   startPathIndex: 0
-  endPathIndex: 4
+  endPathIndex: 0
   startingPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &-5587823174965034869
 MonoBehaviour:

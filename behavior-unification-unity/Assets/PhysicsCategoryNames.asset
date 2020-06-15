@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: PhysicsCategoryNames
   m_EditorClassIdentifier: 
   m_CategoryNames:
-  - Neutral Force Unit
-  - Team Force Unit
-  - Floor
-  - 
+  - Neutral Absorbable
+  - Neutral Absorber
+  - Team Absorbable
+  - Team Absorber
   - 
   - 
   - 

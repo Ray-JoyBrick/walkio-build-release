@@ -130,7 +130,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
             GameObject levelSettingBlobAssetAuthoringPrefab,
             string aStarGraphDataPath)
         {
-            var levelOperator = GameCommon.Utility.GetComponentAtScene<LevelOperator>(masterScene);
+            var levelOperator = GameCommon.Utility.SceneHelper.GetComponentAtScene<LevelOperator>(masterScene);
 
             if (levelOperator == null) return null;
 
@@ -253,7 +253,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
             IEnumerable<string> texturePaths,
             string aStarGraphDataPath)
         {
-            var levelOperator = GameCommon.Utility.GetComponentAtScene<LevelOperator>(masterScene);
+            var levelOperator = GameCommon.Utility.SceneHelper.GetComponentAtScene<LevelOperator>(masterScene);
 
             if (levelOperator == null) return null;
 

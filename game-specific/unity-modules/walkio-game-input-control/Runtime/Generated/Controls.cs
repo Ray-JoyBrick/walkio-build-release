@@ -17,6 +17,96 @@ namespace JoyBrick.Walkio.Game.InputControl.Generated
     ""name"": ""Controls"",
     ""maps"": [
         {
+            ""name"": ""Gameplay"",
+            ""id"": ""bcb45c5a-1d91-4fe8-9582-ec1c07d29dc0"",
+            ""actions"": [
+                {
+                    ""name"": ""Horizontal"",
+                    ""type"": ""Value"",
+                    ""id"": ""0011026e-19b3-45ed-a950-80dca4608490"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Vertical"",
+                    ""type"": ""Value"",
+                    ""id"": ""0f9ffe63-cbc1-4809-8ef4-fc01cea5c5d7"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""LR"",
+                    ""id"": ""0d79701b-85a1-438b-ad58-283331016e19"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Horizontal"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""2f5027e1-ccf3-4a7c-b926-578bb312eecc"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Horizontal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""ba109c96-e0e9-438d-a904-6461e7703d10"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Horizontal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""UD"",
+                    ""id"": ""c71d4032-78a4-4b21-8580-14e97399e9e4"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Vertical"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""408a6f67-3f33-4ecb-a934-de33f5cfa65b"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Vertical"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""7c05eaf5-e030-4d51-a6bd-fa9680a99b95"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Vertical"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
+        },
+        {
             ""name"": ""New action map"",
             ""id"": ""a04ec26b-6fc5-4010-913c-d2848bf71eb4"",
             ""actions"": [
@@ -90,6 +180,10 @@ namespace JoyBrick.Walkio.Game.InputControl.Generated
     ],
     ""controlSchemes"": []
 }");
+            // Gameplay
+            m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
+            m_Gameplay_Horizontal = m_Gameplay.FindAction("Horizontal", throwIfNotFound: true);
+            m_Gameplay_Vertical = m_Gameplay.FindAction("Vertical", throwIfNotFound: true);
             // New action map
             m_Newactionmap = asset.FindActionMap("New action map", throwIfNotFound: true);
             m_Newactionmap_Move = m_Newactionmap.FindAction("Move", throwIfNotFound: true);
@@ -139,6 +233,47 @@ namespace JoyBrick.Walkio.Game.InputControl.Generated
             asset.Disable();
         }
 
+        // Gameplay
+        private readonly InputActionMap m_Gameplay;
+        private IGameplayActions m_GameplayActionsCallbackInterface;
+        private readonly InputAction m_Gameplay_Horizontal;
+        private readonly InputAction m_Gameplay_Vertical;
+        public struct GameplayActions
+        {
+            private @Controls m_Wrapper;
+            public GameplayActions(@Controls wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Horizontal => m_Wrapper.m_Gameplay_Horizontal;
+            public InputAction @Vertical => m_Wrapper.m_Gameplay_Vertical;
+            public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(GameplayActions set) { return set.Get(); }
+            public void SetCallbacks(IGameplayActions instance)
+            {
+                if (m_Wrapper.m_GameplayActionsCallbackInterface != null)
+                {
+                    @Horizontal.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnHorizontal;
+                    @Horizontal.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnHorizontal;
+                    @Horizontal.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnHorizontal;
+                    @Vertical.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnVertical;
+                    @Vertical.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnVertical;
+                    @Vertical.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnVertical;
+                }
+                m_Wrapper.m_GameplayActionsCallbackInterface = instance;
+                if (instance != null)
+                {
+                    @Horizontal.started += instance.OnHorizontal;
+                    @Horizontal.performed += instance.OnHorizontal;
+                    @Horizontal.canceled += instance.OnHorizontal;
+                    @Vertical.started += instance.OnVertical;
+                    @Vertical.performed += instance.OnVertical;
+                    @Vertical.canceled += instance.OnVertical;
+                }
+            }
+        }
+        public GameplayActions @Gameplay => new GameplayActions(this);
+
         // New action map
         private readonly InputActionMap m_Newactionmap;
         private INewactionmapActions m_NewactionmapActionsCallbackInterface;
@@ -171,6 +306,11 @@ namespace JoyBrick.Walkio.Game.InputControl.Generated
             }
         }
         public NewactionmapActions @Newactionmap => new NewactionmapActions(this);
+        public interface IGameplayActions
+        {
+            void OnHorizontal(InputAction.CallbackContext context);
+            void OnVertical(InputAction.CallbackContext context);
+        }
         public interface INewactionmapActions
         {
             void OnMove(InputAction.CallbackContext context);

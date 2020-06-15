@@ -30,12 +30,12 @@
             var absoluteGenerationBasePath = Path.Combine(
                 Application.dataPath, projectBaseFolderName, generationBaseFolderName);
             
-            GameCommon.Utility.CreateDirectoryIfNotExisted(absoluteGenerationBasePath);
+            GameCommon.Utility.FileHelper.CreateDirectoryIfNotExisted(absoluteGenerationBasePath);
 
             var absoluteModuleCreaturePath = Path.Combine(
                 absoluteGenerationBasePath, creatureModuleFolderName);
             
-            GameCommon.Utility.CreateDirectoryIfNotExisted(absoluteModuleCreaturePath);
+            GameCommon.Utility.FileHelper.CreateDirectoryIfNotExisted(absoluteModuleCreaturePath);
                 
             var source01 = Path.Combine(
                 relativeAssetFolderName, projectBaseFolderName, baseFolderName, creatureModuleFolderName,

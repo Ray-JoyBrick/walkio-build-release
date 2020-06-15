@@ -25,7 +25,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
 
         private static List<Transform> CreateSpawnPointList(Scene masterScene)
         {
-            var levelOperator = GameCommon.Utility.GetComponentAtScene<LevelOperator>(masterScene);
+            var levelOperator = GameCommon.Utility.SceneHelper.GetComponentAtScene<LevelOperator>(masterScene);
 
             if (levelOperator == null) return null;
 

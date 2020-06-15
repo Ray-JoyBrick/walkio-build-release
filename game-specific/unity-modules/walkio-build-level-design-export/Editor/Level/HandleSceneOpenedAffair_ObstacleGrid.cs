@@ -58,7 +58,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
 
         private static IEnumerable<string> CreateObstacleTexture(string levelName, Scene masterScene)
         {
-            var levelOperator = GameCommon.Utility.GetComponentAtScene<LevelOperator>(masterScene);
+            var levelOperator = GameCommon.Utility.SceneHelper.GetComponentAtScene<LevelOperator>(masterScene);
             if (levelOperator == null) return Enumerable.Empty<string>();
 
             var texturePaths = new List<string>();
@@ -125,14 +125,14 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
              // Save the texture
              var generatedDirectoryPath = Path.Combine(Application.dataPath, "_", "1 - Game - Level Design - Generated");
              var levelDirectoryPath = Path.Combine(generatedDirectoryPath, "Module - Environment - Level", "Levels");
-             GameCommon.Utility.CreateDirectoryIfNotExisted(generatedDirectoryPath);
-             GameCommon.Utility.CreateDirectoryIfNotExisted(levelDirectoryPath);
+             GameCommon.Utility.FileHelper.CreateDirectoryIfNotExisted(generatedDirectoryPath);
+             GameCommon.Utility.FileHelper.CreateDirectoryIfNotExisted(levelDirectoryPath);
             
              var specificLevelDirectoryPath = Path.Combine(levelDirectoryPath, levelName);
-             GameCommon.Utility.CreateDirectoryIfNotExisted(specificLevelDirectoryPath);
+             GameCommon.Utility.FileHelper.CreateDirectoryIfNotExisted(specificLevelDirectoryPath);
 
              var obstacleTextureDirectoryPath = Path.Combine(specificLevelDirectoryPath, "obstacle-texture");
-             GameCommon.Utility.CreateDirectoryIfNotExisted(obstacleTextureDirectoryPath);
+             GameCommon.Utility.FileHelper.CreateDirectoryIfNotExisted(obstacleTextureDirectoryPath);
              
              var obstacleTextureAssetPath = Path.Combine(obstacleTextureDirectoryPath, $"obstacle{index:0000}.png");
 

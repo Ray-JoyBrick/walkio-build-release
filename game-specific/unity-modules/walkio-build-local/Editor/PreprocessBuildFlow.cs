@@ -17,10 +17,14 @@ namespace JoyBrick.Walkio.Build
         {
             Debug.Log($"PreprocessBuildFlow - OnPreprocessBuild - report: {report}");
 
+#if COMPLETE_PROJECT
+
             // Setup app icon
             AppIconSetHelper.SetAndroidAdaptive();
             AppIconSetHelper.SetAndroidRound();
             AppIconSetHelper.SetAndroidLegacy();
+
+#endif
 
             // Setup app settings
             GameCommonEditor.CountHelper.CountDoneLoadingAssetWaitAttribute();

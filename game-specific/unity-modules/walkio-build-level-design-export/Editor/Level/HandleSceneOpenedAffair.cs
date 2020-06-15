@@ -37,7 +37,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
                 // if (scene.isSubScene)
                 else
                 {
-                    var levelOperator = GameCommon.Utility.GetComponentAtScene<LevelOperator>(currentMasterScene);
+                    var levelOperator = GameCommon.Utility.SceneHelper.GetComponentAtScene<LevelOperator>(currentMasterScene);
                     if (levelOperator != null)
                     {
                         Debug.Log($"Build - LevelDesignExport - HandleSceneOpenedAffair - s.name: {scene.name} scene name: {scene.name}");
@@ -125,7 +125,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
         {
             var rootGameObjects = scene.GetRootGameObjects();
             // var levelOperator = GetLevelOperatorAtScene(scene);
-            var levelOperator = GameCommon.Utility.GetComponentAtScene<LevelOperator>(scene);
+            var levelOperator = GameCommon.Utility.SceneHelper.GetComponentAtScene<LevelOperator>(scene);
             if (levelOperator == null) return;
             
             LoadSubScenes(levelOperator.subScenes);

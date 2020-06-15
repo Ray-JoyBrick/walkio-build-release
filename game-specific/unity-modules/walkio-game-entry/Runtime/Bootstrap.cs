@@ -243,9 +243,9 @@
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameBattle.NeutralForceUnitHitCheckSystem>();
 
-            var pickupHitCheckSystem =
-                World.DefaultGameObjectInjectionWorld
-                    .GetOrCreateSystem<GameBattle.PickupHitCheckSystem>();
+            // var pickupHitCheckSystem =
+            //     World.DefaultGameObjectInjectionWorld
+            //         .GetOrCreateSystem<GameBattle.PickupHitCheckSystem>();
             
 #endif
 
@@ -319,7 +319,7 @@
             moveOnFlowFieldTileSystem.FlowControl = (GameCommon.IFlowControl) this;
 
             neutralForceUnitHitCheckSystem.FlowControl = (GameCommon.IFlowControl) this;
-            pickupHitCheckSystem.FlowControl = (GameCommon.IFlowControl) this;
+            // pickupHitCheckSystem.FlowControl = (GameCommon.IFlowControl) this;
 
 #endif
 
@@ -374,7 +374,7 @@
             moveOnFlowFieldTileSystem.Construct();
             
             neutralForceUnitHitCheckSystem.Construct();
-            pickupHitCheckSystem.Construct();
+            // pickupHitCheckSystem.Construct();
 #endif
 
             // InitializationSystemGroup
@@ -427,7 +427,7 @@
             simulationSystemGroup.AddSystemToUpdateList(moveOnFlowFieldTileSystem);
 
             simulationSystemGroup.AddSystemToUpdateList(neutralForceUnitHitCheckSystem);
-            simulationSystemGroup.AddSystemToUpdateList(pickupHitCheckSystem);
+            // simulationSystemGroup.AddSystemToUpdateList(pickupHitCheckSystem);
 #endif
         }
 

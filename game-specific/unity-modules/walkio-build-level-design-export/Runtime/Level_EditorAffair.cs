@@ -49,7 +49,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport
 
             var mScene = EditorSceneManager.OpenScene(masterScenePath);
 
-            var levelOperator = GameCommon.Utility.GetComponentAtScene<LevelOperator>(mScene);
+            var levelOperator = GameCommon.Utility.SceneHelper.GetComponentAtScene<LevelOperator>(mScene);
 
             var absoluteMasterScenePath = masterScenePath.Replace("Assets", Application.dataPath);
             var absoluteScenesFolder = Directory.GetParent(absoluteMasterScenePath);
@@ -182,7 +182,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport
 
             var mScene = EditorSceneManager.OpenScene(masterScenePath);
 
-            var levelOperator = GameCommon.Utility.GetComponentAtScene<LevelOperator>(mScene);
+            var levelOperator = GameCommon.Utility.SceneHelper.GetComponentAtScene<LevelOperator>(mScene);
 
             if (levelOperator == null) return;
 
@@ -208,7 +208,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport
             var masterScenePath = AssetDatabase.GetAssetPath(masterScene);
             var mScene = EditorSceneManager.OpenScene(masterScenePath);
 
-            var levelOperator = GameCommon.Utility.GetComponentAtScene<LevelOperator>(mScene);
+            var levelOperator = GameCommon.Utility.SceneHelper.GetComponentAtScene<LevelOperator>(mScene);
 
             var subScenePaths =
                 includedSubScenes

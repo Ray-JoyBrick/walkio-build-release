@@ -36,14 +36,14 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
             
             var generatedDirectoryPath = Path.Combine(Application.dataPath, "_", "1 - Game - Level Design - Generated", "Module - Environment - Level");
             var levelDirectoryPath = Path.Combine(generatedDirectoryPath, "Levels");
-            GameCommon.Utility.CreateDirectoryIfNotExisted(generatedDirectoryPath);
-            GameCommon.Utility.CreateDirectoryIfNotExisted(levelDirectoryPath);
+            GameCommon.Utility.FileHelper.CreateDirectoryIfNotExisted(generatedDirectoryPath);
+            GameCommon.Utility.FileHelper.CreateDirectoryIfNotExisted(levelDirectoryPath);
             
             var specificLevelDirectoryPath = Path.Combine(levelDirectoryPath, outLevelName);
-            GameCommon.Utility.CreateDirectoryIfNotExisted(specificLevelDirectoryPath);
+            GameCommon.Utility.FileHelper.CreateDirectoryIfNotExisted(specificLevelDirectoryPath);
 
             var obstacleTextureDirectoryPath = Path.Combine(specificLevelDirectoryPath, "astar-data");
-            GameCommon.Utility.CreateDirectoryIfNotExisted(obstacleTextureDirectoryPath);
+            GameCommon.Utility.FileHelper.CreateDirectoryIfNotExisted(obstacleTextureDirectoryPath);
             
             //
 

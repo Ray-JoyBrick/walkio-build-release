@@ -129,7 +129,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
                 // Setup master scene
                 var masterScene = EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Single);
 
-                var mainCamera = GameCommon.Utility.GetComponentAtScene<Camera>(masterScene);
+                var mainCamera = GameCommon.Utility.SceneHelper.GetComponentAtScene<Camera>(masterScene);
                 if (mainCamera != null)
                 {
                     mainCamera.gameObject.AddComponent<Cinemachine.CinemachineBrain>();
@@ -332,8 +332,8 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
 
                 // var scene = EditorSceneManager.OpenScene(scenePath);
                 var scene = EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Additive);
-                var camera = GameCommon.Utility.GetComponentAtScene<Camera>(scene);
-                var light = GameCommon.Utility.GetComponentAtScene<Light>(scene);
+                var camera = GameCommon.Utility.SceneHelper.GetComponentAtScene<Camera>(scene);
+                var light = GameCommon.Utility.SceneHelper.GetComponentAtScene<Light>(scene);
 
                 if (camera != null)
                 {
