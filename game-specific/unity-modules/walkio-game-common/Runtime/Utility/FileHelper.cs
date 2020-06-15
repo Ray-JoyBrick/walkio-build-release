@@ -1,10 +1,10 @@
-namespace JoyBrick.Walkio.Game.Common
+namespace JoyBrick.Walkio.Game.Common.Utility
 {
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
 
-    public static partial class Utility
+    public static partial class FileHelper
     {
         public static void CreateDirectoryIfNotExisted(string directoryPath)
         {

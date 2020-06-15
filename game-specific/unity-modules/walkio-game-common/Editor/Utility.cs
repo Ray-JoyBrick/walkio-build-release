@@ -21,7 +21,7 @@ namespace JoyBrick.Walkio.Game.Common.EditorPart
             var absoluteAssetPath = Path.Combine(absoluteStartingPath, assetDirectoryPath);
             var relativeAssetPath = Path.Combine(relativeStartingPath, assetDirectoryPath);
 
-            GameCommon.Utility.CreateDirectoryIfNotExisted(absoluteAssetPath);
+            GameCommon.Utility.FileHelper.CreateDirectoryIfNotExisted(absoluteAssetPath);
             var completeAssetPath = Path.Combine(relativeAssetPath, assetName);
             
             AssetDatabase.CreateAsset(asset, completeAssetPath);
@@ -38,7 +38,7 @@ namespace JoyBrick.Walkio.Game.Common.EditorPart
             var absoluteAssetPath = Path.Combine(absoluteStartingPath, assetDirectoryPath);
             var relativeAssetPath = Path.Combine(relativeStartingPath, assetDirectoryPath);
 
-            GameCommon.Utility.CreateDirectoryIfNotExisted(absoluteAssetPath);
+            GameCommon.Utility.FileHelper.CreateDirectoryIfNotExisted(absoluteAssetPath);
             var completeGameObjectPath = Path.Combine(relativeAssetPath, gameObjectName);
             
             completeGameObjectPath = AssetDatabase.GenerateUniqueAssetPath(completeGameObjectPath);

@@ -1,10 +1,10 @@
-namespace JoyBrick.Walkio.Game.Common
+namespace JoyBrick.Walkio.Game.Common.Utility
 {
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine.SceneManagement;
 
-    public static partial class Utility
+    public static partial class SceneHelper
     {
         public static T GetComponentAtScene<T>(Scene scene)
             where T : UnityEngine.Component
@@ -45,5 +45,5 @@ namespace JoyBrick.Walkio.Game.Common
 
             return comps;
         }
-    }
+    }    
 }
