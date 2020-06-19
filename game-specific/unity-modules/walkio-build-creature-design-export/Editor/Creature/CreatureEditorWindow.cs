@@ -1,5 +1,5 @@
 ﻿#if UNITY_EDITOR
-namespace JoyBrick.Walkio.Build.LevelDesignExport.Creature.EditorPart
+namespace JoyBrick.Walkio.Build.CreatureDesignExport.EditorPart
 {
     using System.Linq;
 #if ODIN_INSPECTOR
@@ -170,60 +170,60 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Creature.EditorPart
             return false;
         }
 
-        private static void CrateScene(
-            string absoluteSceneFolderPath, string relativeSceneFolderPath, string sceneName, Level level)
-        {
-            var masterSceneName = $"{sceneName} - Master.unity";
-            var scene = EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Single);
-            SetupMasterScene(scene);
-
-            // var subScene = EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Additive);
-
-            var absoluteSceneFolderPathExisted = Directory.Exists(absoluteSceneFolderPath);
-            if (!absoluteSceneFolderPathExisted)
-            {
-                Directory.CreateDirectory(absoluteSceneFolderPath);
-            }
-
-            var scenesFolderPath = Path.Combine(absoluteSceneFolderPath, $"Scenes");
-            var scenesFolderPathExisted = Directory.Exists(scenesFolderPath);
-            if (!scenesFolderPathExisted)
-            {
-                Directory.CreateDirectory(scenesFolderPath);
-            }
-
-            var relativeScenesFolderPath = Path.Combine(relativeSceneFolderPath, $"Scenes");
-            var relativeScenePath = Path.Combine(relativeScenesFolderPath, masterSceneName);
-            
-            var saved = EditorSceneManager.SaveScene(scene, relativeScenePath);
-            if (saved)
-            {
-                Debug.Log($"scene is saved at {relativeScenePath}");
-                var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(relativeScenePath);
-
-                if (sceneAsset != null)
-                {
-                    Debug.Log($"{relativeScenePath} is loaded as scene asset");
-                    level.masterScene = sceneAsset;
-                }
-            }
-
-            AssetDatabase.SaveAssets();
-        }
-
-        private static void SetupMasterScene(Scene scene)
-        {
-            //
-            var levelOperatorGameObject = new GameObject("Level Operator");
-            levelOperatorGameObject.AddComponent<LevelOperator>();
-
-            EditorSceneManager.MoveGameObjectToScene(levelOperatorGameObject, scene);
-
-            var pathfinderGameObject = new GameObject("Pathfinder");
-            pathfinderGameObject.AddComponent<AstarPath>();
-
-            EditorSceneManager.MoveGameObjectToScene(pathfinderGameObject, scene);
-        }
+        // private static void CrateScene(
+        //     string absoluteSceneFolderPath, string relativeSceneFolderPath, string sceneName, Level level)
+        // {
+        //     var masterSceneName = $"{sceneName} - Master.unity";
+        //     var scene = EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Single);
+        //     SetupMasterScene(scene);
+        //
+        //     // var subScene = EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Additive);
+        //
+        //     var absoluteSceneFolderPathExisted = Directory.Exists(absoluteSceneFolderPath);
+        //     if (!absoluteSceneFolderPathExisted)
+        //     {
+        //         Directory.CreateDirectory(absoluteSceneFolderPath);
+        //     }
+        //
+        //     var scenesFolderPath = Path.Combine(absoluteSceneFolderPath, $"Scenes");
+        //     var scenesFolderPathExisted = Directory.Exists(scenesFolderPath);
+        //     if (!scenesFolderPathExisted)
+        //     {
+        //         Directory.CreateDirectory(scenesFolderPath);
+        //     }
+        //
+        //     var relativeScenesFolderPath = Path.Combine(relativeSceneFolderPath, $"Scenes");
+        //     var relativeScenePath = Path.Combine(relativeScenesFolderPath, masterSceneName);
+        //     
+        //     var saved = EditorSceneManager.SaveScene(scene, relativeScenePath);
+        //     if (saved)
+        //     {
+        //         Debug.Log($"scene is saved at {relativeScenePath}");
+        //         var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(relativeScenePath);
+        //
+        //         if (sceneAsset != null)
+        //         {
+        //             Debug.Log($"{relativeScenePath} is loaded as scene asset");
+        //             level.masterScene = sceneAsset;
+        //         }
+        //     }
+        //
+        //     AssetDatabase.SaveAssets();
+        // }
+        //
+        // private static void SetupMasterScene(Scene scene)
+        // {
+        //     //
+        //     var levelOperatorGameObject = new GameObject("Level Operator");
+        //     levelOperatorGameObject.AddComponent<LevelOperator>();
+        //
+        //     EditorSceneManager.MoveGameObjectToScene(levelOperatorGameObject, scene);
+        //
+        //     var pathfinderGameObject = new GameObject("Pathfinder");
+        //     pathfinderGameObject.AddComponent<AstarPath>();
+        //
+        //     EditorSceneManager.MoveGameObjectToScene(pathfinderGameObject, scene);
+        // }
     }
 }
 #endif

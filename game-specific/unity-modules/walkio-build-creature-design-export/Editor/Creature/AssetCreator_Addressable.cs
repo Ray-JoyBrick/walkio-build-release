@@ -1,4 +1,4 @@
-namespace JoyBrick.Walkio.Build.LevelDesignExport.Creature.EditorPart
+namespace JoyBrick.Walkio.Build.CreatureDesignExport.EditorPart
 {
     using System;
     using System.Collections.Generic;
@@ -93,7 +93,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.Creature.EditorPart
             var label = "Creature";
             assetSettings.AddLabel(label);
 
-            LevelDesignExport.EditorPart.Utility.PlaceAssetInAddressble(assetSettings, assetGroup, creatureDataAssetPath,
+            GameCommon.EditorPart.Utility.PlaceAssetInAddressble(assetSettings, assetGroup, creatureDataAssetPath,
                 label, "Creature Data");
         }        
     } 

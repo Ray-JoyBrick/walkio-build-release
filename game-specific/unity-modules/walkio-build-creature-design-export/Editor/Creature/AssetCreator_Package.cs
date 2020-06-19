@@ -1,4 +1,4 @@
-namespace JoyBrick.Walkio.Build.LevelDesignExport.Creature.EditorPart
+namespace JoyBrick.Walkio.Build.CreatureDesignExport.EditorPart
 {
     using System;
     using System.Collections.Generic;

@@ -91,7 +91,7 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
             var label = "Hud - Common";
             assetSettings.AddLabel(label);
             
-            var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game - Hud Design");
+            var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game - Hud Design Generated");
             var relativeCommonFolderPath = Path.Combine(relativeGameFolderPath, "Module - Hud - _Common");
 
             var relativeExtensionPlayer =
@@ -142,7 +142,7 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
             var label = "Hud - App";
             assetSettings.AddLabel(label);
             
-            var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game - Hud Design");
+            var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game - Hud Design Generated");
             var relativeAppFolderPath = Path.Combine(relativeGameFolderPath, "Module - Hud - App");
 
             var hudDataAssetPath = Path.Combine(relativeAppFolderPath, "Hud Data.asset");
@@ -203,7 +203,7 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
             var label = "Hud - App - Assist";
             assetSettings.AddLabel(label);
             
-            var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game - Hud Design");
+            var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game - Hud Design Generated");
             var relativeAppFolderPath = Path.Combine(relativeGameFolderPath, "Module - Hud - App - Assist");
 
             var hudDataAssetPath = Path.Combine(relativeAppFolderPath, "Hud Data.asset");
@@ -258,7 +258,7 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
             var label = "Hud - Preparation";
             assetSettings.AddLabel(label);
             
-            var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game - Hud Design");
+            var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game - Hud Design Generated");
             var relativeAppFolderPath = Path.Combine(relativeGameFolderPath, "Module - Hud - Preparation");
 
             var hudDataAssetPath = Path.Combine(relativeAppFolderPath, "Hud Data.asset");
@@ -305,7 +305,7 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
             var label = "Hud - Stage";
             assetSettings.AddLabel(label);
             
-            var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game - Hud Design");
+            var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game - Hud Design Generated");
             var relativeAppFolderPath = Path.Combine(relativeGameFolderPath, "Module - Hud - Stage");
 
             var hudDataAssetPath = Path.Combine(relativeAppFolderPath, "Hud Data.asset");
@@ -366,7 +366,7 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
             var label = "Hud - Stage - Assist";
             assetSettings.AddLabel(label);
             
-            var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game - Hud Design");
+            var relativeGameFolderPath = Path.Combine("Assets", "_", "1 - Game - Hud Design Generated");
             var relativeAppFolderPath = Path.Combine(relativeGameFolderPath, "Module - Hud - Stage - Assist");
 
             var hudDataAssetPath = Path.Combine(relativeAppFolderPath, "Hud Data.asset");
