@@ -3,7 +3,7 @@
     "com.3rd.editor-console-pro": "file:../../references/FlyingWorm/editor-console-pro-package",
     "com.3rd.i2-localization": "file:../../references/Inter Illusion/i2-localization-package",
     "com.3rd.odin-inspector": "file:../../references/Devdog/odin-inspector-package",
-    "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=Assets/UniRx.Async",
+    "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
     "com.github.siccity.xnode": "https://github.com/siccity/xNode.git",
     "com.neuecc.unirx": "https://github.com/neuecc/UniRx.git?path=Assets/Plugins/UniRx/Scripts",
     "com.unity.2d.sprite": "1.0.0",

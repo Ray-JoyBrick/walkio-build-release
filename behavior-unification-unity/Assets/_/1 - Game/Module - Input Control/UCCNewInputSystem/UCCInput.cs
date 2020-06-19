@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/UCCNewInputSystem/UCCInput.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/_/1 - Game/Module - Input Control/UCCNewInputSystem/UCCInput.inputactions'
 
 using System;
 using System.Collections;

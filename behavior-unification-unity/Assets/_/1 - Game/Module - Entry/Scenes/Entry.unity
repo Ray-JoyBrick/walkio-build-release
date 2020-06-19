@@ -306,7 +306,7 @@ MonoBehaviour:
   seeker: {fileID: 285582934}
   quickPlayerCamera: {fileID: 5070165665016735642, guid: 54a7791978a19bc408bf6e82a145f2fb,
     type: 3}
-  gameSettings: {fileID: 0}
+  gameSettings: {fileID: 11400000, guid: d1b5bff0c128243589d13955a102c08b, type: 2}
 --- !u!4 &530082056
 Transform:
   m_ObjectHideFlags: 0
