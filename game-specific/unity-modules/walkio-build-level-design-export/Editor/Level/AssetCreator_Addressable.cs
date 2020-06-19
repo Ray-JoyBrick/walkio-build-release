@@ -7,6 +7,8 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
     using UnityEditor;
     using UnityEditor.AddressableAssets.Settings;
     using UnityEngine;
+    
+    using GameCommon = JoyBrick.Walkio.Game.Common;
 
     public partial class AssetCreator
     {
@@ -135,7 +137,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
                 
                     Debug.Log(levelSettingPath);
             
-                    LevelDesignExport.EditorPart.Utility.PlaceAssetInAddressble(assetSettings, assetGroup, levelSettingPath,
+                    GameCommon.EditorPart.Utility.PlaceAssetInAddressble(assetSettings, assetGroup, levelSettingPath,
                         label, strippedFileName);
                 }
             }            
@@ -196,7 +198,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
                 
                     Debug.Log(astarDataPath);
             
-                    LevelDesignExport.EditorPart.Utility.PlaceAssetInAddressble(assetSettings, assetGroup, astarDataPath,
+                    GameCommon.EditorPart.Utility.PlaceAssetInAddressble(assetSettings, assetGroup, astarDataPath,
                         label, strippedFileName);
                 }
             }
@@ -216,7 +218,7 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
                 
                     Debug.Log(scenePath);
             
-                    LevelDesignExport.EditorPart.Utility.PlaceAssetInAddressble(assetSettings, assetGroup, scenePath,
+                    GameCommon.EditorPart.Utility.PlaceAssetInAddressble(assetSettings, assetGroup, scenePath,
                         label, strippedFileName);
                 }
             }  

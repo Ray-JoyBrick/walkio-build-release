@@ -33,6 +33,8 @@ namespace JoyBrick.Walkio.Game.Hud.App
         private ScriptableObject _timelineAsset;
         private ScriptableObject _i2Asset;
 
+        private HudData _hudData;
+
         //
         private GameObject _canvas;
 
@@ -76,6 +78,8 @@ namespace JoyBrick.Walkio.Game.Hud.App
 
         private void LoadingAsset()
         {
+            _logger.Debug($"LoadAppHudSystem - LoadingAsset");
+
             //
             Load().ToObservable()
                 .ObserveOnMainThread()
@@ -83,8 +87,12 @@ namespace JoyBrick.Walkio.Game.Hud.App
                 .Subscribe(result =>
                 {
                     //
-                    (_canvasPrefab, _viewLoadingPrefab, _timelineAsset, _i2Asset) = result;
-                            
+                    var dataAsset = result;
+                    
+                    _hudData = (dataAsset as HudData);
+
+                    _canvasPrefab = _hudData.canvasPrefab;
+                    
                     //
                     _canvas = GameObject.Instantiate(_canvasPrefab);
                     var scene = SceneManager.GetSceneByName("Entry");
@@ -115,18 +123,27 @@ namespace JoyBrick.Walkio.Game.Hud.App
             return r;
         }
         
-        private async Task<(GameObject, GameObject, ScriptableObject, ScriptableObject)> Load()
+        private async Task<ScriptableObject> Load()
         {
-            var canvasPrefabTask = GetAsset<GameObject>($"Hud - Canvas - App");
-            var viewLoadingPrefabTask = GetAsset<GameObject>($"Hud - App - View - Loading Prefab");
-            var timelineAssetTask = GetAsset<ScriptableObject>($"Hud - App - View - Loading Timeline");
-            var i2AssetTask = GetAsset<ScriptableObject>($"Hud - App - I2");
+            var hudDataAssetTask = GetAsset<ScriptableObject>($"Hud - App - Hud Data");
 
-            var (canvasPrefab, viewLoadingPrefab, timelineAsset, i2Asset) =
-                (await canvasPrefabTask, await viewLoadingPrefabTask, await timelineAssetTask, await i2AssetTask);
+            var hudDataAsset = await hudDataAssetTask;
 
-            return (canvasPrefab, viewLoadingPrefab, timelineAsset, i2Asset);
+            return hudDataAsset;
         }
+        
+        // private async Task<(GameObject, GameObject, ScriptableObject, ScriptableObject)> Load()
+        // {
+        //     var canvasPrefabTask = GetAsset<GameObject>($"Hud - Canvas - App");
+        //     var viewLoadingPrefabTask = GetAsset<GameObject>($"Hud - App - View - Loading Prefab");
+        //     var timelineAssetTask = GetAsset<ScriptableObject>($"Hud - App - View - Loading Timeline");
+        //     var i2AssetTask = GetAsset<ScriptableObject>($"Hud - App - I2");
+        //
+        //     var (canvasPrefab, viewLoadingPrefab, timelineAsset, i2Asset) =
+        //         (await canvasPrefabTask, await viewLoadingPrefabTask, await timelineAssetTask, await i2AssetTask);
+        //
+        //     return (canvasPrefab, viewLoadingPrefab, timelineAsset, i2Asset);
+        // }
 
         private void AddCommandStreamAndInfoStream(GameObject inGO)
         {

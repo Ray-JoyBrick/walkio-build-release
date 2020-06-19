@@ -21,11 +21,7 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
 
             var paths = new List<string>
             {
-                // // Assets generated
-                // "Assets/_/_Generated",
-                // // Localization sheet gathering here
-                // "Assets/Resources/I2Languages.asset"
-                "Assets/_/1 - Game - Hud Design"
+                "Assets/_/1 - Game - Hud Design Generated"
             };
             
             AssetDatabase.ExportPackage(paths.ToArray(), packagePath, ExportPackageOptions.Recurse);

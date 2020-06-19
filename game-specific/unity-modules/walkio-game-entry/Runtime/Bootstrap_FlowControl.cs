@@ -37,6 +37,8 @@ namespace JoyBrick.Walkio.Game
 
         public void StartLoadingAsset(string flowName)
         {
+            _logger.Debug($"Bootstrap - StartLoadingAsset - flowName: {flowName}");
+
             _notifyLoadingAsset.OnNext(new GameCommon.FlowControlContext
             {
                 Name = flowName
@@ -45,6 +47,8 @@ namespace JoyBrick.Walkio.Game
 
         public void FinishLoadingAsset(GameCommon.FlowControlContext context)
         {
+            _logger.Debug($"Bootstrap - FinishLoadingAsset - context: {context}");
+            
             _notifyDoneLoadingAsset.OnNext(context);
         }
 

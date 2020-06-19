@@ -8,11 +8,10 @@
         "Unity.Collections",
         "Unity.Transforms",
         "Unity.Entities.Hybrid",
-        "Unity.Entities.Properties",
         "Unity.Mathematics",
         "Unity.ResourceManager",
         "UniRx",
-        "UniRx.Async",
+        "UniTask",
         "Walkio.Game.Common"
     ],
     "includePlatforms": [],

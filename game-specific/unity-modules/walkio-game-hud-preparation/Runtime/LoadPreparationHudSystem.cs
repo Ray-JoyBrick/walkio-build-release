@@ -26,12 +26,13 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
 
         //
-        //
         private GameObject _canvasPrefab;
         private GameObject _viewLoadingPrefab;
         private ScriptableObject _timelineAsset;
         private ScriptableObject _i2Asset;
         
+        private HudData _hudData;
+
         private GameObject _canvas;
 
         // In case that Bootstrap does not realize interfaces such as ICommandService, etc. Explicitly make
@@ -73,7 +74,11 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
                 .Subscribe(result =>
                 {
                     //
-                    (_canvasPrefab, _viewLoadingPrefab, _timelineAsset, _i2Asset) = result;
+                    var dataAsset = result;
+                    
+                    _hudData = (dataAsset as HudData);
+
+                    _canvasPrefab = _hudData.canvasPrefab;
                             
                     //
                     _canvas = GameObject.Instantiate(_canvasPrefab);
@@ -103,18 +108,27 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
             return r;
         }
         
-        private async Task<(GameObject, GameObject, ScriptableObject, ScriptableObject)> Load()
+        private async Task<ScriptableObject> Load()
         {
-            var canvasPrefabTask = GetAsset<GameObject>($"Hud - Canvas - Preparation");
-            var viewLoadingPrefabTask = GetAsset<GameObject>($"Hud - Preparation - View - Base Prefab");
-            var timelineAssetTask = GetAsset<ScriptableObject>($"Hud - Preparation - View - Base Timeline");
-            var i2AssetTask = GetAsset<ScriptableObject>($"Hud - Preparation - I2");
+            var hudDataAssetTask = GetAsset<ScriptableObject>($"Hud - Preparation - Hud Data");
 
-            var (canvasPrefab, viewLoadingPrefab, timelineAsset, i2Asset) =
-                (await canvasPrefabTask, await viewLoadingPrefabTask, await timelineAssetTask, await i2AssetTask);
+            var hudDataAsset = await hudDataAssetTask;
 
-            return (canvasPrefab, viewLoadingPrefab, timelineAsset, i2Asset);
+            return hudDataAsset;
         }
+        
+        // private async Task<(GameObject, GameObject, ScriptableObject, ScriptableObject)> Load()
+        // {
+        //     var canvasPrefabTask = GetAsset<GameObject>($"Hud - Canvas - Preparation");
+        //     var viewLoadingPrefabTask = GetAsset<GameObject>($"Hud - Preparation - View - Base Prefab");
+        //     var timelineAssetTask = GetAsset<ScriptableObject>($"Hud - Preparation - View - Base Timeline");
+        //     var i2AssetTask = GetAsset<ScriptableObject>($"Hud - Preparation - I2");
+        //
+        //     var (canvasPrefab, viewLoadingPrefab, timelineAsset, i2Asset) =
+        //         (await canvasPrefabTask, await viewLoadingPrefabTask, await timelineAssetTask, await i2AssetTask);
+        //
+        //     return (canvasPrefab, viewLoadingPrefab, timelineAsset, i2Asset);
+        // }
 
         private void AddCommandStreamAndInfoStream(GameObject inGO)
         {

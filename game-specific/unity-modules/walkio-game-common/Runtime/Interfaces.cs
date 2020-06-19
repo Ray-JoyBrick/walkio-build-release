@@ -53,6 +53,13 @@ namespace JoyBrick.Walkio.Game.Common
     public class FlowControlContext
     {
         public string Name { get; set; }
+
+        public override string ToString()
+        {
+            var desc = $"Name: {Name}";
+
+            return desc;
+        }
     }
     
     public interface IFlowControl

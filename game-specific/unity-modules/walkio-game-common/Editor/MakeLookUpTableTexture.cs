@@ -8,28 +8,29 @@ namespace Game
     
     public class MakeLookUpTableTexture
     {
-        [MenuItem("Assets/Walkio/LookUp Table/Make Morton Code LUT")]
-        public static void MakeMortonCodeLut()
+        private static void MakeMortonCodeLut(int width, int height)
         {
+            var total = width * height;
+            
             //
-            var indices = new int[64 * 64];
-            for (var x = 0; x < 2048; ++x)
+            var indices = new int[total];
+            for (var x = 0; x < total; ++x)
             {
                 indices[x] = MortonCode2d32Bit.Encode(new MortonCode2d32Bit.Index2d {X = (short) x});
             }
 
-            for (var y = 0; y < 2048; ++y)
+            for (var y = 0; y < total; ++y)
             {
-                indices[2048 + y] = MortonCode2d32Bit.Encode(new MortonCode2d32Bit.Index2d {Y = (short) y});
+                indices[total + y] = MortonCode2d32Bit.Encode(new MortonCode2d32Bit.Index2d {Y = (short) y});
             }
             
             //
-            var texture = new Texture2D(64, 64, TextureFormat.RGBA32, false);
-            for (var h = 0; h < 64; ++h)
+            var texture = new Texture2D(width, height, TextureFormat.RGBA32, false);
+            for (var h = 0; h < height; ++h)
             {
-                for (var w = 0; w < 64; ++w)
+                for (var w = 0; w < width; ++w)
                 {
-                    var index = h * 64 + w;
+                    var index = h * width + w;
 
                     var c = (new Color32()).FromInt(indices[index]);
                     
@@ -40,7 +41,7 @@ namespace Game
             var bytes = texture.EncodeToPNG();
             
             var textureFolderPath = Path.Combine("Packages", "com.walkio.game.common", "Textures", "_Generated");
-            var lutFilePath = Path.Combine(textureFolderPath, "Morton Code LUT.png");
+            var lutFilePath = Path.Combine(textureFolderPath, $"Morton Code LUT {width}.png");
             
             var lutFileFullPath = Path.GetFullPath(lutFilePath);
             
@@ -54,7 +55,7 @@ namespace Game
             if (textureImporter != null)
             {
                 textureImporter.filterMode = FilterMode.Point;
-                textureImporter.maxTextureSize = 64;
+                textureImporter.maxTextureSize = width;
 
                 textureImporter.mipmapEnabled = false;
 
@@ -65,6 +66,31 @@ namespace Game
 
             AssetDatabase.Refresh();
             AssetDatabase.SaveAssets();
+            
+        }
+        
+        [MenuItem("Assets/Walkio/LookUp Table/Make Morton Code LUT 16 (256)")]
+        public static void MakeMortonCodeLut016()
+        {
+            MakeMortonCodeLut(16, 16);
+        }
+
+        [MenuItem("Assets/Walkio/LookUp Table/Make Morton Code LUT 32 (1024)")]
+        public static void MakeMortonCodeLut032()
+        {
+            MakeMortonCodeLut(32, 32);
+        }
+
+        [MenuItem("Assets/Walkio/LookUp Table/Make Morton Code LUT 64 (4096)")]
+        public static void MakeMortonCodeLut064()
+        {
+            MakeMortonCodeLut(64, 64);
+        }
+        
+        [MenuItem("Assets/Walkio/LookUp Table/Make Morton Code LUT 128 (16384)")]
+        public static void MakeMortonCodeLut128()
+        {
+            MakeMortonCodeLut(128, 128);
         }
     }
 }

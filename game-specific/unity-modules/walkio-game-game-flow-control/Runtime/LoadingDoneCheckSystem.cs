@@ -26,7 +26,7 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
 
         public void Construct()
         {
-            FlowControl.DoneLoadingAsset
+            FlowControl?.DoneLoadingAsset
                 .Where(x => x.Name.Contains("App"))
                 .Buffer(GameSettingProvider.GameSettings.doneLoadingAssetWaitForApp)
                 .Subscribe(x =>
@@ -40,7 +40,7 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
                 })
                 .AddTo(_compositeDisposable);
 
-            FlowControl.DoneLoadingAsset
+            FlowControl?.DoneLoadingAsset
                 .Where(x => x.Name.Contains("Preparation"))
                 .Buffer(GameSettingProvider.GameSettings.doneLoadingAssetWaitForPreparation)
                 .Subscribe(x =>
@@ -55,7 +55,7 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
                 })
                 .AddTo(_compositeDisposable);
             
-            FlowControl.DoneLoadingAsset
+            FlowControl?.DoneLoadingAsset
                 .Where(x => x.Name.Contains("Stage"))
                 // Should be loading from some settings
                 .Buffer(GameSettingProvider.GameSettings.doneLoadingAssetWaitForStage)
