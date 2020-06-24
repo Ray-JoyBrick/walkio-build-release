@@ -60,7 +60,7 @@ namespace JoyBrick.Walkio.Game.Hud.App
                 {
                     LoadingAsset();
                 })
-                .AddTo(_compositeDisposable);            
+                .AddTo(_compositeDisposable);
 
             //
             CommandService.CommandStream
@@ -105,14 +105,14 @@ namespace JoyBrick.Walkio.Game.Hud.App
                     SetReferenceToExtension(_canvas);
 
                     ExtractView();
-                            
+
                     //
                     FlowControl.FinishLoadingAsset(new GameCommon.FlowControlContext
                     {
                         Name = "App"
                     });
                 })
-                .AddTo(_compositeDisposable);            
+                .AddTo(_compositeDisposable);
         }
 
         private async Task<T> GetAsset<T>(string addressName)

@@ -1,0 +1,11 @@
+{
+    "name": "Zaroa Net",
+    "use": true,
+    "toSymlink": [
+      {
+        "name": "CustomizableGrid",
+        "to": "Assets/Standard Assets/CustomizableGrid"
+      }
+    ]
+  }
+  
