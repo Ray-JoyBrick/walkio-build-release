@@ -12,10 +12,14 @@
     using UnityEngine.ResourceManagement.AsyncOperations;
 
     //
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT
+
     using GameCommon = JoyBrick.Walkio.Game.Common;
     using GameCommand = JoyBrick.Walkio.Game.Command;
     
     using GameGameFlowControl = JoyBrick.Walkio.Game.GameFlowControl;
+
+#endif
 
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
 
@@ -126,11 +130,15 @@
 
         private void SetupFoundationFlow()
         {
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT
+            
             _logger.Debug($"Bootstrap - SetupFoundationFlow");
             _notifyLoadingAsset.OnNext(new GameCommon.FlowControlContext
             {
                 Name = "App"
             });
+
+#endif
         }
 
         private void OnDestroy()

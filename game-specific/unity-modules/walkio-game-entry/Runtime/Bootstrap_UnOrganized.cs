@@ -1,7 +1,16 @@
 namespace JoyBrick.Walkio.Game
 {
+    using UnityEngine;
+
     public partial class Bootstrap
     {
+        public GameObject neutralUnitPrefab;
+        public GameObject teamUnitPrefab;
+
+        public Camera camera;
+        public Mesh unitMesh;
+        public Material unitMaterial;
+
         // private void CreateWorld()
         // {
         //     var world = new World("Render");

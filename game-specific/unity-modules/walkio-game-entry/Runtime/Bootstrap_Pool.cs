@@ -1,19 +1,25 @@
 namespace JoyBrick.Walkio.Game
 {
     using BehaviorDesigner.Runtime;
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT
     using HellTap.PoolKit;
+#endif
     using Opsive.UltimateCharacterController.Camera;
     using Opsive.UltimateCharacterController.Input;
     using Opsive.UltimateCharacterController.Utility;
     using Pathfinding;
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT
     using Unity.AI.Planner.Controller;
+#endif
     using Unity.Entities;
     using UnityEngine;
     // using UnityEngine.AI.Planner.Controller;
     using UnityEngine.SceneManagement;
 
     //
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT
     using GameInputControl = JoyBrick.Walkio.Game.InputControl;
+#endif
 
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
     
@@ -23,6 +29,8 @@ namespace JoyBrick.Walkio.Game
     
 #endif
 
+#if COMPLETE_PROJECT || BEHAVIOR_PROJECT
+    
     public partial class Bootstrap :
         IPoolKitListener
     {
@@ -177,4 +185,7 @@ namespace JoyBrick.Walkio.Game
             _logger.Debug($"Bootstrap - OnDespawn");
         }
     }
+#endif
+
 }
+

@@ -17,6 +17,10 @@ namespace JoyBrick.Walkio.Game
     
     using GameGameFlowControl = JoyBrick.Walkio.Game.GameFlowControl;
 
+    using GamePlaceholder = JoyBrick.Walkio.Game.Placeholder;
+    using GameCreature = JoyBrick.Walkio.Game.Creature;
+    using GameMoveWaypoint = JoyBrick.Walkio.Game.Move.Waypoint;
+
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
 
     using GameHudApp = JoyBrick.Walkio.Game.Hud.App;
@@ -63,6 +67,9 @@ namespace JoyBrick.Walkio.Game
                     .GetOrCreateSystem<GameGameFlowControl.LoadGameFlowSystem>();
 
             // App-wide
+            var emptyAppLoadingSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GamePlaceholder.EmptyAppLoadingSystem>();
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             var loadAppHudSystem =
                 World.DefaultGameObjectInjectionWorld
@@ -73,6 +80,9 @@ namespace JoyBrick.Walkio.Game
 #endif
             
             // Preparation-wide
+            var emptyPreparationLoadingSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GamePlaceholder.EmptyPreparationLoadingSystem>();
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             var loadPreparationHudSystem =
                 World.DefaultGameObjectInjectionWorld
@@ -83,6 +93,30 @@ namespace JoyBrick.Walkio.Game
 #endif
 
             // Stage-wide
+            var emptyStageLoadingSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GamePlaceholder.EmptyStageLoadingSystem>();
+
+            var replaceWaypointMoveIndicationSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameMoveWaypoint.ReplaceWaypointMoveIndicationSystem>();
+
+            var spawnNeutralUnitSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameCreature.SpawnNeutralUnitSystem>();
+
+            var spawnTeamUnitSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameCreature.SpawnTeamUnitSystem>();
+            
+            var moveOnWaypointPathSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameMoveWaypoint.MoveOnWaypointPathSystem>();
+
+            var unitIndicationRenderSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameCreature.UnitIndicationRenderSystem>();
+
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             var loadStageHudSystem =
                 World.DefaultGameObjectInjectionWorld
@@ -166,6 +200,7 @@ namespace JoyBrick.Walkio.Game
             loadGameFlowSystem.FlowControl = (GameCommon.IFlowControl) this;
             
             // App-wide
+            emptyAppLoadingSystem.FlowControl = (GameCommon.IFlowControl) this;
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             loadAppHudSystem.RefBootstrap = this.gameObject;
             loadAppHudSystem.CommandService = (GameCommand.ICommandService) this;
@@ -175,6 +210,7 @@ namespace JoyBrick.Walkio.Game
 #endif
             
             // Preparation-wide
+            emptyPreparationLoadingSystem.FlowControl = (GameCommon.IFlowControl) this;
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             loadPreparationHudSystem.RefBootstrap = this.gameObject;
             loadPreparationHudSystem.CommandService = (GameCommand.ICommandService) this;
@@ -184,6 +220,20 @@ namespace JoyBrick.Walkio.Game
 #endif
 
             // Stage-wide
+            emptyStageLoadingSystem.FlowControl = (GameCommon.IFlowControl) this;
+
+            spawnNeutralUnitSystem.FlowControl = (GameCommon.IFlowControl) this;
+            spawnNeutralUnitSystem.NeutralUnitPrefab = neutralUnitPrefab;
+
+            spawnTeamUnitSystem.FlowControl = (GameCommon.IFlowControl) this;
+            spawnTeamUnitSystem.TeamUnitPrefab = teamUnitPrefab;
+            
+            // moveOnWaypointPathSystem
+
+            unitIndicationRenderSystem.SceneCamera = camera;
+            unitIndicationRenderSystem.UnitMesh = unitMesh;
+            unitIndicationRenderSystem.UnitMaterial = unitMaterial;
+
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             loadStageHudSystem.RefBootstrap = this.gameObject;
             loadStageHudSystem.CommandService = (GameCommand.ICommandService) this;
@@ -239,18 +289,27 @@ namespace JoyBrick.Walkio.Game
             loadGameFlowSystem.Construct();
 
             // App-wide
+            emptyAppLoadingSystem.Construct();
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             loadAppHudSystem.Construct();
             setupAppHudSystem.Construct();
 #endif
 
             // Preparation-wide
+            emptyPreparationLoadingSystem.Construct();
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             loadPreparationHudSystem.Construct();
             setupPreparationHudSystem.Construct();
 #endif
 
             // Stage-wide
+            emptyStageLoadingSystem.Construct();
+            
+            spawnNeutralUnitSystem.Construct();
+            spawnTeamUnitSystem.Construct();
+            
+            moveOnWaypointPathSystem.Construct();
+
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             loadStageHudSystem.Construct();
             setupStageHudSystem.Construct();
@@ -294,18 +353,30 @@ namespace JoyBrick.Walkio.Game
             initializationSystemGroup.AddSystemToUpdateList(loadGameFlowSystem);
 
             // App-wide - InitializationSystemGroup
+            initializationSystemGroup.AddSystemToUpdateList(emptyAppLoadingSystem);
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             initializationSystemGroup.AddSystemToUpdateList(loadAppHudSystem);
             initializationSystemGroup.AddSystemToUpdateList(setupAppHudSystem);
 #endif
 
             // Preparation-wide - InitializationSystemGroup
+            initializationSystemGroup.AddSystemToUpdateList(emptyPreparationLoadingSystem);
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             initializationSystemGroup.AddSystemToUpdateList(loadPreparationHudSystem);
             initializationSystemGroup.AddSystemToUpdateList(setupPreparationHudSystem);
 #endif
 
             // Stage-wide - InitializationSystemGroup
+            initializationSystemGroup.AddSystemToUpdateList(emptyStageLoadingSystem);
+
+            initializationSystemGroup.AddSystemToUpdateList(replaceWaypointMoveIndicationSystem);
+            
+            initializationSystemGroup.AddSystemToUpdateList(spawnNeutralUnitSystem);
+            initializationSystemGroup.AddSystemToUpdateList(spawnTeamUnitSystem);
+
+            initializationSystemGroup.AddSystemToUpdateList(moveOnWaypointPathSystem);
+            
+            presentationSystemGroup.AddSystemToUpdateList(unitIndicationRenderSystem);
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             initializationSystemGroup.AddSystemToUpdateList(loadStageHudSystem);
             initializationSystemGroup.AddSystemToUpdateList(setupStageHudSystem);
