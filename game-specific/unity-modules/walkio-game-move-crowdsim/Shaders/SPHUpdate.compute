@@ -1,0 +1,275 @@
+﻿#include "SPHInclude.compute"
+
+#pragma kernel ComputeCellIndex
+#pragma kernel ScanCellNumLocal
+#pragma kernel ScanCellNumGlobal
+#pragma kernel FindNeighborSpace
+#pragma kernel UpdatePressureDensity
+#pragma kernel UpdateParticleFluidForce
+#pragma kernel AdvanceParticle
+#pragma kernel InitializeParticle
+
+// Input section
+
+// Update section
+groupshared uint groupCellPrefixSum[CELL_SCAN_THREAD_NUM_3D];
+RWStructuredBuffer<uint> _ParticleCellNumPrefixSum;
+RWBuffer<uint> _ParticlePrefixLocalOffset;
+RWStructuredBuffer<Particle> _Particles;
+RWStructuredBuffer<uint> _NeighborSpace;
+
+//
+[numthreads(SPH_THREAD_NUM, SPH_THREAD_NUM, SPH_THREAD_NUM)]
+void ComputeCellIndex(uint groupIdx: SV_GroupIndex, uint3 groupId: SV_GroupID)
+{
+    uint flatIndex = groupIdx + groupId.x * SPH_THREAD_NUM_3D;
+    if (flatIndex >= _particleNum) return;
+    
+    uint3 cellIndex = floor(_Particles[flatIndex].position * _inverseKernelRadius);
+    _Particles[flatIndex].cellIndex1d = cellIndex.x * _sphereGridSize.y * _sphereGridSize.z +
+        cellIndex.y * _sphereGridSize.z +
+        cellIndex.x;
+        
+    InterlockedAdd(_ParticleCellNumPrefixSum[_Particles[flatIndex].cellIndex1d], 1);
+}
+
+// Not sure what does this function do
+[numthreads(SPH_THREAD_NUM, SPH_THREAD_NUM, SPH_THREAD_NUM)]
+void ScanCellNumLocal(uint groupIdx: SV_GroupIndex, uint3 groupId: SV_GroupID)
+{
+    uint flatIndex = groupIdx + groupId.x * CELL_SCAN_THREAD_NUM_3D;
+    uint sphereGridCellNum = _sphereGridSize.x * _sphereGridSize.y * _sphereGridSize.z;
+    if (flatIndex < sphereGridCellNum)
+    {
+        groupCellPrefixSum[groupIdx] = _ParticleCellNumPrefixSum[flatIndex];
+    }
+    else if (flatIndex == sphereGridCellNum)
+    {
+        groupCellPrefixSum[groupIdx] = 0;
+    }
+    
+    GroupMemoryBarrierWithGroupSync();
+    
+    int d = 0;
+    
+    [unroll]
+    for (d = 0; d < LOG2_CELL_SCAN_THREAD_NUM_3D; ++d)
+    {
+        uint power2d1 = 1 << (d + 1);
+        if ((groupIdx % power2d1) == 0)
+        {
+            groupCellPrefixSum[groupIdx + power2d1 - 1] += groupCellPrefixSum[groupIdx + (1 << d) - 1];
+        }
+        GroupMemoryBarrierWithGroupSync();
+    }
+    
+    if (groupIdx == CELL_SCAN_THREAD_NUM_3D - 1)
+    {
+        _ParticlePrefixLocalOffset[groupIdx.x] = groupCellPrefixSum[groupIdx];
+        groupCellPrefixSum[groupIdx] = 0;
+    }
+    
+    GroupMemoryBarrierWithGroupSync();
+    
+    [unroll]
+    for (d = LOG2_CELL_SCAN_THREAD_NUM_3D - 1; d >= 0; --d)
+    {
+        uint power2d1 = 1 << (d + 1);
+        uint power2d = (1 << d);
+        if ((groupIdx % power2d1) == 0)
+        {
+            uint old = groupCellPrefixSum[groupIdx + power2d - 1];
+        
+            groupCellPrefixSum[groupIdx + power2d - 1] = groupCellPrefixSum[groupIdx + power2d1 - 1];
+            groupCellPrefixSum[groupIdx + power2d1 - 1] += old;
+        }
+        GroupMemoryBarrierWithGroupSync();
+    }
+    
+    if (flatIndex < sphereGridCellNum)
+    {
+        _ParticleCellNumPrefixSum[flatIndex] = groupCellPrefixSum[groupIdx];
+    }
+}
+
+// Not sure what does this function do
+[numthreads(SPH_THREAD_NUM, SPH_THREAD_NUM, SPH_THREAD_NUM)]
+void ScanCellNumGlobal(uint groupIdx: SV_GroupIndex, uint3 groupId: SV_GroupID)
+{
+    uint groupOffset = 0;
+    for (uint i = 0; i < groupId.x; ++i)
+    {
+        groupOffset += _ParticlePrefixLocalOffset[i];
+    }
+    
+    uint flatIndex = groupIdx + groupId.x * SPH_THREAD_NUM_3D;
+    uint sphereGridCellNum = _sphereGridSize.x * _sphereGridSize.y * _sphereGridSize.z;
+    if (flatIndex < sphereGridCellNum)
+    {
+        _ParticleCellNumPrefixSum[flatIndex] += groupOffset;
+    }
+    else if (flatIndex == sphereGridCellNum)
+    {
+        _ParticleCellNumPrefixSum[flatIndex] = _particleNum;
+    }
+}
+
+//
+[numthreads(SPH_THREAD_NUM, SPH_THREAD_NUM, SPH_THREAD_NUM)]
+void FindNeighborSpace(uint groupIdx: SV_GroupIndex, uint3 groupId: SV_GroupID)
+{
+    uint flatIndex = groupIdx + groupId.x * SPH_THREAD_NUM_3D;
+    if (flatIndex >= _particleNum) return;
+    
+    uint3 cellIndex = floor(_Particles[flatIndex].position * _inverseKernelRadius);
+    
+    uint neighbor[27];
+    uint i = 0;
+    
+    [unroll]
+    for (i = 0; i < 27; ++i)
+    {
+        neighbor[i] = 0;
+    }
+    
+    FindNeighborSpace(cellIndex, neighbor);
+    
+    [unroll]
+    for (i = 0; i < 27; ++i)
+    {
+        _NeighborSpace[flatIndex * 27 + i] = neighbor[i];
+    }
+}
+
+//
+[numthreads(SPH_THREAD_NUM, SPH_THREAD_NUM, SPH_THREAD_NUM)]
+void UpdatePressureDensity(uint groupIdx: SV_GroupIndex, uint3 groupId: SV_GroupID)
+{
+    uint flatIndex = groupIdx + groupId.x * SPH_THREAD_NUM_3D;
+    if (flatIndex >= _particleNum) return;
+    
+    //
+    _Particles[flatIndex].inverseDensity = 0;
+    
+    //
+    [unroll]
+    for (uint i = 0; i < 27; ++i)
+    {
+        if (!_NeighborSpace[flatIndex * 27 + i]) continue;
+        
+        uint neighborIndex1d = _Particles[flatIndex].cellIndex1d +
+            neighborOffset[i].x * _sphereGridSize.y * _sphereGridSize.z +
+            neighborOffset[i].y * _sphereGridSize.z +
+            neighborOffset[i].z;
+    
+        // Store as pair, start then end
+        uint start = _ParticleCellNumPrefixSum[neighborIndex1d];
+        uint end = _ParticleCellNumPrefixSum[neighborIndex1d + 1];
+        for (uint n = start; n < end; ++n)
+        {
+            float3 relativePosition = _Particles[flatIndex].position - _Particles[n].position;
+            _Particles[flatIndex].inverseDensity += _Particles[n].mass * KernelPoly6(relativePosition);
+        }
+    }
+    
+    //
+    if (_Particles[flatIndex].inverseDensity <= _restDensity)
+    {
+        _Particles[flatIndex].pressure = 0;
+        _Particles[flatIndex].inverseDensity = 1 / _restDensity;
+    }
+    else
+    {
+        _Particles[flatIndex].pressure = _stiffness * (_Particles[flatIndex].inverseDensity - _restDensity);
+        _Particles[flatIndex].inverseDensity = 1 / _Particles[flatIndex].inverseDensity;
+    }
+}
+
+//
+[numthreads(SPH_THREAD_NUM, SPH_THREAD_NUM, SPH_THREAD_NUM)]
+void UpdateParticleFluidForce(uint groupIdx: SV_GroupIndex, uint3 groupId: SV_GroupID)
+{
+    uint flatIndex = groupIdx + groupId.x * SPH_THREAD_NUM_3D;
+    if (flatIndex >= _particleNum) return;
+    
+    // Reset value
+    _Particles[flatIndex].forcePressure = float3(0, 0, 0);
+    _Particles[flatIndex].forceViscosity = float3(0, 0, 0);
+    _Particles[flatIndex].forceTension = float3(0, 0, 0);
+    
+    float tension = 0;
+    
+    [unroll]
+    for (uint i = 0; i < 27; ++i)
+    {
+        if (!_NeighborSpace[flatIndex * 27 + i]) continue;
+        
+        uint neighborIndex1d = _Particles[flatIndex].cellIndex1d +
+            neighborOffset[i].x * _sphereGridSize.y * _sphereGridSize.z +
+            neighborOffset[i].y * _sphereGridSize.z +
+            neighborOffset[i].z;
+            
+        // Store as pair, start then end
+        uint start = _ParticleCellNumPrefixSum[neighborIndex1d];
+        uint end = _ParticleCellNumPrefixSum[neighborIndex1d + 1];
+        for (uint n = start; n < end; ++n)
+        {
+            float3 relativePosition = _Particles[flatIndex].position - _Particles[n].position;
+
+            //
+            _Particles[flatIndex].forcePressure += (-0.5) * _Particles[n].mass *
+                (_Particles[flatIndex].pressure + _Particles[n].pressure) *
+                _Particles[n].inverseDensity * GradKernelSpiky(relativePosition);
+
+            //
+            _Particles[flatIndex].forceViscosity += _Particles[n].mass *
+                (_Particles[n].velocity - _Particles[flatIndex].velocity) *
+                _Particles[n].inverseDensity * LaplacianKernelViscosity(relativePosition);
+
+            tension -= _Particles[n].mass *_Particles[n].inverseDensity * LaplacianKernelPoly6(relativePosition);           
+        }
+    }
+    
+    _Particles[flatIndex].forceViscosity *= _viscosity;
+    
+    //
+}
+
+//
+[numthreads(SPH_THREAD_NUM, SPH_THREAD_NUM, SPH_THREAD_NUM)]
+void AdvanceParticle(uint groupIdx: SV_GroupIndex, uint3 groupId: SV_GroupID)
+{
+    uint flatIndex = groupIdx + groupId.x * SPH_THREAD_NUM_3D;
+    if (flatIndex >= _particleNum) return;
+    
+    float3 acceleration = (_Particles[flatIndex].forcePressure +
+        _Particles[flatIndex].forceViscosity +
+        _Particles[flatIndex].forceTension) / _Particles[flatIndex].mass +
+        _externalAcceleration;
+        
+    _Particles[flatIndex].position += _Particles[flatIndex].velocity * _timeStep;
+    //_Particles[flatIndex].
+}
+
+//
+[numthreads(SPH_THREAD_NUM, SPH_THREAD_NUM, SPH_THREAD_NUM)]
+void InitializeParticle(uint groupIdx: SV_GroupIndex, uint3 groupId: SV_GroupID)
+{
+    uint flatIndex = groupIdx + groupId.x * SPH_THREAD_NUM_3D;
+    if (flatIndex >= _particleNum) return;
+    
+    float3 acceleration = (
+        _Particles[flatIndex].forcePressure +
+        _Particles[flatIndex].forceViscosity +
+        _Particles[flatIndex].forceTension) / _Particles[flatIndex].mass +
+        _externalAcceleration;
+        
+    _Particles[flatIndex].velocity += 0.5 * acceleration * _timeStep;
+    _Particles[flatIndex].previousVelocity = _Particles[flatIndex].velocity;
+    _Particles[flatIndex].velocity += acceleration * _timeStep;
+    _Particles[flatIndex].middleVelocity = 0.5 * (_Particles[flatIndex].velocity + _Particles[flatIndex].previousVelocity);
+    
+    // collide with obstacles
+    
+    // collide with boundary
+}

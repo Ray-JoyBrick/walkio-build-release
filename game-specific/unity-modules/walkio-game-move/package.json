@@ -1,0 +1,11 @@
+{
+    "name": "com.walkio.game.move",
+    "displayName": "_ Walkio Game Move",
+    "version": "0.1.0",
+    "unity": "2020.1",
+    "description": "Walkio Game Move",
+    "keywords": [
+    ],
+    "category": "",
+    "dependencies": {}
+  }

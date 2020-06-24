@@ -1,0 +1,11 @@
+{
+    "name": "com.walkio.game.move-crowdsim",
+    "displayName": "_ Walkio Game Move - CrowdSim",
+    "version": "0.1.0",
+    "unity": "2020.1",
+    "description": "Walkio Game Move - CrowdSim",
+    "keywords": [
+    ],
+    "category": "",
+    "dependencies": {}
+  }
