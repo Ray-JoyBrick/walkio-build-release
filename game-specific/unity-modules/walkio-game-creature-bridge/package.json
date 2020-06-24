@@ -1,0 +1,11 @@
+{
+    "name": "com.walkio.game.creature-bridge",
+    "displayName": "_ Walkio Game Creature - Bridge",
+    "version": "0.1.0",
+    "unity": "2020.1",
+    "description": "Walkio Game Creature - Bridge",
+    "keywords": [
+    ],
+    "category": "",
+    "dependencies": {}
+  }

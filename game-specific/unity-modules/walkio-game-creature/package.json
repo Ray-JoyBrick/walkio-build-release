@@ -1,0 +1,11 @@
+{
+    "name": "com.walkio.game.creature",
+    "displayName": "_ Walkio Game Creature",
+    "version": "0.1.0",
+    "unity": "2020.1",
+    "description": "Walkio Game Creature",
+    "keywords": [
+    ],
+    "category": "",
+    "dependencies": {}
+  }
