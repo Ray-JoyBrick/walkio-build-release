@@ -50,6 +50,8 @@
                     RenderTexture.active = rt;
                     GL.Clear(true, true, Color.clear);
                 }
+                
+                Debug.Log($"c.name: {c.name}");
 
                 animator.Play(c.name);
                 yield return 0;

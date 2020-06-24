@@ -2,7 +2,6 @@
     "name": "Walkio.Build.Creature-Design-Export",
     "references": [
         "Unity.Addressables",
-        "Unity.ProBuilder",
         "Walkio.Game.Common"
     ],
     "includePlatforms": [],
