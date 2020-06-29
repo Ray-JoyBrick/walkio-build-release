@@ -30,6 +30,8 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
 
         public void Construct()
         {
+            _logger.Debug($"AssignFlowFieldTileToTeamUnitSystem - Construct");
+
             //
             FlowControl.AllDoneSettingAsset
                 .Where(x => x.Name.Contains("Stage"))
@@ -51,6 +53,8 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
 
         protected override void OnCreate()
         {
+            _logger.Debug($"AssignFlowFieldTileToTeamUnitSystem - OnCreate");
+
             base.OnCreate();
 
             _entityCommandBufferSystem = World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();

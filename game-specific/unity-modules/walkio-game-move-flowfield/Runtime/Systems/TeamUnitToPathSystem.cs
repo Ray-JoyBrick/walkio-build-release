@@ -72,6 +72,8 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
 
         public void Construct()
         {
+            _logger.Debug($"TeamUnitToPathSystem - Construct");
+
             //
             FlowControl.AllDoneSettingAsset
                 .Where(x => x.Name.Contains("Stage"))
@@ -105,6 +107,8 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
 
         protected override void OnCreate()
         {
+            _logger.Debug($"TeamUnitToPathSystem - OnCreate");
+            
             base.OnCreate();
 
             _entityCommandBufferSystem = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
@@ -405,8 +409,6 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
             {
                 tileCellOutBuffer[i] = -1;
             }
-            
-
 
             //
             var hTileCount = 10;
@@ -504,58 +506,6 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
 
             return index;
         }
-        
-        // protected override void OnUpdate()
-        // {
-        //     if (!_canUpdate) return;
-        //     
-        //     var theEnvironmentEntity = _theEnvironmentQuery.GetSingletonEntity();
-        //     var levelWaypointPathLookup = EntityManager.GetComponentData<GameEnvironment.LevelWaypointPathLookup>(theEnvironmentEntity);
-        //
-        //     var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
-        //     var concurrentCommandBuffer = commandBuffer.ToConcurrent();
-        //
-        //     var deltaTime = Time.DeltaTime;
-        //     
-        //     _teamAtTiles.Clear();
-        //
-        //     Entities
-        //         .WithAll<GameEnvironment.MoveOnFlowFieldTile>()
-        //         .WithNone<GameEnvironment.TeamLeader>()
-        //         .ForEach((Entity entity, Translation translation, TeamForce teamForce) =>
-        //         {
-        //             var tileIndex = GetTileIndex(translation.Value);
-        //
-        //             List<int> teamList = null;
-        //             var hasTeamList = _teamAtTiles.TryGetValue(teamForce.TeamId, out teamList);
-        //             if (!hasTeamList)
-        //             {
-        //                 _teamAtTiles.Add(tileIndex, new List<int>());
-        //             }
-        //
-        //             var existed = _teamAtTiles[tileIndex].Exists(x => x == tileIndex);
-        //             if (!existed)
-        //             {
-        //                 _teamAtTiles[tileIndex].Add(tileIndex);
-        //             }
-        //
-        //             //
-        //         })
-        //         // .Schedule();
-        //         .WithoutBurst()
-        //         .Run();
-        //
-        //     foreach (var pair in _teamAtTiles)
-        //     {
-        //         var teamId = pair.Key;
-        //         var tileIndices = pair.Value;
-        //
-        //         var desc = tileIndices.Aggregate("", (acc, next) => $"{acc}, {next}");
-        //         // _logger.Debug($"teamId: {teamId} at {desc} tiles");
-        //     }
-        //     
-        //     _entityCommandBufferSystem.AddJobHandleForProducer(Dependency);
-        // }
         
         private static int GetTileIndex(float3 pos)
         {

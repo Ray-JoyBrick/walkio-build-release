@@ -1,4 +1,4 @@
-namespace JoyBrick.Walkio.Game.Move.Waypoint.Template
+namespace JoyBrick.Walkio.Game.Move.Template
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -22,7 +22,7 @@ namespace JoyBrick.Walkio.Game.Move.Waypoint.Template
         public List<Waypoint> waypoints;
     }
 
-    [CreateAssetMenu(fileName = "Waypoint Data", menuName = "Game/Template/Waypoint Data")]
+    [CreateAssetMenu(fileName = "Waypoint Data", menuName = "Walkio/Game/Move/Template/Waypoint Data")]
     public class WaypointData : ScriptableObject
     {
         public List<WaypointPath> waypointPaths;

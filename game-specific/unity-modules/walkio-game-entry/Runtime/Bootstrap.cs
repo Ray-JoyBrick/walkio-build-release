@@ -48,9 +48,6 @@
         //
         private IObservable<int> SetupEcsDone => _notifySetupEcsDone.AsObservable();
         private readonly Subject<int> _notifySetupEcsDone = new Subject<int>();
-
-        // //
-        // private EntityManager _entityManager;
         
         //
         void Awake()
@@ -123,9 +120,17 @@
         private void HandleAddressableInitializeAsyncCompleted()
         {
             _logger.Debug($"Bootstrap - HandleAddressableInitializeAsyncCompleted");
+            
+            _gameObjectConversionSettings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, new BlobAssetStore());
 
             _notifyCanStartInitialSetup.OnNext(1);
             SetupEcsSystem();
+            
+            //
+            _assistants.ForEach(x =>
+            {
+                x.HandleAfterEcsSetup();
+            });
         }
 
         private void SetupFoundationFlow()
@@ -143,6 +148,8 @@
 
         private void OnDestroy()
         {
+            _gameObjectConversionSettings.BlobAssetStore.Dispose();
+            
             _compositeDisposable?.Dispose();
         }
     }

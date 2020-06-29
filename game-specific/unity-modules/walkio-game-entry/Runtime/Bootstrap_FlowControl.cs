@@ -5,6 +5,7 @@ namespace JoyBrick.Walkio.Game
     using System.Linq;
     using UniRx;
 
+    //
     using GameCommon = JoyBrick.Walkio.Game.Common;
 
     public partial class Bootstrap :

@@ -19,6 +19,7 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
         // Should separate into
         // Flow state
         // Command
+        public GameCommon.IGameSettingProvider GameSettingProvider { get; set; }
         public ICommandService CommandService { get; set; }
         
         public GameCommon.IFlowControl FlowControl { get; set; }
@@ -27,7 +28,7 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
         {
             FlowControl.DoneSettingAsset
                 .Where(x => x.Name.Contains("App"))
-                .Buffer(1)
+                .Buffer(GameSettingProvider.GameSettings.doneSettingAssetWaitForApp)
                 .Subscribe(x =>
                 {
                     _logger.Debug($"SettingDoneCheckSystem - Construct - Receive DoneSettingAsset");
@@ -55,7 +56,7 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
 
             FlowControl.DoneSettingAsset
                 .Where(x => x.Name.Contains("Preparation"))
-                .Buffer(1)
+                .Buffer(GameSettingProvider.GameSettings.doneSettingAssetWaitForPreparation)
                 .Subscribe(x =>
                 {
                     //
@@ -69,7 +70,7 @@ namespace JoyBrick.Walkio.Game.GameFlowControl
             FlowControl.DoneSettingAsset
                 .Where(x => x.Name.Contains("Stage"))
                 // Should be loading from some settings
-                .Buffer(3)
+                .Buffer(GameSettingProvider.GameSettings.doneSettingAssetWaitForStage)
                 .Subscribe(x =>
                 {
                     //

@@ -20,7 +20,7 @@ namespace JoyBrick.Walkio.Game.Creature
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
         
         //
-        private BeginSimulationEntityCommandBufferSystem _entityCommandBufferSystem;
+        private BeginInitializationEntityCommandBufferSystem _entityCommandBufferSystem;
         private EntityQuery _theEnvironmentQuery;
 
         //
@@ -30,41 +30,45 @@ namespace JoyBrick.Walkio.Game.Creature
 
         //
         private bool _canUpdate;
-
-        public GameCommon.IFlowControl FlowControl { get; set; }
-        public GameObject NeutralUnitPrefab { get; set; }
         
+        //
+        public GameCommon.IFlowControl FlowControl { get; set; }
+        public GameCommon.IEcsSettingProvider EcsSettingProvider { get; set; }
+        public GameObject NeutralUnitPrefab { get; set; }
+
+        //
         public void Construct()
         {
             _logger.Debug($"SpawnNeutralUnitSystem - Construct");
             // var settings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, null);
             // _prefabEntity = GameObjectConversionUtility.ConvertGameObjectHierarchy(neutralUnitPrefab, settings);
             
-            // //
-            // FlowControl.AllDoneSettingAsset
-            //     .Where(x => x.Name.Contains("Stage"))
-            //     .Subscribe(x =>
-            //     {
-            //         _logger.Debug($"SpawnNeutralUnitSystem - Construct - Receive AllDoneSettingAsset");
-            //         _canUpdate = true;
-            //     })
-            //     .AddTo(_compositeDisposable);
-            
-
-            Observable.Timer(System.TimeSpan.FromSeconds(3))
+            //
+            FlowControl.AllDoneSettingAsset
+                .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
                     _logger.Debug($"SpawnNeutralUnitSystem - Construct - Receive AllDoneSettingAsset");
                     _canUpdate = true;
                 })
                 .AddTo(_compositeDisposable);
+
+            // Observable.Timer(System.TimeSpan.FromSeconds(3))
+            //     .Subscribe(x =>
+            //     {
+            //         _logger.Debug($"SpawnNeutralUnitSystem - Construct - Receive AllDoneSettingAsset");
+            //         _canUpdate = true;
+            //     })
+            //     .AddTo(_compositeDisposable);
         }
 
         protected override void OnCreate()
         {
             base.OnCreate();
-            _entityCommandBufferSystem = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
 
+            //
+            _entityCommandBufferSystem = World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
+            
             // _theEnvironmentQuery = GetEntityQuery(new EntityQueryDesc
             // {
             //     All = new ComponentType[] { typeof(TheEnvironment) }
@@ -164,8 +168,7 @@ namespace JoyBrick.Walkio.Game.Creature
 
             if (_prefabEntity == Entity.Null)
             {
-                var settings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, new BlobAssetStore());
-                _prefabEntity = GameObjectConversionUtility.ConvertGameObjectHierarchy(NeutralUnitPrefab, settings);
+                _prefabEntity = GameObjectConversionUtility.ConvertGameObjectHierarchy(NeutralUnitPrefab, EcsSettingProvider.GameObjectConversionSettings);
             }
 
             var prefabEntity = _prefabEntity;
@@ -194,13 +197,13 @@ namespace JoyBrick.Walkio.Game.Creature
                 .WithoutBurst()
                 .Run();
 
-            _entityCommandBufferSystem.AddJobHandleForProducer(Dependency); 
+            _entityCommandBufferSystem.AddJobHandleForProducer(Dependency);
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            
+
             _compositeDisposable?.Dispose();
         }
     }

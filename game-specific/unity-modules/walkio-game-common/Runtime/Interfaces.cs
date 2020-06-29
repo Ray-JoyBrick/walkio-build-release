@@ -100,6 +100,11 @@ namespace JoyBrick.Walkio.Game.Common
         GameSettings GameSettings { get; }
     }
 
+    public interface IEcsSettingProvider
+    {
+        GameObjectConversionSettings GameObjectConversionSettings { get; }
+    }
+    
     // public interface IInfoPresenter
     // {
     //     

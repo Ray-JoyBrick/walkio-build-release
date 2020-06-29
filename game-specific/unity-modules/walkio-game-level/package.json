@@ -1,0 +1,11 @@
+{
+  "name": "com.walkio.game.level",
+  "displayName": "_ Walkio Game Level",
+  "version": "0.1.0",
+  "unity": "2020.1",
+  "description": "Walkio Game Level",
+  "keywords": [
+  ],
+  "category": "",
+  "dependencies": {}
+}

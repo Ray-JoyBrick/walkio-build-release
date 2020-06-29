@@ -1,4 +1,4 @@
-namespace JoyBrick.Walkio.Game.Move.Waypoint
+namespace JoyBrick.Walkio.Game.Move
 {
     using Unity.Entities;
 

@@ -2,8 +2,8 @@ namespace JoyBrick.Walkio.Game.Creature
 {
     using Unity.Entities;
 
-    public struct TeamForce : IComponentData
+    public class CreateTeamUnit : IComponentData
     {
-        public int TeamId;
+        
     }
 }

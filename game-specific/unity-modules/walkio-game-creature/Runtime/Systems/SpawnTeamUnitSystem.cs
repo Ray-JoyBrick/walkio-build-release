@@ -41,13 +41,15 @@ namespace JoyBrick.Walkio.Game.Creature
             // var settings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, null);
             // _prefabEntity = GameObjectConversionUtility.ConvertGameObjectHierarchy(teamUnitPrefab, settings);
             
-            Observable.Timer(System.TimeSpan.FromSeconds(3))
+            //
+            FlowControl.AllDoneSettingAsset
+                .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"SpawnNeutralUnitSystem - Construct - Receive AllDoneSettingAsset");
+                    _logger.Debug($"SpawnTeamUnitSystem - Construct - Receive AllDoneSettingAsset");
                     _canUpdate = true;
                 })
-                .AddTo(_compositeDisposable);            
+                .AddTo(_compositeDisposable);
         }
 
         protected override void OnCreate()
@@ -66,32 +68,24 @@ namespace JoyBrick.Walkio.Game.Creature
         // private void CreateTeamForceUnit(GameObject prefab)
         private void CreateTeamForceUnit(
             EntityCommandBuffer entityCommandBuffer,
-            Entity prefab)
+            Entity prefab,
+            int teamId,
+            float3 position)
         {
-            // This should be converted to entity automatically
-            
-            // var teamForceAuthoring = prefab.GetComponent<UnitAuthoring>();
-            // if (teamForceAuthoring != null)
-            // {
-            //     // neutralForceAuthoring.startPathIndex = waypointPathIndexPair.StartIndex;
-            //     // neutralForceAuthoring.endPathIndex = waypointPathIndexPair.EndIndex;
-            //     teamForceAuthoring.startingPosition = new float3(
-            //         UnityEngine.Random.Range(0, 20.0f),
-            //         0,
-            //         UnityEngine.Random.Range(0, 20.0f));
-            // }
-            
-            // GameObject.Instantiate(prefab);
-
-            var ent = entityCommandBuffer.Instantiate(prefab);
+            var createdEntity = entityCommandBuffer.Instantiate(prefab);
             var startingPosition = new float3(
                 UnityEngine.Random.Range(-14.0f, 14.0f),
                 0,
                 UnityEngine.Random.Range(-14.0f, 14.0f));
             
-            entityCommandBuffer.SetComponent(ent, new Translation
+            entityCommandBuffer.SetComponent(createdEntity, new Translation
             {
                 Value = startingPosition
+            });
+            
+            entityCommandBuffer.SetComponent(createdEntity, new TeamForce
+            {
+                TeamId = teamId
             });
             
             // entityCommandBuffer.SetComponent(ent, new PhysicsMass
@@ -124,21 +118,21 @@ namespace JoyBrick.Walkio.Game.Creature
 
             //
             Entities
-                .ForEach((Entity entity, TeamUnitSpawn teamUnitSpawn) =>
+                .WithAll<CreateTeamUnit>()
+                .ForEach((Entity entity, CreateTeamUnitProperty createTeamUnitProperty) =>
                 {
-                    var elapsedTime = teamUnitSpawn.CountDown + deltaTime;
+                    // var startingPosition = new float3(
+                    //     UnityEngine.Random.Range(-14.0f, 14.0f),
+                    //     0,
+                    //     UnityEngine.Random.Range(-14.0f, 14.0f));
 
-                    teamUnitSpawn.CountDown = elapsedTime;
-
-                    if (elapsedTime >= teamUnitSpawn.IntervalMax)
-                    {
-                        teamUnitSpawn.CountDown = 0;
-
-                        // CreateTeamForceUnit(commandBuffer, teamUnitPrefab);
-                        CreateTeamForceUnit(commandBuffer, prefabEntity);
-                    }
+                    var position = createTeamUnitProperty.AtPosition;
+                    var teamId = createTeamUnitProperty.TeamId;
                     
-                    commandBuffer.SetComponent(entity, teamUnitSpawn);
+                    CreateTeamForceUnit(commandBuffer, prefabEntity, teamId, position);
+
+                    //
+                    commandBuffer.DestroyEntity(entity);
                 })
                 .WithoutBurst()
                 .Run();

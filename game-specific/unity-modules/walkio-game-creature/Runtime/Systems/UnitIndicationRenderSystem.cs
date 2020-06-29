@@ -12,10 +12,12 @@ namespace JoyBrick.Walkio.Game.Creature
     [DisableAutoCreation]
     public class UnitIndicationRenderSystem : SystemBase
     {
+        //
         public Camera SceneCamera { get; set; }
         public Mesh UnitMesh { get; set; }
         public Material UnitMaterial { get; set; }
-        
+
+        //
         protected override void OnUpdate()
         {
             var materialPropertyBlock = new MaterialPropertyBlock();

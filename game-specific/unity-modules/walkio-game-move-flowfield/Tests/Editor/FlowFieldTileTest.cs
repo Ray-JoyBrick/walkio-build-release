@@ -274,7 +274,7 @@
             
             // act
             var integrationCosts =
-                GameEnvironmentUtility.FlowFieldTileHelper.GetIntegrationCostForTile(
+                GameMoveFlowFieldUtility.FlowFieldTileHelper.GetIntegrationCostForTile(
                     gridCellCount, gridCellSize,
                     tileCellCount, tileCellSize,
                     goalTileCellIndex, baseCosts);

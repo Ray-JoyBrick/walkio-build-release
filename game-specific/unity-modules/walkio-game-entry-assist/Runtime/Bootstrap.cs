@@ -86,6 +86,9 @@
                 {
                     //
                     SetupEcsSystem();
+                    
+                    //
+                    StartGameFlow();
                 })
                 .AddTo(_compositeDisposable);
         }

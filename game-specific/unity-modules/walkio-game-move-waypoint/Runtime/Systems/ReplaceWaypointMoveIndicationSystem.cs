@@ -20,15 +20,19 @@ namespace JoyBrick.Walkio.Game.Move.Waypoint
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
         
         //
-        private BeginSimulationEntityCommandBufferSystem _entityCommandBufferSystem;
+        private BeginInitializationEntityCommandBufferSystem _entityCommandBufferSystem;
 
         public GameCommon.IFlowControl FlowControl { get; set; }
         public GameObject NeutralUnitPrefab { get; set; }
 
         protected override void OnCreate()
         {
+            _logger.Debug($"ReplaceWaypointMoveIndicationSystem - OnCreate");
+    
             base.OnCreate();
-            _entityCommandBufferSystem = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
+
+            //
+            _entityCommandBufferSystem = World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
         }
 
         protected override void OnUpdate()
@@ -45,7 +49,7 @@ namespace JoyBrick.Walkio.Game.Move.Waypoint
                     //
                     commandBuffer.RemoveComponent<WaypointMoveIndication>(entity);
                     
-                    //
+                    // TODO: Replace the following code to get the actual start and end index for the path
                     var startPathIndex = 0;
                     var endPathIndex = 1;
 

@@ -6,6 +6,9 @@ namespace JoyBrick.Walkio.Game.Move.Waypoint
     using Unity.Physics;
     using Unity.Transforms;
 
+    //
+    using GameCommon = JoyBrick.Walkio.Game.Common;
+
     [DisableAutoCreation]
     public class MoveOnWaypointPathSystem : SystemBase
     {
@@ -20,22 +23,16 @@ namespace JoyBrick.Walkio.Game.Move.Waypoint
         //
         private bool _canUpdate;
         
+        //
+        public GameCommon.IFlowControl FlowControl { get; set; }
+        
         public void Construct()
         {
             _logger.Debug($"MoveOnWaypointPathSystem - Construct");
 
-            // //
-            // FlowControl.AllDoneSettingAsset
-            //     .Where(x => x.Name.Contains("Stage"))
-            //     .Subscribe(x =>
-            //     {
-            //         _logger.Debug($"MoveOnWaypointPathSystem - Construct - Receive AllDoneSettingAsset");
-            //         _canUpdate = true;
-            //     })
-            //     .AddTo(_compositeDisposable);
-            
-
-            Observable.Timer(System.TimeSpan.FromSeconds(3))
+            //
+            FlowControl.AllDoneSettingAsset
+                .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
                     _logger.Debug($"MoveOnWaypointPathSystem - Construct - Receive AllDoneSettingAsset");
@@ -64,9 +61,11 @@ namespace JoyBrick.Walkio.Game.Move.Waypoint
             //
             var deltaTime = Time.DeltaTime;
             
+            //
             var environmentEntity = _waypointPathLookupAttachmentQuery.GetSingletonEntity();
             var waypointPathLookup = EntityManager.GetComponentData<WaypointPathLookup>(environmentEntity);
 
+            //
             Entities
                 .WithAll<MoveOnWaypointPath>()
                 .ForEach((Entity entity, ref MoveOnWaypointPathProperty moveOnWaypointPathProperty, ref PhysicsVelocity physicsVelocity,
