@@ -22,6 +22,9 @@ namespace JoyBrick.Walkio.Game.Placeholder
     public class EmptyAppLoadingSystem : SystemBase
     {
         //
+        private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(EmptyAppLoadingSystem));
+
+        //
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
 
         //
@@ -47,11 +50,23 @@ namespace JoyBrick.Walkio.Game.Placeholder
         
         private void LoadingAsset()
         {
-            //
-            FlowControl.FinishLoadingAsset(new GameCommon.FlowControlContext
-            {
-                Name = "App"
-            });
+            Load().ToObservable()
+                .ObserveOnMainThread()
+                .SubscribeOnMainThread()
+                .Subscribe(result =>
+                {
+                    FlowControl.FinishLoadingAsset(new GameCommon.FlowControlContext
+                    {
+                        Name = "App"
+                    });                    
+                })
+                .AddTo(_compositeDisposable);
+        }
+
+        private async Task Load()
+        {
+            // Wait some time before signaling finish loading asset
+            await Task.Delay(System.TimeSpan.FromMilliseconds(2000));
         }
 
         protected override void OnUpdate() {}

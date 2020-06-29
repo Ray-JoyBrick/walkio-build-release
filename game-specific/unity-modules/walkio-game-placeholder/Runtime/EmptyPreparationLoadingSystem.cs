@@ -22,6 +22,9 @@ namespace JoyBrick.Walkio.Game.Placeholder
     public class EmptyPreparationLoadingSystem : SystemBase
     {
         //
+        private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(EmptyPreparationLoadingSystem));
+        
+        //
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
 
         //
@@ -33,7 +36,7 @@ namespace JoyBrick.Walkio.Game.Placeholder
         //
         public void Construct()
         {
-            base.OnCreate();
+            _logger.Debug($"EmptyPreparationLoadingSystem - Construct");
             
             //
             FlowControl.LoadingAsset
@@ -47,13 +50,24 @@ namespace JoyBrick.Walkio.Game.Placeholder
         
         private void LoadingAsset()
         {
-            //
-            FlowControl.FinishLoadingAsset(new GameCommon.FlowControlContext
-            {
-                Name = "Preparation"
-            });
+            Load().ToObservable()
+                .ObserveOnMainThread()
+                .SubscribeOnMainThread()
+                .Subscribe(result =>
+                {
+                    FlowControl.FinishLoadingAsset(new GameCommon.FlowControlContext
+                    {
+                        Name = "Preparation"
+                    });                    
+                })
+                .AddTo(_compositeDisposable);
         }
 
+        private async Task Load()
+        {
+            // Wait some time before signaling finish loading asset
+            await Task.Delay(System.TimeSpan.FromMilliseconds(2000));
+        }
         protected override void OnUpdate() {}
 
         protected override void OnDestroy()

@@ -16,13 +16,13 @@ namespace JoyBrick.Walkio.Game.Placeholder
     using GameCommand = JoyBrick.Walkio.Game.Command;
 
     //
-    [GameCommon.DoneLoadingAssetWait("Stage")]
+    [GameCommon.DoneSettingAssetWait("Stage")]
     //
     [DisableAutoCreation]
-    public class EmptyStageLoadingSystem : SystemBase
+    public class EmptyStageSettingSystem : SystemBase
     {
         //
-        private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(EmptyStageLoadingSystem));
+        private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(EmptyStageSettingSystem));
 
         //
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
@@ -33,41 +33,22 @@ namespace JoyBrick.Walkio.Game.Placeholder
         //
         public void Construct()
         {
-            _logger.Debug($"EmptyStageLoadingSystem - Construct");
+            _logger.Debug($"EmptyStageSettingSystem - Construct");
             
-            //
-            FlowControl.LoadingAsset
+            FlowControl.SettingAsset
                 .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"EmptyStageLoadingSystem - Construct - Receive LoadingAsset signal");
-
-                    LoadingAsset();
-                })
-                .AddTo(_compositeDisposable);
-        }
-        
-        private void LoadingAsset()
-        {
-            Load().ToObservable()
-                .ObserveOnMainThread()
-                .SubscribeOnMainThread()
-                .Subscribe(result =>
-                {
-                    FlowControl.FinishLoadingAsset(new GameCommon.FlowControlContext
+                    _logger.Debug($"EmptyStageSettingSystem - Construct - Receive SettingAsset");
+                    
+                    FlowControl.FinishSetting(new GameCommon.FlowControlContext
                     {
                         Name = "Stage"
-                    });                    
+                    });
                 })
-                .AddTo(_compositeDisposable);
+                .AddTo(_compositeDisposable); 
         }
-
-        private async Task Load()
-        {
-            // Wait some time before signaling finish loading asset
-            await Task.Delay(System.TimeSpan.FromMilliseconds(2000));
-        }
-
+        
         protected override void OnUpdate() {}
 
         protected override void OnDestroy()
