@@ -54,5 +54,49 @@
             Debug.Log($"CountHelper - CountDoneLoadingAssetWaitAttribute - has {preparationCount.Count} of <AddToCountAttribute> classes for preparation in the project");
             Debug.Log($"CountHelper - CountDoneLoadingAssetWaitAttribute - has {stageCount.Count} of <AddToCountAttribute> classes for stage in the project");
         }
+        
+        [MenuItem("Assets/Walkio/Game/Common/Count Done Setting Asset Wait Attribute")]
+        public static void CountDoneSettingAssetWaitAttribute()
+        {
+            var typesWithAddToCountAttribute =
+                from assembly in AppDomain.CurrentDomain.GetAssemblies()
+                from t in assembly.GetTypes()
+                let attributes = t.GetCustomAttributes(typeof(GameCommon.DoneSettingAssetWaitAttribute), true)
+                where attributes != null && attributes.Length > 0
+                select new { Type = t, Attributes = attributes.Cast<GameCommon.DoneSettingAssetWaitAttribute>() };
+
+            var addToCountAttributes = typesWithAddToCountAttribute.ToList();
+            var appCount =
+                addToCountAttributes
+                    .Where(x => String.Compare(x.Attributes.First().FlowName, "App", StringComparison.Ordinal) == 0)
+                    .ToList();
+            var preparationCount =
+                addToCountAttributes
+                    .Where(x =>
+                        String.Compare(x.Attributes.First().FlowName, "Preparation", StringComparison.Ordinal) == 0)
+                    .ToList();
+            var stageCount =
+                addToCountAttributes
+                    .Where(x => String.Compare(x.Attributes.First().FlowName, "Stage", StringComparison.Ordinal) == 0)
+                    .ToList();
+
+            var gameSettings = AssetDatabase.LoadAssetAtPath<GameCommon.GameSettings>(
+                "Packages/com.walkio.game.common/Data Assets/Game Settings.asset");
+
+            if (gameSettings != null)
+            {
+                gameSettings.doneSettingAssetWaitForApp = appCount.Count;
+                gameSettings.doneSettingAssetWaitForPreparation = preparationCount.Count;
+                gameSettings.doneSettingAssetWaitForStage = stageCount.Count;
+                
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+            }
+
+            Debug.Log($"CountHelper - CountDoneSettingAssetWaitAttribute - has {appCount.Count} of <AddToCountAttribute> classes for app in the project");
+            Debug.Log($"CountHelper - CountDoneSettingAssetWaitAttribute - has {preparationCount.Count} of <AddToCountAttribute> classes for preparation in the project");
+            Debug.Log($"CountHelper - CountDoneSettingAssetWaitAttribute - has {stageCount.Count} of <AddToCountAttribute> classes for stage in the project");
+        }
+
     }
 }
