@@ -12,6 +12,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
     
     //
     using GameCommon = JoyBrick.Walkio.Game.Common;
+    using GameMove = JoyBrick.Walkio.Game.Move;
     
     [DisableAutoCreation]
     // [UpdateBefore(typeof(FixedUpdate))]
@@ -25,15 +26,19 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
         //
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
 
+        //
         private BeginSimulationEntityCommandBufferSystem _entityCommandBufferSystem;
         private EntityQuery _theEnvironmentQuery;
 
+        //
         private bool _canUpdate;
         
         public GameCommon.IFlowControl FlowControl { get; set; }
 
         public void Construct()
         {
+            _logger.Debug($"MoveOnFlowFieldTileSystem - Construct");
+
             //
             FlowControl.AllDoneSettingAsset
                 .Where(x => x.Name.Contains("Stage"))
@@ -41,14 +46,6 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                 {
                     _logger.Debug($"MoveOnFlowFieldTileSystem - Construct - Receive DoneSettingAsset");
                     _canUpdate = true;
-                })
-                .AddTo(_compositeDisposable);
-            
-            FlowControl.CleaningAsset
-                .Where(x => x.Name.Contains("Stage"))
-                .Subscribe(x =>
-                {
-                    _canUpdate = false;
                 })
                 .AddTo(_compositeDisposable);
         }
@@ -67,11 +64,10 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
             var concurrentCommandBuffer = commandBuffer.ToConcurrent();
 
-            var deltaTime = Time.DeltaTime;
-
             Entities
                 .WithAll<MoveOnFlowFieldTile>()
-                .ForEach((Entity entity, MoveOnFlowFieldTileProperty moveOnFlowFieldTileProperty, ref PhysicsVelocity physicsVelocity, ref PhysicsMass physicsMass, ref Translation translation) =>
+                // .ForEach((Entity entity, MoveOnFlowFieldTileProperty moveOnFlowFieldTileProperty, ref PhysicsVelocity physicsVelocity, ref PhysicsMass physicsMass, ref Translation translation) =>
+                .ForEach((Entity entity, ref MoveOnFlowFieldTileProperty moveOnFlowFieldTileProperty) =>
                 {
                     var tileEntity = moveOnFlowFieldTileProperty.OnTile;
                     if (tileEntity != Entity.Null)
@@ -85,12 +81,17 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                         
                         var lookup = GetBufferFromEntity<FlowFieldTileCellBuffer>();
                         var buffer = lookup[tileEntity];
-                        var v = buffer[0];
+                        // Need a way to get the cell index instead of hard code it to 0 here
+                        var cellValue = buffer[0];
 
                         // _logger.Debug($"MoveOnFlowFieldTileSystem - OnUpdate - {entity} can move on {tileEntity} using {(int)v}");
 
-                        var direction = GetDirectionFromIndex(v);
-                        physicsVelocity.Linear = direction;
+                        var direction = GameMove.FlowField.Utility.FlowFieldTileHelper.GetDirectionFromIndex(cellValue);
+                        // Store the direction to some component and use this direction later when doing crowd sim
+                        
+                        // physicsVelocity.Linear = direction;
+
+                        moveOnFlowFieldTileProperty.Direction = direction;
                     }
                 })
                 // .Schedule();
@@ -98,45 +99,6 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                 .Run();
             
             _entityCommandBufferSystem.AddJobHandleForProducer(Dependency);
-        }
-
-        private static float3 GetDirectionFromIndex(int index)
-        {
-            var direction = float3.zero;
-            if (index == 0)
-            {
-                direction = new float3(0, 0, 1.0f);
-            }
-            else if (index == 1)
-            {
-                direction = new float3(0.5f, 0, 0.5f);
-            }
-            else if (index == 2)
-            {
-                direction = new float3(1.0f, 0, 0f);
-            }
-            else if (index == 3)
-            {
-                direction = new float3(0.5f, 0, -0.5f);
-            }
-            else if (index == 4)
-            {
-                direction = new float3(0, 0, -1.0f);
-            }
-            else if (index == 5)
-            {
-                direction = new float3(-0.5f, 0, -0.5f);
-            }
-            else if (index == 6)
-            {
-                direction = new float3(-1.0f, 0, 0);
-            }
-            else if (index == 7)
-            {
-                direction = new float3(-0.5f, 0, 0.5f);
-            }
-
-            return direction;
         }
 
         protected override void OnDestroy()

@@ -3,29 +3,29 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSim
     using System.Collections.Generic;
     using UnityEngine;
 
-    public struct Particle
-    {
-        public float Mass;
-        public float InverseDensity;
-
-        public Vector3 Position;
-        public Vector3 Velocity;
-
-        public float Pressure;
-
-        public Particle(float mass, float inverseDensity)
-        {
-            //
-            Mass = mass;
-            InverseDensity = inverseDensity;
-
-            Position = Vector3.zero;
-            Velocity = Vector3.zero;
-            Pressure = 0;
-        }
-
-        public static int stride = sizeof(float) * 27 + sizeof(int) * 2;
-    }
+    // public struct Particle
+    // {
+    //     public float Mass;
+    //     public float InverseDensity;
+    //
+    //     public Vector3 Position;
+    //     public Vector3 Velocity;
+    //
+    //     public float Pressure;
+    //
+    //     public Particle(float mass, float inverseDensity)
+    //     {
+    //         //
+    //         Mass = mass;
+    //         InverseDensity = inverseDensity;
+    //
+    //         Position = Vector3.zero;
+    //         Velocity = Vector3.zero;
+    //         Pressure = 0;
+    //     }
+    //
+    //     public static int stride = sizeof(float) * 27 + sizeof(int) * 2;
+    // }
 
     public class SPHSolver : System.IDisposable
     {

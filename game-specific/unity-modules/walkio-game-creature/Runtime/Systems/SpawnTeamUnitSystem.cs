@@ -1,5 +1,7 @@
 namespace JoyBrick.Walkio.Game.Creature
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using UniRx;
     using Unity.Entities;
     using Unity.Mathematics;
@@ -26,14 +28,15 @@ namespace JoyBrick.Walkio.Game.Creature
         //
         private float _countDown = 5.0f;
 
-        private Entity _prefabEntity;
+        private List<Entity> _prefabEntities = new List<Entity>();
         
         //
         private bool _canUpdate;
         
         public GameCommon.IFlowControl FlowControl { get; set; }
+        public GameCommon.IEcsSettingProvider EcsSettingProvider { get; set; }
 
-        public GameObject TeamUnitPrefab { get; set; }
+        public List<GameObject> TeamUnitPrefabs { get; set; }
         
         public void Construct()
         {
@@ -70,17 +73,18 @@ namespace JoyBrick.Walkio.Game.Creature
             EntityCommandBuffer entityCommandBuffer,
             Entity prefab,
             int teamId,
+            int kind,
             float3 position)
         {
             var createdEntity = entityCommandBuffer.Instantiate(prefab);
-            var startingPosition = new float3(
-                UnityEngine.Random.Range(-14.0f, 14.0f),
-                0,
-                UnityEngine.Random.Range(-14.0f, 14.0f));
+            // var startingPosition = new float3(
+            //     UnityEngine.Random.Range(-14.0f, 14.0f),
+            //     0,
+            //     UnityEngine.Random.Range(-14.0f, 14.0f));
             
             entityCommandBuffer.SetComponent(createdEntity, new Translation
             {
-                Value = startingPosition
+                Value = position
             });
             
             entityCommandBuffer.SetComponent(createdEntity, new TeamForce
@@ -96,6 +100,8 @@ namespace JoyBrick.Walkio.Game.Creature
 
         protected override void OnUpdate()
         {
+            if (!_canUpdate) return;
+
             //
             // var environmentEntity = _theEnvironmentQuery.GetSingletonEntity();
             // var levelWaypointPathLookup = EntityManager.GetComponentData<LevelWaypointPathLookup>(environmentEntity);
@@ -108,28 +114,31 @@ namespace JoyBrick.Walkio.Game.Creature
             //
             var deltaTime = Time.DeltaTime;
 
-            if (_prefabEntity == Entity.Null)
+            // if (_prefabEntity == Entity.Null)
+            if (!_prefabEntities.Any())
             {
-                var settings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, new BlobAssetStore());
-                _prefabEntity = GameObjectConversionUtility.ConvertGameObjectHierarchy(TeamUnitPrefab, settings);
+                TeamUnitPrefabs.ForEach(x =>
+                {
+                    var entity = GameObjectConversionUtility.ConvertGameObjectHierarchy(x, EcsSettingProvider.GameObjectConversionSettings);
+                    _prefabEntities.Add(entity);
+                });
             }
-            
-            var prefabEntity = _prefabEntity;
+
+            var prefabEntities = _prefabEntities;
+            // var prefabEntity = _prefabEntity;
 
             //
             Entities
                 .WithAll<CreateTeamUnit>()
                 .ForEach((Entity entity, CreateTeamUnitProperty createTeamUnitProperty) =>
                 {
-                    // var startingPosition = new float3(
-                    //     UnityEngine.Random.Range(-14.0f, 14.0f),
-                    //     0,
-                    //     UnityEngine.Random.Range(-14.0f, 14.0f));
-
-                    var position = createTeamUnitProperty.AtPosition;
                     var teamId = createTeamUnitProperty.TeamId;
+                    var kind = createTeamUnitProperty.Kind;
+                    var position = createTeamUnitProperty.AtPosition;
+
+                    var prefabEntity = prefabEntities[kind];
                     
-                    CreateTeamForceUnit(commandBuffer, prefabEntity, teamId, position);
+                    CreateTeamForceUnit(commandBuffer, prefabEntity, teamId, kind, position);
 
                     //
                     commandBuffer.DestroyEntity(entity);

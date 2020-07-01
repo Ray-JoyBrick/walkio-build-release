@@ -1,0 +1,26 @@
+{
+    "name": "Walkio.Game.Creature.Assist",
+    "references": [
+        "Unity.Entities",
+        "Unity.Entities.Hybrid",
+        "Unity.Mathematics",
+        "Unity.Transforms",
+        "Unity.Transforms.Hybrid",
+        "Unity.Physics",
+        "Unity.Physics.Hybrid",
+        "Unity.Rendering.Hybrid",
+        "UniRx",
+        "Walkio.Game.Common",
+        "Walkio.Game.Creature",
+        "Walkio.Game.Creature-Bridge"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

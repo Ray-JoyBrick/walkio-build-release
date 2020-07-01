@@ -48,7 +48,11 @@ namespace JoyBrick.Walkio.Game
         private GameObjectConversionSettings _gameObjectConversionSettings;
 
         public GameObjectConversionSettings GameObjectConversionSettings => _gameObjectConversionSettings;
-        
+
+        private void SetupEcsWorld()
+        {
+        }
+
         private void SetupEcsSystem()
         {
             _logger.Debug($"Bootstrap - SetupEcsSystem");
@@ -129,6 +133,10 @@ namespace JoyBrick.Walkio.Game
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMove.Waypoint.ReplaceWaypointMoveIndicationSystem>();
 
+            var replaceFlowFieldMoveIndicationSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameMove.FlowField.ReplaceFlowFieldMoveIndicationSystem>();
+
             var spawnNeutralUnitSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameCreature.SpawnNeutralUnitSystem>();
@@ -162,6 +170,14 @@ namespace JoyBrick.Walkio.Game
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMove.FlowField.MoveOnFlowFieldTileSystem>();
 
+            var radixSortSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameMove.CrowdSim.RadixSortSystem>();
+            var crowdSimSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameMove.CrowdSim.CrowdSimSystem>();
+            
+            //
             var unitIndicationRenderSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameCreature.UnitIndicationRenderSystem>();
@@ -283,7 +299,8 @@ namespace JoyBrick.Walkio.Game
             spawnNeutralUnitSystem.NeutralUnitPrefab = neutralUnitPrefab;
 
             spawnTeamUnitSystem.FlowControl = (GameCommon.IFlowControl) this;
-            spawnTeamUnitSystem.TeamUnitPrefab = teamUnitPrefab;
+            spawnTeamUnitSystem.EcsSettingProvider = (GameCommon.IEcsSettingProvider) this;
+            spawnTeamUnitSystem.TeamUnitPrefabs = teamUnitPrefabs;
             
             moveOnWaypointPathSystem.FlowControl = (GameCommon.IFlowControl) this;
 
@@ -298,10 +315,12 @@ namespace JoyBrick.Walkio.Game
             assignFlowFieldTileToTeamUnitSystem.FlowControl = (GameCommon.IFlowControl) this;
             moveOnFlowFieldTileSystem.FlowControl = (GameCommon.IFlowControl) this;
 
+            crowdSimSystem.FlowControl = (GameCommon.IFlowControl) this;
+
             //
             unitIndicationRenderSystem.SceneCamera = camera;
-            unitIndicationRenderSystem.UnitMesh = unitMesh;
-            unitIndicationRenderSystem.UnitMaterial = unitMaterial;
+            unitIndicationRenderSystem.UnitMeshs = unitMeshs;
+            unitIndicationRenderSystem.UnitMaterials = unitMaterials;
 
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             loadStageHudSystem.RefBootstrap = this.gameObject;
@@ -394,6 +413,12 @@ namespace JoyBrick.Walkio.Game
 
             assignFlowFieldTileToTeamUnitSystem.Construct();
             moveOnFlowFieldTileSystem.Construct();
+            
+            //
+            crowdSimSystem.Construct();
+            
+            //
+            unitIndicationRenderSystem.Construct();
 
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             loadStageHudSystem.Construct();
@@ -461,6 +486,7 @@ namespace JoyBrick.Walkio.Game
             initializationSystemGroup.AddSystemToUpdateList(setupLevelSystem);
 
             initializationSystemGroup.AddSystemToUpdateList(replaceWaypointMoveIndicationSystem);
+            initializationSystemGroup.AddSystemToUpdateList(replaceFlowFieldMoveIndicationSystem);
             
             initializationSystemGroup.AddSystemToUpdateList(spawnNeutralUnitSystem);
             initializationSystemGroup.AddSystemToUpdateList(spawnTeamUnitSystem);
@@ -476,6 +502,10 @@ namespace JoyBrick.Walkio.Game
             simulationSystemGroup.AddSystemToUpdateList(adjustMoveToTargetFlowFieldSystem);
             simulationSystemGroup.AddSystemToUpdateList(assignFlowFieldTileToTeamUnitSystem);
             simulationSystemGroup.AddSystemToUpdateList(moveOnFlowFieldTileSystem);
+            
+            //
+            simulationSystemGroup.AddSystemToUpdateList(radixSortSystem);
+            simulationSystemGroup.AddSystemToUpdateList(crowdSimSystem);
 
             //
             presentationSystemGroup.AddSystemToUpdateList(unitIndicationRenderSystem);

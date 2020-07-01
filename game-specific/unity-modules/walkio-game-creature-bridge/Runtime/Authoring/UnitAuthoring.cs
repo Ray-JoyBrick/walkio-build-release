@@ -11,6 +11,8 @@ namespace JoyBrick.Walkio.Game.Creature
         IConvertGameObjectToEntity
     {
         public bool isLeader;
+
+        public int kind;
         
         // public EMoveStyle moveStyle;
 
@@ -29,7 +31,10 @@ namespace JoyBrick.Walkio.Game.Creature
             dstManager.AddComponentData(entity, new UnitMovement());
             
             //
-            dstManager.AddComponentData(entity, new UnitIndication());
+            dstManager.AddComponentData(entity, new UnitIndication
+            {
+                Kind = kind
+            });
             dstManager.RemoveComponent<RenderMesh>(entity);
             
             //

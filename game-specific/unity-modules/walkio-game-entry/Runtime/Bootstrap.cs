@@ -124,6 +124,8 @@
             _gameObjectConversionSettings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, new BlobAssetStore());
 
             _notifyCanStartInitialSetup.OnNext(1);
+            
+            SetupEcsWorld();
             SetupEcsSystem();
             
             //

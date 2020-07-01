@@ -18,13 +18,17 @@ namespace JoyBrick.Walkio.Game.Move
         
         public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
         {
-            if (moveStyle == EMoveStyle.MoveOnWayPointPath)
+            if (moveStyle == EMoveStyle.Controlled)
+            {
+                
+            }
+            else if (moveStyle == EMoveStyle.MoveOnWayPointPath)
             {
                 dstManager.AddComponentData(entity, new WaypointMoveIndication());
             }
             else if (moveStyle == EMoveStyle.MoveOnFlowField)
             {
-                //
+                dstManager.AddComponentData(entity, new FlowFieldMoveIndication());
             }            
         }
     }

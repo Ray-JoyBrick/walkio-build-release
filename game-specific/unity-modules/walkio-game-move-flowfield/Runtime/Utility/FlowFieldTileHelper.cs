@@ -1019,6 +1019,45 @@ namespace JoyBrick.Walkio.Game.Move.FlowField.Utility
                 outTileCellDirectionBuffer[toAlertOutTileCellIndex] = outTileCellDirection;
             }
         }
+        
+        public static float3 GetDirectionFromIndex(int index)
+        {
+            var direction = float3.zero;
+            if (index == 0)
+            {
+                direction = new float3(0, 0, 1.0f);
+            }
+            else if (index == 1)
+            {
+                direction = new float3(0.5f, 0, 0.5f);
+            }
+            else if (index == 2)
+            {
+                direction = new float3(1.0f, 0, 0f);
+            }
+            else if (index == 3)
+            {
+                direction = new float3(0.5f, 0, -0.5f);
+            }
+            else if (index == 4)
+            {
+                direction = new float3(0, 0, -1.0f);
+            }
+            else if (index == 5)
+            {
+                direction = new float3(-0.5f, 0, -0.5f);
+            }
+            else if (index == 6)
+            {
+                direction = new float3(-1.0f, 0, 0);
+            }
+            else if (index == 7)
+            {
+                direction = new float3(-0.5f, 0, 0.5f);
+            }
+
+            return direction;
+        }
     }
 
     public struct Environment : IComponentData
