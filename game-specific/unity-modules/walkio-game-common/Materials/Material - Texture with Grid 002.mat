@@ -129,7 +129,7 @@ Material:
     - Color_DF2D851C: {r: 1, g: 1, b: 1, a: 0}
     - Color_E9ECD848: {r: 0.7335789, g: 0.7529412, b: 0.25098044, a: 0}
     - Vector2_6C482731: {r: 0.5, g: 0.5, b: 0, a: 0}
-    - Vector4_157FF288: {r: 0.125, g: 0.125, b: 0, a: 0}
+    - Vector4_157FF288: {r: 0.25, g: 0.25, b: 0, a: 0}
     - Vector4_1C2F3401: {r: 0.25, g: 0.25, b: 0.5, a: 0.5}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
