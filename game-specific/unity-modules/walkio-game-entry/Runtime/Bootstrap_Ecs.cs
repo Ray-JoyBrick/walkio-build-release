@@ -150,6 +150,16 @@ namespace JoyBrick.Walkio.Game
                     .GetOrCreateSystem<GameMove.Waypoint.MoveOnWaypointPathSystem>();
 
             //
+            var loadFlowFieldSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameMove.FlowField.LoadFlowFieldSystem>();
+            var setupWaypointSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameMove.Waypoint.SetupWaypointSystem>();
+            var setupFlowFieldSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameMove.FlowField.SetupFlowFieldSystem>();
+
             var teamUnitToPathSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMove.FlowField.TeamUnitToPathSystem>();
@@ -170,9 +180,9 @@ namespace JoyBrick.Walkio.Game
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMove.FlowField.MoveOnFlowFieldTileSystem>();
 
-            var radixSortSystem =
+            var collectNeighborSystem =
                 World.DefaultGameObjectInjectionWorld
-                    .GetOrCreateSystem<GameMove.CrowdSim.RadixSortSystem>();
+                    .GetOrCreateSystem<GameMove.CrowdSim.CollectNeighborSystem>();
             var crowdSimSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMove.CrowdSim.CrowdSimSystem>();
@@ -305,6 +315,10 @@ namespace JoyBrick.Walkio.Game
             moveOnWaypointPathSystem.FlowControl = (GameCommon.IFlowControl) this;
 
             //
+            loadFlowFieldSystem.FlowControl = (GameCommon.IFlowControl) this;
+            setupWaypointSystem.FlowControl = (GameCommon.IFlowControl) this;
+            setupFlowFieldSystem.FlowControl = (GameCommon.IFlowControl) this;
+            
             teamUnitToPathSystem.FlowControl = (GameCommon.IFlowControl) this;
             teamUnitToPathSystem.AStarPathService = (GameCommon.IAStarPathService) this;
             
@@ -315,6 +329,7 @@ namespace JoyBrick.Walkio.Game
             assignFlowFieldTileToTeamUnitSystem.FlowControl = (GameCommon.IFlowControl) this;
             moveOnFlowFieldTileSystem.FlowControl = (GameCommon.IFlowControl) this;
 
+            collectNeighborSystem.FlowControl = (GameCommon.IFlowControl) this;
             crowdSimSystem.FlowControl = (GameCommon.IFlowControl) this;
 
             //
@@ -405,6 +420,10 @@ namespace JoyBrick.Walkio.Game
             moveOnWaypointPathSystem.Construct();
             
             //
+            loadFlowFieldSystem.Construct();
+            setupWaypointSystem.Construct();
+            setupFlowFieldSystem.Construct();
+
             teamUnitToPathSystem.Construct();
             
             adjustMoveToTargetFlowFieldSystem.Construct();
@@ -415,6 +434,7 @@ namespace JoyBrick.Walkio.Game
             moveOnFlowFieldTileSystem.Construct();
             
             //
+            collectNeighborSystem.Construct();
             crowdSimSystem.Construct();
             
             //
@@ -491,6 +511,10 @@ namespace JoyBrick.Walkio.Game
             initializationSystemGroup.AddSystemToUpdateList(spawnNeutralUnitSystem);
             initializationSystemGroup.AddSystemToUpdateList(spawnTeamUnitSystem);
 
+            initializationSystemGroup.AddSystemToUpdateList(loadFlowFieldSystem);
+            initializationSystemGroup.AddSystemToUpdateList(setupWaypointSystem);
+            initializationSystemGroup.AddSystemToUpdateList(setupFlowFieldSystem);
+            
             initializationSystemGroup.AddSystemToUpdateList(teamUnitToPathSystem);
 
             simulationSystemGroup.AddSystemToUpdateList(moveOnWaypointPathSystem);
@@ -504,7 +528,7 @@ namespace JoyBrick.Walkio.Game
             simulationSystemGroup.AddSystemToUpdateList(moveOnFlowFieldTileSystem);
             
             //
-            simulationSystemGroup.AddSystemToUpdateList(radixSortSystem);
+            simulationSystemGroup.AddSystemToUpdateList(collectNeighborSystem);
             simulationSystemGroup.AddSystemToUpdateList(crowdSimSystem);
 
             //

@@ -48,7 +48,7 @@ namespace JoyBrick.Walkio.Game.Move.Waypoint
 
             _waypointPathLookupAttachmentQuery = GetEntityQuery(new EntityQueryDesc
             {
-                All = new ComponentType[] { typeof(WaypointPathLookupAttachment) }
+                All = new ComponentType[] { typeof(GameCommon.WaypointPathLookupAttachment) }
             });
             
             RequireForUpdate(_waypointPathLookupAttachmentQuery);

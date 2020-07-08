@@ -104,6 +104,18 @@ namespace JoyBrick.Walkio.Game.Common
     {
         GameObjectConversionSettings GameObjectConversionSettings { get; }
     }
+
+    public interface ISceneProvider
+    {
+        Camera SceneCamera { get; }
+    }
+
+    public interface ISceneAssistProvider
+    {
+        Vector2Int SegmentCount { get; }
+        Vector3 StartOffset { get; }
+        Material PlanMaterial { get; }
+    }
     
     // public interface IInfoPresenter
     // {

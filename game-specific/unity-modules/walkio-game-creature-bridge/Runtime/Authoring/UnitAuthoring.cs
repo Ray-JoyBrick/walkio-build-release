@@ -14,10 +14,6 @@ namespace JoyBrick.Walkio.Game.Creature
 
         public int kind;
         
-        // public EMoveStyle moveStyle;
-
-        // public int startPathIndex;
-        // public int endPathIndex;
         public Vector3 startingPosition;
 
         //
@@ -49,25 +45,26 @@ namespace JoyBrick.Walkio.Game.Creature
 
                 _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
                 _entity = entity;
+                
+#if UNITY_EDITOR
+
+                // var entityName = World.DefaultGameObjectInjectionWorld.EntityManager.GetName(entity);
+                // World.DefaultGameObjectInjectionWorld.EntityManager.SetName(entity, $"{entityName} - Disabled");
+
+#endif
+            }
+            else
+            {
+#if UNITY_EDITOR
+
+                var entityName = World.DefaultGameObjectInjectionWorld.EntityManager.GetName(entity);
+                World.DefaultGameObjectInjectionWorld.EntityManager.SetName(entity, $"Unit - {entityName}");
+
+#endif                
             }
 
             //
             transform.position = new Vector3(startingPosition.x, startingPosition.y, startingPosition.z);
-
-            // if (moveStyle == EMoveStyle.MoveOnWayPointPath)
-            // {
-            //     dstManager.AddComponentData(entity, new MoveOnWaypointPath
-            //     {
-            //         StartPathIndex = startPathIndex,
-            //         EndPathIndex = endPathIndex,
-            //         
-            //         AtIndex = startPathIndex
-            //     });
-            // }
-            // else if (moveStyle == EMoveStyle.MoveOnFlowField)
-            // {
-            //     //
-            // }
 
             //
             var neutralForceAuthoring = GetComponent<NeutralForceAuthoring>();

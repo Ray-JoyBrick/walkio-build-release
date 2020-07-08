@@ -1,9 +1,11 @@
 {
     "name": "Walkio.Game.Common",
     "references": [
+        "Unity.Addressables",
         "Unity.Entities",
         "Unity.Entities.Hybrid",
         "Unity.Mathematics",
+        "Unity.ResourceManager",
         "UniRx"
     ],
     "includePlatforms": [],

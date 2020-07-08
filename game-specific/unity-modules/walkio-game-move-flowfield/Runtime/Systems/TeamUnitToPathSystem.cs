@@ -83,26 +83,6 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                     _canUpdate = true;
                 })
                 .AddTo(_compositeDisposable);
-            
-            FlowControl.CleaningAsset
-                .Where(x => x.Name.Contains("Stage"))
-                .Subscribe(x =>
-                {
-                    _canUpdate = false;
-                })
-                .AddTo(_compositeDisposable);
-
-            FlowFieldChangeStream
-                .Subscribe(teamTileContext =>
-                {
-                    //
-                    // _logger.Debug($"TeamUnitToPathSystem - Construct - Handle FlowFieldChangeStream");
-
-                    //
-                    UpdateGroupAtiTiles(teamTileContext);
-                    RequestAstarPathToSearch(teamTileContext);
-                })
-                .AddTo(_compositeDisposable);
         }
 
         protected override void OnCreate()
@@ -112,45 +92,6 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
             base.OnCreate();
 
             _entityCommandBufferSystem = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
-
-            // _theEnvironmentQuery = GetEntityQuery(new EntityQueryDesc
-            // {
-            //     All = new ComponentType[] { typeof(GameEnvironment.TheEnvironment) }
-            // });
-            //
-            // RequireForUpdate(_theEnvironmentQuery);
-        }
-
-        protected override void OnUpdate()
-        {
-            if (!_canUpdate) return;
-            
-            var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
-            var concurrentCommandBuffer = commandBuffer.ToConcurrent();
-
-            Entities
-                .WithAll<FlowFieldTileChange>()
-                .ForEach((Entity entity, FlowFieldTileChangeProperty flowFieldTileChangeProperty) =>
-                {
-                    var teamId = flowFieldTileChangeProperty.TeamId;
-                    
-                    ResetCachedFlowFieldEntities(commandBuffer, teamId);
-                    
-                    _notifyTileChange.OnNext(new TeamTileContext
-                    {
-                        TeamId = flowFieldTileChangeProperty.TeamId,
-                        TimeTick = flowFieldTileChangeProperty.TimeTick,
-                        TargetPosition = flowFieldTileChangeProperty.TargetPosition
-                    });
-                    // var units = GetComponentDataFromEntity<Unit>();
-
-                    commandBuffer.DestroyEntity(entity);
-                })
-                // .Schedule();
-                .WithoutBurst()
-                .Run();
-
-            _entityCommandBufferSystem.AddJobHandleForProducer(Dependency);
         }
 
         private void ResetCachedFlowFieldEntities(EntityCommandBuffer commandBuffer, int teamId)
@@ -208,17 +149,6 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                 })
                 .WithoutBurst()
                 .Run();
-            
-            
-            
-            // foreach (var pair in _teamAtTiles)
-            // {
-            //     var teamId = pair.Key;
-            //     var tileIndices = pair.Value;
-            //
-            //     var desc = tileIndices.Aggregate("", (acc, next) => $"{acc}, {next}");
-            //     _logger.Debug($"TeamUnitToPathSystem - UpdateTeamAtiTiles - teamId: {teamId} at {desc} tiles");
-            // }
         }
 
         private void RequestAstarPathToSearch(TeamTileContext teamTileContext)
@@ -231,9 +161,45 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
             AStarPathService.CalculatePath(teamTileContext.TeamId, teamTileContext.TimeTick, startPoints, teamTileContext.TargetPosition, HandleFoundPaths);
         }
 
+        protected override void OnUpdate()
+        {
+            if (!_canUpdate) return;
+            
+            var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
+            var concurrentCommandBuffer = commandBuffer.ToConcurrent();
+
+            Entities
+                .WithAll<FlowFieldTileChange>()
+                .ForEach((Entity entity, FlowFieldTileChangeProperty flowFieldTileChangeProperty) =>
+                {
+                    //
+                    var teamId = flowFieldTileChangeProperty.TeamId;
+                    ResetCachedFlowFieldEntities(commandBuffer, teamId);
+
+                    //
+                    var teamTileContext = new TeamTileContext
+                    {
+                        TeamId = flowFieldTileChangeProperty.TeamId,
+                        TimeTick = flowFieldTileChangeProperty.TimeTick,
+                        TargetPosition = flowFieldTileChangeProperty.TargetPosition
+                    };
+
+                    //
+                    UpdateGroupAtiTiles(teamTileContext);
+                    RequestAstarPathToSearch(teamTileContext);
+
+                    commandBuffer.DestroyEntity(entity);
+                })
+                // .Schedule();
+                .WithoutBurst()
+                .Run();
+
+            _entityCommandBufferSystem.AddJobHandleForProducer(Dependency);
+        }
+
         private void HandleFoundPaths(int teamId, int timeTick, Vector3 targetPosition, List<List<Vector3>> paths)
         {
-            _logger.Debug($"TeamUnitToPathSystem - HandleFoundPaths - For teamId: {teamId} timeTick: {timeTick} targetPosition: {targetPosition}");
+            // _logger.Debug($"TeamUnitToPathSystem - HandleFoundPaths - For teamId: {teamId} timeTick: {timeTick} targetPosition: {targetPosition}");
 
             var hGridCellCount = 128;
             var vGridCellCount = 192;
@@ -359,7 +325,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
         
         private static void SetupFlowFieldTileEntity(EntityManager entityManager, int teamId, int timeTick, Vector3 targetPosition, Dictionary<int, Entity> cachedEntities, int tileIndex, Entity entity)
         {
-            _logger.Debug($"TeamUnitToPathSystem - SetupFlowFieldTileEntity - for teamId: {teamId} targetPosition: {targetPosition} entity: {entity}");
+            // _logger.Debug($"TeamUnitToPathSystem - SetupFlowFieldTileEntity - for teamId: {teamId} targetPosition: {targetPosition} entity: {entity}");
             
             // Actual flow field direction setup here
 

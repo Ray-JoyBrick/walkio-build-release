@@ -11,7 +11,7 @@
         "Unity.Rendering.Hybrid",
         "UniRx",
         "Walkio.Game.Common",
-        "Walkio.Game.Move"
+        "Walkio.Game.Level"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

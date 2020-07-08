@@ -43,11 +43,11 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
 
             //
             Entities
-                .WithAll<WaypointMoveIndication>()
+                .WithAll<FlowFieldMoveIndication>()
                 .ForEach((Entity entity) =>
                 {
                     //
-                    commandBuffer.RemoveComponent<WaypointMoveIndication>(entity);
+                    commandBuffer.RemoveComponent<FlowFieldMoveIndication>(entity);
                     
                     // TODO: Replace the following code to get the actual start and end index for the path
                     commandBuffer.AddComponent(entity, new MoveOnFlowFieldTile());

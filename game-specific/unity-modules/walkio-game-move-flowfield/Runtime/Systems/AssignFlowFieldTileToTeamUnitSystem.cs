@@ -21,6 +21,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
         //
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
 
+        //
         private BeginInitializationEntityCommandBufferSystem _entityCommandBufferSystem;
 
         //
@@ -39,14 +40,6 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                 {
                     _logger.Debug($"AssignFlowFieldTileToTeamUnitSystem - Construct - Receive DoneSettingAsset");
                     _canUpdate = true;
-                })
-                .AddTo(_compositeDisposable);
-            
-            FlowControl.CleaningAsset
-                .Where(x => x.Name.Contains("Stage"))
-                .Subscribe(x =>
-                {
-                    _canUpdate = false;
                 })
                 .AddTo(_compositeDisposable);
         }
@@ -71,25 +64,6 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
 
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
             var concurrentCommandBuffer = commandBuffer.ToConcurrent();
-
-            // NativeHashMap<int, NativeHashMap<int, Entity>> teamFlowFieldTileHashMap =
-            //     new NativeHashMap<int, NativeHashMap<int, Entity>>(
-            //         teamCount, Allocator.Temp);
-            //
-            // foreach (var pair in teamUnitToPathSystem.CachedEntities)
-            // {
-            //     var teamId = pair.Key;
-            //     var cachedTable = pair.Value;
-            //     
-            //     teamFlowFieldTileHashMap[teamId] = new NativeHashMap<int, Entity>(cachedTable.Count, Allocator.Temp);
-            //
-            //     var innerHashMap = teamFlowFieldTileHashMap[teamId];
-            //
-            //     foreach (var tilePair in cachedTable)
-            //     {
-            //         innerHashMap[tilePair.Key] = tilePair.Value;
-            //     }
-            // }
 
             var hGridCount = 128;
             var vGridCount = 192;
@@ -126,19 +100,6 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                 // .Schedule();
                 .WithoutBurst()
                 .Run();
-
-            // Entities
-            //     .WithAll<Unit, TeamForce>()
-            //     .WithNone<GameEnvironment.TeamLeader>()
-            //     .ForEach((Entity entity, ref GameEnvironment.MoveOnFlowFieldTile moveOnFlowFieldTile) =>
-            //     {
-            //         
-            //     })
-            //     // .Schedule();
-            //     .WithoutBurst()
-            //     .Run();
-
-            // teamFlowFieldTileHashMap.Dispose();
 
             _entityCommandBufferSystem.AddJobHandleForProducer(Dependency);
         }

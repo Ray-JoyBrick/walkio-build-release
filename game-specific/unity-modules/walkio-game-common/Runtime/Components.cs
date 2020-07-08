@@ -16,9 +16,5 @@ namespace JoyBrick.Walkio.Game.Common
     {
         
     }
-    
-    //
-    public struct StageUse : IComponentData
-    {
-    }
+
 }

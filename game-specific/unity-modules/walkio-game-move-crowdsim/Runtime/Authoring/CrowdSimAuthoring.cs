@@ -11,6 +11,7 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSim
         {
             dstManager.AddComponentData(entity, new Particle());
             dstManager.AddComponentData(entity, new ParticleProperty());
+            var buffer = dstManager.AddBuffer<ParticleNeighborBuffer>(entity);
         }
     }
 }

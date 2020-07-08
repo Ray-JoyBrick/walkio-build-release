@@ -21,8 +21,6 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
 
         private BeginSimulationEntityCommandBufferSystem _entityCommandBufferSystem;
-        private EntityQuery _theEnvironmentQuery;
-        private EntityArchetype _flowFieldTileArchetype;
 
         //
         private bool _canUpdate;
@@ -31,6 +29,8 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
 
         public void Construct()
         {
+            _logger.Debug($"AdjustMoveToTargetFlowFieldSystem - Construct");
+
             //
             FlowControl.AllDoneSettingAsset
                 .Where(x => x.Name.Contains("Stage"))
@@ -40,14 +40,6 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                     _canUpdate = true;
                 })
                 .AddTo(_compositeDisposable);
-            
-            FlowControl.CleaningAsset
-                .Where(x => x.Name.Contains("Stage"))
-                .Subscribe(x =>
-                {
-                    _canUpdate = false;
-                })
-                .AddTo(_compositeDisposable);
         }
 
         protected override void OnCreate()
@@ -55,55 +47,105 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
             base.OnCreate();
 
             _entityCommandBufferSystem = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
+        }
 
-            // _theEnvironmentQuery = GetEntityQuery(new EntityQueryDesc
-            // {
-            //     All = new ComponentType[] { typeof(GameEnvironment.TheEnvironment) }
-            // });
+        private Entity AssignToMoveToTarget(
+            EntityCommandBuffer commandBuffer, EntityArchetype flowFieldTileArchetype,
+            int tileIndex, int timeTick, int uniformSize,
+            Entity entity)
+        {
+            var flowFieldTileEntity = commandBuffer.CreateEntity(flowFieldTileArchetype);
+            var tileBuffer = commandBuffer.AddBuffer<FlowFieldTileCellBuffer>(flowFieldTileEntity);
+            var tileCellInBuffer = commandBuffer.AddBuffer<FlowFieldTileInCellBuffer>(flowFieldTileEntity);
+            var tileCellOutBuffer = commandBuffer.AddBuffer<FlowFieldTileOutCellBuffer>(flowFieldTileEntity);
+                        
+            //
+            commandBuffer.SetComponent(flowFieldTileEntity, new FlowFieldTile
+            {
+                Index = tileIndex,
+                            
+                HorizontalCount = uniformSize,
+                VerticalCount = uniformSize,
+                            
+                TimeTick = timeTick
+            });
 
-            _flowFieldTileArchetype = EntityManager.CreateArchetype(
-                typeof(FlowFieldTile));
+            var totalTileCellCount = uniformSize * uniformSize;
+            var tileCellInCount = uniformSize * 4;
+            var tileCellOutCount = uniformSize * 4;
+                        
+            tileBuffer.ResizeUninitialized(totalTileCellCount);
+            tileCellInBuffer.ResizeUninitialized(tileCellInCount);
+            tileCellOutBuffer.ResizeUninitialized(tileCellOutCount);
 
-            
-            // RequireForUpdate(_theEnvironmentQuery);
+            //
+            for (var tv = 0; tv < uniformSize; ++tv)
+            {
+                for (var th = 0; th < uniformSize; ++th)
+                {
+                    var tileCellIndex = tv * uniformSize + th;
+
+                    tileBuffer[tileCellIndex] = tileCellIndex;
+                }
+            }
+
+            for (var i = 0; i < uniformSize * 4; ++i)
+            {
+                tileCellInBuffer[i] = -1;
+            }
+
+            for (var i = 0; i < uniformSize * 4; ++i)
+            {
+                tileCellOutBuffer[i] = -1;
+            }
+
+            //
+            // moveToTarget.AtTile = flowFieldTileEntity;
+            commandBuffer.SetComponent(entity, new MoveToTarget
+            {
+                AtTile = flowFieldTileEntity
+            });
+
+            return flowFieldTileEntity;
         }
 
         protected override void OnUpdate()
         {
             if (!_canUpdate) return;
-            
-            // var theEnvironmentEntity = _theEnvironmentQuery.GetSingletonEntity();
-            // var levelWaypointPathLookup = EntityManager.GetComponentData<GameEnvironment.LevelWaypointPathLookup>(theEnvironmentEntity);
 
+            //
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
             var concurrentCommandBuffer = commandBuffer.ToConcurrent();
 
-            var deltaTime = Time.DeltaTime;
-            
             // Need to get time tick from some system
             var timeTick = (int) (Time.ElapsedTime * 100);
 
-            var flowFieldTileComps = GetComponentDataFromEntity<FlowFieldTile>();
-            
+            //
             var flowFieldTileArchetype = EntityManager.CreateArchetype(
                 typeof(FlowFieldTile));
-            
             var flowFieldTileChangeEventArchetype = EntityManager.CreateArchetype(
                 typeof(FlowFieldTileChange),
-                typeof(FlowFieldTileChangeProperty)
-            );
+                typeof(FlowFieldTileChangeProperty));
 
+            //
+            var flowFieldTileComps = GetComponentDataFromEntity<FlowFieldTile>();
+
+            //
             Entities
-                // .WithAll<GameEnvironment.TeamLeader, MonitorTileChange>()
                 .WithAll<MonitorTileChange>()
-                .ForEach((Entity entity, LocalToWorld localToWorld, FlowFieldGroup flowFieldGroup,  ref MoveToTarget moveToTarget) =>
+                .ForEach((Entity entity, LocalToWorld localToWorld, FlowFieldGroup flowFieldGroup, ref MoveToTarget moveToTarget) =>
                 {
+                    // From entity position to get tile index
+                    var tileIndex = GetTileIndex(localToWorld.Position);
+                    var uniformSize = 10;
+
                     if (moveToTarget.AtTile == Entity.Null)
                     {
                         // This is the case where team leader is just created, no entity assigned
-
-                        var tileIndex = GetTileIndex(localToWorld.Position);
-                        var flowFieldTileEntity = AssignToMoveToTarget(commandBuffer, flowFieldTileArchetype, tileIndex, timeTick, entity);
+                        var flowFieldTileEntity = AssignToMoveToTarget(
+                            commandBuffer, flowFieldTileArchetype, tileIndex, timeTick, uniformSize, entity);
+                        
+                        _logger.Debug($"AdjustMoveToTargetFlowFieldSystem - Update - flowFieldTileEntity: {flowFieldTileEntity}");
 
                         //
                         SendFlowFieldChangeEvent(commandBuffer, flowFieldTileChangeEventArchetype,
@@ -113,8 +155,6 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                     {
                         // Check to see if team leader is moving to another tile, update at tile
                         // and signal
-
-                        var tileIndex = GetTileIndex(localToWorld.Position);
                         var flowFieldTileComp = flowFieldTileComps[moveToTarget.AtTile];
 
                         if (tileIndex != flowFieldTileComp.Index)
@@ -122,7 +162,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                             // _logger.Debug($"AdjustMoveToTargetFlowFieldSystem - OnUpdate - tileIndex: {tileIndex} flowFieldTileComp Index: {flowFieldTileComp.Index}");
 
                             var previousEntity = moveToTarget.AtTile;
-                            var flowFieldTileEntity = AssignToMoveToTarget(commandBuffer, flowFieldTileArchetype, tileIndex, timeTick, entity);
+                            var flowFieldTileEntity = AssignToMoveToTarget(commandBuffer, flowFieldTileArchetype, tileIndex, timeTick, uniformSize, entity);
 
                             //
                             SendFlowFieldChangeEvent(commandBuffer, flowFieldTileChangeEventArchetype,
@@ -143,67 +183,10 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
             _entityCommandBufferSystem.AddJobHandleForProducer(Dependency);
         }
 
-        private Entity AssignToMoveToTarget(EntityCommandBuffer commandBuffer, EntityArchetype flowFieldTileArchetype,
-            int tileIndex, int timeTick, Entity entity)
-        {
-            var flowFieldTileEntity = commandBuffer.CreateEntity(flowFieldTileArchetype);
-            var tileBuffer = commandBuffer.AddBuffer<FlowFieldTileCellBuffer>(flowFieldTileEntity);
-            var tileCellInBuffer = commandBuffer.AddBuffer<FlowFieldTileInCellBuffer>(flowFieldTileEntity);
-            var tileCellOutBuffer = commandBuffer.AddBuffer<FlowFieldTileOutCellBuffer>(flowFieldTileEntity);
-                        
-            //
-            commandBuffer.SetComponent(flowFieldTileEntity, new FlowFieldTile
-            {
-                Index = tileIndex,
-                            
-                HorizontalCount = 10,
-                VerticalCount = 10,
-                            
-                TimeTick = timeTick
-            });
-
-            var totalTileCellCount = 10 * 10;
-            var tileCellInCount = 10 * 4;
-            var tileCellOutCount = 10 * 4;
-                        
-            tileBuffer.ResizeUninitialized(totalTileCellCount);
-            tileCellInBuffer.ResizeUninitialized(tileCellInCount);
-            tileCellOutBuffer.ResizeUninitialized(tileCellOutCount);
-                        
-            for (var tv = 0; tv < 10; ++tv)
-            {
-                for (var th = 0; th < 10; ++th)
-                {
-                    var tileCellIndex = tv * 10 + th;
-
-                    tileBuffer[tileCellIndex] = tileCellIndex;
-                }
-            }
-
-            for (var i = 0; i < 10 * 4; ++i)
-            {
-                tileCellInBuffer[i] = -1;
-            }
-
-            for (var i = 0; i < 10 * 4; ++i)
-            {
-                tileCellOutBuffer[i] = -1;
-            }
-
-            //
-            // moveToTarget.AtTile = flowFieldTileEntity;
-            commandBuffer.SetComponent(entity, new MoveToTarget
-            {
-                AtTile = flowFieldTileEntity
-            });
-
-            return flowFieldTileEntity;
-        }
-
         private void SendFlowFieldChangeEvent(EntityCommandBuffer commandBuffer, EntityArchetype flowFieldTileChangeEventArchetype,
             int tileIndex, int timeTick, int teamId, float3 targetPosition, Entity toTileEntity)
         {
-            _logger.Debug($"AdjustMoveToTargetFlowFieldSystem - SendFlowFieldChangeEvent - targetPosition: {targetPosition}");
+            // _logger.Debug($"AdjustMoveToTargetFlowFieldSystem - SendFlowFieldChangeEvent - targetPosition: {targetPosition}");
             
             var flowFieldTileChangeEvent = commandBuffer.CreateEntity(flowFieldTileChangeEventArchetype);
             commandBuffer.SetComponent(flowFieldTileChangeEvent, new FlowFieldTileChangeProperty

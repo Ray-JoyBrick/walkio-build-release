@@ -79,19 +79,19 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                         // var flowFieldTile = flowFieldTileComps[tileEntity];
                         // GetBufferFromEntity<GameEnvironment.FlowFieldTileBuffer>();
                         
-                        var lookup = GetBufferFromEntity<FlowFieldTileCellBuffer>();
-                        var buffer = lookup[tileEntity];
-                        // Need a way to get the cell index instead of hard code it to 0 here
-                        var cellValue = buffer[0];
-
-                        // _logger.Debug($"MoveOnFlowFieldTileSystem - OnUpdate - {entity} can move on {tileEntity} using {(int)v}");
-
-                        var direction = GameMove.FlowField.Utility.FlowFieldTileHelper.GetDirectionFromIndex(cellValue);
-                        // Store the direction to some component and use this direction later when doing crowd sim
-                        
-                        // physicsVelocity.Linear = direction;
-
-                        moveOnFlowFieldTileProperty.Direction = direction;
+                        // var lookup = GetBufferFromEntity<FlowFieldTileCellBuffer>();
+                        // var buffer = lookup[tileEntity];
+                        // // Need a way to get the cell index instead of hard code it to 0 here
+                        // var cellValue = buffer[0];
+                        //
+                        // // _logger.Debug($"MoveOnFlowFieldTileSystem - OnUpdate - {entity} can move on {tileEntity} using {(int)v}");
+                        //
+                        // var direction = GameMove.FlowField.Utility.FlowFieldTileHelper.GetDirectionFromIndex(cellValue);
+                        // // Store the direction to some component and use this direction later when doing crowd sim
+                        //
+                        // // physicsVelocity.Linear = direction;
+                        //
+                        // moveOnFlowFieldTileProperty.Direction = direction;
                     }
                 })
                 // .Schedule();

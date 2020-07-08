@@ -3,7 +3,12 @@ namespace JoyBrick.Walkio.Game
     using System.Collections.Generic;
     using UnityEngine;
 
-    public partial class Bootstrap
+    //
+    using GameCommon = JoyBrick.Walkio.Game.Common;
+
+    public partial class Bootstrap :
+        GameCommon.ISceneProvider
+        
     {
         public GameObject neutralUnitPrefab;
         public List<GameObject> teamUnitPrefabs;
@@ -28,5 +33,6 @@ namespace JoyBrick.Walkio.Game
         //         ScriptBehaviourUpdateOrder.UpdatePlayerLoop(w, ScriptBehaviourUpdateOrder.CurrentPlayerLoop);
         //     }
         // }        
+        public Camera SceneCamera => camera;
     }
 }
