@@ -18,6 +18,7 @@
 !setup-game-ref.ps1
 
 # Folders below
+!asset-creature-design-unity
 !asset-hud-design-unity
 !asset-level-design-unity
 !asset-unification-unity
