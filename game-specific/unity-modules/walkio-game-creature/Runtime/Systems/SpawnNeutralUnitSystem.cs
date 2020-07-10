@@ -148,6 +148,8 @@ namespace JoyBrick.Walkio.Game.Creature
             {
                 Value = translation.Value
             });
+            
+            entityCommandBuffer.AddComponent(createdEntity, new MakeEntityPlaceholder());
         }
 
         protected override void OnUpdate()

@@ -27,8 +27,13 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
 
         //
+        private BeginSimulationEntityCommandBufferSystem _entityCommandBufferSystem;
         private EntityQuery _levelSettingEntityQuery;
         private EntityArchetype _tileEntityArchetype;
+
+        //
+        private bool _canSetup;
+        private bool _doingSetup;
 
         //
         public GameCommon.IFlowControl FlowControl { get; set; }
@@ -48,6 +53,9 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                 {
                     _logger.Debug($"SetupFlowFieldSystem - Construct - Receive SettingAsset");
 
+                    _canSetup = true;
+                    _doingSetup = true;
+
                     SettingAsset();
                 })
                 .AddTo(_compositeDisposable);             
@@ -61,6 +69,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                 .SubscribeOnMainThread()
                 .Subscribe(result =>
                 {
+                    _canSetup = false;
                     FlowControl.FinishSetting(new GameCommon.FlowControlContext
                     {
                         Name = "Stage"
@@ -73,27 +82,21 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
         {
             _logger.Debug($"SetupFlowFieldSystem - Setup");
 
-            var entity = _levelSettingEntityQuery.GetSingletonEntity();
-            var levelSetting = EntityManager.GetComponentData<Common.LevelSetting>(entity);
-            
-            var horizontalTileCount = 4;
-            var verticalTileCount = 4;
+            // var entity = _levelSettingEntityQuery.GetSingletonEntity();
+            // var levelSetting = EntityManager.GetComponentData<Common.LevelSetting>(entity);
+            //
+            // var horizontalTileCount = 4;
+            // var verticalTileCount = 4;
+            //
+            // var totalTileCount = horizontalTileCount * verticalTileCount;
+            // // Setup flow field tile buffer
+            // var tileBuffer = EntityManager.AddBuffer<GameCommon.FlowFieldTileBuffer>(entity);
+            // tileBuffer.ResizeUninitialized(totalTileCount);
 
-            var totalTileCount = horizontalTileCount * verticalTileCount;
-            // Setup flow field tile buffer
-            var tileBuffer = EntityManager.AddBuffer<GameCommon.FlowFieldTileBuffer>(entity);
-            tileBuffer.ResizeUninitialized(totalTileCount);
-            // for (var tv = 0; tv < verticalTileCount; ++tv)
-            // {
-            //     for (var th = 0; th < horizontalTileCount; ++th)
-            //     {
-            //         var tileIndex = tv * horizontalTileCount + th;
-            //
-            //         var tileEntity = EntityManager.CreateEntity(_tileEntityArchetype);
-            //
-            //         tileBuffer[tileIndex] = tileEntity;
-            //     }
-            // }
+            while (_doingSetup)
+            {
+                await Task.Delay(System.TimeSpan.FromMilliseconds(100));
+            }
         }
 
         protected override void OnCreate()
@@ -101,7 +104,9 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
             _logger.Debug($"SetupFlowFieldSystem - OnCreate");
 
             base.OnCreate();
-            
+
+            _entityCommandBufferSystem = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
+
             _tileEntityArchetype = EntityManager.CreateArchetype(
                 typeof(FlowFieldTile),
                 typeof(GameCommon.StageUse));
@@ -113,9 +118,61 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                     ComponentType.ReadOnly<GameCommon.LevelSetting>() 
                 }
             });
+            
+            
+            RequireForUpdate(_levelSettingEntityQuery);
         }
 
-        protected override void OnUpdate() {}
+        protected override void OnUpdate()
+        {
+            if (!_canSetup) return;
+
+            if (!_doingSetup) return;
+            
+            var levelSettingEntity = _levelSettingEntityQuery.GetSingletonEntity();
+            // var buffer = EntityManager.GetBuffer<GameCommon.FlowFieldTileBuffer>(levelSettingEntity);
+            
+            //
+            var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
+            var concurrentCommandBuffer = commandBuffer.ToConcurrent();
+            
+            //
+            Entities
+                .WithAll<GameCommon.LevelSetting>()
+                .ForEach((Entity entity) =>
+                {
+                    _logger.Debug($"SetupFlowFieldSystem - OnUpdate - Should setup flow field tile buffer for level setting");
+
+                    var horizontalTileCount = 4;
+                    var verticalTileCount = 4;
+
+                    var totalTileCount = horizontalTileCount * verticalTileCount;
+                    var tileBuffer = commandBuffer.AddBuffer<GameCommon.FlowFieldTileBuffer>(entity);
+                    tileBuffer.ResizeUninitialized(totalTileCount);
+
+                    for (var tv = 0; tv < verticalTileCount; ++tv)
+                    {
+                        for (var th = 0; th < horizontalTileCount; ++th)
+                        {
+                            var tileIndex = tv * horizontalTileCount + th;
+                    
+                            var tileEntity = commandBuffer.CreateEntity(_tileEntityArchetype);
+                    
+#if UNITY_EDITOR
+                            World.DefaultGameObjectInjectionWorld.EntityManager.SetName(tileEntity, $"Tile Entity - Base");
+#endif                    
+                            tileBuffer[tileIndex] = tileEntity;
+                        }
+                    }
+                    
+                    _doingSetup = false;
+                })
+                // .Schedule();
+                .WithoutBurst()
+                .Run();
+            
+            _entityCommandBufferSystem.AddJobHandleForProducer(Dependency);
+        }
 
         protected override void OnDestroy()
         {

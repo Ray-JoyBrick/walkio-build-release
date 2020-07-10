@@ -58,25 +58,8 @@ namespace JoyBrick.Walkio.Game.Move.FlowField.Assist
                     _canUpdate = true;
                 })
                 .AddTo(_compositeDisposable);
-            
-            // // Make these constant of class
-            // var xSize = 1f;
-            // var zSize = 1f;
-            // var xSegments = 16;
-            // var zSegments = 16;
 
-            // var loadFlowFieldSystem =
-            //     World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameMove.FlowField.LoadFlowFieldSystem>();
             //
-            // var settingDataAsset = loadFlowFieldSystem.SettingDataAsset;
-            // var settingData = settingDataAsset as GameMove.FlowField.Template.SettingData;
-            // if (settingData != null)
-            // {
-            //     _tileCellCount = settingData.tileCellCount;
-            // }
-
-            // var draftMesh = ProceduralToolkit.MeshDraft.Plane(xSize, zSize, xSegments, zSegments);
-            // _mesh = draftMesh.ToMesh();
             _segmentCount = SceneAssistProvider.SegmentCount;
             _offset = SceneAssistProvider.StartOffset;
             _material = SceneAssistProvider.PlanMaterial;
@@ -109,7 +92,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField.Assist
             {
                 var loadFlowFieldSystem =
                     World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameMove.FlowField.LoadFlowFieldSystem>();
-
+            
                 var settingDataAsset = loadFlowFieldSystem.SettingDataAsset;
                 var settingData = settingDataAsset as GameMove.FlowField.Template.SettingData;
                 if (settingData != null)
@@ -122,33 +105,33 @@ namespace JoyBrick.Walkio.Game.Move.FlowField.Assist
                 var xSegments = _segmentCount.x;
                 var zSegments = _segmentCount.y;
                 
-                _logger.Debug($"FlowFieldTileRenderSystem - Update - _segmentCount: {_segmentCount}");
-
+                _logger.Debug($"FlowFieldTileRenderSystem - OnUpdate - _segmentCount: {_segmentCount}");
+            
                 var draftMesh = ProceduralToolkit.MeshDraft.Plane(xSize, zSize, xSegments, zSegments);
                 _mesh = draftMesh.ToMesh();
             }
-
+            
             var hTileCount = levelSetting.HorizontalCellCount / _tileCellCount;
             var vTileCount = levelSetting.VerticalCellCount / _tileCellCount;
-
-            //
+            
+            // Material property block is now just created, may assign some properties later
             var materialPropertyBlock = new MaterialPropertyBlock();
-
+            
             // Group by count 1023 and send to DrawMeshInstanced
             for (var i = 0; i < flowFieldBuffer.Length; i += SliceCount)
             {
                 var sliceSize = math.min(flowFieldBuffer.Length - i, SliceCount);
-
+            
                 var matrices = new List<Matrix4x4>();
                 for (var j = 0; j < sliceSize; ++j)
                 {
                     // var actualIndex = flowFieldBuffer[i + j];
                     // var localToWorld = localToWorlds[actualIndex];
                     var combinedIndex = i + j;
-
+            
                     var zPosIndex = combinedIndex / hTileCount;
                     var xPosIndex = combinedIndex % hTileCount;
-
+            
                     var zPos = zPosIndex * _tileCellCount;
                     var xPos = xPosIndex * _tileCellCount;
                     
@@ -158,7 +141,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField.Assist
                     var matrix = Matrix4x4.TRS(position, rotation, Vector3.one);
                     matrices.Add(matrix);
                 }
-
+            
                 Graphics.DrawMeshInstanced(
                     _mesh,
                     0,

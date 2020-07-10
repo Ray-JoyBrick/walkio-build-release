@@ -1,0 +1,10 @@
+{
+  "name": "Aron Granberg",
+  "use": true,
+  "toSymlink": [
+    {
+      "name": "ALINE",
+      "to": "Assets/Standard Assets/ALINE"
+    }
+  ]
+}

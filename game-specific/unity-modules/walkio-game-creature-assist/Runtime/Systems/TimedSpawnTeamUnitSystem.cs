@@ -75,12 +75,28 @@
         {
             var eventEntity = entityCommandBuffer.CreateEntity(eventEntityArchetype);
 
-            var teamId = UnityEngine.Random.Range(1, 4);
-            var kind = teamId;
+            // TODO: Remove this once the creation is timed but event
+            int GetTeamId()
+            {
+                var v = UnityEngine.Random.Range(1, 7);
+                var result = v + 10;
+                if (result > 15)
+                {
+                    result = 1;
+                }
+
+                return result;
+            }
+            
+            var teamId = GetTeamId();
+            var kind = UnityEngine.Random.Range(1, 4);
             var atPosition = new float3(
                 UnityEngine.Random.Range(-14.0f, 14.0f),
                 0,
                 UnityEngine.Random.Range(-14.0f, 14.0f));
+            
+            _logger.Debug($"TimedSpawnTeamUnitSystem - CreateEventEntity - teamId: {teamId} kind: {kind}");
+            
             entityCommandBuffer.SetComponent(eventEntity, new GameCreature.CreateTeamUnitProperty
             {
                 TeamId = teamId,

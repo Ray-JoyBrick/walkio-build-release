@@ -144,7 +144,10 @@ namespace JoyBrick.Walkio.Game
             var spawnTeamUnitSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameCreature.SpawnTeamUnitSystem>();
-            
+            var handleEntityPlacheholderAddSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameCreature.HandleEntityPlacheholderAddSystem>();
+
             var moveOnWaypointPathSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMove.Waypoint.MoveOnWaypointPathSystem>();
@@ -159,6 +162,14 @@ namespace JoyBrick.Walkio.Game
             var setupFlowFieldSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMove.FlowField.SetupFlowFieldSystem>();
+
+            var setupMoveSpecificSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameMove.FlowField.SetupMoveSpecificSystem>();
+
+            var setupMonitorTileChangeSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameMove.FlowField.SetupMonitorTileChangeSystem>();
 
             var teamUnitToPathSystem =
                 World.DefaultGameObjectInjectionWorld
@@ -311,13 +322,20 @@ namespace JoyBrick.Walkio.Game
             spawnTeamUnitSystem.FlowControl = (GameCommon.IFlowControl) this;
             spawnTeamUnitSystem.EcsSettingProvider = (GameCommon.IEcsSettingProvider) this;
             spawnTeamUnitSystem.TeamUnitPrefabs = teamUnitPrefabs;
-            
+
+            handleEntityPlacheholderAddSystem.FlowControl = (GameCommon.IFlowControl) this;
+            handleEntityPlacheholderAddSystem.GizmoService = (GameCommon.IGizmoService) this;
+
             moveOnWaypointPathSystem.FlowControl = (GameCommon.IFlowControl) this;
 
             //
             loadFlowFieldSystem.FlowControl = (GameCommon.IFlowControl) this;
             setupWaypointSystem.FlowControl = (GameCommon.IFlowControl) this;
             setupFlowFieldSystem.FlowControl = (GameCommon.IFlowControl) this;
+            
+            setupMoveSpecificSystem.FlowControl = (GameCommon.IFlowControl) this;
+
+            setupMonitorTileChangeSystem.FlowControl = (GameCommon.IFlowControl) this;
             
             teamUnitToPathSystem.FlowControl = (GameCommon.IFlowControl) this;
             teamUnitToPathSystem.AStarPathService = (GameCommon.IAStarPathService) this;
@@ -417,12 +435,17 @@ namespace JoyBrick.Walkio.Game
             spawnNeutralUnitSystem.Construct();
             spawnTeamUnitSystem.Construct();
             
+            handleEntityPlacheholderAddSystem.Construct();
+            
             moveOnWaypointPathSystem.Construct();
             
             //
             loadFlowFieldSystem.Construct();
             setupWaypointSystem.Construct();
             setupFlowFieldSystem.Construct();
+            
+            setupMoveSpecificSystem.Construct();
+            setupMonitorTileChangeSystem.Construct();
 
             teamUnitToPathSystem.Construct();
             
@@ -510,17 +533,21 @@ namespace JoyBrick.Walkio.Game
             
             initializationSystemGroup.AddSystemToUpdateList(spawnNeutralUnitSystem);
             initializationSystemGroup.AddSystemToUpdateList(spawnTeamUnitSystem);
+            
+            initializationSystemGroup.AddSystemToUpdateList(handleEntityPlacheholderAddSystem);
 
             initializationSystemGroup.AddSystemToUpdateList(loadFlowFieldSystem);
             initializationSystemGroup.AddSystemToUpdateList(setupWaypointSystem);
             initializationSystemGroup.AddSystemToUpdateList(setupFlowFieldSystem);
+            
+            initializationSystemGroup.AddSystemToUpdateList(setupMoveSpecificSystem);
+            initializationSystemGroup.AddSystemToUpdateList(setupMonitorTileChangeSystem);
             
             initializationSystemGroup.AddSystemToUpdateList(teamUnitToPathSystem);
 
             simulationSystemGroup.AddSystemToUpdateList(moveOnWaypointPathSystem);
 
             //
-            simulationSystemGroup.AddSystemToUpdateList(adjustMoveToTargetFlowFieldSystem);
             simulationSystemGroup.AddSystemToUpdateList(cleanUpFlowFieldSystem);
 
             simulationSystemGroup.AddSystemToUpdateList(adjustMoveToTargetFlowFieldSystem);

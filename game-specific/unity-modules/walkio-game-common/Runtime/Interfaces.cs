@@ -115,10 +115,23 @@ namespace JoyBrick.Walkio.Game.Common
         Vector2Int SegmentCount { get; }
         Vector3 StartOffset { get; }
         Material PlanMaterial { get; }
+        
+        Material GroupPlaneMaterial { get; }
+    }
+
+    public interface IGizmoService
+    {
+        void AddEntityToGameObject(Entity entity);
+        void RemoveEntityFromGameObject(Entity entity);
     }
     
     // public interface IInfoPresenter
     // {
     //     
     // }
+
+    public interface IGroupingProvider
+    {
+        int GroupingId { get; }
+    }
 }

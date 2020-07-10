@@ -4,7 +4,11 @@ namespace JoyBrick.Walkio.Game
     using Unity.Entities;
     using UnityEngine;
 
-    public interface IBootstrapAssistant
+    //
+    using GameCommon = JoyBrick.Walkio.Game.Common;
+    
+    public interface IBootstrapAssistant :
+        GameCommon.IGizmoService
     {
         void SendCommand(string command);
 

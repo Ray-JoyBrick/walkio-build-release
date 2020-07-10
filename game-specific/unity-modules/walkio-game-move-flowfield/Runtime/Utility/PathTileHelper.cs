@@ -82,10 +82,14 @@ namespace JoyBrick.Walkio.Game.Move.FlowField.Utility
         public static int2 PositionToTileAndTileCellIndex2d(
             int hGridCellCount, int vGridCellCount,
             float hGridCellSize, float vGridCellSize,
+            float hGridOffset, float vGridOffset,
             int hTileCellCount, int vTileCellCount,
             float hTileCellSize, float vTileCellSize,
             float hPosition, float vPosition)
         {
+            hPosition = hPosition - hGridOffset;
+            vPosition = vPosition - vGridOffset;
+            
             var hIndex = PositionToTileIndex1d(hTileCellCount, hTileCellSize, hPosition);
             var vIndex = PositionToTileIndex1d(vTileCellCount, vTileCellSize, vPosition);
             // var hCount = TileCount1D(hGridCellCount, hGridCellSize, hTileCellCount, hTileCellSize);

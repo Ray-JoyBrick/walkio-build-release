@@ -109,7 +109,14 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
             foreach (var pair in table)
             {
                 var entity = pair.Value;
-                commandBuffer.AddComponent(entity, new DiscardedFlowFieldTile());
+                if (entity != Entity.Null)
+                {
+                    commandBuffer.AddComponent(entity, new DiscardedFlowFieldTile());
+                }
+                else
+                {
+                    _logger.Warning($"TeamUnitToPathSystem - ResetCachedFlowFieldEntities - teamId: {teamId} has null entity in cache");
+                }
             }
             
             table.Clear();
@@ -118,7 +125,6 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
         private void UpdateGroupAtiTiles(TeamTileContext teamTileContext)
         {
             //
-            // List<int> teamList = null;
             TeamAtTileInfo teamAtTileInfo = null;
             var hasTeamList = _teamAtTiles.TryGetValue(teamTileContext.TeamId, out teamAtTileInfo);
             if (!hasTeamList)
@@ -136,6 +142,8 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                 {
                     var groupdId = flowFieldGroup.GroupId;
                     // _logger.Debug($"TeamUnitToPathSystem - UpdateTeamAtiTiles - teamId: {teamId} inTeamId {inTeamId}");
+                    // Why is groupId checked with teamId?
+                    // Is groupId equal to teamId at some context?
                     if (groupdId == teamTileContext.TeamId)
                     {
                         var tileIndex = GetTileIndex(translation.Value);
@@ -168,6 +176,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
             var concurrentCommandBuffer = commandBuffer.ToConcurrent();
 
+            // Receive flow field tile change event entity
             Entities
                 .WithAll<FlowFieldTileChange>()
                 .ForEach((Entity entity, FlowFieldTileChangeProperty flowFieldTileChangeProperty) =>
@@ -477,8 +486,10 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
         {
             var a =
                 Utility.PathTileHelper.PositionToTileAndTileCellIndex2d(
-                    128, 192,
+                    // 128, 192,
+                    32, 32,
                     1.0f, 1.0f,
+                    -16.0f, -16.0f,
                     10, 10,
                     1.0f, 1.0f,
                     pos.x, pos.z);

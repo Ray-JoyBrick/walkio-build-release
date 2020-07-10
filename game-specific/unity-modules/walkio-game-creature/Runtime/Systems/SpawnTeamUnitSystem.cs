@@ -35,6 +35,7 @@ namespace JoyBrick.Walkio.Game.Creature
         
         public GameCommon.IFlowControl FlowControl { get; set; }
         public GameCommon.IEcsSettingProvider EcsSettingProvider { get; set; }
+        // public GameCommon.IGizmoService GizmoService { get; set; }
 
         public List<GameObject> TeamUnitPrefabs { get; set; }
         
@@ -58,6 +59,7 @@ namespace JoyBrick.Walkio.Game.Creature
         protected override void OnCreate()
         {
             base.OnCreate();
+
             _entityCommandBufferSystem = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
 
             // _theEnvironmentQuery = GetEntityQuery(new EntityQueryDesc
@@ -68,7 +70,6 @@ namespace JoyBrick.Walkio.Game.Creature
             // RequireForUpdate(_theEnvironmentQuery);
         }
         
-        // private void CreateTeamForceUnit(GameObject prefab)
         private void CreateTeamForceUnit(
             EntityCommandBuffer entityCommandBuffer,
             Entity prefab,
@@ -76,11 +77,8 @@ namespace JoyBrick.Walkio.Game.Creature
             int kind,
             float3 position)
         {
+            _logger.Debug($"SpawnTeamUnitSystem - CreateTeamForceUnit - teamId: {teamId}");       
             var createdEntity = entityCommandBuffer.Instantiate(prefab);
-            // var startingPosition = new float3(
-            //     UnityEngine.Random.Range(-14.0f, 14.0f),
-            //     0,
-            //     UnityEngine.Random.Range(-14.0f, 14.0f));
             
             entityCommandBuffer.SetComponent(createdEntity, new Translation
             {
@@ -91,11 +89,18 @@ namespace JoyBrick.Walkio.Game.Creature
             {
                 TeamId = teamId
             });
-            
-            // entityCommandBuffer.SetComponent(ent, new PhysicsMass
-            // {
-            //     InverseMass = new float3(0, 0, 0)
-            // });
+
+            //
+            entityCommandBuffer.AddComponent(createdEntity, new GameCommon.MakeMoveSpecificSetup());
+            entityCommandBuffer.AddComponent(createdEntity, new GameCommon.MakeMoveSpecificSetupProperty
+            {
+                FlowFieldMoveSetup = false,
+                
+                TeamId = teamId
+            });
+
+            //
+            entityCommandBuffer.AddComponent(createdEntity, new MakeEntityPlaceholder());
         }
 
         protected override void OnUpdate()
@@ -125,7 +130,6 @@ namespace JoyBrick.Walkio.Game.Creature
             }
 
             var prefabEntities = _prefabEntities;
-            // var prefabEntity = _prefabEntity;
 
             //
             Entities

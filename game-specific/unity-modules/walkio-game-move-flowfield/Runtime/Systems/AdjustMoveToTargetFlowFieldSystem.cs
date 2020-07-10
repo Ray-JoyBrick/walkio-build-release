@@ -54,11 +54,19 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
             int tileIndex, int timeTick, int uniformSize,
             Entity entity)
         {
+            _logger.Debug($"AdjustMoveToTargetFlowFieldSystem - AssignToMoveToTarget - tileIndex: {tileIndex} timeTick: {timeTick}");
+
+            // Create flow field tile entity
             var flowFieldTileEntity = commandBuffer.CreateEntity(flowFieldTileArchetype);
             var tileBuffer = commandBuffer.AddBuffer<FlowFieldTileCellBuffer>(flowFieldTileEntity);
             var tileCellInBuffer = commandBuffer.AddBuffer<FlowFieldTileInCellBuffer>(flowFieldTileEntity);
             var tileCellOutBuffer = commandBuffer.AddBuffer<FlowFieldTileOutCellBuffer>(flowFieldTileEntity);
-                        
+                      
+#if UNITY_EDITOR
+            // This won't work as it is in command buffer stage the sync point won't change name at this time.
+            World.DefaultGameObjectInjectionWorld.EntityManager.SetName(flowFieldTileEntity, $"Tile Entity - Group Use");
+#endif  
+
             //
             commandBuffer.SetComponent(flowFieldTileEntity, new FlowFieldTile
             {
@@ -99,14 +107,32 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                 tileCellOutBuffer[i] = -1;
             }
 
-            //
-            // moveToTarget.AtTile = flowFieldTileEntity;
+            // Assign created flow field tile entity directly back into MoveToTarget AtTile
             commandBuffer.SetComponent(entity, new MoveToTarget
             {
                 AtTile = flowFieldTileEntity
             });
 
             return flowFieldTileEntity;
+        }
+
+        private void SendFlowFieldChangeEvent(
+            EntityCommandBuffer commandBuffer, EntityArchetype flowFieldTileChangeEventArchetype,
+            int tileIndex, int timeTick, int teamId, float3 targetPosition,
+            Entity toTileEntity)
+        {
+            _logger.Debug($"AdjustMoveToTargetFlowFieldSystem - SendFlowFieldChangeEvent - teamId: {teamId} at targetPosition: {targetPosition}");
+            
+            // Create event entity
+            var flowFieldTileChangeEvent = commandBuffer.CreateEntity(flowFieldTileChangeEventArchetype);
+            commandBuffer.SetComponent(flowFieldTileChangeEvent, new FlowFieldTileChangeProperty
+            {
+                TeamId = teamId,
+                ToTileIndex = tileIndex,
+                ToTileEntity = toTileEntity,
+                TimeTick = timeTick,
+                TargetPosition = targetPosition
+            });            
         }
 
         protected override void OnUpdate()
@@ -122,7 +148,8 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
 
             //
             var flowFieldTileArchetype = EntityManager.CreateArchetype(
-                typeof(FlowFieldTile));
+                typeof(FlowFieldTile),
+                typeof(FlowFieldTileGroupUse));
             var flowFieldTileChangeEventArchetype = EntityManager.CreateArchetype(
                 typeof(FlowFieldTileChange),
                 typeof(FlowFieldTileChangeProperty));
@@ -133,46 +160,61 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
             //
             Entities
                 .WithAll<MonitorTileChange>()
-                .ForEach((Entity entity, LocalToWorld localToWorld, FlowFieldGroup flowFieldGroup, ref MoveToTarget moveToTarget) =>
+                .ForEach((Entity entity, LocalToWorld localToWorld, FlowFieldGroup flowFieldGroup, MonitorTileChangeProperty monitorTileChangeProperty, ref MoveToTarget moveToTarget) =>
                 {
-                    // From entity position to get tile index
-                    var tileIndex = GetTileIndex(localToWorld.Position);
-                    var uniformSize = 10;
-
-                    if (moveToTarget.AtTile == Entity.Null)
+                    if (monitorTileChangeProperty.CanMonitor)
                     {
-                        // This is the case where team leader is just created, no entity assigned
-                        var flowFieldTileEntity = AssignToMoveToTarget(
-                            commandBuffer, flowFieldTileArchetype, tileIndex, timeTick, uniformSize, entity);
-                        
-                        _logger.Debug($"AdjustMoveToTargetFlowFieldSystem - Update - flowFieldTileEntity: {flowFieldTileEntity}");
+                        // From entity position to get tile index
+                        var tileIndex = GetTileIndex(localToWorld.Position);
+                        var uniformSize = 10;
+                        var atTileEntity = moveToTarget.AtTile;
 
-                        //
-                        SendFlowFieldChangeEvent(commandBuffer, flowFieldTileChangeEventArchetype,
-                            tileIndex, timeTick, flowFieldGroup.GroupId, localToWorld.Position, flowFieldTileEntity);
-                    }
-                    else
-                    {
-                        // Check to see if team leader is moving to another tile, update at tile
-                        // and signal
-                        var flowFieldTileComp = flowFieldTileComps[moveToTarget.AtTile];
-
-                        if (tileIndex != flowFieldTileComp.Index)
+                        // This is the case where there is not tile entity assigned
+                        if (atTileEntity == Entity.Null)
                         {
-                            // _logger.Debug($"AdjustMoveToTargetFlowFieldSystem - OnUpdate - tileIndex: {tileIndex} flowFieldTileComp Index: {flowFieldTileComp.Index}");
+                            // This is the case where team leader is just created, no entity assigned
+                            var flowFieldTileEntity = AssignToMoveToTarget(
+                                commandBuffer, flowFieldTileArchetype,
+                                tileIndex, timeTick, uniformSize,
+                                entity);
+                            
+                            _logger.Debug($"AdjustMoveToTargetFlowFieldSystem - OnUpdate - flowFieldTileEntity: {flowFieldTileEntity}");
 
-                            var previousEntity = moveToTarget.AtTile;
-                            var flowFieldTileEntity = AssignToMoveToTarget(commandBuffer, flowFieldTileArchetype, tileIndex, timeTick, uniformSize, entity);
-
-                            //
-                            SendFlowFieldChangeEvent(commandBuffer, flowFieldTileChangeEventArchetype,
-                                tileIndex, timeTick, flowFieldGroup.GroupId, localToWorld.Position, flowFieldTileEntity);
-
-                            commandBuffer.AddComponent<DiscardedFlowFieldTile>(previousEntity);
+                            // Using groupId as teamId, how is this designed back then?
+                            SendFlowFieldChangeEvent(
+                                commandBuffer, flowFieldTileChangeEventArchetype,
+                                tileIndex, timeTick, flowFieldGroup.GroupId, localToWorld.Position,
+                                flowFieldTileEntity);
                         }
                         else
                         {
-                            // Still in the same tile, does not need to create new tile nor send change event
+                            // Check to see if team leader is moving to another tile, update at tile
+                            // and signal
+                            var flowFieldTileComp = flowFieldTileComps[atTileEntity];
+                        
+                            if (tileIndex != flowFieldTileComp.Index)
+                            {
+                                // _logger.Debug($"AdjustMoveToTargetFlowFieldSystem - OnUpdate - tileIndex: {tileIndex} flowFieldTileComp Index: {flowFieldTileComp.Index}");
+                        
+                                var flowFieldTileEntity = AssignToMoveToTarget(
+                                    commandBuffer, flowFieldTileArchetype,
+                                    tileIndex, timeTick, uniformSize,
+                                    entity);
+                        
+                                //
+                                SendFlowFieldChangeEvent(
+                                    commandBuffer, flowFieldTileChangeEventArchetype,
+                                    tileIndex, timeTick, flowFieldGroup.GroupId, localToWorld.Position,
+                                    flowFieldTileEntity);
+                        
+                                var previousEntity = atTileEntity;
+                                commandBuffer.AddComponent<DiscardedFlowFieldTile>(previousEntity);
+                            }
+                            else
+                            {
+                                // Still in the same tile, does not need to create new tile nor send change event
+                                // However even in the same tile, the position might not be the same as the last update
+                            }
                         }
                     }
                 })
@@ -183,22 +225,6 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
             _entityCommandBufferSystem.AddJobHandleForProducer(Dependency);
         }
 
-        private void SendFlowFieldChangeEvent(EntityCommandBuffer commandBuffer, EntityArchetype flowFieldTileChangeEventArchetype,
-            int tileIndex, int timeTick, int teamId, float3 targetPosition, Entity toTileEntity)
-        {
-            // _logger.Debug($"AdjustMoveToTargetFlowFieldSystem - SendFlowFieldChangeEvent - targetPosition: {targetPosition}");
-            
-            var flowFieldTileChangeEvent = commandBuffer.CreateEntity(flowFieldTileChangeEventArchetype);
-            commandBuffer.SetComponent(flowFieldTileChangeEvent, new FlowFieldTileChangeProperty
-            {
-                TeamId = teamId,
-                ToTileIndex = tileIndex,
-                ToTileEntity = toTileEntity,
-                TimeTick = timeTick,
-                TargetPosition = targetPosition
-            });            
-        }
-
         private static int GetGridCellIndex(float3 pos)
         {
             return 0;
@@ -206,14 +232,18 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
 
         private static int GetTileIndex(float3 pos)
         {
+            // Merge helper utility function
             var a =
                 Utility.PathTileHelper.PositionToTileAndTileCellIndex2d(
-                    128, 192,
+                    32, 32,
                     1.0f, 1.0f,
+                    -16.0f, -16.0f,
                     10, 10,
                     1.0f, 1.0f,
                     pos.x, pos.z);
-                
+
+            // Debug.Log($"GetTileIndex - a: {a}");
+            
             return a.x;
         }
 

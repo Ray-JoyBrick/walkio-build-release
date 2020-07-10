@@ -1,0 +1,11 @@
+{
+    "name": "Unity Technology",
+    "use": true,
+    "toSymlink": [
+      {
+        "name": "UIElements/Samples/UI Builder",
+        "to": "Assets/Samples/UI Builder"
+      }
+    ]
+}
+  

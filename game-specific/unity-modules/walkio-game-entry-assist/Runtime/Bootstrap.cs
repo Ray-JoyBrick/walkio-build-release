@@ -36,8 +36,10 @@
         //
         void Awake()
         {
+            //
             SetupAppCenterDistribute();
-            
+
+            //
             var sceneLoadedObservable =
                 Observable.FromEvent<UnityAction<Scene, LoadSceneMode>, Tuple<Scene, LoadSceneMode>>(
                     h => (x, y) => h(Tuple.Create(x, y)),
@@ -54,6 +56,9 @@
                     }
                 })
                 .AddTo(_compositeDisposable);
+
+            //
+            RegisterToDrawingManager();
         }
 
         private void AddSelfToAssistable(Scene scene)

@@ -30,10 +30,12 @@ namespace JoyBrick.Walkio.Game.Assist
         public Vector2Int segmentCount;
         public Vector3 startOffset;
         public Material planeMaterial;
+        public Material groupPlaneMaterial;
 
         public Vector2Int SegmentCount => segmentCount;
         public Vector3 StartOffset => startOffset;
         public Material PlanMaterial => planeMaterial;
+        public Material GroupPlaneMaterial => groupPlaneMaterial;
 
 #if CREATURE_DESIGN_PROJECT
         private void CreateStubStageAsset()

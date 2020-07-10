@@ -72,8 +72,10 @@ namespace JoyBrick.Walkio.Game.Creature
                     material,
                     matrices,
                     materialPropertyBlock,
-                    ShadowCastingMode.Off,
-                    false,
+                    // ShadowCastingMode.Off,
+                    ShadowCastingMode.On,
+                    // false,
+                    true,
                     0,
                     SceneCamera
                 );
