@@ -22,8 +22,7 @@
 #endif
 
     public partial class Bootstrap :
-        MonoBehaviour,
-        IBootstrapAssistant
+        MonoBehaviour
     {
         //
         private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(Bootstrap));
@@ -31,8 +30,6 @@
         //
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
 
-        private IBootstrapAssistable _assistable;
-        
         //
         void Awake()
         {
@@ -40,45 +37,10 @@
             SetupAppCenterDistribute();
 
             //
-            var sceneLoadedObservable =
-                Observable.FromEvent<UnityAction<Scene, LoadSceneMode>, Tuple<Scene, LoadSceneMode>>(
-                    h => (x, y) => h(Tuple.Create(x, y)),
-                    h => SceneManager.sceneLoaded += h,
-                    h => SceneManager.sceneLoaded -= h);
-            sceneLoadedObservable
-                .Subscribe(x =>
-                {
-                    var (scene, _) = x;
-                    //
-                    if (string.CompareOrdinal(scene.name, "Entry") == 0)
-                    {
-                        AddSelfToAssistable(scene);
-                    }
-                })
-                .AddTo(_compositeDisposable);
+            HandleSceneLoad();
 
             //
             RegisterToDrawingManager();
-        }
-
-        private void AddSelfToAssistable(Scene scene)
-        {
-            Debug.Log($"Bootstrap Assist - AddSelfToAssistable");
-    
-            if (scene.IsValid())
-            {
-                var assistables =
-                    scene.GetRootGameObjects()
-                        .Where(s => s.GetComponent<IBootstrapAssistable>() != null)
-                        .ToList();
-
-                if (assistables.Any())
-                {
-                    Debug.Log($"Bootstrap Assist - AddSelfToAssistable - Found Assistables on scene: {scene.name}");
-                    _assistable = assistables.First().GetComponent<IBootstrapAssistable>();
-                    _assistable?.AddAssistant((IBootstrapAssistant) this);
-                }
-            }
         }
 
         void Start()

@@ -16,25 +16,22 @@ namespace JoyBrick.Walkio.Game
 
         public void CalculatePath(int teamId, int timeTick, List<Vector3> startPoints, Vector3 targetPoint, Action<int, int, Vector3, List<List<Vector3>>> callback)
         {
+            // Should just get free seeker from the pool rather than relies on one
             var s = seeker.GetComponent<Pathfinding.Seeker>();
             
             s.StartMultiTargetPath(startPoints.ToArray(), targetPoint, true, path =>
             {
                 if (path.error)
                 {
+                    _logger.Error(path.errorLog);
+                    
+                    // What to do if encountering error? As callback does not get called, is this going to impact
+                    // flow field move part?
                 }
                 else
                 {
-                    var mtp = path as MultiTargetPath;
-
-                    if (mtp != null)
+                    if (path is MultiTargetPath mtp)
                     {
-                        // foreach (var vp in mtp.vectorPaths)
-                        // {
-                        //     var desc = vp.Aggregate("", (acc, next) => { return $"{acc} -> {next}"; });
-                        //     Debug.Log(desc);
-                        // }
-
                         callback(teamId, timeTick, targetPoint, mtp.vectorPaths.ToList());
                     }
                 }

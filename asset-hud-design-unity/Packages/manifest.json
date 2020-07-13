@@ -3,9 +3,6 @@
     "com.3rd.editor-console-pro": "file:../../references/FlyingWorm/editor-console-pro-package",
     "com.3rd.i2-localization": "file:../../references/Inter Illusion/i2-localization-package",
     "com.3rd.odin-inspector": "file:../../references/Devdog/odin-inspector-package",
-    "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
-    "com.github.siccity.xnode": "https://github.com/siccity/xNode.git",
-    "com.neuecc.unirx": "https://github.com/neuecc/UniRx.git?path=Assets/Plugins/UniRx/Scripts",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.addressables": "1.8.4",
     "com.unity.collab-proxy": "1.3.7",
@@ -60,6 +57,21 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
-    "com.unity.modules.xr": "1.0.0"
-  }
+    "com.unity.modules.xr": "1.0.0",
+    "com.neuecc.unirx": "7.1.0",
+    "com.cysharp.unitask": "2.0.25",
+    "com.alelievr.node-graph-processor": "0.7.1"
+  },
+  "scopedRegistries": [
+    {
+      "name": "package.openupm.com",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.alelievr.node-graph-processor",
+        "com.cysharp.unitask",
+        "com.neuecc.unirx",
+        "com.openupm"
+      ]
+    }
+  ]
 }

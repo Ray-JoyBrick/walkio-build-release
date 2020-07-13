@@ -12,12 +12,14 @@
 !cloudbuild-build-release.yaml
 
 !config
+!docker-compose.yml
 !id_rsa_jb_github.enc
 
 !remove-dsstore.ps1
 !setup-game-ref.ps1
 
 # Folders below
+!add-package-to-unity
 !asset-creature-design-unity
 !asset-hud-design-unity
 !asset-level-design-unity

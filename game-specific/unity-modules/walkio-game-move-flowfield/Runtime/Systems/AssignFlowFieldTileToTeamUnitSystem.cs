@@ -73,11 +73,12 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                 // .WithNone<GameEnvironment.TeamLeader>()
                 .ForEach((Entity entity, FlowFieldGroup flowFieldGroup, Translation translation) =>
                 {
-                    var hasTeamIdInCache = teamUnitToPathSystem.CachedEntities.ContainsKey(flowFieldGroup.GroupId);
+                    var teamId = flowFieldGroup.GroupId;
+                    var hasTeamIdInCache = teamUnitToPathSystem.CachedEntities.ContainsKey(teamId);
 
                     if (hasTeamIdInCache)
                     {
-                        var tileTable = teamUnitToPathSystem.CachedEntities[flowFieldGroup.GroupId];
+                        var tileTable = teamUnitToPathSystem.CachedEntities[teamId];
 
                         var tileIndex =
                             Utility.PathTileHelper.TileIndex1d(

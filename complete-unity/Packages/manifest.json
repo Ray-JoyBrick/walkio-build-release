@@ -3,12 +3,10 @@
     "com.3rd.editor-console-pro": "file:../../references/FlyingWorm/editor-console-pro-package",
     "com.3rd.i2-localization": "file:../../references/Inter Illusion/i2-localization-package",
     "com.3rd.odin-inspector": "file:../../references/Devdog/odin-inspector-package",
-    "com.arongranberg.astar": "file:../../references/Aron Granberg/com.arongranberg.astar@4.3.26",
-    "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+    "com.arongranberg.astar": "file:../../references/Aron Granberg/com.arongranberg.astar@4.3.28",
     "com.google.firebase.analytics": "6.14.1",
     "com.google.firebase.auth": "6.14.1",
     "com.google.firebase.remote-config": "6.14.1",
-    "com.neuecc.unirx": "https://github.com/neuecc/UniRx.git?path=Assets/Plugins/UniRx/Scripts",
     "com.unity.addressables": "1.8.4",
     "com.unity.ai.planner": "0.2.3-preview.1",
     "com.unity.analytics": "3.3.5",
@@ -84,7 +82,11 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
-    "com.unity.modules.xr": "1.0.0"
+    "com.unity.modules.xr": "1.0.0",
+    "com.neuecc.unirx": "7.1.0",
+    "com.cysharp.unitask": "2.0.25",
+    "com.syomus.proceduraltoolkit": "0.2.3",
+    "com.alelievr.node-graph-processor": "0.7.1"
   },
   "scopedRegistries": [
     {
@@ -92,6 +94,17 @@
       "url": "https://unityregistry-pa.googleapis.com",
       "scopes": [
         "com.google"
+      ]
+    },
+    {
+      "name": "package.openupm.com",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.alelievr.node-graph-processor",
+        "com.cysharp.unitask",
+        "com.neuecc.unirx",
+        "com.openupm",
+        "com.syomus.proceduraltoolkit"
       ]
     }
   ]
