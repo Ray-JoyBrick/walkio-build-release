@@ -20,7 +20,10 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
+    "defineConstraints": [
+        "WALKIO_WAYPOINT",
+        "WALKIO_WAYPOINT_ASSIST"
+    ],
     "versionDefines": [],
     "noEngineReferences": false
 }

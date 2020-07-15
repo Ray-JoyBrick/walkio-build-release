@@ -4,9 +4,9 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
     using Unity.Collections;
     using Unity.Entities;
     using Unity.Mathematics;
-    using Unity.Physics;
-    using Unity.Physics.Extensions;
-    using Unity.Physics.Systems;
+    // using Unity.Physics;
+    // using Unity.Physics.Extensions;
+    // using Unity.Physics.Systems;
     using Unity.Transforms;
     using UnityEngine;
     using UnityEngine.PlayerLoop;
@@ -19,7 +19,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
     // [UpdateBefore(typeof(FixedUpdate))]
     // [UpdateAfter(typeof(StepPhysicsWorld))]
     [UpdateAfter(typeof(AssignFlowFieldTileToTeamUnitSystem))]
-    [UpdateAfter(typeof(ExportPhysicsWorld))]
+    // [UpdateAfter(typeof(ExportPhysicsWorld))]
     public class MoveOnFlowFieldTileSystem : SystemBase
     {
         private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(MoveOnFlowFieldTileSystem));

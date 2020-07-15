@@ -8,7 +8,6 @@
         "Unity.Collections",
         "Unity.Transforms",
         "Unity.Entities.Hybrid",
-        "Unity.Entities.Properties",
         "Unity.Mathematics",
         "Unity.ResourceManager",
         "UniRx",
@@ -25,7 +24,10 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
+    "defineConstraints": [
+        "WALKIO_LEVEL",
+        "WALKIO_LEVEL_ASSIST"
+    ],
     "versionDefines": [],
     "noEngineReferences": false
 }

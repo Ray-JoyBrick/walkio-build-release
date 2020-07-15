@@ -8,10 +8,8 @@
         "Unity.Collections",
         "Unity.Transforms",
         "Unity.Entities.Hybrid",
-        "Unity.Entities.Properties",
         "Unity.Mathematics",
         "Unity.ResourceManager",
-        "Walkio.Game.Move",
         "Walkio.Game.Move-FlowField"
     ],
     "includePlatforms": [
@@ -22,7 +20,9 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": false,
-    "defineConstraints": [],
+    "defineConstraints": [
+        "WALKIO_FLOWFIELD"
+    ],
     "versionDefines": [],
     "noEngineReferences": false
 }

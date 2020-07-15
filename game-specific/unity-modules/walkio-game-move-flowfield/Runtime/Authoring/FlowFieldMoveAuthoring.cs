@@ -24,7 +24,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
             {
                 var groupingProvider = GetComponent<GameCommon.IGroupingProvider>();
 
-                var groupId = (groupingProvider == null) ? 0 : groupingProvider.GroupingId;
+                var groupId = groupingProvider?.GroupingId ?? 0;
                 //
                 dstManager.AddComponentData(entity, new GameCommon.MakeMoveSpecificSetup());
                 dstManager.AddComponentData(entity, new GameCommon.MakeMoveSpecificSetupProperty

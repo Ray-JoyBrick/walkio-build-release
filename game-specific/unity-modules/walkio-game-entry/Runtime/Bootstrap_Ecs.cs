@@ -16,12 +16,17 @@ namespace JoyBrick.Walkio.Game
     using GameCommand = JoyBrick.Walkio.Game.Command;
     
     using GameGameFlowControl = JoyBrick.Walkio.Game.GameFlowControl;
-    
+
+#if WALKIO_LEVEL
     using GameLevel = JoyBrick.Walkio.Game.Level;
+#endif
 
     using GamePlaceholder = JoyBrick.Walkio.Game.Placeholder;
     using GameCreature = JoyBrick.Walkio.Game.Creature;
+    
+#if WALKIO_FLOWFIELD || WALKIO_WAYPOINT || WALKIO_CROWDSIM
     using GameMove = JoyBrick.Walkio.Game.Move;
+#endif
 
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
 
@@ -49,11 +54,12 @@ namespace JoyBrick.Walkio.Game
 
         public GameObjectConversionSettings GameObjectConversionSettings => _gameObjectConversionSettings;
 
-        private void SetupEcsWorld()
+        private void SetupEcsWorldContext()
         {
+            _gameObjectConversionSettings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, new BlobAssetStore());
         }
 
-        private void SetupEcsSystem()
+        private void SetupEcsWorldSystem()
         {
             _logger.Debug($"Bootstrap - SetupEcsSystem");
 
@@ -117,25 +123,33 @@ namespace JoyBrick.Walkio.Game
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GamePlaceholder.EmptyStageLoadingSystem>();
 
+#if WALKIO_LEVEL
             var loadLevelSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameLevel.LoadLevelSystem>();
+#endif
 
             var emptyStageSettingSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GamePlaceholder.EmptyStageSettingSystem>();
 
+#if WALKIO_LEVEL
             var setupLevelSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameLevel.SetupLevelSystem>();
+#endif
 
+#if WALKIO_WAYPOINT
             var replaceWaypointMoveIndicationSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMove.Waypoint.ReplaceWaypointMoveIndicationSystem>();
+#endif
 
+#if WALKIO_FLOWFIELD
             var replaceFlowFieldMoveIndicationSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMove.FlowField.ReplaceFlowFieldMoveIndicationSystem>();
+#endif
 
             var spawnNeutralUnitSystem =
                 World.DefaultGameObjectInjectionWorld
@@ -148,56 +162,82 @@ namespace JoyBrick.Walkio.Game
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameCreature.HandleEntityPlacheholderAddSystem>();
 
+#if WALKIO_WAYPOINT
             var moveOnWaypointPathSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMove.Waypoint.MoveOnWaypointPathSystem>();
+#endif
 
             //
+#if WALKIO_FLOWFIELD
             var loadFlowFieldSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMove.FlowField.LoadFlowFieldSystem>();
+#endif
+
+#if WALKIO_WAYPOINT
             var setupWaypointSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMove.Waypoint.SetupWaypointSystem>();
+#endif
+
+#if WALKIO_FLOWFIELD
             var setupFlowFieldSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMove.FlowField.SetupFlowFieldSystem>();
+#endif
 
+#if WALKIO_FLOWFIELD
             var setupMoveSpecificSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMove.FlowField.SetupMoveSpecificSystem>();
+#endif
 
+#if WALKIO_FLOWFIELD
             var setupMonitorTileChangeSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMove.FlowField.SetupMonitorTileChangeSystem>();
+#endif
 
+#if WALKIO_FLOWFIELD
             var teamUnitToPathSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMove.FlowField.TeamUnitToPathSystem>();
-            
+#endif
+
+#if WALKIO_FLOWFIELD
             var adjustMoveToTargetFlowFieldSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMove.FlowField.AdjustMoveToTargetFlowFieldSystem>();
+#endif
+
+#if WALKIO_FLOWFIELD
             var cleanUpFlowFieldSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMove.FlowField.CleanUpFlowFieldSystem>();
+#endif
 
-            
+#if WALKIO_FLOWFIELD
             var assignFlowFieldTileToTeamUnitSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMove.FlowField.AssignFlowFieldTileToTeamUnitSystem>();
+#endif
 
+#if WALKIO_FLOWFIELD
             var moveOnFlowFieldTileSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMove.FlowField.MoveOnFlowFieldTileSystem>();
+#endif
 
+#if WALKIO_CROWDSIM
             var collectNeighborSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMove.CrowdSim.CollectNeighborSystem>();
             var crowdSimSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMove.CrowdSim.CrowdSimSystem>();
-            
+#endif
+
             //
             var unitIndicationRenderSystem =
                 World.DefaultGameObjectInjectionWorld
@@ -310,11 +350,16 @@ namespace JoyBrick.Walkio.Game
 
             // Stage-wide
             emptyStageLoadingSystem.FlowControl = (GameCommon.IFlowControl) this;
+#if WALKIO_LEVEL
             loadLevelSystem.FlowControl = (GameCommon.IFlowControl) this;
-            
+#endif
+
             emptyStageSettingSystem.FlowControl = (GameCommon.IFlowControl) this;
+
+#if WALKIO_LEVEL
             setupLevelSystem.FlowControl = (GameCommon.IFlowControl) this;
-            
+#endif
+
             spawnNeutralUnitSystem.FlowControl = (GameCommon.IFlowControl) this;
             spawnNeutralUnitSystem.EcsSettingProvider = (GameCommon.IEcsSettingProvider) this;
             spawnNeutralUnitSystem.NeutralUnitPrefab = neutralUnitPrefab;
@@ -326,11 +371,14 @@ namespace JoyBrick.Walkio.Game
             handleEntityPlacheholderAddSystem.FlowControl = (GameCommon.IFlowControl) this;
             handleEntityPlacheholderAddSystem.GizmoService = (GameCommon.IGizmoService) this;
 
+#if WALKIO_WAYPOINT
             moveOnWaypointPathSystem.FlowControl = (GameCommon.IFlowControl) this;
+            setupWaypointSystem.FlowControl = (GameCommon.IFlowControl) this;
+#endif
 
             //
+#if WALKIO_FLOWFIELD
             loadFlowFieldSystem.FlowControl = (GameCommon.IFlowControl) this;
-            setupWaypointSystem.FlowControl = (GameCommon.IFlowControl) this;
             setupFlowFieldSystem.FlowControl = (GameCommon.IFlowControl) this;
             
             setupMoveSpecificSystem.FlowControl = (GameCommon.IFlowControl) this;
@@ -341,14 +389,18 @@ namespace JoyBrick.Walkio.Game
             teamUnitToPathSystem.AStarPathService = (GameCommon.IAStarPathService) this;
             
             adjustMoveToTargetFlowFieldSystem.FlowControl = (GameCommon.IFlowControl) this;
+            adjustMoveToTargetFlowFieldSystem.FlowFieldWorldProvider = (JoyBrick.Walkio.Game.Move.FlowField.Common.IFlowFieldWorldProvider) this;
             
             cleanUpFlowFieldSystem.FlowControl = (GameCommon.IFlowControl) this;
 
             assignFlowFieldTileToTeamUnitSystem.FlowControl = (GameCommon.IFlowControl) this;
             moveOnFlowFieldTileSystem.FlowControl = (GameCommon.IFlowControl) this;
+#endif
 
+#if WALKIO_CROWDSIM
             collectNeighborSystem.FlowControl = (GameCommon.IFlowControl) this;
             crowdSimSystem.FlowControl = (GameCommon.IFlowControl) this;
+#endif
 
             //
             unitIndicationRenderSystem.SceneCamera = camera;
@@ -427,21 +479,29 @@ namespace JoyBrick.Walkio.Game
 
             // Stage-wide
             emptyStageLoadingSystem.Construct();
+#if WALKIO_LEVEL
             loadLevelSystem.Construct();
+#endif
 
             emptyStageSettingSystem.Construct();
+
+#if WALKIO_LEVEL
             setupLevelSystem.Construct();
-            
+#endif
+
             spawnNeutralUnitSystem.Construct();
             spawnTeamUnitSystem.Construct();
             
             handleEntityPlacheholderAddSystem.Construct();
-            
+
+#if WALKIO_WAYPOINT
             moveOnWaypointPathSystem.Construct();
+            setupWaypointSystem.Construct();
+#endif
             
             //
+#if WALKIO_FLOWFIELD
             loadFlowFieldSystem.Construct();
-            setupWaypointSystem.Construct();
             setupFlowFieldSystem.Construct();
             
             setupMoveSpecificSystem.Construct();
@@ -455,10 +515,13 @@ namespace JoyBrick.Walkio.Game
 
             assignFlowFieldTileToTeamUnitSystem.Construct();
             moveOnFlowFieldTileSystem.Construct();
-            
+#endif
+
             //
+#if WALKIO_CROWDSIM
             collectNeighborSystem.Construct();
             crowdSimSystem.Construct();
+#endif
             
             //
             unitIndicationRenderSystem.Construct();
@@ -523,40 +586,62 @@ namespace JoyBrick.Walkio.Game
 
             // Stage-wide - InitializationSystemGroup
             initializationSystemGroup.AddSystemToUpdateList(emptyStageLoadingSystem);
+#if WALKIO_LEVEL
             initializationSystemGroup.AddSystemToUpdateList(loadLevelSystem);
-
+#endif
             initializationSystemGroup.AddSystemToUpdateList(emptyStageSettingSystem);
+#if WALKIO_LEVEL
             initializationSystemGroup.AddSystemToUpdateList(setupLevelSystem);
+#endif
 
+#if WALKIO_WAYPOINT
             initializationSystemGroup.AddSystemToUpdateList(replaceWaypointMoveIndicationSystem);
+#endif
+
+#if WALKIO_FLOWFIELD
             initializationSystemGroup.AddSystemToUpdateList(replaceFlowFieldMoveIndicationSystem);
-            
+#endif
+
             initializationSystemGroup.AddSystemToUpdateList(spawnNeutralUnitSystem);
             initializationSystemGroup.AddSystemToUpdateList(spawnTeamUnitSystem);
             
             initializationSystemGroup.AddSystemToUpdateList(handleEntityPlacheholderAddSystem);
 
+#if WALKIO_FLOWFIELD
             initializationSystemGroup.AddSystemToUpdateList(loadFlowFieldSystem);
+#endif
+
+#if WALKIO_WAYPOINT
             initializationSystemGroup.AddSystemToUpdateList(setupWaypointSystem);
+#endif
+
+#if WALKIO_FLOWFIELD
             initializationSystemGroup.AddSystemToUpdateList(setupFlowFieldSystem);
             
             initializationSystemGroup.AddSystemToUpdateList(setupMoveSpecificSystem);
             initializationSystemGroup.AddSystemToUpdateList(setupMonitorTileChangeSystem);
             
             initializationSystemGroup.AddSystemToUpdateList(teamUnitToPathSystem);
+#endif
 
+#if WALKIO_WAYPOINT 
             simulationSystemGroup.AddSystemToUpdateList(moveOnWaypointPathSystem);
+#endif
 
             //
+#if WALKIO_FLOWFIELD
             simulationSystemGroup.AddSystemToUpdateList(cleanUpFlowFieldSystem);
 
             simulationSystemGroup.AddSystemToUpdateList(adjustMoveToTargetFlowFieldSystem);
             simulationSystemGroup.AddSystemToUpdateList(assignFlowFieldTileToTeamUnitSystem);
             simulationSystemGroup.AddSystemToUpdateList(moveOnFlowFieldTileSystem);
+#endif
             
             //
+#if WALKIO_CROWDSIM 
             simulationSystemGroup.AddSystemToUpdateList(collectNeighborSystem);
             simulationSystemGroup.AddSystemToUpdateList(crowdSimSystem);
+#endif
 
             //
             presentationSystemGroup.AddSystemToUpdateList(unitIndicationRenderSystem);
@@ -592,6 +677,11 @@ namespace JoyBrick.Walkio.Game
             simulationSystemGroup.AddSystemToUpdateList(neutralForceUnitHitCheckSystem);
             // simulationSystemGroup.AddSystemToUpdateList(pickupHitCheckSystem);
 #endif
+        }
+        
+        void CleanUpEcsWorldContext()
+        {
+            _gameObjectConversionSettings?.BlobAssetStore.Dispose();
         }
     }
 }

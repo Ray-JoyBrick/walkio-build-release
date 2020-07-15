@@ -19,7 +19,10 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
+    "defineConstraints": [
+        "WALKIO_CROWDSIM",
+        "WALKIO_CROWDSIM_ASSIST"
+    ],
     "versionDefines": [],
     "noEngineReferences": false
 }

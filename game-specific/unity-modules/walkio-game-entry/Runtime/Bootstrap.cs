@@ -121,12 +121,10 @@
         {
             _logger.Debug($"Bootstrap - HandleAddressableInitializeAsyncCompleted");
             
-            _gameObjectConversionSettings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, new BlobAssetStore());
-
             _notifyCanStartInitialSetup.OnNext(1);
             
-            SetupEcsWorld();
-            SetupEcsSystem();
+            SetupEcsWorldContext();
+            SetupEcsWorldSystem();
             
             //
             _assistants.ForEach(x =>
@@ -150,7 +148,7 @@
 
         private void OnDestroy()
         {
-            _gameObjectConversionSettings.BlobAssetStore.Dispose();
+            CleanUpEcsWorldContext();
             
             _compositeDisposable?.Dispose();
         }

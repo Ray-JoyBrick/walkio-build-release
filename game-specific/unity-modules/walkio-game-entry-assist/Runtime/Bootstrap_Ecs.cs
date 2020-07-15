@@ -11,9 +11,15 @@ namespace JoyBrick.Walkio.Game.Assist
     using GameCommand = JoyBrick.Walkio.Game.Command;
     using GameCommon = JoyBrick.Walkio.Game.Common;
     
+#if WALKIO_LEVEL
     using GameLevel = JoyBrick.Walkio.Game.Level;
+#endif
+
     using GameCreature = JoyBrick.Walkio.Game.Creature;
+    
+#if WALKIO_FLOWFIELD || WALKIO_WAYPOINT || WALKIO_CROWDSIM
     using GameMove = JoyBrick.Walkio.Game.Move;
+#endif
 
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
 
@@ -69,10 +75,13 @@ namespace JoyBrick.Walkio.Game.Assist
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameCreature.Assist.TimedSpawnTeamUnitSystem>();
 
+#if WALKIO_LEVEL_ASSIST
             var showHideEnvironmentSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameLevel.Assist.ShowHideEnvironmentSystem>();
+#endif
 
+#if WALKIO_FLOWFIELD_ASSIST
             var attachFlowFieldTileIndicationSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMove.FlowField.Assist.AttachFlowFieldTileIndicationSystem>();
@@ -84,6 +93,7 @@ namespace JoyBrick.Walkio.Game.Assist
             var groupFlowFieldTileRenderSystems =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMove.FlowField.Assist.GroupFlowFieldTileRenderSystems>();
+#endif
 
 
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
@@ -104,8 +114,11 @@ namespace JoyBrick.Walkio.Game.Assist
             // Stage-wide
             timedSpawnTeamUnitSystem.FlowControl = flowControl;
 
+#if WALKIO_LEVEL_ASSIST
             showHideEnvironmentSystem.FlowControl = flowControl;
+#endif
 
+#if WALKIO_FLOWFIELD_ASSIST
             attachFlowFieldTileIndicationSystem.FlowControl = flowControl;
             
             flowFieldTileRenderSystem.SceneCamera = sceneProvider.SceneCamera;
@@ -115,6 +128,8 @@ namespace JoyBrick.Walkio.Game.Assist
             groupFlowFieldTileRenderSystems.SceneCamera = sceneProvider.SceneCamera;
             groupFlowFieldTileRenderSystems.FlowControl = flowControl;
             groupFlowFieldTileRenderSystems.SceneAssistProvider = (GameCommon.ISceneAssistProvider) this;
+#endif
+
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             loadStageHudSystem.RefBootstrap = _assistable.RefGameObject;
             loadStageHudSystem.CommandService = _assistable.RefGameObject.GetComponent<GameCommand.ICommandService>();
@@ -131,10 +146,14 @@ namespace JoyBrick.Walkio.Game.Assist
             // Stage-wide
             timedSpawnTeamUnitSystem.Construct();
 
+#if WALKIO_LEVEL_ASSIST
             showHideEnvironmentSystem.Construct();
-            
+#endif
+
+#if WALKIO_FLOWFIELD_ASSIST
             flowFieldTileRenderSystem.Construct();
             groupFlowFieldTileRenderSystems.Construct();
+#endif
 
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             loadStageHudSystem.Construct();
@@ -148,13 +167,17 @@ namespace JoyBrick.Walkio.Game.Assist
 
             // Stage-wide - InitializationSystemGroup
             initializationSystemGroup.AddSystemToUpdateList(timedSpawnTeamUnitSystem);
-            
+
+#if WALKIO_LEVEL_ASSIST
             initializationSystemGroup.AddSystemToUpdateList(showHideEnvironmentSystem);
+#endif
             
+#if WALKIO_FLOWFIELD_ASSIST
             initializationSystemGroup.AddSystemToUpdateList(attachFlowFieldTileIndicationSystem);
             
             presentationSystemGroup.AddSystemToUpdateList(flowFieldTileRenderSystem);
             presentationSystemGroup.AddSystemToUpdateList(groupFlowFieldTileRenderSystems);
+#endif
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             initializationSystemGroup.AddSystemToUpdateList(loadStageHudSystem);
 #endif

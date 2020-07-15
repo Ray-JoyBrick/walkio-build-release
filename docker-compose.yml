@@ -9,6 +9,7 @@ services:
       - ./asset-level-design-unity:/asset-level-design-unity
       - ./behavior-unification-unity:/behavior-unification-unity
       - ./complete-unity:/complete-unity
+      - ./behavior-flowfield-unity:/behavior-flowfield-unity
     command:
       - /bin/sh
       - -c
@@ -66,6 +67,19 @@ services:
 
         #
         cd /complete-unity
+
+        # Add package for game runtime
+        openupm add com.neuecc.unirx
+        openupm add com.cysharp.unitask
+        openupm add com.syomus.proceduraltoolkit
+
+        # Add package for game development
+        openupm add com.alelievr.node-graph-processor
+
+        cd ..
+
+        #
+        cd /behavior-flowfield-unity
 
         # Add package for game runtime
         openupm add com.neuecc.unirx

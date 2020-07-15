@@ -9,9 +9,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
 
     //
     using GameCommon = JoyBrick.Walkio.Game.Common;
-    // using GameEnvironment = JoyBrick.Walkio.Game.Environment;
-    
-    
+
     [DisableAutoCreation]
     public class AdjustMoveToTargetFlowFieldSystem : SystemBase
     {
@@ -26,6 +24,8 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
         private bool _canUpdate;
 
         public GameCommon.IFlowControl FlowControl { get; set; }
+        
+        public Common.IFlowFieldWorldProvider FlowFieldWorldProvider { get; set; }
 
         public void Construct()
         {

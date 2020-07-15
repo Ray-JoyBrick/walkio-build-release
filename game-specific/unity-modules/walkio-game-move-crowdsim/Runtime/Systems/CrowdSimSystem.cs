@@ -2,14 +2,14 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSim
 {
     using UniRx;
     using Unity.Entities;
-    using Unity.Physics.Systems;
+    // using Unity.Physics.Systems;
     
     //
     using GameCommon = JoyBrick.Walkio.Game.Common;
 
     //
     [DisableAutoCreation]
-    [UpdateBefore(typeof(BuildPhysicsWorld))]
+    // [UpdateBefore(typeof(BuildPhysicsWorld))]
     public class CrowdSimSystem : SystemBase
     {
         private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(CrowdSimSystem));

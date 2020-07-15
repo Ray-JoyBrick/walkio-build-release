@@ -10,7 +10,10 @@ namespace JoyBrick.Walkio.Game.Assist
 
     //
     using GameCommon = JoyBrick.Walkio.Game.Common;
+    
+#if WALKIO_LEVEL
     using GameLevel = JoyBrick.Walkio.Game.Level;
+#endif
 
     public partial class Bootstrap
     {

@@ -15,7 +15,7 @@
         "UniRx",
         "ProceduralToolkit",
         "Walkio.Game.Common",
-        "Walkio.Game.Level"
+        "Walkio.Game.Move-FlowField.Common"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -23,7 +23,9 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
+    "defineConstraints": [
+        "WALKIO_FLOWFIELD"
+    ],
     "versionDefines": [],
     "noEngineReferences": false
 }
