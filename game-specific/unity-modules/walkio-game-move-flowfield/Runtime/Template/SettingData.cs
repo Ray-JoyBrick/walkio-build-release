@@ -6,5 +6,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField.Template
     public class SettingData : ScriptableObject
     {
         public int tileCellCount;
+
+        public GameObject flowFieldTileBlobAssetAuthoringPrefab;
     }
 }

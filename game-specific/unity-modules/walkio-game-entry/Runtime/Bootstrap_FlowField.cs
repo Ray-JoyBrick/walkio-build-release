@@ -11,6 +11,12 @@
         GameMoveFlowFieldCommon.IFlowFieldWorldProvider
     {
         private Entity _flowFieldWorldEntity;
-        public Entity FlowFieldWorldEntity => _flowFieldWorldEntity;
+        public Entity FlowFieldWorldEntity
+        {
+            get => _flowFieldWorldEntity;
+            set => _flowFieldWorldEntity = value;
+        }
+        
+        public GameObject FlowFieldTileBlobAssetAuthoringPrefab { get; set; }
     }
 }

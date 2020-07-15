@@ -32,10 +32,10 @@ namespace JoyBrick.Walkio.Game.Assist
 
             // Provide the testing use asset to LoadFlowFieldSystem
 #if WALKIO_FLOWFIELD
-            var loadFlowFieldSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameMove.FlowField.LoadFlowFieldSystem>();
-            loadFlowFieldSystem.ProvideExternalAsset = true;
+            var flowFieldLoadAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameMove.FlowField.LoadAssetSystem>();
+            flowFieldLoadAssetSystem.ProvideExternalAsset = true;
 
-            loadFlowFieldSystem.SettingDataAsset = flowFieldSettingData;
+            flowFieldLoadAssetSystem.SettingDataAsset = flowFieldSettingData;
 #endif
         }
     }

@@ -88,10 +88,10 @@ namespace JoyBrick.Walkio.Game.Move.FlowField.Assist
             
             if (_mesh == null)
             {
-                var loadFlowFieldSystem =
-                    World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameMove.FlowField.LoadFlowFieldSystem>();
+                var flowFieldLoadAssetSystem =
+                    World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameMove.FlowField.LoadAssetSystem>();
             
-                var settingDataAsset = loadFlowFieldSystem.SettingDataAsset;
+                var settingDataAsset = flowFieldLoadAssetSystem.SettingDataAsset;
                 var settingData = settingDataAsset as GameMove.FlowField.Template.SettingData;
                 if (settingData != null)
                 {

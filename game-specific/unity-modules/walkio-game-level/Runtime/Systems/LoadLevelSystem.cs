@@ -100,6 +100,8 @@ namespace JoyBrick.Walkio.Game.Level
 
         private async Task<(ScriptableObject, SceneInstance)> Load()
         {
+            _logger.Debug($"LoadLevelSystem - Load");
+
             //
             var levelSettingAssetName = $"Level Setting.asset";
             var levelSettingAssetTask = GameCommon.Utility.AssetLoadingHelper.GetAsset<ScriptableObject>(levelSettingAssetName);

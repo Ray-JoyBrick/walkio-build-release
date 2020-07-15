@@ -50,44 +50,6 @@ namespace JoyBrick.Walkio.Game.Common
         void SetupPathfindingData(TextAsset textAsset);
     }
     
-    public class FlowControlContext
-    {
-        public string Name { get; set; }
-
-        public override string ToString()
-        {
-            var desc = $"Name: {Name}";
-
-            return desc;
-        }
-    }
-    
-    public interface IFlowControl
-    {
-        IObservable<FlowControlContext> LoadingAsset { get; }
-        IObservable<FlowControlContext> DoneLoadingAsset { get; }
-
-        IObservable<FlowControlContext> SettingAsset { get; }
-        IObservable<FlowControlContext> DoneSettingAsset { get; }
-
-        IObservable<FlowControlContext> AllDoneSettingAsset { get; }
-
-        IObservable<FlowControlContext> CleaningAsset { get; }
-        
-        //
-        void StartLoadingAsset(string flowName);
-
-        //
-        void FinishLoadingAsset(FlowControlContext context);
-        void StartSetting(FlowControlContext context);
-        void FinishSetting(FlowControlContext context);
-
-        void FinishAllSetting(FlowControlContext context);
-        
-        //
-        void StartCleaningAsset(string flowName);
-
-    }
 
     public interface IAStarPathService
     {

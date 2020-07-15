@@ -148,8 +148,17 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                         // _logger.Debug($"MoveOnFlowFieldTileSystem - OnUpdate - {entity} can move on {tileEntity}");
         
                         // This should be a collection of FlowFieldTileCellBuffer in the whole world
+
+                        var hasComp = EntityManager.HasComponent<FlowFieldTileCellBuffer>(entity);
+                        if (hasComp)
+                        {
+                            _logger.Debug($"MoveOnFlowFieldTileSystem - {entity} hasComp: FlowFieldTileCellBuffer");
+                        }
+                        
                         var lookupBuffer = GetBufferFromEntity<FlowFieldTileCellBuffer>();
                         var flowFieldTileCellBuffers = lookupBuffer[tileEntity];
+                        
+                        
                         var cellIndex = GetCellIndexFromPosition(translation.Value);
                         var cellValue = flowFieldTileCellBuffers[cellIndex];
                         

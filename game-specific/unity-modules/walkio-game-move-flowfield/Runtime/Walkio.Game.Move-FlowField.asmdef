@@ -15,6 +15,7 @@
         "UniRx",
         "ProceduralToolkit",
         "Walkio.Game.Common",
+        "Walkio.Game.Level.Common",
         "Walkio.Game.Move-FlowField.Common"
     ],
     "includePlatforms": [],

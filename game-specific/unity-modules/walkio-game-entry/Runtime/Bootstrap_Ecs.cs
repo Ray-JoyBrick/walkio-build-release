@@ -170,9 +170,9 @@ namespace JoyBrick.Walkio.Game
 
             //
 #if WALKIO_FLOWFIELD
-            var loadFlowFieldSystem =
+            var flowFieldLoadAssetSystem =
                 World.DefaultGameObjectInjectionWorld
-                    .GetOrCreateSystem<GameMove.FlowField.LoadFlowFieldSystem>();
+                    .GetOrCreateSystem<GameMove.FlowField.LoadAssetSystem>();
 #endif
 
 #if WALKIO_WAYPOINT
@@ -182,9 +182,9 @@ namespace JoyBrick.Walkio.Game
 #endif
 
 #if WALKIO_FLOWFIELD
-            var setupFlowFieldSystem =
+            var flowFieldSetupAssetSystem =
                 World.DefaultGameObjectInjectionWorld
-                    .GetOrCreateSystem<GameMove.FlowField.SetupFlowFieldSystem>();
+                    .GetOrCreateSystem<GameMove.FlowField.SetupAssetSystem>();
 #endif
 
 #if WALKIO_FLOWFIELD
@@ -378,8 +378,12 @@ namespace JoyBrick.Walkio.Game
 
             //
 #if WALKIO_FLOWFIELD
-            loadFlowFieldSystem.FlowControl = (GameCommon.IFlowControl) this;
-            setupFlowFieldSystem.FlowControl = (GameCommon.IFlowControl) this;
+            flowFieldLoadAssetSystem.FlowControl = (GameCommon.IFlowControl) this;
+            flowFieldLoadAssetSystem.FlowFieldWorldProvider = (GameMove.FlowField.Common.IFlowFieldWorldProvider) this;
+            
+            flowFieldSetupAssetSystem.FlowControl = (GameCommon.IFlowControl) this;
+            flowFieldSetupAssetSystem.GridWorldProvider = (GameLevel.Common.IGridWorldProvider) this;
+            flowFieldSetupAssetSystem.FlowFieldWorldProvider = (GameMove.FlowField.Common.IFlowFieldWorldProvider) this;
             
             setupMoveSpecificSystem.FlowControl = (GameCommon.IFlowControl) this;
 
@@ -501,8 +505,8 @@ namespace JoyBrick.Walkio.Game
             
             //
 #if WALKIO_FLOWFIELD
-            loadFlowFieldSystem.Construct();
-            setupFlowFieldSystem.Construct();
+            flowFieldLoadAssetSystem.Construct();
+            flowFieldSetupAssetSystem.Construct();
             
             setupMoveSpecificSystem.Construct();
             setupMonitorTileChangeSystem.Construct();
@@ -608,7 +612,7 @@ namespace JoyBrick.Walkio.Game
             initializationSystemGroup.AddSystemToUpdateList(handleEntityPlacheholderAddSystem);
 
 #if WALKIO_FLOWFIELD
-            initializationSystemGroup.AddSystemToUpdateList(loadFlowFieldSystem);
+            initializationSystemGroup.AddSystemToUpdateList(flowFieldLoadAssetSystem);
 #endif
 
 #if WALKIO_WAYPOINT
@@ -616,7 +620,7 @@ namespace JoyBrick.Walkio.Game
 #endif
 
 #if WALKIO_FLOWFIELD
-            initializationSystemGroup.AddSystemToUpdateList(setupFlowFieldSystem);
+            initializationSystemGroup.AddSystemToUpdateList(flowFieldSetupAssetSystem);
             
             initializationSystemGroup.AddSystemToUpdateList(setupMoveSpecificSystem);
             initializationSystemGroup.AddSystemToUpdateList(setupMonitorTileChangeSystem);

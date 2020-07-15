@@ -70,58 +70,6 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
 
         public Dictionary<int, Dictionary<int, Entity>> CachedEntities => _cachedEntities;
 
-        public void Construct()
-        {
-            _logger.Debug($"TeamUnitToPathSystem - Construct");
-
-            //
-            FlowControl.AllDoneSettingAsset
-                .Where(x => x.Name.Contains("Stage"))
-                .Subscribe(x =>
-                {
-                    _logger.Debug($"TeamUnitToPathSystem - Construct - Receive DoneSettingAsset");
-                    _canUpdate = true;
-                })
-                .AddTo(_compositeDisposable);
-        }
-
-        protected override void OnCreate()
-        {
-            _logger.Debug($"TeamUnitToPathSystem - OnCreate");
-            
-            base.OnCreate();
-
-            _entityCommandBufferSystem = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
-        }
-
-        private void ResetCachedFlowFieldEntities(EntityCommandBuffer commandBuffer, int teamId)
-        {
-            Dictionary<int, Entity> entityTable = null;
-            var hasValue = _cachedEntities.TryGetValue(teamId, out entityTable);
-            if (!hasValue)
-            {
-                _cachedEntities.Add(teamId, new Dictionary<int, Entity>());
-            }
-
-            var table = _cachedEntities[teamId];
-            
-            // There are cached entities, need to discard these entities
-            foreach (var pair in table)
-            {
-                var entity = pair.Value;
-                if (entity != Entity.Null)
-                {
-                    commandBuffer.AddComponent(entity, new DiscardedFlowFieldTile());
-                }
-                else
-                {
-                    _logger.Warning($"TeamUnitToPathSystem - ResetCachedFlowFieldEntities - teamId: {teamId} has null entity in cache");
-                }
-            }
-            
-            table.Clear();
-        }
-
         private void UpdateGroupAtiTiles(TeamTileContext teamTileContext)
         {
             //
@@ -196,6 +144,70 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                 HandleFoundPaths);
         }
 
+        public void Construct()
+        {
+            _logger.Debug($"TeamUnitToPathSystem - Construct");
+
+            //
+            FlowControl.AllDoneSettingAsset
+                .Where(x => x.Name.Contains("Stage"))
+                .Subscribe(x =>
+                {
+                    _logger.Debug($"TeamUnitToPathSystem - Construct - Receive DoneSettingAsset");
+                    _canUpdate = true;
+                })
+                .AddTo(_compositeDisposable);
+            
+            FlowFieldChangeStream
+                .Subscribe(teamTileContext =>
+                {
+                    //
+                    // _logger.Debug($"TeamUnitToPathSystem - Construct - Handle FlowFieldChangeStream");
+
+                    //
+                    UpdateGroupAtiTiles(teamTileContext);
+                    RequestAstarPathToSearch(teamTileContext);
+                })
+                .AddTo(_compositeDisposable);            
+        }
+
+        protected override void OnCreate()
+        {
+            _logger.Debug($"TeamUnitToPathSystem - OnCreate");
+            
+            base.OnCreate();
+
+            _entityCommandBufferSystem = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
+        }
+
+        private void ResetCachedFlowFieldEntities(EntityCommandBuffer commandBuffer, int teamId)
+        {
+            Dictionary<int, Entity> entityTable = null;
+            var hasValue = _cachedEntities.TryGetValue(teamId, out entityTable);
+            if (!hasValue)
+            {
+                _cachedEntities.Add(teamId, new Dictionary<int, Entity>());
+            }
+
+            var table = _cachedEntities[teamId];
+            
+            // There are cached entities, need to discard these entities
+            foreach (var pair in table)
+            {
+                var entity = pair.Value;
+                if (entity != Entity.Null)
+                {
+                    commandBuffer.AddComponent(entity, new DiscardedFlowFieldTile());
+                }
+                else
+                {
+                    _logger.Warning($"TeamUnitToPathSystem - ResetCachedFlowFieldEntities - teamId: {teamId} has null entity in cache");
+                }
+            }
+            
+            table.Clear();
+        }
+
         protected override void OnUpdate()
         {
             if (!_canUpdate) return;
@@ -220,9 +232,11 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                         TargetPosition = flowFieldTileChangeProperty.TargetPosition
                     };
 
-                    //
-                    UpdateGroupAtiTiles(teamTileContext);
-                    RequestAstarPathToSearch(teamTileContext);
+                    _notifyTileChange.OnNext(teamTileContext);
+                    
+                    // // These have to be signaled and process in other place
+                    // UpdateGroupAtiTiles(teamTileContext);
+                    // RequestAstarPathToSearch(teamTileContext);
 
                     commandBuffer.DestroyEntity(entity);
                 })

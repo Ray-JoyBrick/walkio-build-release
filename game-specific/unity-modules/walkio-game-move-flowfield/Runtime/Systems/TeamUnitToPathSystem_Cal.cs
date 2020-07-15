@@ -155,6 +155,9 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
             List<int> tileIndices,
             int uniformSize)
         {
+            // Buffer has to be added separately
+            // var entityArchetype = entityManager.CreateArchetype(
+            //     typeof(FlowFieldTile));
             var entityArchetype = entityManager.CreateArchetype(
                 typeof(FlowFieldTile),
                 typeof(FlowFieldTileCellBuffer),

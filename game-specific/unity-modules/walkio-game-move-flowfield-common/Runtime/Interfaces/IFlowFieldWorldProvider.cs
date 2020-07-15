@@ -1,12 +1,15 @@
 ﻿namespace JoyBrick.Walkio.Game.Move.FlowField.Common
 {
     using Unity.Entities;
+    using UnityEngine;
 
     public interface IFlowFieldWorldProvider
     {
         // This entity should have the following components
         // - FlowFieldWorld
         // - FlowFieldWorldProperty
-        Entity FlowFieldWorldEntity { get; }
+        Entity FlowFieldWorldEntity { get; set; }
+        
+        GameObject FlowFieldTileBlobAssetAuthoringPrefab { get; set; }
     }
 }

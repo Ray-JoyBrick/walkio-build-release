@@ -12,6 +12,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
 
     //
     using GameCommon = JoyBrick.Walkio.Game.Common;
+    using GameLevel = JoyBrick.Walkio.Game.Level;
     
     using GameMove = JoyBrick.Walkio.Game.Move;
 
@@ -19,9 +20,9 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
     [GameCommon.DoneSettingAssetWait("Stage")]
     //
     [DisableAutoCreation]
-    public class SetupFlowFieldSystem : SystemBase
+    public class SetupAssetSystem : SystemBase
     {
-        private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(SetupFlowFieldSystem));
+        private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(SetupAssetSystem));
         
         //
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
@@ -37,6 +38,8 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
 
         //
         public GameCommon.IFlowControl FlowControl { get; set; }
+        public GameLevel.Common.IGridWorldProvider GridWorldProvider { get; set; }
+        public Common.IFlowFieldWorldProvider FlowFieldWorldProvider { get; set; }
         
         //
         public bool ProvideExternalAsset { get; set; }
@@ -44,14 +47,14 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
         //
         public void Construct()
         {
-            _logger.Debug($"SetupFlowFieldSystem - Construct");
+            _logger.Debug($"SetupAssetSystem - Construct");
 
             //
             FlowControl.SettingAsset
                 .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"SetupFlowFieldSystem - Construct - Receive SettingAsset");
+                    _logger.Debug($"SetupAssetSystem - Construct - Receive SettingAsset");
 
                     _canSetup = true;
                     _doingSetup = true;
@@ -59,6 +62,33 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                     SettingAsset();
                 })
                 .AddTo(_compositeDisposable);             
+        }
+
+        private async Task Setup()
+        {
+            _logger.Debug($"SetupAssetSystem - Setup");
+
+            var gridWorldProperty = EntityManager.GetComponentData<GameLevel.Common.GridWorldProperty>(GridWorldProvider.GridWorldEntity);
+
+            var flowFieldTileBlobAssetAuthoring = FlowFieldWorldProvider.FlowFieldTileBlobAssetAuthoringPrefab
+                .GetComponent<Common.FlowFieldWorldBlobAssetAuthoring>();
+
+            if (flowFieldTileBlobAssetAuthoring != null)
+            {
+                flowFieldTileBlobAssetAuthoring.context.gridTileCount =
+                    new Vector2Int(gridWorldProperty.GridTileCount.x, gridWorldProperty.GridTileCount.y);
+                flowFieldTileBlobAssetAuthoring.context.gridTileCellCount =
+                    new Vector2Int(gridWorldProperty.GridTileCellCount.x, gridWorldProperty.GridTileCellCount.y);
+                
+                // flowFieldTileBlobAssetAuthoring.context.gridCellDetals
+
+                GameObject.Instantiate(FlowFieldWorldProvider.FlowFieldTileBlobAssetAuthoringPrefab);
+            }
+
+            while (_doingSetup)
+            {
+                await Task.Delay(System.TimeSpan.FromMilliseconds(100));
+            }
         }
 
         private void SettingAsset()
@@ -78,30 +108,9 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                 .AddTo(_compositeDisposable);
         }
 
-        private async Task Setup()
-        {
-            _logger.Debug($"SetupFlowFieldSystem - Setup");
-
-            // var entity = _levelSettingEntityQuery.GetSingletonEntity();
-            // var levelSetting = EntityManager.GetComponentData<Common.LevelSetting>(entity);
-            //
-            // var horizontalTileCount = 4;
-            // var verticalTileCount = 4;
-            //
-            // var totalTileCount = horizontalTileCount * verticalTileCount;
-            // // Setup flow field tile buffer
-            // var tileBuffer = EntityManager.AddBuffer<GameCommon.FlowFieldTileBuffer>(entity);
-            // tileBuffer.ResizeUninitialized(totalTileCount);
-
-            while (_doingSetup)
-            {
-                await Task.Delay(System.TimeSpan.FromMilliseconds(100));
-            }
-        }
-
         protected override void OnCreate()
         {
-            _logger.Debug($"SetupFlowFieldSystem - OnCreate");
+            _logger.Debug($"SetupAssetSystem - OnCreate");
 
             base.OnCreate();
 
@@ -118,7 +127,6 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                     ComponentType.ReadOnly<GameCommon.LevelSetting>() 
                 }
             });
-            
             
             RequireForUpdate(_levelSettingEntityQuery);
         }
@@ -141,7 +149,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                 .WithAll<GameCommon.LevelSetting>()
                 .ForEach((Entity entity) =>
                 {
-                    _logger.Debug($"SetupFlowFieldSystem - OnUpdate - Should setup flow field tile buffer for level setting");
+                    _logger.Debug($"SetupAssetSystem - OnUpdate - Should setup flow field tile buffer for level setting");
 
                     var horizontalTileCount = 4;
                     var verticalTileCount = 4;
@@ -158,9 +166,9 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                     
                             var tileEntity = commandBuffer.CreateEntity(_tileEntityArchetype);
                     
-#if UNITY_EDITOR
-                            World.DefaultGameObjectInjectionWorld.EntityManager.SetName(tileEntity, $"Tile Entity - Base");
-#endif                    
+// #if UNITY_EDITOR
+//                             World.DefaultGameObjectInjectionWorld.EntityManager.SetName(tileEntity, $"Tile Entity - Base");
+// #endif                    
                             tileBuffer[tileIndex] = tileEntity;
                         }
                     }

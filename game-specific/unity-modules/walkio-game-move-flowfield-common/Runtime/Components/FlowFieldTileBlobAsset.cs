@@ -12,6 +12,7 @@
 
     // }
     
+    // Buffer might be easier
     public struct FlowFieldTileBlobAsset
     {
         public BlobArray<FlowFieldTileContext> FlowFieldTileContextArray;
