@@ -64,11 +64,31 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
             var concurrentCommandBuffer = commandBuffer.ToConcurrent();
 
+            //
+            var deltaTime = Time.DeltaTime;
+
             Entities
                 .WithAll<DiscardedFlowFieldTile>()
-                .ForEach((Entity entity) =>
+                .ForEach((Entity entity, ref DiscardedFlowFieldTileProperty discardedFlowFieldTileProperty) =>
                 {
-                    commandBuffer.DestroyEntity(entity);
+                    
+                    var elapsedTime = discardedFlowFieldTileProperty.CountDown + deltaTime;
+
+                    discardedFlowFieldTileProperty.CountDown = elapsedTime;
+
+                    if (elapsedTime >= discardedFlowFieldTileProperty.IntervalMax)
+                    {
+                        discardedFlowFieldTileProperty.CountDown = 0;
+
+                        _logger.Debug($"CleanUpFlowFieldSystem - OnUpdate - timed Destroy {entity}");
+
+                        if (entity != Entity.Null)
+                        {
+                            commandBuffer.DestroyEntity(entity);
+                        }
+                    }
+
+                    commandBuffer.SetComponent(entity, discardedFlowFieldTileProperty);
                 })
                 // .Schedule();
                 .WithoutBurst()

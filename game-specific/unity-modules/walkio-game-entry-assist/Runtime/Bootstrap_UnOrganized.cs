@@ -13,6 +13,9 @@ namespace JoyBrick.Walkio.Game.Assist
 
     public partial class Bootstrap
     {
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.BoxGroup("Unorgianized")]
+#endif        
         public float timeToSpawnTeamUnit = 0.1f;
     }
 }

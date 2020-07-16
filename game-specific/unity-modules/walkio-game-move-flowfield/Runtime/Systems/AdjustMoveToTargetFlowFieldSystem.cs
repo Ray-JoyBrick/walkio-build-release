@@ -52,6 +52,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
         private Entity AssignToMoveToTarget(
             EntityCommandBuffer commandBuffer, EntityArchetype flowFieldTileArchetype,
             int tileIndex, int timeTick, int uniformSize,
+            int groupId,
             Entity entity)
         {
             _logger.Debug($"AdjustMoveToTargetFlowFieldSystem - AssignToMoveToTarget - tileIndex: {tileIndex} timeTick: {timeTick}");
@@ -68,7 +69,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
 #endif  
 
             //
-            commandBuffer.SetComponent(flowFieldTileEntity, new FlowFieldTile
+            commandBuffer.SetComponent(flowFieldTileEntity, new FlowFieldTileProperty
             {
                 Index = tileIndex,
                             
@@ -112,6 +113,11 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
             {
                 AtTile = flowFieldTileEntity
             });
+            
+            commandBuffer.SetComponent(entity, new FlowFieldTileGroupUse
+            {
+                GroupId = groupId
+            });
 
             return flowFieldTileEntity;
         }
@@ -149,13 +155,14 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
             //
             var flowFieldTileArchetype = EntityManager.CreateArchetype(
                 typeof(FlowFieldTile),
+                typeof(FlowFieldTileProperty),
                 typeof(FlowFieldTileGroupUse));
             var flowFieldTileChangeEventArchetype = EntityManager.CreateArchetype(
                 typeof(FlowFieldTileChange),
                 typeof(FlowFieldTileChangeProperty));
 
             //
-            var flowFieldTileComps = GetComponentDataFromEntity<FlowFieldTile>();
+            var flowFieldTilePropertyComps = GetComponentDataFromEntity<FlowFieldTileProperty>();
 
             //
             Entities
@@ -168,6 +175,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                         var tileIndex = GetTileIndex(localToWorld.Position);
                         var uniformSize = 10;
                         var atTileEntity = moveToTarget.AtTile;
+                        var groupId = flowFieldGroup.GroupId;
 
                         // This is the case where there is not tile entity assigned
                         if (atTileEntity == Entity.Null)
@@ -176,6 +184,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                             var flowFieldTileEntity = AssignToMoveToTarget(
                                 commandBuffer, flowFieldTileArchetype,
                                 tileIndex, timeTick, uniformSize,
+                                groupId,
                                 entity);
                             
                             _logger.Debug($"AdjustMoveToTargetFlowFieldSystem - OnUpdate - flowFieldTileEntity: {flowFieldTileEntity}");
@@ -190,15 +199,16 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                         {
                             // Check to see if team leader is moving to another tile, update at tile
                             // and signal
-                            var flowFieldTileComp = flowFieldTileComps[atTileEntity];
+                            var flowFieldTileComp = flowFieldTilePropertyComps[atTileEntity];
                         
                             if (tileIndex != flowFieldTileComp.Index)
                             {
-                                // _logger.Debug($"AdjustMoveToTargetFlowFieldSystem - OnUpdate - tileIndex: {tileIndex} flowFieldTileComp Index: {flowFieldTileComp.Index}");
+                                _logger.Debug($"AdjustMoveToTargetFlowFieldSystem - OnUpdate - tileIndex: {tileIndex} flowFieldTileComp Index: {flowFieldTileComp.Index}");
                         
                                 var flowFieldTileEntity = AssignToMoveToTarget(
                                     commandBuffer, flowFieldTileArchetype,
                                     tileIndex, timeTick, uniformSize,
+                                    groupId,
                                     entity);
                         
                                 //
@@ -209,6 +219,11 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                         
                                 var previousEntity = atTileEntity;
                                 commandBuffer.AddComponent<DiscardedFlowFieldTile>(previousEntity);
+                                commandBuffer.AddComponent(previousEntity, new DiscardedFlowFieldTileProperty
+                                {
+                                    IntervalMax = 10,
+                                    CountDown = 0
+                                });
                             }
                             else
                             {
@@ -238,7 +253,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                     32, 32,
                     1.0f, 1.0f,
                     -16.0f, -16.0f,
-                    10, 10,
+                    8, 8,
                     1.0f, 1.0f,
                     pos.x, pos.z);
 

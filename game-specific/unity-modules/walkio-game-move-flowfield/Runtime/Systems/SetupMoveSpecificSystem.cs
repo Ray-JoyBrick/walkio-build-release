@@ -8,7 +8,9 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
     using UnityEngine.PlayerLoop;
 
     //
+#if WALKIO_COMMON
     using GameCommon = JoyBrick.Walkio.Game.Common;
+#endif
     // using GameEnvironment = JoyBrick.Walkio.Game.Environment;
     
     
@@ -25,12 +27,14 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
         //
         private bool _canUpdate;
 
+#if WALKIO_COMMON
         public GameCommon.IFlowControl FlowControl { get; set; }
+#endif
 
         public void Construct()
         {
             _logger.Debug($"SetupMoveSpecificSystem - Construct");
-
+#if WALKIO_COMMON
             //
             FlowControl.AllDoneSettingAsset
                 .Where(x => x.Name.Contains("Stage"))
@@ -40,6 +44,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                     _canUpdate = true;
                 })
                 .AddTo(_compositeDisposable);
+#endif
         }
 
         protected override void OnCreate()

@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "com.3rd.editor-console-pro": "file:../../references/FlyingWorm/editor-console-pro-package",
+    "com.3rd.odin-inspector": "file:../../references/Devdog/odin-inspector-package-3",
     "com.alelievr.node-graph-processor": "0.7.1",
     "com.arongranberg.aline": "file:../../references/Aron Granberg/ALINE",
     "com.cysharp.unitask": "2.0.25",

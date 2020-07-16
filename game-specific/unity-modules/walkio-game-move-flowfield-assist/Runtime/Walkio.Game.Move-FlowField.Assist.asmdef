@@ -1,6 +1,7 @@
 {
     "name": "Walkio.Game.Move-FlowField.Assist",
     "references": [
+        "Unity.Burst",
         "Unity.Collections",
         "Unity.Entities",
         "Unity.Entities.Hybrid",
@@ -12,6 +13,7 @@
         "Unity.Rendering.Hybrid",
         "UniRx",
         "ProceduralToolkit",
+        "ALINE",
         "Walkio.Game.Common",
         "Walkio.Game.Move-FlowField",
         "Walkio.Game.Move-FlowField.Common"

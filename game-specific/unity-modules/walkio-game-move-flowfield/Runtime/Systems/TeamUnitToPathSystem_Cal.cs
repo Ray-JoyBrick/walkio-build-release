@@ -11,7 +11,9 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
     using UnityEngine.PlayerLoop;
     
     //
+#if WALKIO_COMMON    
     using GameCommon = JoyBrick.Walkio.Game.Common;
+#endif
 
     public partial class TeamUnitToPathSystem : SystemBase
     {
@@ -42,24 +44,24 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
             
             // Actual flow field direction setup here
 
-            entityManager.SetComponentData(entity, new FlowFieldTile
+            entityManager.SetComponentData(entity, new FlowFieldTileProperty
             {
                 Index = tileIndex,
                             
                 HorizontalCount = uniformSize,
                 VerticalCount = uniformSize,
                             
-                TimeTick = timeTick                        
+                TimeTick = timeTick
             });
-                    
+
             var tileBuffer = entityManager.AddBuffer<FlowFieldTileCellBuffer>(entity);
             var tileCellInBuffer = entityManager.AddBuffer<FlowFieldTileInCellBuffer>(entity);
             var tileCellOutBuffer = entityManager.AddBuffer<FlowFieldTileOutCellBuffer>(entity);
-        
+
             var totalTileCellCount = 10 * 10;
             var tileCellInCount = 10 * 4;
             var tileCellOutCount = 10 * 4;
-                    
+
             tileBuffer.ResizeUninitialized(totalTileCellCount);
             tileCellInBuffer.ResizeUninitialized(tileCellInCount);
             tileCellOutBuffer.ResizeUninitialized(tileCellOutCount);
@@ -160,6 +162,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
             //     typeof(FlowFieldTile));
             var entityArchetype = entityManager.CreateArchetype(
                 typeof(FlowFieldTile),
+                typeof(FlowFieldTileProperty),
                 typeof(FlowFieldTileCellBuffer),
                 typeof(FlowFieldTileInCellBuffer),
                 typeof(FlowFieldTileOutCellBuffer));
@@ -214,7 +217,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                     var nextFlowFieldEntity = flowFieldEntities[i + 1];
                 
                     // This seems to create an issue for cached tile entity
-                    entityManager.SetComponentData(flowFieldEntity, new FlowFieldTile
+                    entityManager.SetComponentData(flowFieldEntity, new FlowFieldTileProperty
                     {
                         HorizontalCount = uniformSize,
                         VerticalCount = uniformSize,

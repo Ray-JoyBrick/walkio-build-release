@@ -1,0 +1,25 @@
+{
+    "name": "Walkio.Game.Level.Common",
+    "references": [
+        "Unity.Entities",
+        "Unity.Rendering.Hybrid",
+        "Unity.Burst",
+        "Unity.Collections",
+        "Unity.Transforms",
+        "Unity.Entities.Hybrid",
+        "Unity.Entities.Properties",
+        "Unity.Mathematics",
+        "UniRx",
+        "AstarPathfindingProject",
+        "PackageTools"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -406,6 +406,7 @@ MonoBehaviour:
   gizmoMeshRadius: 0.5
   entityPlaceholderParent: {fileID: 718534973}
   entityPlaceholderPrefab: {fileID: 2129541459306606637, guid: 924d227622926204f9e62b62522f92fa, type: 3}
+  flowFieldTileBlobAssetAuthoringPrefab: {fileID: 2700336483558651619, guid: d1fbd8b89ec647f40b1fa9e706e556ab, type: 3}
   startLevel: 
   levelSettingData: {fileID: 11400000, guid: 07a02f5a8ba18ba419155e00f8b1beda, type: 2}
   flowFieldSettingData: {fileID: 11400000, guid: e2dda47175719114baf93329aa1aa438, type: 2}

@@ -112,7 +112,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField.Assist
             var materialPropertyBlock = new MaterialPropertyBlock();
 
             using (var tileIndications =
-                _entityQuery.ToComponentDataArray<GameMove.FlowField.FlowFieldTile>(Allocator.TempJob))
+                _entityQuery.ToComponentDataArray<GameMove.FlowField.FlowFieldTileProperty>(Allocator.TempJob))
             {
                 // _logger.Debug($"GroupFlowFieldTileRenderSystems - OnUpdate - tileIndications.Length: {tileIndications.Length}");
                 for (var i = 0; i < tileIndications.Length; i += SliceCount)

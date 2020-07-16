@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.3rd.editor-console-pro": "file:../../references/FlyingWorm/editor-console-pro-package",
-    "com.3rd.odin-inspector": "file:../../references/Devdog/odin-inspector-package",
+    "com.3rd.odin-inspector": "file:../../references/Devdog/odin-inspector-package-3",
     "com.arongranberg.astar": "file:../../references/Aron Granberg/com.arongranberg.astar@4.3.28",
     "com.unity.addressables": "1.8.4",
     "com.unity.cinemachine": "2.6.0",

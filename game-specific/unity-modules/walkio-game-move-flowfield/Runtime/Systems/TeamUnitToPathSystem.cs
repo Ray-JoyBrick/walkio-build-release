@@ -11,7 +11,9 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
     using UnityEngine.PlayerLoop;
     
     //
+#if WALKIO_COMMON
     using GameCommon = JoyBrick.Walkio.Game.Common;
+#endif
 
     public class TeamTileContext
     {
@@ -65,7 +67,9 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
         private IObservable<TeamTileContext> FlowFieldChangeStream => _notifyTileChange.AsObservable();
         private readonly Subject<TeamTileContext> _notifyTileChange = new Subject<TeamTileContext>();
         
+#if WALKIO_COMMON
         public GameCommon.IFlowControl FlowControl { get; set; }
+#endif
         public GameCommon.IAStarPathService AStarPathService { get; set; }
 
         public Dictionary<int, Dictionary<int, Entity>> CachedEntities => _cachedEntities;
@@ -94,13 +98,13 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                     if (groupdId == teamTileContext.TeamId)
                     {
                         var tileIndex = GetTileIndex(translation.Value);
-                        
+
                         var existed = _teamAtTiles[groupdId].TileIndices.Exists(x => x == tileIndex);
                         if (!existed)
                         {
                             // This assigns newly discovered tile index into _teamAtTiles cache table
                             _teamAtTiles[groupdId].TileIndices.Add(tileIndex);
-                        }                            
+                        }
                     }
                 })
                 // Have to be in main thread to avoid issue
@@ -168,7 +172,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                     UpdateGroupAtiTiles(teamTileContext);
                     RequestAstarPathToSearch(teamTileContext);
                 })
-                .AddTo(_compositeDisposable);            
+                .AddTo(_compositeDisposable);
         }
 
         protected override void OnCreate()

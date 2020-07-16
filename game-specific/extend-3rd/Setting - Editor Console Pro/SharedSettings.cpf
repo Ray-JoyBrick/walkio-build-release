@@ -930,6 +930,34 @@
             "isEnabled": true,
             "collapsed": false,
             "itemGUID": "54386720-66b9-4cde-a73d-71bf00c6ffd1"
+        },
+        {
+            "searchString": "ThirdPersonControllerDemo",
+            "searchType": "Fuzzy",
+            "removeSearchStringFromLog": false,
+            "logTypeList": [
+                {
+                    "logType": "Warning",
+                    "name": "Untitled",
+                    "isEnabled": true,
+                    "collapsed": false,
+                    "itemGUID": "d1746817-48c2-434e-9670-6263a013fe89"
+                }
+            ],
+            "columnTypeList": [
+                {
+                    "columnType": "Log",
+                    "name": "Untitled",
+                    "isEnabled": true,
+                    "collapsed": false,
+                    "itemGUID": "531dcad8-f3f9-4a55-a818-dcc019fd019e"
+                }
+            ],
+            "sourceCodeList": [],
+            "name": "Untitled",
+            "isEnabled": true,
+            "collapsed": false,
+            "itemGUID": "b417901b-1944-4982-af70-0533f0d4e265"
         }
     ],
     "sharedFilters": [

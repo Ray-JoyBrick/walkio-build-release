@@ -17,6 +17,10 @@ namespace JoyBrick.Walkio.Game.Assist
     {
         public float gizmoMeshRadius = 0.5f;
         
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.ColorPalette("Underwater")
+        public Color underwaterColor;
+        
         //
         private void RegisterToDrawingManager()
         {

@@ -4,13 +4,13 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
 
     public struct FlowFieldTile : IComponentData
     {
-        public int Index;
-        
-        public int HorizontalCount;
-        public int VerticalCount;
-
-        public int TimeTick;
-
-        public Entity NextFlowFieldTile;
+        // public int Index;
+        //
+        // public int HorizontalCount;
+        // public int VerticalCount;
+        //
+        // public int TimeTick;
+        //
+        // public Entity NextFlowFieldTile;
     }
 }

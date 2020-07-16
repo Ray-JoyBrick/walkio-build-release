@@ -52,6 +52,8 @@ namespace JoyBrick.Walkio.Game.Assist
             _logger.Debug($"Bootstrap Assist - SetupEcsSystem");
 
             var flowControl = _assistable.RefGameObject.GetComponent<GameCommon.IFlowControl>();
+            var flowFieldWorldProvider =
+                _assistable.RefGameObject.GetComponent<GameMove.FlowField.Common.IFlowFieldWorldProvider>();
             var sceneProvider = _assistable.RefGameObject.GetComponent<GameCommon.ISceneProvider>();
             
             //
@@ -86,13 +88,18 @@ namespace JoyBrick.Walkio.Game.Assist
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMove.FlowField.Assist.AttachFlowFieldTileIndicationSystem>();
 
-            var flowFieldTileRenderSystem =
+            var presentWorldSystem =
                 World.DefaultGameObjectInjectionWorld
-                    .GetOrCreateSystem<GameMove.FlowField.Assist.FlowFieldTileRenderSystem>();
+                    .GetOrCreateSystem<GameMove.FlowField.Assist.PresentWorldSystem>();
 
-            var groupFlowFieldTileRenderSystems =
-                World.DefaultGameObjectInjectionWorld
-                    .GetOrCreateSystem<GameMove.FlowField.Assist.GroupFlowFieldTileRenderSystems>();
+            // var flowFieldTileRenderSystem =
+            //     World.DefaultGameObjectInjectionWorld
+            //         .GetOrCreateSystem<GameMove.FlowField.Assist.FlowFieldTileRenderSystem>();
+
+            // var groupFlowFieldTileRenderSystems =
+            //     World.DefaultGameObjectInjectionWorld
+            //         .GetOrCreateSystem<GameMove.FlowField.Assist.GroupFlowFieldTileRenderSystems>();
+
 #endif
 
 
@@ -120,14 +127,17 @@ namespace JoyBrick.Walkio.Game.Assist
 
 #if WALKIO_FLOWFIELD_ASSIST
             attachFlowFieldTileIndicationSystem.FlowControl = flowControl;
-            
-            flowFieldTileRenderSystem.SceneCamera = sceneProvider.SceneCamera;
-            flowFieldTileRenderSystem.FlowControl = flowControl;
-            flowFieldTileRenderSystem.SceneAssistProvider = (GameCommon.ISceneAssistProvider) this;
 
-            groupFlowFieldTileRenderSystems.SceneCamera = sceneProvider.SceneCamera;
-            groupFlowFieldTileRenderSystems.FlowControl = flowControl;
-            groupFlowFieldTileRenderSystems.SceneAssistProvider = (GameCommon.ISceneAssistProvider) this;
+            presentWorldSystem.FlowControl = flowControl;
+            presentWorldSystem.FlowFieldWorldProvider = flowFieldWorldProvider;
+
+            // flowFieldTileRenderSystem.SceneCamera = sceneProvider.SceneCamera;
+            // flowFieldTileRenderSystem.FlowControl = flowControl;
+            // flowFieldTileRenderSystem.SceneAssistProvider = (GameCommon.ISceneAssistProvider) this;
+
+            // groupFlowFieldTileRenderSystems.SceneCamera = sceneProvider.SceneCamera;
+            // groupFlowFieldTileRenderSystems.FlowControl = flowControl;
+            // groupFlowFieldTileRenderSystems.SceneAssistProvider = (GameCommon.ISceneAssistProvider) this;
 #endif
 
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
@@ -151,8 +161,9 @@ namespace JoyBrick.Walkio.Game.Assist
 #endif
 
 #if WALKIO_FLOWFIELD_ASSIST
-            flowFieldTileRenderSystem.Construct();
-            groupFlowFieldTileRenderSystems.Construct();
+            presentWorldSystem.Construct();
+            // flowFieldTileRenderSystem.Construct();
+            // groupFlowFieldTileRenderSystems.Construct();
 #endif
 
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
@@ -175,8 +186,9 @@ namespace JoyBrick.Walkio.Game.Assist
 #if WALKIO_FLOWFIELD_ASSIST
             initializationSystemGroup.AddSystemToUpdateList(attachFlowFieldTileIndicationSystem);
             
-            presentationSystemGroup.AddSystemToUpdateList(flowFieldTileRenderSystem);
-            presentationSystemGroup.AddSystemToUpdateList(groupFlowFieldTileRenderSystems);
+            presentationSystemGroup.AddSystemToUpdateList(presentWorldSystem);
+            // presentationSystemGroup.AddSystemToUpdateList(flowFieldTileRenderSystem);
+            // presentationSystemGroup.AddSystemToUpdateList(groupFlowFieldTileRenderSystems);
 #endif
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             initializationSystemGroup.AddSystemToUpdateList(loadStageHudSystem);

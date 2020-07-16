@@ -14,6 +14,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
     // using GameEnvironment = JoyBrick.Walkio.Game.Environment;
     
     [DisableAutoCreation]
+    [UpdateAfter(typeof(CleanUpFlowFieldSystem))]
     public class AssignFlowFieldTileToTeamUnitSystem : SystemBase
     {
         private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(AssignFlowFieldTileToTeamUnitSystem));

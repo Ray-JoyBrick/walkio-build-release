@@ -71,6 +71,8 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                 .SubscribeOnMainThread()
                 .Subscribe(result =>
                 {
+                    _logger.Debug($"LoadAssetSystem - InternalLoadAsset");
+
                     //
                     _settingDataAsset = result;
 
