@@ -28,6 +28,7 @@
 !behavior-unification-unity
 !complete-unity
 !game-specific
+!sim-flow-unity
 !unity-setup
 
 !prepare-ucb-build-asset

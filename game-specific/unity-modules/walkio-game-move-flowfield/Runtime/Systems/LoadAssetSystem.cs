@@ -17,7 +17,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
     using GameCommon = JoyBrick.Walkio.Game.Common;
 
     //
-    // [GameCommon.DoneLoadingAssetWait("Stage")]
+    [GameCommon.DoneLoadingAssetWait("Stage")]
     //
     [DisableAutoCreation]
     public class LoadAssetSystem :

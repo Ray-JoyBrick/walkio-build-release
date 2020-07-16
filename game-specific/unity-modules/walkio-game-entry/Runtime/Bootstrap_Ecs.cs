@@ -61,7 +61,7 @@ namespace JoyBrick.Walkio.Game
 
         private void SetupEcsWorldSystem()
         {
-            _logger.Debug($"Bootstrap - SetupEcsSystem");
+            _logger.Debug($"Bootstrap - SetupEcsWorldSystem");
 
             //
             var initializationSystemGroup = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<InitializationSystemGroup>();
