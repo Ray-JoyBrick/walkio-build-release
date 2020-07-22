@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a7dd50c31654058bacf5d24251982cd, type: 3}
+  m_Name: Level Data
+  m_EditorClassIdentifier: 
+  areaLookup:
+  - areaColor:
+      serializedVersion: 2
+      rgba: 4278190080
+    tagName: Passable
+    index: 0
+  - areaColor:
+      serializedVersion: 2
+      rgba: 4294967295
+    tagName: Obstacle
+    index: 1
+  gridWorldTileCount: {x: 4, y: 3}
+  gridWorldTielCellCount: {x: 64, y: 64}
+  gridWorldCellSize: {x: 1, y: 1}
+  subLevelImages:
+  - {fileID: 2800000, guid: 034d914778852774986f8ef1e1010c30, type: 3}
+  - {fileID: 2800000, guid: 0b4094bba011a9a439df738ab1e92d3c, type: 3}
+  - {fileID: 2800000, guid: 69abb47f67201db42bf977930ee19aca, type: 3}
+  - {fileID: 2800000, guid: c7627b1a30bc0c64db8183c2a38b0067, type: 3}
+  - {fileID: 2800000, guid: f51a7155283bd3043ab1e8b31c648634, type: 3}
+  - {fileID: 2800000, guid: 71158e34ded73c14c9db239bd7bc6023, type: 3}
+  - {fileID: 2800000, guid: b62093489d042234aa16da30669e1d40, type: 3}
+  - {fileID: 2800000, guid: 0931bc90e9780b34992e619f3927697c, type: 3}
+  - {fileID: 2800000, guid: a77857437272e7341b3f17a1f245d97d, type: 3}
+  - {fileID: 2800000, guid: 4bce24084c2d1fb46945d1fb249ff3af, type: 3}
+  - {fileID: 2800000, guid: dee9dcaf698b36648a6535eed671782f, type: 3}
+  - {fileID: 2800000, guid: dcaafdb6ce0609a4d97cf16f5021f793, type: 3}
