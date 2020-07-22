@@ -8,6 +8,8 @@
 
 !PhysicsCategoryNames.asset
 
+# Folders
+
 !_
 # Some Unity package create assets under Assets/Editor folder and unsure if these can be moved
 !Editor
@@ -17,8 +19,8 @@
 !Resources
 # Not adding a sub folder gitignore file into Resources for clean purpose
 Resources/**
-!Resources/DOTweenSettings.asset
-!Resources/DOTweenSettings.asset.meta
+# !Resources/DOTweenSettings.asset
+# !Resources/DOTweenSettings.asset.meta
 !Standard Assets
 # Not adding a sub folder gitignore file into StreamingAssets for clean purpose
 !StreamingAssets

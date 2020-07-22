@@ -1,20 +1,14 @@
 {
     "name": "Walkio.Game.Move-FlowField",
     "references": [
-        "Unity.Addressables",
         "Unity.Collections",
         "Unity.Entities",
         "Unity.Entities.Hybrid",
         "Unity.Mathematics",
         "Unity.Transforms",
         "Unity.Transforms.Hybrid",
-        "Unity.Physics",
-        "Unity.Physics.Hybrid",
         "Unity.Rendering.Hybrid",
-        "Unity.ResourceManager",
         "UniRx",
-        "ProceduralToolkit",
-        "Walkio.Game.Common",
         "Walkio.Game.Level.Common",
         "Walkio.Game.Move-FlowField.Common"
     ],
@@ -25,7 +19,7 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
-        "WALKIO_FLOWFIELD"
+        "WALKIO_MOVE_FLOWFIELD"
     ],
     "versionDefines": [],
     "noEngineReferences": false

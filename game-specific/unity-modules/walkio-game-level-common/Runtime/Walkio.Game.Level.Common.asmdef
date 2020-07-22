@@ -1,7 +1,6 @@
 {
     "name": "Walkio.Game.Level.Common",
     "references": [
-        "Unity.Addressables",
         "Unity.Entities",
         "Unity.Rendering.Hybrid",
         "Unity.Burst",
@@ -10,11 +9,9 @@
         "Unity.Entities.Hybrid",
         "Unity.Entities.Properties",
         "Unity.Mathematics",
-        "Unity.ResourceManager",
         "UniRx",
         "AstarPathfindingProject",
-        "PackageTools",
-        "Walkio.Game.Common"
+        "PackageTools"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

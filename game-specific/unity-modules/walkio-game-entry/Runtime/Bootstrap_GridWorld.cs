@@ -1,20 +1,17 @@
-namespace JoyBrick.Walkio.Game
+﻿namespace JoyBrick.Walkio.Game
 {
+    using System;
     using System.Collections.Generic;
-    using Unity.Entities;
+    using UniRx;
     using UnityEngine;
+    using Unity.Entities;
 
     //
-    using GameLevelCommon = JoyBrick.Walkio.Game.Level.Common;
+    using GameLevel = JoyBrick.Walkio.Game.Level;
 
     public partial class Bootstrap :
-        GameLevelCommon.IGridWorldProvider
+        GameLevel.IGridWorldProvider
     {
-        private Entity _gridWorldEntity;
-        public Entity GridWorldEntity
-        {
-            get => _gridWorldEntity;
-            set => _gridWorldEntity = value;
-        }
+        public Entity GridWorldEntity { get; set; }
     }
 }

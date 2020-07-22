@@ -1,4 +1,4 @@
-namespace JoyBrick.Walkio.Game
+﻿namespace JoyBrick.Walkio.Game
 {
     using UniRx;
     using UniRx.Diagnostics;

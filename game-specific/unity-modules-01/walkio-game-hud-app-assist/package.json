@@ -1,0 +1,11 @@
+{
+  "name": "com.walkio.game.hud-app.assist",
+  "displayName": "_ Walkio Game Hud - App Assist",
+  "version": "0.1.0",
+  "unity": "2020.1",
+  "description": "Walkio Game Hud - App Assist",
+  "keywords": [
+  ],
+  "category": "",
+  "dependencies": {}
+}

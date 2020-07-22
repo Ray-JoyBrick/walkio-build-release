@@ -1,4 +1,4 @@
-namespace JoyBrick.Walkio.Game.Editor.Assist
+﻿namespace JoyBrick.Walkio.Game.Assist.EditorPart
 {
     using System;
     using System.Collections.Generic;
@@ -11,21 +11,20 @@ namespace JoyBrick.Walkio.Game.Editor.Assist
 
     //
     using GameCommon = JoyBrick.Walkio.Game.Common;
-    using GameAssist = JoyBrick.Walkio.Game.Assist;
 
     [InitializeOnLoad]
     public static partial class HandleSceneOpenedAffair
     {
         public static Scene currentMasterScene;
         public static int loadedSubSceneCount;
-        
+
         [InitializeOnLoadMethod]
         public static void Setup()
         {
             EditorSceneManager.sceneOpened += (scene, mode) =>
             {
                 Debug.Log($"Game - Assist - HandleSceneOpenedAffair - Setup - Opened Scene: {scene.name}");
-                
+
                 if (scene.name.Contains("Entry - Assist"))
                 {
                     currentMasterScene = scene;
@@ -34,7 +33,7 @@ namespace JoyBrick.Walkio.Game.Editor.Assist
                 }
                 else
                 {
-                    var levelOperator = Common.Utility.SceneHelper.GetComponentAtScene<GameAssist.LevelOperator>(currentMasterScene);
+                    var levelOperator = Common.Utility.SceneHelper.GetComponentAtScene<LevelOperator>(currentMasterScene);
                     if (levelOperator != null)
                     {
                         Debug.Log($"Game - Assist - HandleSceneOpenedAffair - s.name: {scene.name} scene name: {scene.name}");
@@ -57,9 +56,9 @@ namespace JoyBrick.Walkio.Game.Editor.Assist
         private static void HandleMasterSceneOpened(Scene scene, OpenSceneMode mode)
         {
             var rootGameObjects = scene.GetRootGameObjects();
-            var levelOperator = Common.Utility.SceneHelper.GetComponentAtScene<GameAssist.LevelOperator>(scene);
+            var levelOperator = Common.Utility.SceneHelper.GetComponentAtScene<LevelOperator>(scene);
             if (levelOperator == null) return;
-            
+
             LoadSubScenes(levelOperator.subScenes);
         }
 

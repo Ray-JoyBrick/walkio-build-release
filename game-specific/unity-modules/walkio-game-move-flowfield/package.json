@@ -1,7 +1,7 @@
 {
   "name": "com.walkio.game.move-flowfield",
   "displayName": "_ Walkio Game Move - FlowField",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "unity": "2020.1",
   "unityRelease": "0b15",
   "description": "Walkio Game Move - FlowField",

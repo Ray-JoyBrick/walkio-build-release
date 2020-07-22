@@ -1,6 +1,6 @@
 {
   "name": "Yumigi",
-  "use": true,
+  "use": false,
   "toSymlink": [
     {
       "name": "Plugins/Android/UniWebView.aar",

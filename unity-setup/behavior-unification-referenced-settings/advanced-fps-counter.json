@@ -1,6 +1,6 @@
 {
   "name": "Code Stage",
-  "use": true,
+  "use": false,
   "toSymlink": [
     {
       "name": "Advanced FPS Counter/Plugins/CodeStage",

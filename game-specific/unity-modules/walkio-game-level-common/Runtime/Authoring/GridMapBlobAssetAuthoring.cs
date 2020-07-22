@@ -1,5 +1,6 @@
-namespace JoyBrick.Walkio.Game.Level.Common
+namespace JoyBrick.Walkio.Game.Level
 {
+    using System.Collections.Generic;
     using Unity.Entities;
     using UnityEngine;
 
@@ -7,9 +8,13 @@ namespace JoyBrick.Walkio.Game.Level.Common
         MonoBehaviour,
         IConvertGameObjectToEntity
     {
+        public Vector2Int gridCellCount;
+        public Vector2 gridCellSize;
+
+        public List<int> gridCells;
+
         public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
         {
-            throw new System.NotImplementedException();
         }
     }
 }

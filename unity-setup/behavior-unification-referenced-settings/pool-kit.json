@@ -1,22 +1,22 @@
 {
-  "name": "Mel Georgiou - HTE",
-  "use": true,
-  "toSymlink": [
-    {
-      "name": "Editor Default Resources/Editor/Hell Tap Entertainment",
-      "to": "Assets/Editor Default Resources/Editor/Hell Tap Entertainment"
-    },
-    {
-      "name": "Editor Default Resources/Hell Tap Entertainment",
-      "to": "Assets/Editor Default Resources/Hell Tap Entertainment"
-    },
-    {
-      "name": "Gizmos/Hell Tap Entertainment",
-      "to": "Assets/Gizmos/Hell Tap Entertainment"
-    },
-    {
-      "name": "Plugins/Hell Tap Entertainment",
-      "to": "Assets/Plugins/Hell Tap Entertainment"
-    }
-  ]
+    "name": "Mel Georgiou - HTE",
+    "use": true,
+    "toSymlink": [
+        {
+            "name": "Editor Default Resources/Editor/Hell Tap Entertainment",
+            "to": "Assets/Editor Default Resources/Editor/Hell Tap Entertainment"
+        },
+        {
+            "name": "Editor Default Resources/Hell Tap Entertainment",
+            "to": "Assets/Editor Default Resources/Hell Tap Entertainment"
+        },
+        {
+            "name": "Gizmos/Hell Tap Entertainment",
+            "to": "Assets/Gizmos/Hell Tap Entertainment"
+        },
+        {
+            "name": "Plugins/Hell Tap Entertainment",
+            "to": "Assets/Plugins/Hell Tap Entertainment"
+        }
+    ]
 }

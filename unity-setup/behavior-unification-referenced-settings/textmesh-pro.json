@@ -1,10 +1,10 @@
 {
-  "name": "Unity Technology",
-  "use": true,
-  "toSymlink": [
-    {
-      "name": "TextMesh Pro",
-      "to": "Assets/Standard Assets/TextMesh Pro"
-    }
-  ]
+    "name": "Unity Technology",
+    "use": true,
+    "toSymlink": [
+        {
+            "name": "TextMesh Pro",
+            "to": "Assets/Standard Assets/TextMesh Pro"
+        }
+    ]
 }

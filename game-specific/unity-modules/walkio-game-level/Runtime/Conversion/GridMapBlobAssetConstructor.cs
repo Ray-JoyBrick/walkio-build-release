@@ -7,56 +7,87 @@ namespace JoyBrick.Walkio.Game.Level
     using UnityEngine;
 
     // using GameTemplate = JoyBrick.Walkio.Game.Template;
-    
+
     [UpdateInGroup(typeof(GameObjectAfterConversionGroup))]
     public class GridMapBlobAssetConstructor : GameObjectConversionSystem
     {
         private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(GridMapBlobAssetConstructor));
 
         private static void ConvertFromAuthoringData(
-            Common.GridMapBlobAssetAuthoring authoring,
+            GridMapBlobAssetAuthoring authoring,
             BlobBuilder blobBuilder,
-            ref Common.GridMapBlobAsset gridMapBlobAsset)
+            ref GridMapBlobAsset gridMapBlobAsset)
         {
+            _logger.Debug($"GridMapBlobAssetConstructor - ConvertFromAuthoringData");
             // var context = authoring.context;
+
+            var cellCount = authoring.gridCells.Count;
+            var gridMapContextArray = blobBuilder.Allocate(ref gridMapBlobAsset.GridMapContextArray, cellCount);
+
+            for (var i = 0; i < authoring.gridCells.Count; ++i)
+            {
+                // gridMapContextArray[i] = new GridMapContext
+                // {
+                //     Index = authoring.gridCells[i]
+                // };
+                gridMapContextArray[i] = authoring.gridCells[i];
+            }
         }
-        
-        private void AddToEntity(BlobAssetReference<Common.GridMapBlobAsset> gridMapBlobAssetReference)
+
+        private void AddToEntity(
+            GridMapBlobAssetAuthoring authoring,
+            BlobAssetReference<GridMapBlobAsset> gridMapBlobAssetReference)
         {
-            var gridWorldPropertyQuery = DstEntityManager.CreateEntityQuery(typeof(Common.GridWorldProperty));
+            var gridWorldPropertyQuery = DstEntityManager.CreateEntityQuery(typeof(GridWorldProperty));
             var gridWorldProperty = gridWorldPropertyQuery.GetSingletonEntity();
 
-            DstEntityManager.SetComponentData(gridWorldProperty, new Common.GridWorldProperty
+            // _logger.Debug($"GridMapBlobAssetConstructor - AddToEntity: gridWorldProperty: {gridWorldProperty}");
+            //
+            // _logger.Debug($"GridMapBlobAssetConstructor - AddToEntity: gridMapBlobAssetReference: {gridMapBlobAssetReference}");
+            // _logger.Debug($"GridMapBlobAssetConstructor - AddToEntity: gridMapBlobAssetReference value: {gridMapBlobAssetReference.Value.ToString()}");
+            //
+            // var count = gridMapBlobAssetReference.Value.GridMapContextArray.Length;
+            //
+            // _logger.Debug($"GridMapBlobAssetConstructor - AddToEntity: count: {count}");
+
+            DstEntityManager.SetComponentData(gridWorldProperty, new GridWorldProperty
             {
+                CellCount = new int2(authoring.gridCellCount.x, authoring.gridCellCount.y),
+                CellSize = (float2) authoring.gridCellSize,
                 GridMapBlobAssetRef = gridMapBlobAssetReference
             });
+
+            // Create an event entity to inform that the convert is done
+            var eventEntityArchetype = DstEntityManager.CreateArchetype(
+                typeof(GridMapBlobAssetConstructed));
+            var eventEntity = DstEntityManager.CreateEntity(eventEntityArchetype);
         }
-        
+
         protected override void OnUpdate()
         {
             var authorings =
-                GetEntityQuery(typeof(Common.GridMapBlobAssetAuthoring))
-                    .ToComponentArray<Common.GridMapBlobAssetAuthoring>();
-            
+                GetEntityQuery(typeof(GridMapBlobAssetAuthoring))
+                    .ToComponentArray<GridMapBlobAssetAuthoring>();
+
             if (authorings.Length == 0) return;
 
             //
             _logger.Debug($"GridMapBlobAssetConstructor - Constructor - OnUpdate - Authoring found, proceed");
-            
-            BlobAssetReference<Common.GridMapBlobAsset> gridMapBlobAssetReference;
+
+            BlobAssetReference<GridMapBlobAsset> gridMapBlobAssetReference;
 
             using (var blobBuilder = new BlobBuilder(Allocator.Temp))
             {
-                ref var gridMapBlobAsset = ref blobBuilder.ConstructRoot<Common.GridMapBlobAsset>();
+                ref var gridMapBlobAsset = ref blobBuilder.ConstructRoot<GridMapBlobAsset>();
 
                 var authoring = authorings[0];
 
                 ConvertFromAuthoringData(authoring, blobBuilder, ref gridMapBlobAsset);
 
-                gridMapBlobAssetReference = blobBuilder.CreateBlobAssetReference<Common.GridMapBlobAsset>(Allocator.Persistent);
-                
+                gridMapBlobAssetReference = blobBuilder.CreateBlobAssetReference<GridMapBlobAsset>(Allocator.Persistent);
+
                 //
-                AddToEntity(gridMapBlobAssetReference);
+                AddToEntity(authoring, gridMapBlobAssetReference);
             }
         }
     }

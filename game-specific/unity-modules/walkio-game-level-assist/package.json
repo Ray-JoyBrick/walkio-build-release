@@ -7,5 +7,13 @@
   "keywords": [
   ],
   "category": "",
-  "dependencies": {}
+  "dependencies": {
+    "com.syomus.proceduraltoolkit": "0.2.3",
+    "com.walkio.game.level": "0.1.0"
+  },
+  "author": {
+    "email": "ray@joybrick.cc",
+    "name": "Ray Wang",
+    "url": "https://joybrick.cc"
+  }
 }

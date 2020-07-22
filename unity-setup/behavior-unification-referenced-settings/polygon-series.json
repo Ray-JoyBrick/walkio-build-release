@@ -1,10 +1,10 @@
 {
-  "name": "Synty Studios",
-  "use": true,
-  "toSymlink": [
-    {
-      "name": "PolygonCity",
-      "to": "Assets/Standard Assets/PolygonCity"
-    }
-  ]
+    "name": "Synty Studios",
+    "use": true,
+    "toSymlink": [
+        {
+            "name": "PolygonCity",
+            "to": "Assets/Standard Assets/PolygonCity"
+        }
+    ]
 }

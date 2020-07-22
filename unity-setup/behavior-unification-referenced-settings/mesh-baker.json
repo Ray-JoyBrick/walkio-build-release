@@ -1,0 +1,10 @@
+{
+    "name": "Ian Deane",
+    "use": true,
+    "toSymlink": [
+        {
+            "name": "MeshBaker",
+            "to": "Assets/Standard Assets/MeshBaker"
+        }
+    ]
+}

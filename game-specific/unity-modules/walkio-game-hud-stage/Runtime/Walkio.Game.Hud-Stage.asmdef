@@ -11,12 +11,7 @@
         "Unity.Entities.Properties",
         "Unity.Mathematics",
         "Unity.ResourceManager",
-        "UniRx",
-        "Walkio.3rd.Doozy",
-        "Walkio.Game.Common",
-        "Walkio.Game.Command",
-        "Walkio.Game.Extension",
-        "Walkio.Game.Template"
+        "UniRx"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -24,7 +19,9 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
+    "defineConstraints": [
+        "WALKIO_HUD_STAGE"
+    ],
     "versionDefines": [],
     "noEngineReferences": false
 }

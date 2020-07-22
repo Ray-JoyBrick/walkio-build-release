@@ -7,5 +7,10 @@
   "keywords": [
   ],
   "category": "",
-  "dependencies": {}
+  "dependencies": {},
+  "author": {
+    "email": "ray@joybrick.cc",
+    "name": "Ray Wang",
+    "url": "https://joybrick.cc"
+  }
 }

@@ -1,6 +1,7 @@
-namespace JoyBrick.Walkio.Game.Level.Common
+﻿namespace JoyBrick.Walkio.Game.Level
 {
     using Unity.Entities;
+    using UnityEngine;
 
     public interface IGridWorldProvider
     {
@@ -8,5 +9,7 @@ namespace JoyBrick.Walkio.Game.Level.Common
         // - GridWorld
         // - GridWorldProperty
         Entity GridWorldEntity { get; set; }
+
+        ScriptableObject GridWorldData { get; }
     }
 }

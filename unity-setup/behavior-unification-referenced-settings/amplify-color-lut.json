@@ -1,6 +1,6 @@
 {
   "name": "Amplify Creations",
-  "use": true,
+  "use": false,
   "toSymlink": [
     {
       "name": "AmplifyColor",

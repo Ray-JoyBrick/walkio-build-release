@@ -8,14 +8,10 @@
         "Unity.Collections",
         "Unity.Transforms",
         "Unity.Entities.Hybrid",
+        "Unity.Entities.Properties",
         "Unity.Mathematics",
         "Unity.ResourceManager",
-        "Unity.TextMeshPro",
-        "UniRx",
-        "Walkio.Game.Common",
-        "Walkio.Game.Command",
-        "Walkio.Game.Extension",
-        "Walkio.Game.Template"
+        "UniRx"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -23,7 +19,10 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
+    "defineConstraints": [
+        "WALKIO_HUD_APP",
+        "WALKIO_HUD_APP_ASSIST"
+    ],
     "versionDefines": [],
     "noEngineReferences": false
 }

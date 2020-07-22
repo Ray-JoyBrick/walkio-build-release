@@ -9,7 +9,9 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
     using UnityEngine;
 
     //
+#if WALKIO_FLOWCONTROL_SYSTEM
     using GameCommon = JoyBrick.Walkio.Game.Common;
+#endif
 
     public class FlowFieldTileBlobAssetConstructor : GameObjectConversionSystem
     {
@@ -18,26 +20,31 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
         private static void ConvertFromAuthoringData(
             Common.FlowFieldWorldBlobAssetAuthoring authoring,
             BlobBuilder blobBuilder,
-            ref Common.FlowFieldTileBlobAsset flowFieldTileBlobAsset)
+            ref FlowFieldTileBlobAsset flowFieldTileBlobAsset)
         {
             var context = authoring.context;
         }
         
-        private void AddToEntity(BlobAssetReference<Common.FlowFieldTileBlobAsset> flowFieldTileBlobAssetReference)
+        private void AddToEntity(BlobAssetReference<FlowFieldTileBlobAsset> flowFieldTileBlobAssetReference)
         {
             var flowFieldWorldPropertyQuery = DstEntityManager.CreateEntityQuery(
-                typeof(Common.FlowFieldWorld),
-                typeof(Common.FlowFieldWorldProperty));
+                typeof(FlowFieldWorld),
+                typeof(FlowFieldWorldProperty));
             var flowFieldWorldEntity = flowFieldWorldPropertyQuery.GetSingletonEntity();
-            var flowFieldWorldProperty = flowFieldWorldPropertyQuery.GetSingleton<Common.FlowFieldWorldProperty>();
+            var flowFieldWorldProperty = flowFieldWorldPropertyQuery.GetSingleton<FlowFieldWorldProperty>();
 
             _logger.Debug($"FlowFieldTileBlobAssetConstructor - AddToEntity");
 
-            DstEntityManager.SetComponentData(flowFieldWorldEntity, new Common.FlowFieldWorldProperty
+            DstEntityManager.SetComponentData(flowFieldWorldEntity, new FlowFieldWorldProperty
             {
                 //
+                Id = flowFieldWorldProperty.Id,
                 TileCount = flowFieldWorldProperty.TileCount,
                 TileCellCount = flowFieldWorldProperty.TileCellCount,
+                TileCellSize = flowFieldWorldProperty.TileCellSize,
+                
+                OriginPosition = flowFieldWorldProperty.OriginPosition,
+                PositionOffset = flowFieldWorldProperty.PositionOffset,
                 
                 //
                 FlowFieldTileBlobAssetRef = flowFieldTileBlobAssetReference
@@ -51,18 +58,20 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                     .ToComponentArray<Common.FlowFieldWorldBlobAssetAuthoring>();
 
             if (authorings.Length == 0) return;
+
+            _logger.Debug($"FlowFieldTileBlobAssetConstructor - OnUpdate");
             
-            BlobAssetReference<Common.FlowFieldTileBlobAsset> flowFieldTileBlobAssetReference;
+            BlobAssetReference<FlowFieldTileBlobAsset> flowFieldTileBlobAssetReference;
 
             using (var blobBuilder = new BlobBuilder(Allocator.Temp))
             {
-                ref var flowFieldTileBlobAsset = ref blobBuilder.ConstructRoot<Common.FlowFieldTileBlobAsset>();
+                ref var flowFieldTileBlobAsset = ref blobBuilder.ConstructRoot<FlowFieldTileBlobAsset>();
 
                 var authoring = authorings[0];
 
                 ConvertFromAuthoringData(authoring, blobBuilder, ref flowFieldTileBlobAsset);
 
-                flowFieldTileBlobAssetReference = blobBuilder.CreateBlobAssetReference<Common.FlowFieldTileBlobAsset>(Allocator.Persistent);
+                flowFieldTileBlobAssetReference = blobBuilder.CreateBlobAssetReference<FlowFieldTileBlobAsset>(Allocator.Persistent);
                 
                 //
                 AddToEntity(flowFieldTileBlobAssetReference);
