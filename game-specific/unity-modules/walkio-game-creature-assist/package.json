@@ -1,0 +1,16 @@
+{
+    "name": "com.walkio.game.creature.assist",
+    "displayName": "_ Walkio Game Creature Assist",
+    "version": "0.2.0",
+    "unity": "2020.1",
+    "description": "Walkio Game Creature Assist",
+    "keywords": [
+    ],
+    "category": "",
+    "dependencies": {},
+    "author": {
+      "email": "ray@joybrick.cc",
+      "name": "Ray Wang",
+      "url": "https://joybrick.cc"
+    }
+}

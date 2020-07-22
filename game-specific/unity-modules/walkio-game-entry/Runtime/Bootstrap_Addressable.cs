@@ -11,21 +11,26 @@
         {
             _logger.Debug($"Bootstrap - HandleAddressableInitializeAsyncCompleted");
 
-            _notifyCanStartInitialSetup.OnNext(1);
+            _notifySetupBeforeEcs.OnNext(1);
 
             //
             SetupEcsWorldContext();
             SetupEcsWorldSystem();
 
             SetupFlowFieldPart();
+
+            _notifySetupAfterEcs.OnNext(1);
             //
             // //
             // _assistants.ForEach(x =>
             // {
-            //     x.HandleAfterEcsSetup();
+            // x.HandleAfterEcsSetup();
             // });
             //
             // _notifySetupEcsDone.OnNext(1);
+            
+            // _notifyAssetLoadingStarted.OnNext();
+            StartLoadingAsset_App();
         }
 
         private void SetupAddressable()

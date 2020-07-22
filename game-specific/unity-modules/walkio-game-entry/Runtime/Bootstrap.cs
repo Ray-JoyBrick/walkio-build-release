@@ -15,7 +15,17 @@
         //
         void Awake()
         {
+            //
             SetupUniRxLogger();
+
+            //
+            SetupAppCenterCrashes();
+            
+            //
+            SetupRemoteConfiguration();
+            
+            //
+            SetupAuth();
         }
 
         void Start()

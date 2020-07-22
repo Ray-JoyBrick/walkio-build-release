@@ -28,9 +28,17 @@
             var presentationSystemGroup = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<PresentationSystemGroup>();
 
             //
+            FlowControl_LoadingDoneCheckSystem(initializationSystemGroup);
+            FlowControl_SettingDoneCheckSystem(initializationSystemGroup);
+
+            //
+            HudApp_LoadAssetSystem(initializationSystemGroup);
+
+            //
             Level_LoadAssetSystem(initializationSystemGroup);
             Level_SetupAssetSystem(initializationSystemGroup);
 
+            //
             MoveFlowField_LoadAssetSystem(initializationSystemGroup);
             MoveFlowField_SetupAssetSystem(initializationSystemGroup);
 

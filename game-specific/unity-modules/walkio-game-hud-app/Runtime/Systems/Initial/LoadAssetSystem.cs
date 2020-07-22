@@ -1,4 +1,4 @@
-namespace JoyBrick.Walkio.Game.Move.FlowField
+namespace JoyBrick.Walkio.Game.Hud.App
 {
     using System;
     using System.Collections.Generic;
@@ -10,6 +10,15 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
     using UnityEngine;
 
     //
+    using GameCommon = JoyBrick.Walkio.Game.Common;
+    
+#if WALKIO_FLOWCONTROL
+    using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
+#endif
+
+#if WALKIO_FLOWCONTROL
+    [GameFlowControl.DoneLoadingAssetWait("App")]
+#endif
     [DisableAutoCreation]
     public class LoadAssetSystem :
         SystemBase
@@ -23,9 +32,9 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
         //
         private ScriptableObject _hudSettingDataAsset;
 
-#if WALKIO_FLOWCONTROL_SYSTEM
         //
-        private GameCommon.IFlowControl FlowControl { get; set; }
+#if WALKIO_FLOWCONTROL
+        public GameFlowControl.IFlowControl FlowControl { get; set; }
 #endif
 
         public string AtPart => "App";
@@ -33,71 +42,70 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
         //
         public bool ProvideExternalAsset { get; set; }
 
-        // private async Task<ScriptableObject> Load(string hudAssetName)
-        // {
-        //     //
-        //     var hudSettingAssetName = hudAssetName;
-        //     var hudSettingAssetTask = GameCommon.Utility.AssetLoadingHelper.GetAsset<ScriptableObject>(hudSettingAssetName);
+        private async Task<ScriptableObject> Load(string hudAssetName)
+        {
+            //
+            var hudSettingAssetName = hudAssetName;
+            var hudSettingAssetTask = GameCommon.Utility.AssetLoadingHelper.GetAsset<ScriptableObject>(hudSettingAssetName);
 
-        //     var hudSettingAsset = await hudSettingAssetTask;
+            var hudSettingAsset = await hudSettingAssetTask;
 
-        //     return hudSettingAsset;
-        // }
+            return hudSettingAsset;
+        }
 
         private void InternalLoadAsset(
             string hudAssetName,
             System.Action loadingDoneAction)
         {
-            // //
-            // Load(hudAssetName).ToObservable()
-            //     .ObserveOnMainThread()
-            //     .SubscribeOnMainThread()
-            //     .Subscribe(result =>
-            //     {
-            //         _hudSettingDataAsset = result;
+            //
+            Load(hudAssetName).ToObservable()
+                .ObserveOnMainThread()
+                .SubscribeOnMainThread()
+                .Subscribe(result =>
+                {
+                    _hudSettingDataAsset = result;
 
-            //         loadingDoneAction();
-            //     })
-            //     .AddTo(_compositeDisposable);
+                    loadingDoneAction();
+                })
+                .AddTo(_compositeDisposable);
         }
 
         private void LoadingAsset(string hudAssetName)
         {
-            void NotifyFinishIndividualLoadingAsset()
-            {
-#if WALKIO_FLOWCONTROL_SYSTEM                
-                FlowControl.FinishIndividualLoadingAsset(new GameCommon.FlowControlContext
-                {
-                    Name = AtPart
-                });
-#endif
-            }
-            
             if (ProvideExternalAsset)
             {
                 // Since the asset is provided, just notify instantly
-                NotifyFinishIndividualLoadingAsset();
+                FlowControl.FinishIndividualLoadingAsset(new GameFlowControl.FlowControlContext
+                {
+                    Name = "App"
+                });
             }
             else
             {
                 // Load internally then notify
                 InternalLoadAsset(
                     hudAssetName,
-                    NotifyFinishIndividualLoadingAsset);
+                    () =>
+                    {
+                        FlowControl.FinishIndividualLoadingAsset(new GameFlowControl.FlowControlContext
+                        {
+                            Name = "App"
+                        });
+                    });
             }
         }
 
         //
         public void Construct()
         {
-            _logger.Debug($"Moduel - LoadAssetSystem - Construct");
+            _logger.Debug($"Module - LoadAssetSystem - Construct");
 
-#if WALKIO_FLOWCONTROL_SYSTEM
-            //
-            FlowControl.AssetLoadingStarted
+#if WALKIO_FLOWCONTROL
+            FlowControl?.AssetLoadingStarted
                 .Where(x => x.Name.Contains(AtPart))
                 .Subscribe(x =>
                 {
+                    _logger.Debug($"Module - LoadAssetSystem - Construct - Receive AssetLoadingStarted");
                     var hudAssetName = x.HudAssetName;
                     LoadingAsset(hudAssetName);
                 })

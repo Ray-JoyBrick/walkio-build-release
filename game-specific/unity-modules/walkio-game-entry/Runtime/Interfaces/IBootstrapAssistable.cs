@@ -7,7 +7,8 @@
     {
         GameObject RefGameObject { get; }
 
-        IObservable<int> CanStartInitialSetup { get; }
+        IObservable<int> SetupBeforeEcs { get; }
+        IObservable<int> SetupAfterEcs { get; }
 
         void AddAssistant(IBootstrapAssistant assistant);
     }

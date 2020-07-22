@@ -20,7 +20,7 @@
         {
             _logger.Debug($"Bootstrap Assist - Start");
 
-            _assistable?.CanStartInitialSetup
+            _assistable?.SetupBeforeEcs
                 .Subscribe(x =>
                 {
                     //
@@ -29,6 +29,14 @@
 
                     // //
                     // StartGameFlow();
+                })
+                .AddTo(_compositeDisposable);
+
+            _assistable?.SetupAfterEcs
+                .Subscribe(x =>
+                {
+                    //
+                    HandleSetupAfterEcs();
                 })
                 .AddTo(_compositeDisposable);
         }

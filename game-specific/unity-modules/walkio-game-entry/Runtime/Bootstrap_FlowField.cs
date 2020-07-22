@@ -10,10 +10,16 @@
     using UnityEngine;
 
     //
+#if WALKIO_MOVE_FLOWFIELD
     using GameMoveFlowField = JoyBrick.Walkio.Game.Move.FlowField;
+#endif
 
-    public partial class Bootstrap :
-        GameMoveFlowField.IFlowFieldWorldProvider
+    public partial class Bootstrap
+
+#if WALKIO_MOVE_FLOWFIELD
+        : GameMoveFlowField.IFlowFieldWorldProvider
+#endif
+
     {
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.BoxGroup("Flow Field")]

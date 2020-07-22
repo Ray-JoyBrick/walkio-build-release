@@ -10,10 +10,16 @@
     using UnityEngine;
 
     //
+#if WALKIO_LEVEL
     using GameLevel = JoyBrick.Walkio.Game.Level;
+#endif
 
-    public partial class Bootstrap :
-        GameLevel.IGridWorldProvider
+    public partial class Bootstrap
+
+#if WALKIO_LEVEL
+        : GameLevel.IGridWorldProvider
+#endif
+
     {
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.BoxGroup("Level")]

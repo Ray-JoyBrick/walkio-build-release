@@ -9,6 +9,8 @@
         "Unity.Transforms.Hybrid",
         "Unity.Rendering.Hybrid",
         "UniRx",
+        "Walkio.Game.Common",
+        "Walkio.Game.Flow-Control.Common",
         "Walkio.Game.Level.Common",
         "Walkio.Game.Move-FlowField.Common"
     ],

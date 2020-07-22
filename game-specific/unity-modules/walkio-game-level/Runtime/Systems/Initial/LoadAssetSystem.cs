@@ -17,9 +17,13 @@ namespace JoyBrick.Walkio.Game.Level
     using GameCommon = JoyBrick.Walkio.Game.Common;
     // using GameCommand = JoyBrick.Walkio.Game.Command;
 
-    //
-    // [GameCommon.DoneLoadingAssetWait("Stage")]
-    //
+#if WALKIO_FLOWCONTROL
+    using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
+#endif
+
+#if WALKIO_FLOWCONTROL
+    [GameFlowControl.DoneLoadingAssetWait("Stage")]
+#endif
     [DisableAutoCreation]
     public class LoadAssetSystem :
         SystemBase
@@ -52,7 +56,9 @@ namespace JoyBrick.Walkio.Game.Level
 
         //
         // public GameCommand.ICommandService CommandService { get; set; }
-        // public GameCommon.IFlowControl FlowControl { get; set; }
+#if WALKIO_FLOWCONTROL
+        public GameFlowControl.IFlowControl FlowControl { get; set; }
+#endif
 
         public IGridWorldProvider GridWorldProvider { get; set; }
 
@@ -183,7 +189,10 @@ namespace JoyBrick.Walkio.Game.Level
             if (ProvideExternalAsset)
             {
                 // Asset is provided from somewhere else, just notify that the asset loading is done
-                // GameCommon.Utility.FlowControlHelper.NotifyFinishIndividualLoadingAsset(FlowControl, AtPart);
+                FlowControl.FinishIndividualLoadingAsset(new GameFlowControl.FlowControlContext
+                {
+                    Name = "Stage"
+                });
             }
             else
             {
@@ -191,7 +200,13 @@ namespace JoyBrick.Walkio.Game.Level
                     levelAssetName, specificLevelName,
                     () =>
                     {
-                        // GameCommon.Utility.FlowControlHelper.NotifyFinishIndividualLoadingAsset(FlowControl, AtPart);
+                        // Since internal loading might be very time consuming, after it is finished, it will
+                        // send an event entity. This event entity is caught in Update and process further.
+                        
+                        // FlowControl.FinishIndividualLoadingAsset(new GameFlowControl.FlowControlContext
+                        // {
+                        //     Name = "Stage"
+                        // });
                     });
             }
         }
@@ -201,12 +216,14 @@ namespace JoyBrick.Walkio.Game.Level
         {
             _logger.Debug($"LoadAssetSystem - Construct");
 
-#if WALKIO_FLOWCONTROL_SYSTEM
+#if WALKIO_FLOWCONTROL
             //
-            FlowControl.LoadingAsset
+            FlowControl?.AssetLoadingStarted
                 .Where(x => x.Name.Contains(AtPart))
                 .Subscribe(x =>
                 {
+                    _logger.Debug($"Module - LoadAssetSystem - Construct - Receive AssetLoadingStarted");
+                    
                     // Hard code here, should be given in event
                     var levelAssetName = $"Level Setting.asset";
                     var specificLevelName = $"Level 001";
@@ -279,7 +296,10 @@ namespace JoyBrick.Walkio.Game.Level
                 ResetWaitingEventSlots(_waitingEventForLoadingDone);
 
                 // Notify
-                // GameCommon.Utility.FlowControlHelper.NotifyFinishIndividualLoadingAsset(FlowControl, AtPart);
+                FlowControl.FinishIndividualLoadingAsset(new GameFlowControl.FlowControlContext
+                {
+                    Name = "Stage"
+                });
             }
         }
 

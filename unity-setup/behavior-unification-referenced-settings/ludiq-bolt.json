@@ -1,10 +1,10 @@
 {
-  "name": "Unity Technology",
-  "use": false,
-  "toSymlink": [
-    {
-      "name": "Ludiq",
-      "to": "Assets/Ludiq/Ludiq"
-    }
-  ]
+    "name": "Unity Technology",
+    "use": false,
+    "toSymlink": [
+        {
+            "name": "Ludiq",
+            "to": "Assets/Ludiq/Ludiq"
+        }
+    ]
 }

@@ -11,7 +11,9 @@
         "Unity.Entities.Properties",
         "Unity.Mathematics",
         "Unity.ResourceManager",
-        "UniRx"
+        "UniRx",
+        "Walkio.Game.Common",
+        "Walkio.Game.Flow-Control.Common"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

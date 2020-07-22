@@ -9,6 +9,16 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
     using Unity.Mathematics;
     using UnityEngine;
 
+    //
+    using GameCommon = JoyBrick.Walkio.Game.Common;
+    
+#if WALKIO_FLOWCONTROL
+    using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
+#endif
+
+#if WALKIO_FLOWCONTROL
+    [GameFlowControl.DoneLoadingAssetWait("Stage")]
+#endif
     [DisableAutoCreation]
     public class LoadAssetSystem : SystemBase
     {
@@ -17,9 +27,82 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
         //
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
 
+        //
+#if WALKIO_FLOWCONTROL
+        public GameFlowControl.IFlowControl FlowControl { get; set; }
+#endif
+        
+        //
+        public bool ProvideExternalAsset { get; set; }
+
+        private async Task<ScriptableObject> Load()
+        {
+            var settingDataAssetName = $"Setting Data.asset";
+            var settingDataAssetTask = GameCommon.Utility.AssetLoadingHelper.GetAsset<ScriptableObject>(settingDataAssetName);
+
+            var settingDataAsset = await settingDataAssetTask;
+
+            return settingDataAsset;
+        }
+
+        private void InternalLoadAsset(
+            System.Action loadingDoneAction)
+        {
+            //
+            Load().ToObservable()
+                .ObserveOnMainThread()
+                .SubscribeOnMainThread()
+                .Subscribe(result =>
+                {
+                    _logger.Debug($"Module - LoadAssetSystem - InternalLoadAsset");
+
+                    //
+                    // _settingDataAsset = result;
+
+                    loadingDoneAction();
+                })
+                .AddTo(_compositeDisposable);
+        }
+
+        private void LoadingAsset()
+        {
+            if (ProvideExternalAsset)
+            {
+                // Asset is provided from somewhere else, just notify that the asset loading is done
+                FlowControl.FinishIndividualLoadingAsset(new GameFlowControl.FlowControlContext
+                {
+                    Name = "Stage"
+                });
+            }
+            else
+            {
+                InternalLoadAsset(
+                    () =>
+                    {
+                        FlowControl.FinishIndividualLoadingAsset(new GameFlowControl.FlowControlContext
+                        {
+                            Name = "Stage"
+                        });
+                    });
+            }
+        }
+
         public void Construct()
         {
             _logger.Debug($"Module - LoadAssetSystem - Construct");
+            
+            //
+#if WALKIO_FLOWCONTROL
+            FlowControl?.AssetLoadingStarted
+                .Where(x => x.Name.Contains("Stage"))
+                .Subscribe(x =>
+                {
+                    _logger.Debug($"Module - LoadAssetSystem - Construct - Receive AssetLoadingStarted");
+                    
+                    LoadingAsset();
+                })
+                .AddTo(_compositeDisposable);
+#endif
         }
 
         protected override void OnCreate()

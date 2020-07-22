@@ -3,6 +3,14 @@
     using Unity.Entities;
 
     //
+#if WALKIO_FLOWCONTROL
+    using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
+#endif
+
+#if WALKIO_HUD_APP
+    using GameHudApp = JoyBrick.Walkio.Game.Hud.App;
+#endif
+
 #if WALKIO_LEVEL
     using GameLevel = JoyBrick.Walkio.Game.Level;
 #endif
@@ -13,6 +21,72 @@
 
     public partial class Bootstrap
     {
+        private void FlowControl_LoadingDoneCheckSystem(ComponentSystemGroup componentSystemGroup)
+        {
+#if WALKIO_LEVEL
+            _logger.Debug($"Bootstrap - Module Creation - FlowControl_LoadingDoneCheckSystem");
+
+            var createdSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameFlowControl.LoadingDoneCheckSystem>();
+
+            //
+            createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
+
+            //
+            createdSystem.Construct();
+
+            //
+            componentSystemGroup.AddSystemToUpdateList(createdSystem);
+#else
+            _logger.Debug($"Bootstrap - No Module - FlowControl_LoadingDoneCheckSystem");
+#endif
+        }
+        
+        private void FlowControl_SettingDoneCheckSystem(ComponentSystemGroup componentSystemGroup)
+        {
+#if WALKIO_LEVEL
+            _logger.Debug($"Bootstrap - Module Creation - FlowControl_SettingDoneCheckSystem");
+
+            var createdSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameFlowControl.SettingDoneCheckSystem>();
+
+            //
+            createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
+
+            //
+            createdSystem.Construct();
+
+            //
+            componentSystemGroup.AddSystemToUpdateList(createdSystem);
+#else
+            _logger.Debug($"Bootstrap - No Module - FlowControl_SettingDoneCheckSystem");
+#endif
+        }
+
+        private void HudApp_LoadAssetSystem(ComponentSystemGroup componentSystemGroup)
+        {
+#if WALKIO_LEVEL
+            _logger.Debug($"Bootstrap - Module Creation - HudApp_LoadAssetSystem");
+
+            var createdSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameHudApp.LoadAssetSystem>();
+
+            //
+            createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
+
+            //
+            createdSystem.Construct();
+
+            //
+            componentSystemGroup.AddSystemToUpdateList(createdSystem);
+#else
+            _logger.Debug($"Bootstrap - No Module - HudApp_LoadAssetSystem");
+#endif
+        }
+
         private void Level_LoadAssetSystem(ComponentSystemGroup componentSystemGroup)
         {
 #if WALKIO_LEVEL
@@ -23,6 +97,7 @@
                     .GetOrCreateSystem<GameLevel.LoadAssetSystem>();
 
             //
+            createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
             createdSystem.GridWorldProvider = (GameLevel.IGridWorldProvider) this;
 
             //
@@ -64,6 +139,7 @@
                     .GetOrCreateSystem<GameMoveFlowField.LoadAssetSystem>();
 
             //
+            createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
             createdSystem.Construct();
 
             //

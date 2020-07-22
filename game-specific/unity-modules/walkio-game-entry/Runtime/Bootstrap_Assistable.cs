@@ -13,8 +13,11 @@
 
         public GameObject RefGameObject => this.gameObject;
 
-        public IObservable<int> CanStartInitialSetup => _notifyCanStartInitialSetup.AsObservable();
-        private readonly Subject<int> _notifyCanStartInitialSetup = new Subject<int>();
+        public IObservable<int> SetupBeforeEcs => _notifySetupBeforeEcs.AsObservable();
+        private readonly Subject<int> _notifySetupBeforeEcs = new Subject<int>();
+
+        public IObservable<int> SetupAfterEcs => _notifySetupAfterEcs.AsObservable();
+        private readonly Subject<int> _notifySetupAfterEcs = new Subject<int>();
 
         public void AddAssistant(IBootstrapAssistant assistant)
         {

@@ -10,15 +10,21 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
     using UnityEngine;
 
     //
-    // using GameCommon = JoyBrick.Walkio.Game.Common;
+    using GameCommon = JoyBrick.Walkio.Game.Common;
+    
+#if WALKIO_FLOWCONTROL
+    using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
+#endif
+
 #if WALKIO_LEVEL
     using GameLevel = JoyBrick.Walkio.Game.Level;
 #endif
     // using GameMove = JoyBrick.Walkio.Game.Move;
 
     //
-    // [GameCommon.DoneSettingAssetWait("Stage")]
-    //
+#if WALKIO_FLOWCONTROL
+    [GameFlowControl.DoneSettingAssetWait("Stage")]
+#endif    
     [DisableAutoCreation]
     public class SetupAssetSystem : SystemBase
     {
@@ -38,10 +44,10 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
         private bool _doingSetup;
 
         //
-#if WALKIO_FLOWCONTROL_SYSTEM
-        public GameCommon.IFlowControl FlowControl { get; set; }
+#if WALKIO_FLOWCONTROL
+        public GameFlowControl.IFlowControl FlowControl { get; set; }
 #endif
-        public GameLevel.IGridWorldProvider GridWorldProvider { get; set; }
+        // public GameLevel.IGridWorldProvider GridWorldProvider { get; set; }
         public IFlowFieldWorldProvider FlowFieldWorldProvider { get; set; }
 
         private async Task Setup()
@@ -140,8 +146,8 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                 {
                     _canSetup = false;
 
-#if WALKIO_FLOWCONTROL_SYSTEM
-                    FlowControl.FinishSetting(new GameCommon.FlowControlContext
+#if WALKIO_FLOWCONTROL
+                    FlowControl?.FinishIndividualSettingAsset(new GameFlowControl.FlowControlContext
                     {
                         Name = "Stage"
                     });
@@ -154,9 +160,9 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
         public void Construct()
         {
             _logger.Debug($"Module - SetupAssetSystem - Construct");
-#if WALKIO_FLOWCONTROL_SYSTEM
+#if WALKIO_FLOWCONTROL
             //
-            FlowControl.SettingAsset
+            FlowControl?.AssetSettingStarted
                 .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
