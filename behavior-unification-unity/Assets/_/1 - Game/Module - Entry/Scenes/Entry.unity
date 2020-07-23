@@ -605,3 +605,4 @@ MonoBehaviour:
   flowControlData: {fileID: 11400000, guid: ac7f5ecf2e1a3be47a9703d14044a2d5, type: 2}
   flowFieldWorldData: {fileID: 11400000, guid: 6f7451ec5f10b0142bf6f0640bd8b51e, type: 2}
   gridWorldData: {fileID: 11400000, guid: 01ae9ae37d005f34a95adde5006fa051, type: 2}
+  sceneName: Entry

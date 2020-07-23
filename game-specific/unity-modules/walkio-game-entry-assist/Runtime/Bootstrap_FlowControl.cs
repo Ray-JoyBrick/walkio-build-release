@@ -11,6 +11,10 @@ namespace JoyBrick.Walkio.Game.Assist
     //
     using GameCommon = JoyBrick.Walkio.Game.Common;
 
+#if WALKIO_CREATURE
+    using GameCreature = JoyBrick.Walkio.Game.Creature;
+#endif
+
 #if WALKIO_FLOWCONTROL
     using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
 #endif
@@ -27,12 +31,27 @@ namespace JoyBrick.Walkio.Game.Assist
     using GameHudStage = JoyBrick.Walkio.Game.Hud.Stage;
 #endif
 
+#if WALKIO_MOVE_CROWDSIMULATE
+    using GameMoveCrowdSimulate = JoyBrick.Walkio.Game.Move.CrowdSimulate;
+#endif
+
+#if WALKIO_MOVE_WAYPOINT
+    using GameMoveWaypoint = JoyBrick.Walkio.Game.Move.Waypoint;
+#endif
+
     public partial class Bootstrap
     {
         //
         private void HandleSetupAfterEcs()
         {
             _logger.Debug($"Bootstrap Assist - HandleSetupAfterEcs");
+
+#if WALKIO_CREATURE
+            {
+                var loadAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameCreature.LoadAssetSystem>();
+                loadAssetSystem.ProvideExternalAsset = true;
+            }
+#endif
 
 // #if WALKIO_FLOWCONTROL
 //             {
@@ -41,12 +60,12 @@ namespace JoyBrick.Walkio.Game.Assist
 //             }
 // #endif
 
-#if WALKIO_HUD_APP
-            {
-                var loadAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameHudApp.LoadAssetSystem>();
-                loadAssetSystem.ProvideExternalAsset = true;
-            }
-#endif
+// #if WALKIO_HUD_APP
+//             {
+//                 var loadAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameHudApp.LoadAssetSystem>();
+//                 loadAssetSystem.ProvideExternalAsset = true;
+//             }
+// #endif
 
 #if WALKIO_HUD_PREPARATION
             {
@@ -58,6 +77,20 @@ namespace JoyBrick.Walkio.Game.Assist
 #if WALKIO_HUD_STAGE
             {
                 var loadAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameHudStage.LoadAssetSystem>();
+                loadAssetSystem.ProvideExternalAsset = true;
+            }
+#endif
+
+#if WALKIO_MOVE_CROWDSIMULATE
+            {
+                var loadAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameMoveCrowdSimulate.LoadAssetSystem>();
+                loadAssetSystem.ProvideExternalAsset = true;
+            }
+#endif
+
+#if WALKIO_MOVE_WAYPOINT
+            {
+                var loadAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameMoveWaypoint.LoadAssetSystem>();
                 loadAssetSystem.ProvideExternalAsset = true;
             }
 #endif

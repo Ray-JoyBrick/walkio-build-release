@@ -9,6 +9,7 @@
 #if WALKIO_LEVEL
     using GameLevel = JoyBrick.Walkio.Game.Level;
 #endif
+    
 #if WALKIO_MOVE_FLOWFIELD
     using GameMoveFlowField = JoyBrick.Walkio.Game.Move.FlowField;
 #endif
@@ -16,6 +17,7 @@
 #if WALKIO_LEVEL_ASSIST
     using GameLevelAssist = JoyBrick.Walkio.Game.Level.Assist;
 #endif
+
 #if WALKIO_MOVE_FLOWFIELD_ASSIST
     using GameMoveFlowFieldAssist = JoyBrick.Walkio.Game.Move.FlowField.Assist;
 #endif

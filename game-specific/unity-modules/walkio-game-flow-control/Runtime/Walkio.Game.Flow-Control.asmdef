@@ -12,6 +12,7 @@
         "Unity.Mathematics",
         "Unity.ResourceManager",
         "UniRx",
+        "Walkio.Game.Command",
         "Walkio.Game.Common",
         "Walkio.Game.Extension.Common",
         "Walkio.Game.Flow-Control.Common"
@@ -25,6 +26,12 @@
     "defineConstraints": [
         "WALKIO_FLOWCONTROL"
     ],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.walkio.game.flow-control.common",
+            "expression": "0.2.0",
+            "define": "WALKIO_FLOWCONTROL"
+        }
+    ],
     "noEngineReferences": false
 }

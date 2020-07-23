@@ -3,6 +3,9 @@
     using Unity.Entities;
 
     //
+    using GameCommand = JoyBrick.Walkio.Game.Command;
+    using GameCommon = JoyBrick.Walkio.Game.Common;
+    
 #if WALKIO_EXTENSION
     using GameExtension = JoyBrick.Walkio.Game.Extension;
 #endif
@@ -47,6 +50,7 @@
                     .GetOrCreateSystem<GameFlowControl.LoadAssetSystem>();
 
             //
+            createdSystem.SceneService = (GameCommon.ISceneService) this;            
             createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
             createdSystem.ExtensionService = (GameExtension.IExtensionService) this;
 
@@ -137,6 +141,8 @@
                     .GetOrCreateSystem<GameHudApp.LoadAssetSystem>();
 
             //
+            createdSystem.SceneService = (GameCommon.ISceneService) this;
+            createdSystem.CommandService = (GameCommand.ICommandService) this;
             createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
 
             //
@@ -181,6 +187,7 @@
                     .GetOrCreateSystem<GameHudPreparation.LoadAssetSystem>();
 
             //
+            createdSystem.SceneService = (GameCommon.ISceneService) this;            
             createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
 
             //
@@ -225,6 +232,7 @@
                     .GetOrCreateSystem<GameHudStage.LoadAssetSystem>();
 
             //
+            createdSystem.SceneService = (GameCommon.ISceneService) this;
             createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
 
             //

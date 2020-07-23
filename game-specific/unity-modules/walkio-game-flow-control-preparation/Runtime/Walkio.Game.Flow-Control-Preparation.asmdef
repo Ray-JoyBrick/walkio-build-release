@@ -1,0 +1,30 @@
+{
+    "name": "Walkio.Game.Flow-Control-Preparation",
+    "references": [
+        "Unity.Addressables",
+        "Unity.Entities",
+        "Unity.Rendering.Hybrid",
+        "Unity.Burst",
+        "Unity.Collections",
+        "Unity.Transforms",
+        "Unity.Entities.Hybrid",
+        "Unity.Entities.Properties",
+        "Unity.Mathematics",
+        "Unity.ResourceManager",
+        "UniRx",
+        "Walkio.Game.Common",
+        "Walkio.Game.Extension.Common",
+        "Walkio.Game.Flow-Control.Common"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "WALKIO_FLOWCONTROL_PREPARATION"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

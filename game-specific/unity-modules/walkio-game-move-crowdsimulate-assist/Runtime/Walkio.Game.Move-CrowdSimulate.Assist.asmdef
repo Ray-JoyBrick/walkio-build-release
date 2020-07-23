@@ -21,9 +21,14 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
-        "WALKIO_CROWDSIMULATE",
         "WALKIO_CROWDSIMULATE_ASSIST"
     ],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.walkio.game.move-crowdsimulate.assist",
+            "expression": "0.2.0",
+            "define": "WALKIO_CROWDSIMULATE_ASSIST"
+        }
+    ],
     "noEngineReferences": false
 }

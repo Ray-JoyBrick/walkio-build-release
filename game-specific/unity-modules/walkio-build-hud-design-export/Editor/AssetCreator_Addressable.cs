@@ -7,80 +7,66 @@ namespace JoyBrick.Walkio.Build.HudDesignExport.Editor
     using UnityEditor.AddressableAssets.Settings;
     using UnityEngine;
 
+    //
+    using GameCommon = JoyBrick.Walkio.Game.Common;
+
     public partial class AssetCreator
     {
-        [MenuItem("Assets/Walkio/Remove/Hud Asset Addressable Group")]
+        private const string groupName0 = "Hud";
+
+        private const string groupName1 = "Hud - Common";
+        private const string groupName2 = "Hud - App";
+        private const string groupName3 = "Hud - Preparation";
+        private const string groupName4 = "Hud - Stage";
+        private const string groupName5 = "Hud - App - Assist";
+        private const string groupName6 = "Hud - Stage - Assist";
+        
+        [MenuItem("Assets/Walkio/Addressable/Remove/Hud")]
         public static void RemoveAddressableGroup()
         {
             var assetSettings = UnityEditor.AddressableAssets.AddressableAssetSettingsDefaultObject.Settings;
             
             // Create group
-            RemoveGroup(assetSettings, "Assets - Hud - Common");
-            RemoveGroup(assetSettings, "Assets - Hud - App");
-            RemoveGroup(assetSettings, "Assets - Hud - App - Assist");
-            RemoveGroup(assetSettings, "Assets - Hud - Preparation");
-            RemoveGroup(assetSettings, "Assets - Hud - Stage");
-            RemoveGroup(assetSettings, "Assets - Hud - Stage - Assist");
+            GameCommon.EditorPart.Utility.AddressableHelper.RemoveGroup(assetSettings, groupName0);
+
+            // GameCommon.EditorPart.Utility.AddressableHelper.RemoveGroup(assetSettings, groupName1);
+            // GameCommon.EditorPart.Utility.AddressableHelper.RemoveGroup(assetSettings, groupName2);
+            // GameCommon.EditorPart.Utility.AddressableHelper.RemoveGroup(assetSettings, groupName3);
+            // GameCommon.EditorPart.Utility.AddressableHelper.RemoveGroup(assetSettings, groupName4);
+            // GameCommon.EditorPart.Utility.AddressableHelper.RemoveGroup(assetSettings, groupName5);
+            // GameCommon.EditorPart.Utility.AddressableHelper.RemoveGroup(assetSettings, groupName6);
         }
 
-        // TODO: Extract to utility class
-        private static void RemoveGroup(AddressableAssetSettings assetSettings, string groupName)
-        {
-            // Clean up what is already in
-            var addressableAssetGroup = assetSettings.FindGroup(groupName);
-            if (addressableAssetGroup == null)
-            {
-                addressableAssetGroup = assetSettings.CreateGroup(groupName, false, false, false, assetSettings.DefaultGroup.Schemas);
-            }
-
-            if (addressableAssetGroup != null)
-            {
-                assetSettings.RemoveGroup(addressableAssetGroup);
-            }
-        }
-        
-        [MenuItem("Assets/Walkio/Create/Hud Asset Addressable Group")]
+        [MenuItem("Assets/Walkio/Addressable/Create/Hud")]
         public static void CreateAddressableGroup()
         {
             var assetSettings = UnityEditor.AddressableAssets.AddressableAssetSettingsDefaultObject.Settings;
             
             // Create group
-            var commonGroup = CreateGroup(assetSettings, "Assets - Hud - Common");
-            var appGroup = CreateGroup(assetSettings, "Assets - Hud - App");
-            var appAssistGroup = CreateGroup(assetSettings, "Assets - Hud - App - Assist");
-            var preparationGroup = CreateGroup(assetSettings, "Assets - Hud - Preparation");
-            var stageGroup = CreateGroup(assetSettings, "Assets - Hud - Stage");
-            var stageAssistGroup = CreateGroup(assetSettings, "Assets - Hud - Stage - Assist");
+            GameCommon.EditorPart.Utility.AddressableHelper.CreateGroup(assetSettings, groupName0);
             
+            // GameCommon.EditorPart.Utility.AddressableHelper.CreateGroup(assetSettings, groupName1);
+            // GameCommon.EditorPart.Utility.AddressableHelper.CreateGroup(assetSettings, groupName2);
+            // GameCommon.EditorPart.Utility.AddressableHelper.CreateGroup(assetSettings, groupName3);
+            // GameCommon.EditorPart.Utility.AddressableHelper.CreateGroup(assetSettings, groupName4);
+            // GameCommon.EditorPart.Utility.AddressableHelper.CreateGroup(assetSettings, groupName5);
+            // GameCommon.EditorPart.Utility.AddressableHelper.CreateGroup(assetSettings, groupName6);
+            
+            // // Create group
+            // var commonGroup = CreateGroup(assetSettings, "Assets - Hud - Common");
+            // var appGroup = CreateGroup(assetSettings, "Assets - Hud - App");
+            // var appAssistGroup = CreateGroup(assetSettings, "Assets - Hud - App - Assist");
+            // var preparationGroup = CreateGroup(assetSettings, "Assets - Hud - Preparation");
+            // var stageGroup = CreateGroup(assetSettings, "Assets - Hud - Stage");
+            // var stageAssistGroup = CreateGroup(assetSettings, "Assets - Hud - Stage - Assist");
             //
-            PlaceAssetIntoGroup_Common(assetSettings, commonGroup);
-            PlaceAssetIntoGroup_App(assetSettings, appGroup);
-            PlaceAssetIntoGroup_AppAssist(assetSettings, appAssistGroup);
-            PlaceAssetIntoGroup_Preparation(assetSettings, preparationGroup);
-            PlaceAssetIntoGroup_Stage(assetSettings, stageGroup);
-            PlaceAssetIntoGroup_StageAssist(assetSettings, stageAssistGroup);
-        }
-
-        // TODO: Extract to utility class
-        private static AddressableAssetGroup CreateGroup(AddressableAssetSettings assetSettings, string groupName)
-        {
-            // Clean up what is already in
-            var addressableAssetGroup = assetSettings.FindGroup(groupName);
-            if (addressableAssetGroup == null)
-            {
-                addressableAssetGroup = assetSettings.CreateGroup(groupName, false, false, false, assetSettings.DefaultGroup.Schemas);
-            }
-
-            if (addressableAssetGroup != null)
-            {
-//                aasdoSettings.RemoveGroup(addressableAssetGroup);
-                foreach (var entry in addressableAssetGroup.entries)
-                {
-                    assetSettings.RemoveAssetEntry(entry.guid);
-                }
-            }
-
-            return addressableAssetGroup;
+            // //
+            // PlaceAssetIntoGroup_Common(assetSettings, commonGroup);
+            // PlaceAssetIntoGroup_App(assetSettings, appGroup);
+            // PlaceAssetIntoGroup_AppAssist(assetSettings, appAssistGroup);
+            // PlaceAssetIntoGroup_Preparation(assetSettings, preparationGroup);
+            // PlaceAssetIntoGroup_Stage(assetSettings, stageGroup);
+            // PlaceAssetIntoGroup_StageAssist(assetSettings, stageAssistGroup);
         }
         
         //

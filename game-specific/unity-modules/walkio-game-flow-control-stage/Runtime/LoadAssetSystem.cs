@@ -16,13 +16,9 @@ namespace JoyBrick.Walkio.Game.FlowControl.Stage
     using GameExtension = JoyBrick.Walkio.Game.Extension;
 #endif
 
-#if WALKIO_FLOWCONTROL_STAGE
     using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
-#endif
 
-#if WALKIO_FLOWCONTROL_STAGE
     [GameFlowControl.DoneLoadingAssetWait("Stage")]
-#endif
     [DisableAutoCreation]
     public class LoadAssetSystem :
         SystemBase
@@ -37,13 +33,11 @@ namespace JoyBrick.Walkio.Game.FlowControl.Stage
         private ScriptableObject _assetData;
 
         //
-#if WALKIO_FLOWCONTROL_STAGE
         public IFlowControl FlowControl { get; set; }
-#endif
 
         public GameExtension.IExtensionService ExtensionService { get; set; }
 
-        public string AtPart => "App";
+        public string AtPart => "Stage";
 
         //
         public bool ProvideExternalAsset { get; set; }
@@ -87,13 +81,11 @@ namespace JoyBrick.Walkio.Game.FlowControl.Stage
         {
             if (ProvideExternalAsset)
             {
-#if WALKIO_FLOWCONTROL_STAGE
                 // Since the asset is provided, just notify instantly
                 FlowControl?.FinishIndividualLoadingAsset(new GameFlowControl.FlowControlContext
                 {
                     Name = "Stage"
                 });
-#endif
             }
             else
             {
@@ -102,12 +94,10 @@ namespace JoyBrick.Walkio.Game.FlowControl.Stage
                     assetName,
                     () =>
                     {
-#if WALKIO_FLOWCONTROL_STAGE
                         FlowControl?.FinishIndividualLoadingAsset(new GameFlowControl.FlowControlContext
                         {
                             Name = "Stage"
                         });
-#endif
                     });
             }
         }
@@ -117,7 +107,6 @@ namespace JoyBrick.Walkio.Game.FlowControl.Stage
         {
             _logger.Debug($"Module - LoadAssetSystem - Construct");
 
-#if WALKIO_FLOWCONTROL_STAGE
             FlowControl?.AssetLoadingStarted
                 .Where(x => x.Name.Contains(AtPart))
                 .Subscribe(x =>
@@ -127,7 +116,6 @@ namespace JoyBrick.Walkio.Game.FlowControl.Stage
                     LoadingAsset(assetName);
                 })
                 .AddTo(_compositeDisposable);
-#endif
         }
 
         protected override void OnCreate()

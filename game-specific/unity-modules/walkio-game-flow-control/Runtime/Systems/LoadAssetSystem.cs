@@ -10,19 +10,16 @@ namespace JoyBrick.Walkio.Game.FlowControl
     using UnityEngine;
 
     //
+    using GameCommand = JoyBrick.Walkio.Game.Command;
     using GameCommon = JoyBrick.Walkio.Game.Common;
 
 #if WALKIO_EXTENSION
     using GameExtension = JoyBrick.Walkio.Game.Extension;
 #endif
 
-#if WALKIO_FLOWCONTROL
     using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
-#endif
 
-#if WALKIO_FLOWCONTROL
     [GameFlowControl.DoneLoadingAssetWait("App")]
-#endif
     [DisableAutoCreation]
     public class LoadAssetSystem :
         SystemBase
@@ -37,10 +34,10 @@ namespace JoyBrick.Walkio.Game.FlowControl
         private ScriptableObject _assetData;
 
         //
-#if WALKIO_FLOWCONTROL
+        public GameCommon.ISceneService SceneService { get; set; }        
         public IFlowControl FlowControl { get; set; }
-#endif
 
+        public GameCommand.ICommandService CommandService { get; set; }
         public GameExtension.IExtensionService ExtensionService { get; set; }
 
         public string AtPart => "App";
@@ -75,7 +72,11 @@ namespace JoyBrick.Walkio.Game.FlowControl
                     usedFlowData.flowPrefabs.ForEach(prefab =>
                     {
                         var createdInstance = GameObject.Instantiate(prefab);
+                        
+                        // CommandService.AddCommandStreamProducer(createdInstance);
                         ExtensionService.SetReferenceToExtension(createdInstance);
+                        
+                        SceneService.MoveToCurrentScene(createdInstance);
                     });
 
                     loadingDoneAction();
@@ -87,13 +88,11 @@ namespace JoyBrick.Walkio.Game.FlowControl
         {
             if (ProvideExternalAsset)
             {
-#if WALKIO_FLOWCONTROL
                 // Since the asset is provided, just notify instantly
                 FlowControl?.FinishIndividualLoadingAsset(new GameFlowControl.FlowControlContext
                 {
                     Name = "App"
                 });
-#endif
             }
             else
             {
@@ -102,12 +101,10 @@ namespace JoyBrick.Walkio.Game.FlowControl
                     assetName,
                     () =>
                     {
-#if WALKIO_FLOWCONTROL
                         FlowControl?.FinishIndividualLoadingAsset(new GameFlowControl.FlowControlContext
                         {
                             Name = "App"
                         });
-#endif
                     });
             }
         }
@@ -117,17 +114,16 @@ namespace JoyBrick.Walkio.Game.FlowControl
         {
             _logger.Debug($"Module - LoadAssetSystem - Construct");
 
-#if WALKIO_FLOWCONTROL
             FlowControl?.AssetLoadingStarted
                 .Where(x => x.Name.Contains(AtPart))
                 .Subscribe(x =>
                 {
                     _logger.Debug($"Module - LoadAssetSystem - Construct - Receive AssetLoadingStarted");
-                    var assetName = x.AssetName;
+                    // var assetName = x.AssetName;
+                    var assetName = $"Flow Control - App/Used Flow Data";
                     LoadingAsset(assetName);
                 })
                 .AddTo(_compositeDisposable);
-#endif
         }
 
         protected override void OnCreate()

@@ -10,20 +10,32 @@
         MonoBehaviour,
         IConvertGameObjectToEntity
     {
-        public bool isLeader;
+        // public bool isLeader;
 
-        public int kind;
+        // public int kind;
 
-        public Vector3 startingPosition;
+        // public Vector3 startingPosition;
 
-        //
-        private EntityManager _entityManager;
-        private Entity _entity;
+        // //
+        // private EntityManager _entityManager;
+        // private Entity _entity;
+
+        public bool hasIndication;
+        public int indicationKind;
 
         public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
         {
             //
             dstManager.AddComponentData(entity, new Unit());
+
+            if (hasIndication)
+            {
+                dstManager.AddComponentData(entity, new UnitIndication
+                {
+                    Kind = indicationKind
+                });
+            }
+
 //             dstManager.AddComponentData(entity, new UnitMovement());
 //
 //             //

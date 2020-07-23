@@ -6,5 +6,8 @@
     public interface IBootstrapAssistant
     {
         void ShowPoints(int groupId, List<Vector3> points, float timeInSeconds);
+        
+        //
+        void SendCommand(string command);
     }
 }

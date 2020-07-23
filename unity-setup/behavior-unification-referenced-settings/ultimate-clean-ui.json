@@ -1,6 +1,6 @@
 {
     "name": "gamevanilla",
-    "use": false,
+    "use": true,
     "toSymlink": [
       {
         "name": "UltimateCleanGUIPack",

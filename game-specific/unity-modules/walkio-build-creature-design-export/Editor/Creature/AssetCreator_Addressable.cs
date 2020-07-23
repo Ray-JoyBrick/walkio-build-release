@@ -1,3 +1,75 @@
+namespace JoyBrick.Walkio.Build.CreatureDesignExport.EditorPart
+{
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using UnityEditor;
+    using UnityEditor.AddressableAssets.Settings;
+    using UnityEngine;
+
+    //
+    using GameCommon = JoyBrick.Walkio.Game.Common;
+
+    public partial class AssetCreator
+    {
+        private const string groupName1000 = "Creatue Leader Player";
+
+        private const string groupName1001 = "Creatue Leader Player 001";
+        private const string groupName1002 = "Creatue Leader Player 002";
+
+        private const string groupName2000 = "Creatue Leader Npc";
+
+        private const string groupName2001 = "Creatue Leader Npc 001";
+        private const string groupName2002 = "Creatue Leader Npc 002";
+
+        private const string groupName3000 = "Creatue Minion";
+
+        private const string groupName3001 = "Creatue Minion 001";
+        private const string groupName3002 = "Creatue Minion 002";
+
+        [MenuItem("Assets/Walkio/Addressable/Remove/Creature")]
+        public static void RemoveAddressableGroup()
+        {
+            var assetSettings = UnityEditor.AddressableAssets.AddressableAssetSettingsDefaultObject.Settings;
+
+            GameCommon.EditorPart.Utility.AddressableHelper.RemoveGroup(assetSettings, groupName1000);
+            GameCommon.EditorPart.Utility.AddressableHelper.RemoveGroup(assetSettings, groupName2000);
+            GameCommon.EditorPart.Utility.AddressableHelper.RemoveGroup(assetSettings, groupName3000);
+
+            // GameCommon.EditorPart.Utility.AddressableHelper.RemoveGroup(assetSettings, groupName1001);
+            // GameCommon.EditorPart.Utility.AddressableHelper.RemoveGroup(assetSettings, groupName1002);
+            //
+            // GameCommon.EditorPart.Utility.AddressableHelper.RemoveGroup(assetSettings, groupName2001);
+            // GameCommon.EditorPart.Utility.AddressableHelper.RemoveGroup(assetSettings, groupName2002);
+            //
+            // GameCommon.EditorPart.Utility.AddressableHelper.RemoveGroup(assetSettings, groupName3001);
+            // GameCommon.EditorPart.Utility.AddressableHelper.RemoveGroup(assetSettings, groupName3002);
+        }
+
+        [MenuItem("Assets/Walkio/Addressable/Create/Creature")]
+        public static void CreateAddressableGroup()
+        {
+            var assetSettings = UnityEditor.AddressableAssets.AddressableAssetSettingsDefaultObject.Settings;
+
+            // Create group
+            GameCommon.EditorPart.Utility.AddressableHelper.CreateGroup(assetSettings, groupName1000);
+            GameCommon.EditorPart.Utility.AddressableHelper.CreateGroup(assetSettings, groupName2000);
+            
+            GameCommon.EditorPart.Utility.AddressableHelper.CreateGroup(assetSettings, groupName3000);
+
+            // GameCommon.EditorPart.Utility.AddressableHelper.CreateGroup(assetSettings, groupName1001);
+            // GameCommon.EditorPart.Utility.AddressableHelper.CreateGroup(assetSettings, groupName1002);
+            //
+            // GameCommon.EditorPart.Utility.AddressableHelper.CreateGroup(assetSettings, groupName2001);
+            // GameCommon.EditorPart.Utility.AddressableHelper.CreateGroup(assetSettings, groupName2002);
+            //
+            // GameCommon.EditorPart.Utility.AddressableHelper.CreateGroup(assetSettings, groupName3001);
+            // GameCommon.EditorPart.Utility.AddressableHelper.CreateGroup(assetSettings, groupName3002);
+        }
+    }
+}
+
 // namespace JoyBrick.Walkio.Build.CreatureDesignExport.EditorPart
 // {
 //     using System;

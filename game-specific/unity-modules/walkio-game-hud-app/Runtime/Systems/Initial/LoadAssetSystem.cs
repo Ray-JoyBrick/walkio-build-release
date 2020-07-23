@@ -10,6 +10,7 @@ namespace JoyBrick.Walkio.Game.Hud.App
     using UnityEngine;
 
     //
+    using GameCommand = JoyBrick.Walkio.Game.Command;
     using GameCommon = JoyBrick.Walkio.Game.Common;
     
 #if WALKIO_FLOWCONTROL
@@ -31,8 +32,15 @@ namespace JoyBrick.Walkio.Game.Hud.App
         
         //
         private ScriptableObject _hudSettingDataAsset;
+        
+        private GameObject _canvasPrefab;
+        private HudData _hudData;
+        
+        private GameObject _canvas;
 
         //
+        public GameCommon.ISceneService SceneService { get; set; }
+        public GameCommand.ICommandService CommandService { get; set; }
 #if WALKIO_FLOWCONTROL
         public GameFlowControl.IFlowControl FlowControl { get; set; }
 #endif
@@ -64,6 +72,25 @@ namespace JoyBrick.Walkio.Game.Hud.App
                 .Subscribe(result =>
                 {
                     _hudSettingDataAsset = result;
+                    
+                    _hudData = (_hudSettingDataAsset as HudData);
+
+                    if (_hudData != null)
+                    {
+                        _logger.Debug($"Module - LoadAssetSystem - InternalLoadAsset - hud data is not null");
+                        
+                        _canvasPrefab = _hudData.canvasPrefab;
+                        _canvas = GameObject.Instantiate(_canvasPrefab);
+
+                        CommandService.AddCommandStreamProducer(_canvas);
+                        CommandService.AddInfoStreamPresenter(_canvas);
+                        
+                        SceneService.MoveToCurrentScene(_canvas);
+                    }
+                    else
+                    {
+                        _logger.Debug($"Module - LoadAssetSystem - InternalLoadAsset - hud data is null");
+                    }
 
                     loadingDoneAction();
                 })
@@ -75,10 +102,12 @@ namespace JoyBrick.Walkio.Game.Hud.App
             if (ProvideExternalAsset)
             {
                 // Since the asset is provided, just notify instantly
+#if WALKIO_FLOWCONTROL                
                 FlowControl.FinishIndividualLoadingAsset(new GameFlowControl.FlowControlContext
                 {
                     Name = "App"
                 });
+#endif
             }
             else
             {
@@ -87,10 +116,12 @@ namespace JoyBrick.Walkio.Game.Hud.App
                     hudAssetName,
                     () =>
                     {
+#if WALKIO_FLOWCONTROL
                         FlowControl.FinishIndividualLoadingAsset(new GameFlowControl.FlowControlContext
                         {
                             Name = "App"
                         });
+#endif
                     });
             }
         }
@@ -106,7 +137,8 @@ namespace JoyBrick.Walkio.Game.Hud.App
                 .Subscribe(x =>
                 {
                     _logger.Debug($"Module - LoadAssetSystem - Construct - Receive AssetLoadingStarted");
-                    var hudAssetName = x.HudAssetName;
+                    // var hudAssetName = x.HudAssetName;
+                    var hudAssetName = $"Hud - App/Hud Data";
                     LoadingAsset(hudAssetName);
                 })
                 .AddTo(_compositeDisposable);

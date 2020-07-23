@@ -72,7 +72,7 @@
         //
         public void StartLoadingAsset(GameFlowControl.FlowControlContext context)
         {
-            _logger.Debug($"Bootstrap - StartLoadingAsset");
+            _logger.Debug($"Bootstrap - StartLoadingAsset - {context}");
 
             _notifyAssetLoadingStarted.OnNext(context);
         }
@@ -88,14 +88,14 @@
 
         public void FinishIndividualLoadingAsset(GameFlowControl.FlowControlContext context)
         {
-            _logger.Debug($"Bootstrap - FinishIndividualLoadingAsset");
+            _logger.Debug($"Bootstrap - FinishIndividualLoadingAsset - {context}");
 
             _notifyIndividualAssetLoadingFinished.OnNext(context);
         }
 
         public void FinishIndividualSettingAsset(GameFlowControl.FlowControlContext context)
         {
-            _logger.Debug($"Bootstrap - FinishIndividualSettingAsset");
+            _logger.Debug($"Bootstrap - FinishIndividualSettingAsset - {context}");
 
             _notifyIndividualAssetSettingFinished.OnNext(context);
         }
@@ -103,14 +103,14 @@
         //
         public void AllAssetLoadingDone(GameFlowControl.FlowControlContext context)
         {
-            _logger.Debug($"Bootstrap - AllAssetLoadingDone");
+            _logger.Debug($"Bootstrap - AllAssetLoadingDone - {context}");
 
             _notifyAssetSettingStarted.OnNext(context);
         }
 
         public void AllAssetSettingDone(GameFlowControl.FlowControlContext context)
         {
-            _logger.Debug($"Bootstrap - AllAssetSettingDone");
+            _logger.Debug($"Bootstrap - AllAssetSettingDone - {context}");
 
             //
             var eventName = $"zz_{context.Name} Done Setting";

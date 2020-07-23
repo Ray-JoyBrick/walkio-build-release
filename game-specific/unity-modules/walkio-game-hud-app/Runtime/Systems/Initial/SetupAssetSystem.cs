@@ -49,6 +49,10 @@ namespace JoyBrick.Walkio.Game.Hud.App
                     // _doingSetup = true;
                     //
                     // SettingAsset();
+                    FlowControl?.FinishIndividualSettingAsset(new GameFlowControl.FlowControlContext
+                    {
+                        Name = "App"
+                    });
                 })
                 .AddTo(_compositeDisposable);
 #endif

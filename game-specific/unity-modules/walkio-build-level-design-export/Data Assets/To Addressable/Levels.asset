@@ -1,0 +1,247 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eec4882d68a9346b3b5f8ecf1e38a534, type: 3}
+  m_Name: Levels
+  m_EditorClassIdentifier: 
+  m_allNodes:
+  - m_name: Load From Directory
+    m_id: 154d49b2-9edb-41d4-8589-c9fc14e56142
+    m_x: 96
+    m_y: 144
+    m_nodeInstance:
+      m_className: UnityEngine.AssetGraph.Loader, Unity.AssetGraph.Editor, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      m_instanceData: B64|eyJtX2xvYWRQYXRoIjp7Im1fdmFsdWVzIjpbeyJ0YXJnZXRHcm91cCI6MCwidmFsdWUiOiJfL19HZW5lcmF0ZWQgLSBMZXZlbCJ9XX0sIm1fbG9hZFBhdGhHdWlkIjp7Im1fdmFsdWVzIjpbeyJ0YXJnZXRHcm91cCI6MCwidmFsdWUiOiJhYTdiYjAxNDE2ZWM0NTc0ZGJmYTEyYWIzZWNjMzhkMCJ9XX0sIm1faWdub3JlUGF0dGVybnMiOltdLCJtX3Jlc3BvbmRUb0Fzc2V0Q2hhbmdlIjpmYWxzZX0=
+    m_inputPoints: []
+    m_outputPoints:
+    - id: 4654ca63-1c96-4b00-abe0-3c099e8f4551
+      label: +
+      parentId: 154d49b2-9edb-41d4-8589-c9fc14e56142
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 157
+        y: 33.5
+        width: 10
+        height: 23
+  - m_name: Set Asset Group
+    m_id: 667bea83-0c19-4eeb-8b4b-57924fdf58af
+    m_x: 720
+    m_y: 144
+    m_nodeInstance:
+      m_className: UnityEngine.AssetGraph.AddressableAssetGroup, Unity.AssetGraph.Editor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      m_instanceData: B64|eyJtX2dyb3VwR3VpZCI6IjI1NzAwNzdmYzAxOWY5NjQ4OGI3OTY2ZTkxNzVlYWNiIn0=
+    m_inputPoints:
+    - id: a3e89241-bba8-4bf8-9a90-622b37a38342
+      label: '-'
+      parentId: 667bea83-0c19-4eeb-8b4b-57924fdf58af
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 30.5
+        width: 21
+        height: 29
+    m_outputPoints:
+    - id: f433db4b-1d0a-49f7-8df7-6b00e1115963
+      label: +
+      parentId: 667bea83-0c19-4eeb-8b4b-57924fdf58af
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 133
+        y: 33.5
+        width: 10
+        height: 23
+  - m_name: Group By File Path
+    m_id: 32ddc4a3-b57f-49d9-8d3f-639e46e4fbd8
+    m_x: 312
+    m_y: 144
+    m_nodeInstance:
+      m_className: UnityEngine.AssetGraph.Grouping, Unity.AssetGraph.Editor, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      m_instanceData: B64|eyJtX2dyb3VwaW5nS2V5d29yZCI6eyJtX3ZhbHVlcyI6W3sidGFyZ2V0R3JvdXAiOjAsInZhbHVlIjoiL0xldmVsICovTGV2ZWwgRGF0YSJ9XX0sIm1fcGF0dGVyblR5cGUiOnsibV92YWx1ZXMiOlt7InRhcmdldEdyb3VwIjowLCJ2YWx1ZSI6MH1dfSwibV9hbGxvd1NsYXNoIjpmYWxzZSwibV9ncm91cE5hbWVGb3JtYXQiOnsibV92YWx1ZXMiOlt7InRhcmdldEdyb3VwIjowLCJ2YWx1ZSI6IiJ9XX19
+    m_inputPoints:
+    - id: 77848935-af1d-4ddd-b2fe-82d2f9879a62
+      label: '-'
+      parentId: 32ddc4a3-b57f-49d9-8d3f-639e46e4fbd8
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 30.5
+        width: 21
+        height: 29
+    m_outputPoints:
+    - id: 83ad43c4-e32f-485a-a9e9-eb47447bde0d
+      label: +
+      parentId: 32ddc4a3-b57f-49d9-8d3f-639e46e4fbd8
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 147
+        y: 33.5
+        width: 10
+        height: 23
+  - m_name: Set Asset Address
+    m_id: c0f8939a-88a8-431d-84bc-774809103af6
+    m_x: 516
+    m_y: 144
+    m_nodeInstance:
+      m_className: UnityEngine.AssetGraph.AddressableAssetAddress, Unity.AssetGraph.Editor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      m_instanceData: B64|eyJtX2lzQWRkcmVzc2FibGUiOnRydWUsIm1faXNBbGxMb3dlckNhc2UiOmZhbHNlLCJtX21hdGNoUGF0dGVybiI6IkFzc2V0c1xcL19cXC9fR2VuZXJhdGVkIC0gTGV2ZWxcXC9MZXZlbCAoLiopXFwvTGV2ZWwgRGF0YVxcLmFzc2V0IiwibV9hZGRyZXNzUGF0dGVybiI6IkxldmVsICQxL0xldmVsIERhdGEifQ==
+    m_inputPoints:
+    - id: 287f204b-e36e-49b8-8eb8-79dd2783e6ae
+      label: '-'
+      parentId: c0f8939a-88a8-431d-84bc-774809103af6
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 30.5
+        width: 21
+        height: 29
+    m_outputPoints:
+    - id: d9bafed9-2cc1-406d-8f6f-3fc239210e94
+      label: +
+      parentId: c0f8939a-88a8-431d-84bc-774809103af6
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 144
+        y: 33.5
+        width: 10
+        height: 23
+  - m_name: Load From Directory
+    m_id: bfc8278e-12ee-4b3f-9676-0c2ffed6ed77
+    m_x: 96
+    m_y: 312
+    m_nodeInstance:
+      m_className: UnityEngine.AssetGraph.Loader, Unity.AssetGraph.Editor, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      m_instanceData: B64|eyJtX2xvYWRQYXRoIjp7Im1fdmFsdWVzIjpbeyJ0YXJnZXRHcm91cCI6MCwidmFsdWUiOiJfL19HZW5lcmF0ZWQgLSBMZXZlbCJ9XX0sIm1fbG9hZFBhdGhHdWlkIjp7Im1fdmFsdWVzIjpbeyJ0YXJnZXRHcm91cCI6MCwidmFsdWUiOiJhYTdiYjAxNDE2ZWM0NTc0ZGJmYTEyYWIzZWNjMzhkMCJ9XX0sIm1faWdub3JlUGF0dGVybnMiOltdLCJtX3Jlc3BvbmRUb0Fzc2V0Q2hhbmdlIjpmYWxzZX0=
+    m_inputPoints: []
+    m_outputPoints:
+    - id: 3b70830a-fdc6-4c9a-9404-0c465ae0d53b
+      label: +
+      parentId: bfc8278e-12ee-4b3f-9676-0c2ffed6ed77
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 157
+        y: 33.5
+        width: 10
+        height: 23
+  - m_name: Group By File Path
+    m_id: 286460b8-56fd-498b-a6d5-9e96985dfb42
+    m_x: 300
+    m_y: 312
+    m_nodeInstance:
+      m_className: UnityEngine.AssetGraph.Grouping, Unity.AssetGraph.Editor, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      m_instanceData: B64|eyJtX2dyb3VwaW5nS2V5d29yZCI6eyJtX3ZhbHVlcyI6W3sidGFyZ2V0R3JvdXAiOjAsInZhbHVlIjoiL0xldmVsICovTWFpbiJ9XX0sIm1fcGF0dGVyblR5cGUiOnsibV92YWx1ZXMiOlt7InRhcmdldEdyb3VwIjowLCJ2YWx1ZSI6MH1dfSwibV9hbGxvd1NsYXNoIjpmYWxzZSwibV9ncm91cE5hbWVGb3JtYXQiOnsibV92YWx1ZXMiOlt7InRhcmdldEdyb3VwIjowLCJ2YWx1ZSI6IiJ9XX19
+    m_inputPoints:
+    - id: 5a1bb69a-a384-4b52-a843-83f8ab3c301c
+      label: '-'
+      parentId: 286460b8-56fd-498b-a6d5-9e96985dfb42
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 30.5
+        width: 21
+        height: 29
+    m_outputPoints:
+    - id: 6a38e493-1f9c-4683-ab85-daf2c1d4ad98
+      label: +
+      parentId: 286460b8-56fd-498b-a6d5-9e96985dfb42
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 147
+        y: 33.5
+        width: 10
+        height: 23
+  - m_name: Set Asset Address
+    m_id: 3a003cdf-3d5f-4721-b7b3-cce37c72af1b
+    m_x: 504
+    m_y: 312
+    m_nodeInstance:
+      m_className: UnityEngine.AssetGraph.AddressableAssetAddress, Unity.AssetGraph.Editor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      m_instanceData: B64|eyJtX2lzQWRkcmVzc2FibGUiOnRydWUsIm1faXNBbGxMb3dlckNhc2UiOmZhbHNlLCJtX21hdGNoUGF0dGVybiI6IkFzc2V0c1xcL19cXC9fR2VuZXJhdGVkIC0gTGV2ZWxcXC9MZXZlbCAoLiopXFwvTWFpblxcLnVuaXR5IiwibV9hZGRyZXNzUGF0dGVybiI6IkxldmVsICQxL01haW4ifQ==
+    m_inputPoints:
+    - id: ae91d136-c9e1-45ec-8785-7ace2ade1da7
+      label: '-'
+      parentId: 3a003cdf-3d5f-4721-b7b3-cce37c72af1b
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 30.5
+        width: 21
+        height: 29
+    m_outputPoints:
+    - id: 2497fc43-e99d-4961-a817-1c7f75ce88fb
+      label: +
+      parentId: 3a003cdf-3d5f-4721-b7b3-cce37c72af1b
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 144
+        y: 33.5
+        width: 10
+        height: 23
+  m_allConnections:
+  - m_id: 3a172df0-394c-46ef-9980-e39c0ad3e7f3
+    m_fromNodeId: 154d49b2-9edb-41d4-8589-c9fc14e56142
+    m_fromNodeConnectionPointId: 4654ca63-1c96-4b00-abe0-3c099e8f4551
+    m_toNodeId: 32ddc4a3-b57f-49d9-8d3f-639e46e4fbd8
+    m_toNodeConnectionPoiontId: 77848935-af1d-4ddd-b2fe-82d2f9879a62
+    m_label: +
+  - m_id: e1924592-60b2-4300-9786-26e5df88b6f4
+    m_fromNodeId: 32ddc4a3-b57f-49d9-8d3f-639e46e4fbd8
+    m_fromNodeConnectionPointId: 83ad43c4-e32f-485a-a9e9-eb47447bde0d
+    m_toNodeId: c0f8939a-88a8-431d-84bc-774809103af6
+    m_toNodeConnectionPoiontId: 287f204b-e36e-49b8-8eb8-79dd2783e6ae
+    m_label: +
+  - m_id: e2347ef4-2493-4f2c-aead-71ec53aff36b
+    m_fromNodeId: c0f8939a-88a8-431d-84bc-774809103af6
+    m_fromNodeConnectionPointId: d9bafed9-2cc1-406d-8f6f-3fc239210e94
+    m_toNodeId: 667bea83-0c19-4eeb-8b4b-57924fdf58af
+    m_toNodeConnectionPoiontId: a3e89241-bba8-4bf8-9a90-622b37a38342
+    m_label: +
+  - m_id: 3bafd2fb-45f0-49fb-8564-810e88e64e14
+    m_fromNodeId: bfc8278e-12ee-4b3f-9676-0c2ffed6ed77
+    m_fromNodeConnectionPointId: 3b70830a-fdc6-4c9a-9404-0c465ae0d53b
+    m_toNodeId: 286460b8-56fd-498b-a6d5-9e96985dfb42
+    m_toNodeConnectionPoiontId: 5a1bb69a-a384-4b52-a843-83f8ab3c301c
+    m_label: +
+  - m_id: 9e11716e-5971-4b37-bb44-fc02c2dcc113
+    m_fromNodeId: 286460b8-56fd-498b-a6d5-9e96985dfb42
+    m_fromNodeConnectionPointId: 6a38e493-1f9c-4683-ab85-daf2c1d4ad98
+    m_toNodeId: 3a003cdf-3d5f-4721-b7b3-cce37c72af1b
+    m_toNodeConnectionPoiontId: ae91d136-c9e1-45ec-8785-7ace2ade1da7
+    m_label: +
+  - m_id: 1d077290-c313-419a-8724-57a1d109da47
+    m_fromNodeId: 3a003cdf-3d5f-4721-b7b3-cce37c72af1b
+    m_fromNodeConnectionPointId: 2497fc43-e99d-4961-a817-1c7f75ce88fb
+    m_toNodeId: 667bea83-0c19-4eeb-8b4b-57924fdf58af
+    m_toNodeConnectionPoiontId: a3e89241-bba8-4bf8-9a90-622b37a38342
+    m_label: +
+  m_lastModified: 132399574746289090
+  m_version: 2
+  m_graphDescription: 
+  m_useAsAssetPostprocessor: 0
+  m_graphExecOrderPriority: 0

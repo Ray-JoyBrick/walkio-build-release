@@ -49,6 +49,11 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
                     // _doingSetup = true;
                     //
                     // SettingAsset();
+                    
+                    FlowControl?.FinishIndividualSettingAsset(new GameFlowControl.FlowControlContext
+                    {
+                        Name = "Preparation"
+                    });
                 })
                 .AddTo(_compositeDisposable);
 #endif

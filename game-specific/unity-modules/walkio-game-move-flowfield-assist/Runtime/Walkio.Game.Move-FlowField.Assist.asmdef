@@ -23,9 +23,14 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
-        "WALKIO_MOVE_FLOWFIELD",
         "WALKIO_MOVE_FLOWFIELD_ASSIST"
     ],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.walkio.game.move-flowfield.assist",
+            "expression": "0.2.0",
+            "define": "WALKIO_MOVE_FLOWFIELD_ASSIST"
+        }
+    ],
     "noEngineReferences": false
 }

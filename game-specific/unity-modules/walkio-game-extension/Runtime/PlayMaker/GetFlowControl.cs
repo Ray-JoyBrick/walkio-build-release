@@ -39,7 +39,7 @@
                 {
                     if (string.CompareOrdinal(flowAction.Value, "Loading") == 0)
                     {
-                        //flowControl.StartLoadingAsset(flowName.Value);
+                        flowControl.StartLoadingAsset(flowName.Value);
                     }
                     else if (string.CompareOrdinal(flowAction.Value, "Cleaning") == 0)
                     {

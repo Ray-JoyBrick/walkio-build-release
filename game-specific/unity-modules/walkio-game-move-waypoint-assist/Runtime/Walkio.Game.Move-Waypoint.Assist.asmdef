@@ -21,9 +21,14 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
-        "WALKIO_WAYPOINT",
-        "WALKIO_WAYPOINT_ASSIST"
+        "WALKIO_MOVE_WAYPOINT_ASSIST"
     ],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.walkio.game.move-waypoint",
+            "expression": "0.2.0",
+            "define": "WALKIO_MOVE_WAYPOINT_ASSIST"
+        }
+    ],
     "noEngineReferences": false
 }

@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "com.3rd.editor-console-pro": "file:../../references/FlyingWorm/editor-console-pro-package",
+    "com.3rd.i2-localization": "file:../../references/Inter Illusion/i2-localization-package",
     "com.3rd.odin-inspector": "file:../../references/Devdog/odin-inspector-package",
     "com.alelievr.node-graph-processor": "0.7.1",
     "com.arongranberg.aline": "file:../../references/Aron Granberg/ALINE",
@@ -29,6 +30,7 @@
     "com.unity.timeline": "1.3.4",
     "com.unity.ugui": "1.0.0",
     "com.walkio.build.creature-design-export": "file:../../game-specific/unity-modules/walkio-build-creature-design-export",
+    "com.walkio.build.flow-control-export": "file:../../game-specific/unity-modules/walkio-build-flow-control-export",
     "com.walkio.build.hud-design-export": "file:../../game-specific/unity-modules/walkio-build-hud-design-export",
     "com.walkio.build.level-design-export": "file:../../game-specific/unity-modules/walkio-build-level-design-export",
     "com.walkio.game.command": "file:../../game-specific/unity-modules/walkio-game-command",
@@ -40,6 +42,7 @@
     "com.walkio.game.extension.common": "file:../../game-specific/unity-modules/walkio-game-extension-common",
     "com.walkio.game.flow-control": "file:../../game-specific/unity-modules/walkio-game-flow-control",
     "com.walkio.game.flow-control.common": "file:../../game-specific/unity-modules/walkio-game-flow-control-common",
+    "com.walkio.game.flow-control-preparation": "file:../../game-specific/unity-modules/walkio-game-flow-control-preparation",
     "com.walkio.game.flow-control-stage": "file:../../game-specific/unity-modules/walkio-game-flow-control-stage",
     "com.walkio.game.hud-app": "file:../../game-specific/unity-modules/walkio-game-hud-app",
     "com.walkio.game.hud-app.assist": "file:../../game-specific/unity-modules/walkio-game-hud-app-assist",

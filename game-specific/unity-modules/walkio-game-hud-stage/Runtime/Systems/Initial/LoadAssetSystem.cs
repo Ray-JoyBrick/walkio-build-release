@@ -33,6 +33,7 @@ namespace JoyBrick.Walkio.Game.Hud.Stage
         private ScriptableObject _hudSettingDataAsset;
 
         //
+        public GameCommon.ISceneService SceneService { get; set; }        
 #if WALKIO_FLOWCONTROL
         public GameFlowControl.IFlowControl FlowControl { get; set; }
 #endif
@@ -75,10 +76,12 @@ namespace JoyBrick.Walkio.Game.Hud.Stage
             if (ProvideExternalAsset)
             {
                 // Since the asset is provided, just notify instantly
+#if WALKIO_FLOWCONTROL                
                 FlowControl.FinishIndividualLoadingAsset(new GameFlowControl.FlowControlContext
                 {
                     Name = "Stage"
                 });
+#endif
             }
             else
             {
@@ -87,10 +90,12 @@ namespace JoyBrick.Walkio.Game.Hud.Stage
                     hudAssetName,
                     () =>
                     {
+#if WALKIO_FLOWCONTROL                        
                         FlowControl.FinishIndividualLoadingAsset(new GameFlowControl.FlowControlContext
                         {
                             Name = "Stage"
                         });
+#endif
                     });
             }
         }
@@ -106,7 +111,8 @@ namespace JoyBrick.Walkio.Game.Hud.Stage
                 .Subscribe(x =>
                 {
                     _logger.Debug($"Module - LoadAssetSystem - Construct - Receive AssetLoadingStarted");
-                    var hudAssetName = x.HudAssetName;
+                    // var hudAssetName = x.HudAssetName;
+                    var hudAssetName = $"Hud - Stage/Hud Data";
                     LoadingAsset(hudAssetName);
                 })
                 .AddTo(_compositeDisposable);

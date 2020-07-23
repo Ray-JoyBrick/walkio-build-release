@@ -23,6 +23,12 @@
     "defineConstraints": [
         "WALKIO_MOVE_FLOWFIELD"
     ],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.walkio.game.move-flowfield.common",
+            "expression": "0.2.0",
+            "define": "WALKIO_MOVE_FLOWFIELD"
+        }
+    ],
     "noEngineReferences": false
 }

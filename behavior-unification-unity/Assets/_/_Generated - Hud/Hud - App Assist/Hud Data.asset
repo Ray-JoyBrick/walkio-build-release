@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d593f986fab84c1b97b102f1e7241690, type: 3}
+  m_Name: Hud Data
+  m_EditorClassIdentifier: 
+  canvasPrefab: {fileID: 3147247457995343526, guid: 422b955c240443745b4dbfbdbb5ba684, type: 3}
+  usedPrefabs:
+  - {fileID: 9219489900601153723, guid: 38650c29fd8c7434fbaddf682b3e710b, type: 3}
+  - {fileID: 8884866191503662747, guid: ae4c298a790e5e8488f46ce07a58d3fd, type: 3}
+  usedAssets:
+  - {fileID: 11400000, guid: 31fb3db8e95ff014889894e8a9809fb8, type: 2}
+  - {fileID: 11400000, guid: be896281953634aa0af90694d9c2317c, type: 2}
