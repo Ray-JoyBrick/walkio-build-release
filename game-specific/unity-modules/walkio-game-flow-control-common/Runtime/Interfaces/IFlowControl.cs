@@ -7,10 +7,12 @@ namespace JoyBrick.Walkio.Game.FlowControl
     {
         //
         public string Name { get; set; }
-        
+
+        //
+        public string AssetName { get; set; }
         //
         public string HudAssetName { get; set; }
-        
+
         //
         public string LevelAssetName { get; set; }
         public string SpecificLevelName { get; set; }
@@ -28,12 +30,12 @@ namespace JoyBrick.Walkio.Game.FlowControl
     {
         //
         ScriptableObject FlowControlData { get; }
-        
+
         //
         IObservable<FlowControlContext> AssetLoadingStarted { get; }
-        
+
         IObservable<FlowControlContext> IndividualAssetLoadingFinished { get; }
-        
+
         // IObservable<FlowControlContext> AssetLoadingDone { get; }
 
         //
@@ -42,13 +44,13 @@ namespace JoyBrick.Walkio.Game.FlowControl
         IObservable<FlowControlContext> IndividualAssetSettingFinished { get; }
 
         // IObservable<FlowControlContext> AssetSettingDone { get; }
-        
+
         //
         IObservable<FlowControlContext> FlowReadyToStart { get; }
 
         //
         void StartLoadingAsset(FlowControlContext context);
-        
+
         void FinishIndividualLoadingAsset(FlowControlContext context);
         void FinishIndividualSettingAsset(FlowControlContext context);
 

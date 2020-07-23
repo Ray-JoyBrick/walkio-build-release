@@ -7,9 +7,7 @@ namespace JoyBrick.Walkio.Game.FlowControl
 
     //
     using GameCommon = JoyBrick.Walkio.Game.Common;
-    
-    using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
-    
+
     [DisableAutoCreation]
     public class LoadingDoneCheckSystem : SystemBase
     {
@@ -23,17 +21,19 @@ namespace JoyBrick.Walkio.Game.FlowControl
         // // Command
         // public GameCommon.IGameSettingProvider GameSettingProvider { get; set; }
         // public ICommandService CommandService { get; set; }
-        
-        public GameFlowControl.IFlowControl FlowControl { get; set; }
+
+        public IFlowControl FlowControl { get; set; }
 
         public void Construct()
         {
             var flowControlData = FlowControl.FlowControlData as Template.FlowControlData;
             if (flowControlData == null) return;
-            
+
+            _logger.Debug($"Module - LoadingDoneCheckSystem - Construct");
+
             // The main purpose is to count loading finished event of each individual asset,
             // If it reaches the total, just issues Start Asset Setting
-            
+
             FlowControl?.IndividualAssetLoadingFinished
                 .Where(x => x.Name.Contains("App"))
                 .Buffer(flowControlData.doneLoadingAssetWaitForApp)
@@ -41,7 +41,7 @@ namespace JoyBrick.Walkio.Game.FlowControl
                 {
                     _logger.Debug($"Module - LoadingDoneCheckSystem - Construct - IndividualAssetLoadingFinished for App");
                     //
-                    FlowControl?.AllAssetLoadingDone(new GameFlowControl.FlowControlContext
+                    FlowControl?.AllAssetLoadingDone(new FlowControlContext
                     {
                         Name = "App"
                     });
@@ -56,13 +56,13 @@ namespace JoyBrick.Walkio.Game.FlowControl
                     _logger.Debug($"Module - LoadingDoneCheckSystem - Construct - IndividualAssetLoadingFinished for Preparation");
 
                     //
-                    FlowControl?.AllAssetLoadingDone(new GameFlowControl.FlowControlContext
+                    FlowControl?.AllAssetLoadingDone(new FlowControlContext
                     {
                         Name = "Preparation"
                     });
                 })
                 .AddTo(_compositeDisposable);
-            
+
             FlowControl?.IndividualAssetLoadingFinished
                 .Where(x => x.Name.Contains("Stage"))
                 // Should be loading from some settings
@@ -72,7 +72,7 @@ namespace JoyBrick.Walkio.Game.FlowControl
                     _logger.Debug($"Module - LoadingDoneCheckSystem - Construct - IndividualAssetLoadingFinished for Stage");
 
                     //
-                    FlowControl?.AllAssetLoadingDone(new GameFlowControl.FlowControlContext
+                    FlowControl?.AllAssetLoadingDone(new FlowControlContext
                     {
                         Name = "Stage"
                     });

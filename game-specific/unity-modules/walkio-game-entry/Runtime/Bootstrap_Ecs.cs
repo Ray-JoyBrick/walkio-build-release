@@ -32,7 +32,15 @@
             FlowControl_SettingDoneCheckSystem(initializationSystemGroup);
 
             //
+            FlowControl_LoadAssetSystem(initializationSystemGroup);
+
+            //
             HudApp_LoadAssetSystem(initializationSystemGroup);
+            HudApp_SetupAssetSystem(initializationSystemGroup);
+            HudPreparation_LoadAssetSystem(initializationSystemGroup);
+            HudPreparation_SetupAssetSystem(initializationSystemGroup);
+            HudStage_LoadAssetSystem(initializationSystemGroup);
+            HudStage_SetupAssetSystem(initializationSystemGroup);
 
             //
             Level_LoadAssetSystem(initializationSystemGroup);

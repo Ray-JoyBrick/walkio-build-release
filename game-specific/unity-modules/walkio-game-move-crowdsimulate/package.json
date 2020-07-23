@@ -1,0 +1,19 @@
+{
+    "name": "com.walkio.game.move-crowdsimulate",
+    "displayName": "_ Walkio Game Move - Crowd Simulate",
+    "version": "0.2.0",
+    "unity": "2020.1",
+    "description": "Walkio Game Move - Crowd Simulate",
+    "keywords": [
+      "walkio"
+    ],
+    "category": "",
+    "dependencies": {
+      "com.unity.entities": "0.11.1-preview.4"
+    },
+    "author": {
+      "email": "ray@joybrick.cc",
+      "name": "Ray Wang",
+      "url": "https://joybrick.cc"
+    }
+  }

@@ -11,7 +11,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
 
     //
     using GameCommon = JoyBrick.Walkio.Game.Common;
-    
+
 #if WALKIO_FLOWCONTROL
     using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
 #endif
@@ -19,12 +19,11 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
 #if WALKIO_LEVEL
     using GameLevel = JoyBrick.Walkio.Game.Level;
 #endif
-    // using GameMove = JoyBrick.Walkio.Game.Move;
 
     //
 #if WALKIO_FLOWCONTROL
     [GameFlowControl.DoneSettingAssetWait("Stage")]
-#endif    
+#endif
     [DisableAutoCreation]
     public class SetupAssetSystem : SystemBase
     {
@@ -54,7 +53,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
         {
             _logger.Debug($"Module - SetupAssetSystem - Setup");
 
-            await Task.Delay(System.TimeSpan.FromMilliseconds(10000));
+            // await Task.Delay(System.TimeSpan.FromMilliseconds(10000));
 
             var archetype = EntityManager.CreateArchetype(
                 typeof(FlowFieldWorld),
@@ -160,6 +159,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
         public void Construct()
         {
             _logger.Debug($"Module - SetupAssetSystem - Construct");
+
 #if WALKIO_FLOWCONTROL
             //
             FlowControl?.AssetSettingStarted
@@ -175,7 +175,6 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                 })
                 .AddTo(_compositeDisposable);
 #endif
-            SettingAsset();
         }
 
         protected override void OnCreate()

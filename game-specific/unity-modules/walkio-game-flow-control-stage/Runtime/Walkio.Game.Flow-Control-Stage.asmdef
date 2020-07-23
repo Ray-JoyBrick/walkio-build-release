@@ -12,7 +12,9 @@
         "Unity.Mathematics",
         "Unity.ResourceManager",
         "UniRx",
-        "Walkio.Game.Common"
+        "Walkio.Game.Common",
+        "Walkio.Game.Extension.Common",
+        "Walkio.Game.Flow-Control.Common"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

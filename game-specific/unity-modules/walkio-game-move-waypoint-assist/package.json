@@ -1,0 +1,17 @@
+{
+  "name": "com.walkio.game.move-waypoint.assist",
+  "displayName": "_ Walkio Game Move - Waypoint Assist",
+  "version": "0.2.0",
+  "unity": "2020.1",
+  "description": "Walkio Game Move - Waypoint Assist",
+  "keywords": [],
+  "category": "",
+  "dependencies": {
+    "com.syomus.proceduraltoolkit": "0.2.3"
+  },
+  "author": {
+    "email": "ray@joybrick.cc",
+    "name": "Ray Wang",
+    "url": "https://joybrick.cc"
+  }
+}

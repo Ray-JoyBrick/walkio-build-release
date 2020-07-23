@@ -7,8 +7,6 @@ namespace JoyBrick.Walkio.Game.FlowControl
 
     using GameCommon = JoyBrick.Walkio.Game.Common;
     // using GameExtension = JoyBrick.Walkio.Game.Extension;
-    
-    using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
 
     [DisableAutoCreation]
     public class SettingDoneCheckSystem : SystemBase
@@ -23,14 +21,16 @@ namespace JoyBrick.Walkio.Game.FlowControl
         // Command
         // public GameCommon.IGameSettingProvider GameSettingProvider { get; set; }
         // public ICommandService CommandService { get; set; }
-        
-        public GameFlowControl.IFlowControl FlowControl { get; set; }
+
+        public IFlowControl FlowControl { get; set; }
 
         public void Construct()
         {
             var flowControlData = FlowControl.FlowControlData as Template.FlowControlData;
             if (flowControlData == null) return;
-    
+
+            _logger.Debug($"Module - SettingDoneCheckSystem - Construct");
+
             FlowControl?.IndividualAssetSettingFinished
                 .Where(x => x.Name.Contains("App"))
                 .Buffer(flowControlData.doneSettingAssetWaitForApp)
@@ -52,7 +52,7 @@ namespace JoyBrick.Walkio.Game.FlowControl
                     // GameExtension.BridgeExtension.SendEvent("zz_App Done Setting");
 
                     //
-                    FlowControl?.AllAssetSettingDone(new GameFlowControl.FlowControlContext
+                    FlowControl?.AllAssetSettingDone(new FlowControlContext
                     {
                         Name = "App"
                     });
@@ -66,13 +66,13 @@ namespace JoyBrick.Walkio.Game.FlowControl
                 {
                     _logger.Debug($"Module - SettingDoneCheckSystem - Construct - IndividualAssetSettingFinished for Preparation");
                     //
-                    FlowControl?.AllAssetSettingDone(new GameFlowControl.FlowControlContext
+                    FlowControl?.AllAssetSettingDone(new FlowControlContext
                     {
                         Name = "Preparation"
                     });
                 })
                 .AddTo(_compositeDisposable);
-            
+
             FlowControl?.IndividualAssetSettingFinished
                 .Where(x => x.Name.Contains("Stage"))
                 // Should be loading from some settings
@@ -82,7 +82,7 @@ namespace JoyBrick.Walkio.Game.FlowControl
                     _logger.Debug($"Module - SettingDoneCheckSystem - Construct - IndividualAssetSettingFinished for Stage");
 
                     //
-                    FlowControl?.AllAssetSettingDone(new GameFlowControl.FlowControlContext
+                    FlowControl?.AllAssetSettingDone(new FlowControlContext
                     {
                         Name = "Stage"
                     });

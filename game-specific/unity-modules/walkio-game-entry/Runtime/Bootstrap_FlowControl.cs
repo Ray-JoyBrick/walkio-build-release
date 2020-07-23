@@ -11,11 +11,15 @@
 
     //
     using GameCommon = JoyBrick.Walkio.Game.Common;
-    
+
+#if WALKIO_EXTENSION
+    using GameExtension = JoyBrick.Walkio.Game.Extension;
+#endif
+
 #if WALKIO_FLOWCONTROL
     using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
 #endif
-    
+
 #if WALKIO_LEVEL
     using GameLevel = JoyBrick.Walkio.Game.Level;
 #endif
@@ -29,15 +33,15 @@
     {
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.BoxGroup("Flow Control")]
-#endif        
+#endif
         public ScriptableObject flowControlData;
         public ScriptableObject FlowControlData => flowControlData;
-        
+
         //
         private readonly Subject<GameFlowControl.FlowControlContext> _notifyAssetLoadingStarted =
             new Subject<GameFlowControl.FlowControlContext>();
         public IObservable<GameFlowControl.FlowControlContext> AssetLoadingStarted => _notifyAssetLoadingStarted;
-        
+
         private readonly Subject<GameFlowControl.FlowControlContext> _notifyIndividualAssetLoadingFinished =
             new Subject<GameFlowControl.FlowControlContext>();
         public IObservable<GameFlowControl.FlowControlContext> IndividualAssetLoadingFinished =>
@@ -51,12 +55,12 @@
         private readonly Subject<GameFlowControl.FlowControlContext> _notifyAssetSettingStarted =
             new Subject<GameFlowControl.FlowControlContext>();
         public IObservable<GameFlowControl.FlowControlContext> AssetSettingStarted => _notifyAssetSettingStarted;
-        
+
         private readonly Subject<GameFlowControl.FlowControlContext> _notifyIndividualAssetSettingFinished =
             new Subject<GameFlowControl.FlowControlContext>();
         public IObservable<GameFlowControl.FlowControlContext> IndividualAssetSettingFinished =>
             _notifyIndividualAssetSettingFinished;
-        
+
         // private readonly Subject<GameFlowControl.FlowControlContext> _notifyAssetSettingDone =
         //     new Subject<GameFlowControl.FlowControlContext>();
         // public IObservable<GameFlowControl.FlowControlContext> AssetSettingDone => _notifyAssetSettingDone;
@@ -69,7 +73,7 @@
         public void StartLoadingAsset(GameFlowControl.FlowControlContext context)
         {
             _logger.Debug($"Bootstrap - StartLoadingAsset");
-            
+
             _notifyAssetLoadingStarted.OnNext(context);
         }
 
@@ -77,14 +81,15 @@
         {
             StartLoadingAsset(new GameFlowControl.FlowControlContext
             {
-                Name = "App"
+                Name = "App",
+                AssetName = "Used Flow Data"
             });
         }
 
         public void FinishIndividualLoadingAsset(GameFlowControl.FlowControlContext context)
         {
             _logger.Debug($"Bootstrap - FinishIndividualLoadingAsset");
-            
+
             _notifyIndividualAssetLoadingFinished.OnNext(context);
         }
 
@@ -99,14 +104,19 @@
         public void AllAssetLoadingDone(GameFlowControl.FlowControlContext context)
         {
             _logger.Debug($"Bootstrap - AllAssetLoadingDone");
-            
+
             _notifyAssetSettingStarted.OnNext(context);
         }
 
         public void AllAssetSettingDone(GameFlowControl.FlowControlContext context)
         {
             _logger.Debug($"Bootstrap - AllAssetSettingDone");
-            
+
+            //
+            var eventName = $"zz_{context.Name} Done Setting";
+            GameExtension.BridgeExtension.SendEvent(eventName);
+
+            //
             _notifyFlowReadyToStart.OnNext(context);
         }
     }

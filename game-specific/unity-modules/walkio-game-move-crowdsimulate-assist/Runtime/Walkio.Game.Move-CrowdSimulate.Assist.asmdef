@@ -1,0 +1,29 @@
+{
+    "name": "Walkio.Game.Move-CrowdSimulate.Assist",
+    "references": [
+        "Unity.Collections",
+        "Unity.Entities",
+        "Unity.Entities.Hybrid",
+        "Unity.Mathematics",
+        "Unity.Transforms",
+        "Unity.Transforms.Hybrid",
+        "Unity.Physics",
+        "Unity.Physics.Hybrid",
+        "Unity.Rendering.Hybrid",
+        "UniRx",
+        "Walkio.Game.Common",
+        "Walkio.Game.CrowdSimulate.Common"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "WALKIO_CROWDSIMULATE",
+        "WALKIO_CROWDSIMULATE_ASSIST"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,16 @@
+{
+  "name": "com.walkio.game.extension",
+  "displayName": "_ Walkio Game Extension",
+  "version": "0.2.0",
+  "unity": "2020.1",
+  "description": "Walkio Game Extension",
+  "keywords": [
+  ],
+  "category": "",
+  "dependencies": {},
+  "author": {
+    "email": "ray@joybrick.cc",
+    "name": "Ray Wang",
+    "url": "https://joybrick.cc"
+  }
+}
