@@ -35,6 +35,10 @@ namespace JoyBrick.Walkio.Game.Assist
     using GameMoveCrowdSimulate = JoyBrick.Walkio.Game.Move.CrowdSimulate;
 #endif
 
+#if WALKIO_MOVE_FLOWFIELD
+    using GameMoveFlowField = JoyBrick.Walkio.Game.Move.FlowField;
+#endif
+
 #if WALKIO_MOVE_WAYPOINT
     using GameMoveWaypoint = JoyBrick.Walkio.Game.Move.Waypoint;
 #endif
@@ -88,6 +92,13 @@ namespace JoyBrick.Walkio.Game.Assist
             }
 #endif
 
+#if WALKIO_MOVE_FLOWFIELD
+            {
+                var loadAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameMoveFlowField.LoadAssetSystem>();
+                loadAssetSystem.ProvideExternalAsset = true;
+            }
+#endif
+
 #if WALKIO_MOVE_WAYPOINT
             {
                 var loadAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameMoveWaypoint.LoadAssetSystem>();
@@ -96,10 +107,27 @@ namespace JoyBrick.Walkio.Game.Assist
 #endif
 
         }
+        
+        private void SignalStartLoadingAssetForStage()
+        {
+            Observable.Timer(System.TimeSpan.FromMilliseconds(500))
+                .Subscribe(_ =>
+                {
+                    var flowControl = _assistable.RefGameObject.GetComponent<GameFlowControl.IFlowControl>();
+                    // flowControl.StartLoadingAsset("Stage");
+                    flowControl.StartLoadingAsset(new GameFlowControl.FlowControlContext
+                    {
+                        Name = "Stage"
+                    });
+                })
+                .AddTo(_compositeDisposable);
+        }
 
         private void StartGameFlow()
         {
             _logger.Debug($"Bootstrap Assist - StartGameFlow");
+
+            SignalStartLoadingAssetForStage();
         }
     }
 }

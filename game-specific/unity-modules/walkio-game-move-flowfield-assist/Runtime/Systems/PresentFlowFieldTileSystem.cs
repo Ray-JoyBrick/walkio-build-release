@@ -90,6 +90,46 @@
             RequireForUpdate(_gridWorldEntityQuery);
         }
 
+        private static float3 GetDirectionByValueIndex(int valueIndex)
+        {
+            var direction = float3.zero;
+            
+            if (valueIndex == 0)
+            {
+                direction = math.normalize(new float3(-1.0f, 0, 1.0f));
+            }
+            else if (valueIndex == 1)
+            {
+                direction = math.normalize(new float3(0f, 0, 1.0f));
+            }
+            else if (valueIndex == 2)
+            {
+                direction = math.normalize(new float3(1.0f, 0, 1.0f));
+            }
+            else if (valueIndex == 3)
+            {
+                direction = math.normalize(new float3(1.00f, 0, 0f));
+            }
+            else if (valueIndex == 4)
+            {
+                direction = math.normalize(new float3(1.0f, 0, -1.0f));
+            }
+            else if (valueIndex == 5)
+            {
+                direction = math.normalize(new float3(0f, 0, -1.0f));
+            }
+            else if (valueIndex == 6)
+            {
+                direction = math.normalize(new float3(-1.0f, 0, -1.0f));
+            }
+            else if (valueIndex == 7)
+            {
+                direction = math.normalize(new float3(-1.0f, 0, 0.0f));
+            }
+
+            return direction;
+        }
+
         protected override void OnUpdate()
         {
             if (!_canUpdate) return;
@@ -121,11 +161,11 @@
             // var a = _entityQuery.ToComponentDataArray<FlowFieldMoveIndication>();
             var flowFieldMoveIndications = GetArchetypeChunkComponentType<FlowFieldMoveIndication>();
 
-            using (var commandBuilder = DrawingManager.GetBuilder(true))
+            using (var commandBuilder = DrawingManager.GetBuilder(false))
             {
                 Entities
                     .WithAll<FlowFieldTile>()
-                    .ForEach((Entity entity, FlowFieldTileProperty flowFieldTileProperty) =>
+                    .ForEach((Entity entity, FlowFieldTileProperty flowFieldTileProperty, DynamicBuffer<FlowFieldTileCellBuffer> cellBuffer) =>
                     {
                         var tileIndex = flowFieldTileProperty.TileIndex;
                         var centerOfTile =
@@ -143,6 +183,28 @@
                         var color = group.color;
 
                         commandBuilder.WireGrid(tilePos, Quaternion.identity, cells, totalSizes, color);
+                        
+                        // Draw arrow for direction
+                        for (var ty = 0; ty < tileCellCount.y; ++ ty)
+                        {
+                            for (var tx = 0; tx < tileCellCount.x; ++tx)
+                            {
+                                var i = ty * tileCellCount.x + tx;
+
+                                var tileCellPos = new float3(
+                                    tilePos.x + tx + 0.5f - (0.5f * oneTileOffset.x),
+                                    tilePos.y,
+                                    tilePos.z + ty + 0.5f - (0.5f * oneTileOffset.y));
+                                
+                                var tileCellContent = cellBuffer[i].Value;
+                                // var direction = GetDirectionByValueIndex(cellBuffer[i].Value.Direction);
+                                var cost = cellBuffer[i].Value.Direction;
+                                
+                                // commandBuilder.Arrowhead(tileCellPos, direction, 
+                                //     new float3(0, 1.0f, 0), 0.35f, Color.green);
+                                commandBuilder.Label2D(tileCellPos, cost.ToString(), Color.green);
+                            }
+                        }
                     })
                     // .WithBurst()
                     // .Schedule();

@@ -8,6 +8,10 @@
     using Unity.Mathematics;
     using Unity.Transforms;
 
+#if WALKIO_FLOWCONTROL
+    using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
+#endif
+
     [DisableAutoCreation]
     [UpdateAfter(typeof(CheckTargetAtTileChangeSystem))]
     public class SystemA : SystemBase
@@ -20,6 +24,10 @@
         //
         private BeginInitializationEntityCommandBufferSystem _entityCommandBufferSystem;
 
+        //
+#if WALKIO_FLOWCONTROL
+        public GameFlowControl.IFlowControl FlowControl { get; set; }
+#endif
         public IFlowFieldWorldProvider FlowFieldWorldProvider { get; set; }
 
         public void Construct()
@@ -32,16 +40,6 @@
             base.OnCreate();
 
             _entityCommandBufferSystem = World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
-        }
-
-        private static int2 GetAtTileIndex(float3 position)
-        {
-            return new int2(0, 0);
-        }
-
-        private static float3 GetPositionFromTileIndex(int2 tileIndex)
-        {
-            return new float3(0, 0, 0);
         }
 
         private void UpdateEachChaseTarget(

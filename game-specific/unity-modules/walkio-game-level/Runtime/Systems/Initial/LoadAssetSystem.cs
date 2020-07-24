@@ -225,8 +225,10 @@ namespace JoyBrick.Walkio.Game.Level
                     _logger.Debug($"Module - LoadAssetSystem - Construct - Receive AssetLoadingStarted");
                     
                     // Hard code here, should be given in event
-                    var levelAssetName = $"Level Setting.asset";
-                    var specificLevelName = $"Level 001";
+                    // var levelAssetName = $"Level Setting.asset";
+                    // var specificLevelName = $"Level 001";
+                    var levelAssetName = $"Level 001/Level Data";
+                    var specificLevelName = $"Level 001/Main";
                     LoadingAsset(levelAssetName, specificLevelName);
                 })
                 .AddTo(_compositeDisposable);

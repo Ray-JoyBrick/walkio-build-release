@@ -34,6 +34,11 @@
             _entityCommandBufferSystem = World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
         }
 
+        private static int GetBaseCostByGridCellIndex(int gridCellIndex)
+        {
+            return 0;
+        }
+
         private void ProcessPathPoint(
             int2 gridCellCount, float2 gridCellSize,
             int2 tileCellCount, float2 tileCellSize,
@@ -48,6 +53,48 @@
             {
                 _logger.Debug($"Module - SystemB - OnUpdate - event entity: {entity}");
 
+                var goalTileIndex = new int2(-1, -1);
+
+                // for (var i = 0; i < pathPointSeparationBuffers.Length; ++i)
+                // {
+                //     var index = pathPointSeparationBuffers[i];
+                //
+                //     var startIndex = index.Value.x;
+                //     var endIndex = index.Value.y;
+                //
+                //     for (var j = startIndex; j < endIndex; ++j)
+                //     {
+                //         var pathPoint = pathPointBuffers[j];
+                //         var tileIndex = Utility.FlowFieldTileHelper.PositionToTileIndexAtGrid2D(
+                //             gridCellCount, gridCellSize,
+                //             tileCellCount, tileCellSize,
+                //             new float2(pathPoint.Value.x, pathPoint.Value.z));
+                //
+                //         if (j == endIndex - 1)
+                //         {
+                //             if (goalTileIndex.x != -1 && goalTileIndex.y != -1)
+                //             {
+                //                 if (goalTileIndex.x == tileIndex.x && goalTileIndex.y == tileIndex.y)
+                //                 {
+                //                     
+                //                 }
+                //                 else
+                //                 {
+                //                     _logger.Warning($"Module - SystemB - ProcessPathPoint: goalTileIndex {goalTileIndex} is not the same as {tileIndex}");
+                //                 }
+                //             }
+                //             
+                //             goalTileIndex = tileIndex;
+                //         }
+                //         
+                //         var added = hashTable.TryAdd(tileIndex, true);
+                //         // if (added)
+                //         // {
+                //         //     _logger.Debug($"Module - SystemB - OnUpdate - tileIndex: {tileIndex} is added");
+                //         // }
+                //     }
+                // }
+                
                 for (var i = 0; i < pathPointSeparationBuffers.Length; ++i)
                 {
                     var index = pathPointSeparationBuffers[i];
@@ -55,21 +102,44 @@
                     var startIndex = index.Value.x;
                     var endIndex = index.Value.y;
 
-                    for (var j = startIndex; j < endIndex; ++j)
+                    var count = endIndex - startIndex;
+
+                    var reversePoints = new NativeArray<float2>(count, Allocator.Temp);
+                    var k = 0;
+                    for (var j = endIndex - 1; j > startIndex; --j)
                     {
                         var pathPoint = pathPointBuffers[j];
-                        var tileIndex = Utility.FlowFieldTileHelper.PositionToTileIndexAtGrid2D(
+                        reversePoints[k] = new float2(pathPoint.Value.x, pathPoint.Value.z);
+                        ++k;
+                    }
+
+                    var pathTileInfos =
+                        Utility.FlowFieldTileHelper.GetTilePairInfoOnPath(
                             gridCellCount, gridCellSize,
                             tileCellCount, tileCellSize,
-                            new float2(pathPoint.Value.x, pathPoint.Value.z));
+                            reversePoints);
 
-                        var added = hashTable.TryAdd(tileIndex, true);
-                        // if (added)
-                        // {
-                        //     _logger.Debug($"Module - SystemB - OnUpdate - tileIndex: {tileIndex} is added");
-                        // }
+                    for (var infoIndex = 0; infoIndex < pathTileInfos.Length; ++infoIndex)
+                    {
+                        var a = pathTileInfos[infoIndex].InTileIndex;
                     }
-                }
+
+                    // for (var j = startIndex; j < endIndex; ++j)
+                    // {
+                    //     var pathPoint = pathPointBuffers[j];
+                    //     var tileIndex = Utility.FlowFieldTileHelper.GetTilePairInfoOnPath(
+                    //         gridCellCount, gridCellSize,
+                    //         tileCellCount, tileCellSize,
+                    //         new float2(pathPoint.Value.x, pathPoint.Value.z));
+                    //
+                    //     
+                    //     var added = hashTable.TryAdd(tileIndex, true);
+                    //     // if (added)
+                    //     // {
+                    //     //     _logger.Debug($"Module - SystemB - OnUpdate - tileIndex: {tileIndex} is added");
+                    //     // }
+                    // }
+                }                
 
                 using (var tileIndices = hashTable.GetKeyArray(Allocator.TempJob))
                 {
@@ -79,18 +149,70 @@
 
                     var tileCount = tileIndices.Length;
                     leadingToTileBuffer.ResizeUninitialized(tileCount);
-                    for (var tileIndex = 0; tileIndex < tileCount; ++tileIndex)
+
+                    // var goalTileIndex = tileIndices[tileCount - 1];
+                    
+                    for (var ti = 0; ti < tileCount; ++ti)
                     {
                         var flowFieldTileEntity = commandBuffer.CreateEntity(flowFieldTileEntityArchetype);
 
+                        var tileIndex = tileIndices[ti];
+                        
                         commandBuffer.SetComponent(flowFieldTileEntity, new FlowFieldTileProperty
                         {
                             WorldId = 0,
                             GroupId = groupId,
-                            TileIndex = tileIndices[tileIndex]
+                            TileIndex = tileIndex
                         });
+                        
+                        // Set flow tile cell buffer for this tile
+                        var gridCellIndices =
+                            Utility.FlowFieldTileHelper.GetGridCellIndicesInTile(
+                                gridCellCount, gridCellSize,
+                                tileCellCount, tileCellSize,
+                                tileIndex);
 
-                        leadingToTileBuffer[tileIndex] = flowFieldTileEntity;
+                        var tileCellBuffer = commandBuffer.AddBuffer<FlowFieldTileCellBuffer>(flowFieldTileEntity);
+                        var totalTileCellCount = tileCellCount.x * tileCellCount.y;
+                        tileCellBuffer.ResizeUninitialized(totalTileCellCount);
+                        
+                        //
+                        var baseCosts = new NativeArray<int>(totalTileCellCount, Allocator.Temp);
+
+                        for (var i = 0; i < totalTileCellCount; ++i)
+                        {
+                            // Assign grid cell index into tile cell for now
+                            // Can also assign the content of that grid cell into tile cell
+                            baseCosts[i] = GetBaseCostByGridCellIndex(gridCellIndices[i]);
+
+                        }
+
+                        var directions =
+                            Utility.FlowFieldTileHelper.GetIntegrationCostForTile(
+                                gridCellCount, gridCellSize,
+                                tileCellCount, tileCellSize,
+                                goalTileIndex, baseCosts);
+                        // var directions =
+                        //     Utility.FlowFieldTileHelper.GetDirectionForTile(
+                        //         gridCellCount, gridCellSize,
+                        //         tileCellCount, tileCellSize,
+                        //         goalTileIndex, baseCosts);
+
+                        for (var i = 0; i < totalTileCellCount; ++i)
+                        {
+                            // Assign grid cell index into tile cell for now
+                            // Can also assign the content of that grid cell into tile cell
+                            // tileCellBuffer[i] = gridCellIndices[i];
+                            tileCellBuffer[i] = new TileCellContent
+                            {
+                                CellIndex = gridCellIndices[i],
+                                BaseCost = baseCosts[i],
+                                Direction = directions[i]
+                            };
+                        }
+
+                        //
+                        leadingToTileBuffer[ti] = flowFieldTileEntity;
                     }
                 }
             }

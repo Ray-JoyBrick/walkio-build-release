@@ -1,4 +1,4 @@
-namespace JoyBrick.Walkio.Game.Level
+namespace JoyBrick.Walkio.Game.Move.Waypoint
 {
     using System;
     using System.Collections.Generic;
@@ -16,6 +16,10 @@ namespace JoyBrick.Walkio.Game.Level
     using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
 #endif
 
+#if WALKIO_LEVEL
+    using GameLevel = JoyBrick.Walkio.Game.Level;
+#endif
+
     //
 #if WALKIO_FLOWCONTROL
     [GameFlowControl.DoneSettingAssetWait("Stage")]
@@ -27,6 +31,16 @@ namespace JoyBrick.Walkio.Game.Level
 
         //
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
+
+        //
+        private BeginSimulationEntityCommandBufferSystem _entityCommandBufferSystem;
+        private EntityQuery _gridWorldEntityQuery;
+        // private EntityQuery _levelSettingEntityQuery;
+        private EntityArchetype _tileEntityArchetype;
+
+        //
+        private bool _canSetup;
+        private bool _doingSetup;
 
         //
 #if WALKIO_FLOWCONTROL
@@ -46,7 +60,7 @@ namespace JoyBrick.Walkio.Game.Level
                 .SubscribeOnMainThread()
                 .Subscribe(result =>
                 {
-                    // _canSetup = false;
+                    _canSetup = false;
 
 #if WALKIO_FLOWCONTROL
                     FlowControl?.FinishIndividualSettingAsset(new GameFlowControl.FlowControlContext
@@ -58,6 +72,7 @@ namespace JoyBrick.Walkio.Game.Level
                 .AddTo(_compositeDisposable);
         }
 
+        //
         public void Construct()
         {
             _logger.Debug($"Module - SetupAssetSystem - Construct");
@@ -70,9 +85,9 @@ namespace JoyBrick.Walkio.Game.Level
                 {
                     _logger.Debug($"SetupAssetSystem - Construct - Receive SettingAsset");
 
-                    // _canSetup = true;
-                    // _doingSetup = true;
-                    //
+                    _canSetup = true;
+                    _doingSetup = true;
+
                     SettingAsset();
                 })
                 .AddTo(_compositeDisposable);
@@ -84,10 +99,35 @@ namespace JoyBrick.Walkio.Game.Level
             _logger.Debug($"Module - SetupAssetSystem - OnCreate");
 
             base.OnCreate();
+
+            _entityCommandBufferSystem = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
+
+            _gridWorldEntityQuery = GetEntityQuery(new EntityQueryDesc
+            {
+                All = new ComponentType[]
+                {
+                    ComponentType.ReadOnly<GameLevel.GridWorld>(),
+                    ComponentType.ReadOnly<GameLevel.GridWorldProperty>()
+                }
+            });
+
+            RequireForUpdate(_gridWorldEntityQuery);
         }
 
         protected override void OnUpdate()
         {
+            if (!_canSetup) return;
+
+            if (!_doingSetup) return;
+
+            // var levelSettingEntity = _levelSettingEntityQuery.GetSingletonEntity();
+            // var buffer = EntityManager.GetBuffer<GameCommon.FlowFieldTileBuffer>(levelSettingEntity);
+
+            //
+            var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
+            var concurrentCommandBuffer = commandBuffer.ToConcurrent();
+
+            _entityCommandBufferSystem.AddJobHandleForProducer(Dependency);
         }
 
         protected override void OnDestroy()

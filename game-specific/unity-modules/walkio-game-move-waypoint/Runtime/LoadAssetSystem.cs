@@ -1,4 +1,4 @@
-namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
+namespace JoyBrick.Walkio.Game.Move.Waypoint
 {
     using System;
     using System.Collections.Generic;

@@ -69,20 +69,24 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
             if (ProvideExternalAsset)
             {
                 // Asset is provided from somewhere else, just notify that the asset loading is done
+#if WALKIO_FLOWCONTROL
                 FlowControl.FinishIndividualLoadingAsset(new GameFlowControl.FlowControlContext
                 {
                     Name = "Stage"
                 });
+#endif
             }
             else
             {
                 InternalLoadAsset(
                     () =>
                     {
+#if WALKIO_FLOWCONTROL
                         FlowControl.FinishIndividualLoadingAsset(new GameFlowControl.FlowControlContext
                         {
                             Name = "Stage"
                         });
+#endif
                     });
             }
         }

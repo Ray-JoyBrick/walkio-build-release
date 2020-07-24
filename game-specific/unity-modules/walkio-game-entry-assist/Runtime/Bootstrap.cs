@@ -27,8 +27,8 @@
                     SetupEcsWorldContext();
                     SetupEcsWorldSystem();
 
-                    // //
-                    // StartGameFlow();
+                    //
+                    StartGameFlow();
                 })
                 .AddTo(_compositeDisposable);
 
