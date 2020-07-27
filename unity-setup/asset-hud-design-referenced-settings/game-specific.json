@@ -3,8 +3,8 @@
   "use": true,
   "toSymlink": [
     {
-      "name": "preprocess-assets/external-data",
-      "to": "Assets/_/1 - Game - Hud Design/Preprocess Assets/external-data"
+        "name": "preprocess-assets/external-data",
+        "to": "Assets/_/1 - Game - Hud Design/Preprocess Assets/external-data"
     },
     {
       "name": "preprocess-assets/hud-design",

@@ -7,9 +7,7 @@
     using UnityEngine.Events;
     using UnityEngine.SceneManagement;
 
-#if WALKIO_MOVE_FLOWFIELD_ASSIST
     using GameMoveFlowFieldAssist = JoyBrick.Walkio.Game.Move.FlowField.Assist;
-#endif
 
     public partial class Bootstrap :
         GameMoveFlowFieldAssist.IFlowFieldWorldProvider

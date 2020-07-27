@@ -10,9 +10,7 @@
     using UnityEngine;
 
     //
-#if WALKIO_MOVE_FLOWFIELD
     using GameMoveFlowField = JoyBrick.Walkio.Game.Move.FlowField;
-#endif
 
     public partial class Bootstrap
 
@@ -135,7 +133,8 @@
 
                         _assistants?.ForEach(assistant =>
                         {
-                            assistant?.ShowPoints(forWhichGroup, combinedPoints, 3.0f);
+                            // assistant?.ShowPoints(forWhichGroup, combinedPoints, 3.0f);
+                            assistant?.ShowPoints(forWhichGroup, combinedPoints, 300.0f);
                         });
                     }
                 }

@@ -1,0 +1,16 @@
+{
+  "name": "com.walkio.build.remote",
+  "displayName": "_ Walkio Build Remote",
+  "version": "0.2.0",
+  "unity": "2020.1",
+  "description": "Walkio Build Remote",
+  "keywords": [
+  ],
+  "category": "",
+  "dependencies": {},
+  "author": {
+    "email": "ray@joybrick.cc",
+    "name": "Ray Wang",
+    "url": "https://joybrick.cc"
+  }
+}

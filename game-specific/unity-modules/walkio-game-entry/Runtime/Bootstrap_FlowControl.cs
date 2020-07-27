@@ -11,25 +11,13 @@
 
     //
     using GameCommon = JoyBrick.Walkio.Game.Common;
-
-#if WALKIO_EXTENSION
     using GameExtension = JoyBrick.Walkio.Game.Extension;
-#endif
-
-#if WALKIO_FLOWCONTROL
     using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
-#endif
-
-#if WALKIO_LEVEL
     using GameLevel = JoyBrick.Walkio.Game.Level;
-#endif
 
+    //
     public partial class Bootstrap
-
-#if WALKIO_FLOWCONTROL
         : GameFlowControl.IFlowControl
-#endif
-
     {
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.BoxGroup("Flow Control")]
@@ -40,12 +28,13 @@
         //
         private readonly Subject<GameFlowControl.FlowControlContext> _notifyAssetLoadingStarted =
             new Subject<GameFlowControl.FlowControlContext>();
-        public IObservable<GameFlowControl.FlowControlContext> AssetLoadingStarted => _notifyAssetLoadingStarted;
+        public IObservable<GameFlowControl.FlowControlContext> AssetLoadingStarted =>
+            _notifyAssetLoadingStarted.AsObservable();
 
         private readonly Subject<GameFlowControl.FlowControlContext> _notifyIndividualAssetLoadingFinished =
             new Subject<GameFlowControl.FlowControlContext>();
         public IObservable<GameFlowControl.FlowControlContext> IndividualAssetLoadingFinished =>
-            _notifyIndividualAssetLoadingFinished;
+            _notifyIndividualAssetLoadingFinished.AsObservable();
 
         // private readonly Subject<GameFlowControl.FlowControlContext> _notifyAssetLoadingDone =
         //     new Subject<GameFlowControl.FlowControlContext>();
@@ -54,12 +43,13 @@
         //
         private readonly Subject<GameFlowControl.FlowControlContext> _notifyAssetSettingStarted =
             new Subject<GameFlowControl.FlowControlContext>();
-        public IObservable<GameFlowControl.FlowControlContext> AssetSettingStarted => _notifyAssetSettingStarted;
+        public IObservable<GameFlowControl.FlowControlContext> AssetSettingStarted =>
+            _notifyAssetSettingStarted.AsObservable();
 
         private readonly Subject<GameFlowControl.FlowControlContext> _notifyIndividualAssetSettingFinished =
             new Subject<GameFlowControl.FlowControlContext>();
         public IObservable<GameFlowControl.FlowControlContext> IndividualAssetSettingFinished =>
-            _notifyIndividualAssetSettingFinished;
+            _notifyIndividualAssetSettingFinished.AsObservable();
 
         // private readonly Subject<GameFlowControl.FlowControlContext> _notifyAssetSettingDone =
         //     new Subject<GameFlowControl.FlowControlContext>();
@@ -67,7 +57,19 @@
 
         private readonly Subject<GameFlowControl.FlowControlContext> _notifyFlowReadyToStart =
             new Subject<GameFlowControl.FlowControlContext>();
-        public IObservable<GameFlowControl.FlowControlContext> FlowReadyToStart => _notifyFlowReadyToStart;
+        public IObservable<GameFlowControl.FlowControlContext> FlowReadyToStart =>
+            _notifyFlowReadyToStart.AsObservable();
+
+        //
+        private readonly Subject<GameFlowControl.FlowControlContext> _notifyAssetUnloadingStarted =
+            new Subject<GameFlowControl.FlowControlContext>();
+        public IObservable<GameFlowControl.FlowControlContext> AssetUnloadingStarted =>
+            _notifyAssetUnloadingStarted.AsObservable();
+
+        private readonly Subject<GameFlowControl.FlowControlContext> _notifyIndividualAssetUnloadingFinished =
+            new Subject<GameFlowControl.FlowControlContext>();
+        public IObservable<GameFlowControl.FlowControlContext> IndividualAssetUnloadingFinished =>
+            _notifyIndividualAssetUnloadingFinished.AsObservable();
 
         //
         public void StartLoadingAsset(GameFlowControl.FlowControlContext context)
@@ -118,6 +120,20 @@
 
             //
             _notifyFlowReadyToStart.OnNext(context);
+        }
+
+        public void StartUnloadingAsset(GameFlowControl.FlowControlContext context)
+        {
+            _logger.Debug($"Bootstrap - FinishIndividualUnloadingAsset - {context}");
+
+            _notifyAssetUnloadingStarted.OnNext(context);
+        }
+
+        public void FinishIndividualUnloadingAsset(GameFlowControl.FlowControlContext context)
+        {
+            _logger.Debug($"Bootstrap - FinishIndividualUnloadingAsset - {context}");
+
+            _notifyIndividualAssetUnloadingFinished.OnNext(context);
         }
     }
 }

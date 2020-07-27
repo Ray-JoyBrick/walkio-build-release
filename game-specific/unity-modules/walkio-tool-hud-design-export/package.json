@@ -1,0 +1,16 @@
+{
+  "name": "com.walkio.tool.hud-design-export",
+  "displayName": "_ Walkio Tool Hud Design Export",
+  "version": "0.2.0",
+  "unity": "2020.1",
+  "description": "Walkio Tool Hud Design Export",
+  "keywords": [
+  ],
+  "category": "",
+  "dependencies": {},
+  "author": {
+    "email": "ray@joybrick.cc",
+    "name": "Ray Wang",
+    "url": "https://joybrick.cc"
+  }
+}

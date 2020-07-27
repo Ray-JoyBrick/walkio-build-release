@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 6527236389766108683}
   - component: {fileID: 6119966162773208403}
   - component: {fileID: 601815873040163025}
+  - component: {fileID: 3522438525203181922}
   m_Layer: 5
   m_Name: View - Base
   m_TagString: Untagged
@@ -1073,6 +1074,18 @@ MonoBehaviour:
     handleAnimatorIK: 0
   fsmTemplate: {fileID: 0}
   eventHandlerComponentsAdded: 0
+--- !u!114 &3522438525203181922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300000224844796379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3603c2086f44435ca84d374bd76ebf95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2228057667548258782
 GameObject:
   m_ObjectHideFlags: 0
@@ -1361,7 +1374,8 @@ MonoBehaviour:
   m_text: Walkio
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d1d4c944c73fa44e892af13ef047cccd, type: 2}
-  m_sharedMaterial: {fileID: 5610264727607112489, guid: d1d4c944c73fa44e892af13ef047cccd, type: 2}
+  m_sharedMaterial: {fileID: 5610264727607112489, guid: d1d4c944c73fa44e892af13ef047cccd,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1495,7 +1509,8 @@ MonoBehaviour:
   m_text: "\u95DC\u5361 02"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d103e192537b448a19ab043986ebe956, type: 2}
-  m_sharedMaterial: {fileID: -2954162126928628401, guid: d103e192537b448a19ab043986ebe956, type: 2}
+  m_sharedMaterial: {fileID: -2954162126928628401, guid: d103e192537b448a19ab043986ebe956,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1629,7 +1644,8 @@ MonoBehaviour:
   m_text: "\u95DC\u5361 01"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d103e192537b448a19ab043986ebe956, type: 2}
-  m_sharedMaterial: {fileID: -2954162126928628401, guid: d103e192537b448a19ab043986ebe956, type: 2}
+  m_sharedMaterial: {fileID: -2954162126928628401, guid: d103e192537b448a19ab043986ebe956,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

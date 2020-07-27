@@ -6,10 +6,21 @@
     using Unity.Entities;
 
     //
+    using GameCommand = JoyBrick.Walkio.Game.Command;
+    using GameCommon = JoyBrick.Walkio.Game.Common;
+    using GameExtension = JoyBrick.Walkio.Game.Extension;
+
+    using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
+
+    using GameHudApp = JoyBrick.Walkio.Game.Hud.App;
+    using GameHudPreparation = JoyBrick.Walkio.Game.Hud.Preparation;
+    using GameHudStage = JoyBrick.Walkio.Game.Hud.Stage;
+
+    //
 #if WALKIO_LEVEL
     using GameLevel = JoyBrick.Walkio.Game.Level;
 #endif
-    
+
 #if WALKIO_MOVE_FLOWFIELD
     using GameMoveFlowField = JoyBrick.Walkio.Game.Move.FlowField;
 #endif
@@ -24,6 +35,100 @@
 
     public partial class Bootstrap
     {
+        private void HudAppAssist_PrepareAssetSystem(ComponentSystemGroup componentSystemGroup)
+        {
+#if WALKIO_HUD_APP_ASSIST
+            _logger.Debug($"Bootstrap Assist - Module Creation - HudAppAssist_PrepareAssetSystem");
+
+            var createdSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameHudApp.Assist.PrepareAssetSystem>();
+
+            //
+            createdSystem.SceneService = _assistable.RefGameObject.GetComponent<GameCommon.ISceneService>();
+            createdSystem.CommandService = _assistable.RefGameObject.GetComponent<GameCommand.ICommandService>();
+            createdSystem.ExtensionService = _assistable.RefGameObject.GetComponent<GameExtension.IExtensionService>();
+            createdSystem.FlowControl = _assistable.RefGameObject.GetComponent<GameFlowControl.IFlowControl>();
+
+            //
+            createdSystem.Construct();
+
+            //
+            componentSystemGroup.AddSystemToUpdateList(createdSystem);
+#else
+            _logger.Debug($"Bootstrap Assist - No Module - HudAppAssist_PrepareAssetSystem");
+#endif
+        }
+
+        private void HudAppAssist_SetupAssetSystem(ComponentSystemGroup componentSystemGroup)
+        {
+#if WALKIO_HUD_APP_ASSIST
+            _logger.Debug($"Bootstrap Assist - Module Creation - HudAppAssist_SetupAssetSystem");
+
+            var createdSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameHudApp.SetupAssetSystem>();
+
+            //
+            createdSystem.FlowControl = _assistable.RefGameObject.GetComponent<GameFlowControl.IFlowControl>();
+
+            //
+            createdSystem.Construct();
+
+            //
+            componentSystemGroup.AddSystemToUpdateList(createdSystem);
+#else
+            _logger.Debug($"Bootstrap Assist - No Module - HudAppAssist_SetupAssetSystem");
+#endif
+        }
+
+        private void HudStageAssist_PrepareAssetSystem(ComponentSystemGroup componentSystemGroup)
+        {
+#if WALKIO_HUD_APP_ASSIST
+            _logger.Debug($"Bootstrap Assist - Module Creation - HudStageAssist_PrepareAssetSystem");
+
+            var createdSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameHudStage.Assist.PrepareAssetSystem>();
+
+            //
+            createdSystem.SceneService = _assistable.RefGameObject.GetComponent<GameCommon.ISceneService>();
+            createdSystem.CommandService = _assistable.RefGameObject.GetComponent<GameCommand.ICommandService>();
+            createdSystem.ExtensionService = _assistable.RefGameObject.GetComponent<GameExtension.IExtensionService>();
+            createdSystem.FlowControl = _assistable.RefGameObject.GetComponent<GameFlowControl.IFlowControl>();
+
+            //
+            createdSystem.Construct();
+
+            //
+            componentSystemGroup.AddSystemToUpdateList(createdSystem);
+#else
+            _logger.Debug($"Bootstrap Assist - No Module - HudStageAssist_PrepareAssetSystem");
+#endif
+        }
+
+        private void HudStageAssist_SetupAssetSystem(ComponentSystemGroup componentSystemGroup)
+        {
+#if WALKIO_HUD_APP_ASSIST
+            _logger.Debug($"Bootstrap Assist - Module Creation - HudStageAssist_SetupAssetSystem");
+
+            var createdSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameHudStage.Assist.SetupAssetSystem>();
+
+            //
+            createdSystem.FlowControl = _assistable.RefGameObject.GetComponent<GameFlowControl.IFlowControl>();
+
+            //
+            createdSystem.Construct();
+
+            //
+            componentSystemGroup.AddSystemToUpdateList(createdSystem);
+#else
+            _logger.Debug($"Bootstrap Assist - No Module - HudStageAssist_SetupAssetSystem");
+#endif
+        }
+
         private void Level_PresentWorldSystem(ComponentSystemGroup componentSystemGroup)
         {
 #if WALKIO_MOVE_FLOWFIELD

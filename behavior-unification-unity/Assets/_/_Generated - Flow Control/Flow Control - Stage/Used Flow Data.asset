@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Used Flow Data
   m_EditorClassIdentifier: 
   flowPrefabs:
+  - {fileID: 1949907537188752089, guid: e1a15557cfb537042955475dc9aa8098, type: 3}
   - {fileID: 650967775607471759, guid: 2e521a21115d2ba4ead74e10c2a7144b, type: 3}

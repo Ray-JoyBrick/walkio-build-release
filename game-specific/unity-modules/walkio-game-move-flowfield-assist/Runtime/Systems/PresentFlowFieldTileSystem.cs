@@ -93,7 +93,7 @@
         private static float3 GetDirectionByValueIndex(int valueIndex)
         {
             var direction = float3.zero;
-            
+
             if (valueIndex == 0)
             {
                 direction = math.normalize(new float3(-1.0f, 0, 1.0f));
@@ -108,23 +108,23 @@
             }
             else if (valueIndex == 3)
             {
-                direction = math.normalize(new float3(1.00f, 0, 0f));
+                direction = math.normalize(new float3(-1.00f, 0, 0f));
             }
             else if (valueIndex == 4)
             {
-                direction = math.normalize(new float3(1.0f, 0, -1.0f));
+                direction = math.normalize(new float3(1.0f, 0, 0.0f));
             }
             else if (valueIndex == 5)
             {
-                direction = math.normalize(new float3(0f, 0, -1.0f));
+                direction = math.normalize(new float3(-1.0f, 0, -1.0f));
             }
             else if (valueIndex == 6)
             {
-                direction = math.normalize(new float3(-1.0f, 0, -1.0f));
+                direction = math.normalize(new float3(0.0f, 0, -1.0f));
             }
             else if (valueIndex == 7)
             {
-                direction = math.normalize(new float3(-1.0f, 0, 0.0f));
+                direction = math.normalize(new float3(1.0f, 0, -1.0f));
             }
 
             return direction;
@@ -183,7 +183,7 @@
                         var color = group.color;
 
                         commandBuilder.WireGrid(tilePos, Quaternion.identity, cells, totalSizes, color);
-                        
+
                         // Draw arrow for direction
                         for (var ty = 0; ty < tileCellCount.y; ++ ty)
                         {
@@ -195,13 +195,15 @@
                                     tilePos.x + tx + 0.5f - (0.5f * oneTileOffset.x),
                                     tilePos.y,
                                     tilePos.z + ty + 0.5f - (0.5f * oneTileOffset.y));
-                                
+
+                                if (cellBuffer.Length == 0) continue;
+
                                 var tileCellContent = cellBuffer[i].Value;
-                                // var direction = GetDirectionByValueIndex(cellBuffer[i].Value.Direction);
-                                var cost = cellBuffer[i].Value.Direction;
-                                
-                                // commandBuilder.Arrowhead(tileCellPos, direction, 
-                                //     new float3(0, 1.0f, 0), 0.35f, Color.green);
+                                var direction = GetDirectionByValueIndex(cellBuffer[i].Value.Direction);
+                                var cost = cellBuffer[i].Value.BaseCost;
+
+                                commandBuilder.Arrowhead(tileCellPos, direction,
+                                    new float3(0, 1.0f, 0), 0.35f, Color.green);
                                 commandBuilder.Label2D(tileCellPos, cost.ToString(), Color.green);
                             }
                         }

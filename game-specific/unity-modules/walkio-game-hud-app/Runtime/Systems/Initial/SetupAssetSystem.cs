@@ -35,7 +35,7 @@ namespace JoyBrick.Walkio.Game.Hud.App
 
         public void Construct()
         {
-            _logger.Debug($"Module - SetupAssetSystem - Construct");
+            _logger.Debug($"Module - Hud - App - SetupAssetSystem - Construct");
 
 #if WALKIO_FLOWCONTROL
             //
@@ -43,7 +43,7 @@ namespace JoyBrick.Walkio.Game.Hud.App
                 .Where(x => x.Name.Contains("App"))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"SetupAssetSystem - Construct - Receive SettingAsset");
+                    _logger.Debug($"Module - Hud - App - SetupAssetSystem - Construct - Receive SettingAsset");
 
                     // _canSetup = true;
                     // _doingSetup = true;
@@ -51,7 +51,8 @@ namespace JoyBrick.Walkio.Game.Hud.App
                     // SettingAsset();
                     FlowControl?.FinishIndividualSettingAsset(new GameFlowControl.FlowControlContext
                     {
-                        Name = "App"
+                        Name = "App",
+                        Description = "Hud - App"
                     });
                 })
                 .AddTo(_compositeDisposable);
@@ -60,7 +61,7 @@ namespace JoyBrick.Walkio.Game.Hud.App
 
         protected override void OnCreate()
         {
-            _logger.Debug($"Module - SetupAssetSystem - OnCreate");
+            _logger.Debug($"Module - Hud - App - SetupAssetSystem - OnCreate");
 
             base.OnCreate();
         }

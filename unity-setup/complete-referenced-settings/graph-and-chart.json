@@ -1,6 +1,6 @@
 {
   "name": "BitSplash Interactive",
-  "use": true,
+  "use": false,
   "toSymlink": [
     {
       "name": "Chart And Graph",

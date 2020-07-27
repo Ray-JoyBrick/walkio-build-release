@@ -1,0 +1,19 @@
+{
+    "name": "Walkio.Build.Local.Editor",
+    "references": [
+        "Walkio.Game.Common",
+        "Walkio.Game.Common.Editor",
+        "Walkio.Game.Flow-Control.Editor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

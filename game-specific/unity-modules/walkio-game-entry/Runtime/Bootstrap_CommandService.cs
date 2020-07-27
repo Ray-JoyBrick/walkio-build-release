@@ -3,7 +3,7 @@ namespace JoyBrick.Walkio.Game
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using HellTap.PoolKit;
+    // using HellTap.PoolKit;
     using Pathfinding;
     using UniRx;
     using Unity.Entities;
@@ -13,13 +13,13 @@ namespace JoyBrick.Walkio.Game
     //
     using GameCommon = JoyBrick.Walkio.Game.Common;
     using GameCommand = JoyBrick.Walkio.Game.Command;
-    
-#if WALKIO_EXTENSION
+
     using GameExtension = JoyBrick.Walkio.Game.Extension;
-#endif
 
     public partial class Bootstrap :
-        GameCommand.ICommandService
+        GameCommand.ICommandService,
+
+        GameCommand.ICommandStreamProducer
     {
         //
         public readonly List<GameCommand.ICommandStreamProducer> _commandStreamProducers =
@@ -30,7 +30,7 @@ namespace JoyBrick.Walkio.Game
         private readonly ReactiveProperty<IObservable<GameCommand.ICommand>> _rpCommands =
             new ReactiveProperty<IObservable<GameCommand.ICommand>>(Observable.Empty<GameCommand.ICommand>());
         private readonly Subject<GameCommand.ICommand> _notifyCommand = new Subject<GameCommand.ICommand>();
-        
+
         void ReformCommandStream()
         {
             var combinedObs =
@@ -38,17 +38,17 @@ namespace JoyBrick.Walkio.Game
                     .Select(x => x.CommandStream)
                     // .Aggregate(Observable.Empty<ICommand>(), (acc, next) => acc.Merge(next));
                     .Aggregate(_notifyCommand.AsObservable(), (acc, next) => acc.Merge(next));
-            
-            _rpCommands.Value = combinedObs;            
+
+            _rpCommands.Value = combinedObs;
         }
 
         public void AddCommandStreamProducer(GameCommand.ICommandStreamProducer commandStreamProducer)
         {
             _logger.Debug($"Bootstrap - AddCommandStreamProducer - {commandStreamProducer}");
-            
+
             var existed =_commandStreamProducers.Exists(x => x == commandStreamProducer);
             if (existed) return;
-            
+
             _commandStreamProducers.Add(commandStreamProducer);
             ReformCommandStream();
         }
@@ -65,15 +65,15 @@ namespace JoyBrick.Walkio.Game
         public void RemoveCommandStreamProducer(GameCommand.ICommandStreamProducer commandStreamProducer)
         {
             _logger.Debug($"Bootstrap - RemoveCommandStreamProducer - {commandStreamProducer}");
-            
+
             var existed =_commandStreamProducers.Exists(x => x == commandStreamProducer);
             if (!existed) return;
-            
+
             _commandStreamProducers.Remove(commandStreamProducer);
             ReformCommandStream();
         }
 
-        
+
         public readonly List<GameCommand.IInfoPresenter> _infoPresenters =
             new List<GameCommand.IInfoPresenter>();
 
@@ -88,17 +88,17 @@ namespace JoyBrick.Walkio.Game
                 _infoPresenters
                     .Select(x => x.InfoStream)
                     .Aggregate(Observable.Empty<GameCommand.IInfo>(), (acc, next) => acc.Merge(next));
-            
+
             _rpInfos.Value = combinedObs;
         }
 
         public void AddInfoStreamPresenter(GameCommand.IInfoPresenter infoPresenter)
         {
             _logger.Debug($"Bootstrap - AddInfoStreamPresenter - {infoPresenter}");
-            
+
             var existed =_infoPresenters.Exists(x => x == infoPresenter);
             if (existed) return;
-            
+
             _infoPresenters.Add(infoPresenter);
             ReformInfoStream();
         }
@@ -115,7 +115,7 @@ namespace JoyBrick.Walkio.Game
         public void RemoveInfoStreamPresenter(GameCommand.IInfoPresenter infoPresenter)
         {
             _logger.Debug($"Bootstrap - RemoveInfoStreamPresenter - {infoPresenter}");
-            
+
             var existed =_infoPresenters.Exists(x => x == infoPresenter);
             if (!existed) return;
 
@@ -126,7 +126,7 @@ namespace JoyBrick.Walkio.Game
         public void SendCommand(string commandName)
         {
             _logger.Debug($"Bootstrap - SendCommand - commandName: {commandName}");
-            
+
             if (String.CompareOrdinal(commandName, "Activating Loading View") == 0)
             {
                 _notifyCommand.OnNext(new GameCommand.ActivateLoadingViewCommand
@@ -174,13 +174,13 @@ namespace JoyBrick.Walkio.Game
                 // _notifyCommand.OnNext(new GameCommand.CreateNeutralForceUnit
                 // {
                 // });
-                
+
                 GameExtension.BridgeExtension.SendEvent("zz_Exit Current Flow");
             }
             else if (String.CompareOrdinal(commandName, "Place All Team Force Leader") == 0)
             {
                 // var pool = FindObjectOfType<HellTap.PoolKit.Pool>();
-                
+
                 // _notifyCommand.OnNext(new GameCommand.PlaceTeamForceLeader
                 // {
                 //     Kind = GameCommand.TeamForceLeaderKind.NpcUse
@@ -189,7 +189,7 @@ namespace JoyBrick.Walkio.Game
             else if (String.CompareOrdinal(commandName, "Place Player Team Force Leader") == 0)
             {
                 // var pool = FindObjectOfType<HellTap.PoolKit.Pool>();
-                
+
                 // _notifyCommand.OnNext(new GameCommand.PlaceTeamForceLeader
                 // {
                 //     Kind = GameCommand.TeamForceLeaderKind.PlayerUse

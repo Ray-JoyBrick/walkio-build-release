@@ -20,6 +20,11 @@
             var simulationSystemGroup = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<SimulationSystemGroup>();
             var presentationSystemGroup = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<PresentationSystemGroup>();
 
+            HudAppAssist_PrepareAssetSystem(initializationSystemGroup);
+            HudAppAssist_SetupAssetSystem(initializationSystemGroup);
+            HudStageAssist_PrepareAssetSystem(initializationSystemGroup);
+            HudStageAssist_SetupAssetSystem(initializationSystemGroup);
+
             //
             MoveFlowField_RemoveTemporaryPointIndicationSystem(initializationSystemGroup);
 

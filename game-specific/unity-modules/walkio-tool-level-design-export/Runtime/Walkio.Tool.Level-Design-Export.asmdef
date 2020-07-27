@@ -1,0 +1,17 @@
+{
+    "name": "Walkio.Tool.Level-Design-Export",
+    "references": [
+        "Unity.Addressables",
+        "Unity.ProBuilder",
+        "Walkio.Game.Common"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

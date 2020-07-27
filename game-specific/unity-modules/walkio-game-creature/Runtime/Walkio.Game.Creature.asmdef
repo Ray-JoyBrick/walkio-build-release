@@ -1,6 +1,7 @@
 {
     "name": "Walkio.Game.Creature",
     "references": [
+        "Unity.Addressables",
         "Unity.Entities",
         "Unity.Entities.Hybrid",
         "Unity.Mathematics",
@@ -9,9 +10,11 @@
         "Unity.Physics",
         "Unity.Physics.Hybrid",
         "Unity.Rendering.Hybrid",
+        "Unity.ResourceManager",
         "UniRx",
         "Walkio.Game.Common",
-        "Walkio.Game.Creature.Common"
+        "Walkio.Game.Creature.Common",
+        "Walkio.Game.Flow-Control.Common"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -19,7 +22,15 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [],
+    "defineConstraints": [
+        "WALKIO_CREATURE"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.walkio.game.creature.common",
+            "expression": "0.2.0",
+            "define": "WALKIO_CREATURE"
+        }
+    ],
     "noEngineReferences": false
 }

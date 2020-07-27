@@ -65,12 +65,17 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
             EntityManager.SetName(entity, $"Flow Field World");
 #endif
 
+#if WALKIO_LEVEL
              var gridWorldProperty = _gridWorldEntityQuery.GetSingleton<GameLevel.GridWorldProperty>();
 
             // var gridWorldData = GridWorldProvider.GridWorldData as GameLevel.Template.GridWorldData;
 
             var gridCellCount = gridWorldProperty.CellCount;
             var gridCellSize = gridWorldProperty.CellSize;
+#else
+            var gridCellCount = new int2(192, 256);
+            var gridCellSize = new float2(1.0f, 1.0f);
+#endif
 
             _logger.Debug($"Module - SetupAssetSystem - Setup - gridCellCount: {gridCellCount}");
 
@@ -193,8 +198,10 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
             {
                 All = new ComponentType[]
                 {
+#if WALKIO_LEVEL
                     ComponentType.ReadOnly<GameLevel.GridWorld>(),
                     ComponentType.ReadOnly<GameLevel.GridWorldProperty>()
+#endif
                 }
             });
 

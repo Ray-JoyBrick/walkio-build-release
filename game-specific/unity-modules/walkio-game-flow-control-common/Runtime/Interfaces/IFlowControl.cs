@@ -17,10 +17,12 @@ namespace JoyBrick.Walkio.Game.FlowControl
         public string LevelAssetName { get; set; }
         public string SpecificLevelName { get; set; }
 
+        public string Description { get; set; }
+
         //
         public override string ToString()
         {
-            var desc = $"Name: {Name}";
+            var desc = $"Name: {Name} Description: {Description}";
 
             return desc;
         }
@@ -49,6 +51,11 @@ namespace JoyBrick.Walkio.Game.FlowControl
         IObservable<FlowControlContext> FlowReadyToStart { get; }
 
         //
+        IObservable<FlowControlContext> AssetUnloadingStarted { get; }
+
+        IObservable<FlowControlContext> IndividualAssetUnloadingFinished { get; }
+
+        //
         void StartLoadingAsset(FlowControlContext context);
 
         void FinishIndividualLoadingAsset(FlowControlContext context);
@@ -56,5 +63,9 @@ namespace JoyBrick.Walkio.Game.FlowControl
 
         void AllAssetLoadingDone(FlowControlContext context);
         void AllAssetSettingDone(FlowControlContext context);
+
+        void StartUnloadingAsset(FlowControlContext context);
+        void FinishIndividualUnloadingAsset(FlowControlContext context);
+
     }
 }

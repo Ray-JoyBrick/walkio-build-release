@@ -8,9 +8,14 @@
     using Unity.Mathematics;
     using Unity.Transforms;
 
+    //
+    using GameCommon = JoyBrick.Walkio.Game.Common;
+
 #if WALKIO_FLOWCONTROL
     using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
 #endif
+
+    using GameLevel = JoyBrick.Walkio.Game.Level;
 
     [DisableAutoCreation]
     [UpdateAfter(typeof(CheckTargetAtTileChangeSystem))]
@@ -23,6 +28,10 @@
 
         //
         private BeginInitializationEntityCommandBufferSystem _entityCommandBufferSystem;
+        private EntityQuery _gridWorldEntityQuery;
+
+        //
+        private bool _canUpdate;
 
         //
 #if WALKIO_FLOWCONTROL
@@ -33,6 +42,17 @@
         public void Construct()
         {
             _logger.Debug($"Module - SystemA - Construct");
+
+#if WALKIO_FLOWCONTROL
+            FlowControl?.FlowReadyToStart
+                .Where(x => x.Name.Contains("Stage"))
+                .Subscribe(x =>
+                {
+                    _logger.Debug($"Module - Move - FlowField - SystemC - Construct - Receive AllDoneSettingAsset");
+                    _canUpdate = true;
+                })
+                .AddTo(_compositeDisposable);
+#endif
         }
 
         protected override void OnCreate()
@@ -40,6 +60,17 @@
             base.OnCreate();
 
             _entityCommandBufferSystem = World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
+
+            _gridWorldEntityQuery = GetEntityQuery(new EntityQueryDesc
+            {
+                All = new ComponentType[]
+                {
+                    ComponentType.ReadOnly<GameLevel.GridWorld>(),
+                    ComponentType.ReadOnly<GameLevel.GridWorldProperty>()
+                }
+            });
+
+            RequireForUpdate(_gridWorldEntityQuery);
         }
 
         private void UpdateEachChaseTarget(
@@ -47,7 +78,7 @@
             int2 tileCellCount, float2 tileCellSize,
             int forWhichGroupId, float3 changeToPosition)
         {
-            using (var hashTable = new NativeHashMap<int2, int>(100, Allocator.TempJob))
+            using (var tileHashTable = new NativeHashMap<int2, int>(100, Allocator.TempJob))
             {
                 Entities
                     .WithAll<ChaseTarget>()
@@ -64,17 +95,17 @@
                             _logger.Debug($"Module - SystemA - UpdateEachChaseTarget - chase target entity: {entity} atTileIndex: {atTileIndex}");
 
                             var count = 0;
-                            var hasKey = hashTable.TryGetValue(atTileIndex, out count);
+                            var hasKey = tileHashTable.TryGetValue(atTileIndex, out count);
                             if (!hasKey)
                             {
-                                hashTable.Add(atTileIndex, 1);
+                                tileHashTable.Add(atTileIndex, 1);
                             }
                         }
                     })
                     .WithoutBurst()
                     .Run();
 
-                using (var tileIndices = hashTable.GetKeyArray(Allocator.TempJob))
+                using (var tileIndices = tileHashTable.GetKeyArray(Allocator.TempJob))
                 {
                     var positions = new List<float3>();
                     for (var i = 0; i < tileIndices.Length; ++i)
@@ -101,11 +132,15 @@
 
         protected override void OnUpdate()
         {
+            if (!_canUpdate) return;
+
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
             var concurrentCommandBuffer = commandBuffer.ToConcurrent();
 
-            var gridCellCount = new int2(256, 192);
-            var gridCellSize = new float2(1.0f, 1.0f);
+            var gridWorldProperty = _gridWorldEntityQuery.GetSingleton<GameLevel.GridWorldProperty>();
+
+            var gridCellCount = gridWorldProperty.CellCount;
+            var gridCellSize = gridWorldProperty.CellSize;
             var flowFieldWorldData = FlowFieldWorldProvider.FlowFieldWorldData as Template.FlowFieldWorldData;
             var tileCellCount = new int2(flowFieldWorldData.tileCellCount.x, flowFieldWorldData.tileCellCount.y);
             var tileCellSize = (float2)flowFieldWorldData.tileCellSize;

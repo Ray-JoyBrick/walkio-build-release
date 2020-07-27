@@ -1,0 +1,11 @@
+{
+  "name": "com.walkio.tool.creature-design-export",
+  "displayName": "_ Walkio Tool Creature Design Export",
+  "version": "0.1.0",
+  "unity": "2020.1",
+  "description": "Walkio Tool Creature Design Export",
+  "keywords": [
+  ],
+  "category": "",
+  "dependencies": {}
+}

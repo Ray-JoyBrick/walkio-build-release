@@ -15,7 +15,9 @@
         "Walkio.Game.Common",
         "Walkio.Game.Flow-Control.Common"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

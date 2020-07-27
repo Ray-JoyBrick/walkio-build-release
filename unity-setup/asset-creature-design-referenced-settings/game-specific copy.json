@@ -1,0 +1,30 @@
+{
+  "name": "game-specific",
+  "use": false,
+  "toSymlink": [
+    {
+      "name": "unity-modules/walkio-game-entry/Runtime",
+      "to": "Assets/_/1 - Game - Creature Design/Module - Entry/Scripts/Runtime"
+    },
+    {
+      "name": "unity-modules/walkio-game-entry-assist/Editor",
+      "to": "Assets/_/1 - Game - Creature Design/Module - Entry - Assist/Scripts/Editor"
+    },    
+    {
+      "name": "unity-modules/walkio-game-entry-assist/Runtime",
+      "to": "Assets/_/1 - Game - Creature Design/Module - Entry - Assist/Scripts/Runtime"
+    },
+    {
+      "name": "preprocess-assets/creature-design",
+      "to": "Assets/_/1 - Game - Creature Design/Preprocess Assets/creature-design"
+    },
+    {
+      "name": "development-assets/Gizmos/JoyBrick",
+      "to": "Assets/Gizmos/JoyBrick"
+    },
+    {
+      "name": "extend-3rd/Setting - Editor Console Pro",
+      "to": "Assets/_/5 - Misc/Setting - Editor Console Pro"
+    }
+  ]
+}

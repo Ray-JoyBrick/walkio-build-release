@@ -6,11 +6,17 @@
     [RequireComponentTag(typeof(ToBeChasedTarget))]
     public struct ToBeChasedTargetProperty : IComponentData
     {
+        //
         public int BelongToGroup;
 
+        //
         public bool Initialized;
-        public int2 AtTileIndex;
 
+        //
+        public int2 AtTileIndex;
+        public int2 AtTileCellIndex;
+
+        //
         public Entity LeadingToSetEntity;
     }
 }

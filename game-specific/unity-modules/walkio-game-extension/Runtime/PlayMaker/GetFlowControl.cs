@@ -46,7 +46,10 @@
                     }
                     else if (string.CompareOrdinal(flowAction.Value, "Cleaning") == 0)
                     {
-                        //flowControl.StartCleaningAsset(flowName.Value);
+                        flowControl.StartUnloadingAsset(new GameFlowControl.FlowControlContext
+                        {
+                            Name = flowName.Value
+                        });
                     }
                 }
 #endif

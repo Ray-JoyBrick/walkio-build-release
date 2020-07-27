@@ -1425,7 +1425,8 @@ MonoBehaviour:
         animationCurveParams: []
         functionCallParams: []
         fsmTemplateControlParams:
-        - fsmTemplate: {fileID: 0}
+        - fsmTemplate: {fileID: 11400000, guid: e09660ae569d44692a5ddaf9ae77d23e,
+            type: 2}
           fsmVarOverrides:
           - variable:
               useVariable: 1
@@ -1504,6 +1505,8 @@ MonoBehaviour:
           vector4Values: []
           objectReferences:
           - {fileID: 4069214941539995710}
+          - {fileID: 5424412345176020230}
+          - {fileID: 6682519452164284125}
         fsmEnumParams: []
         fsmFloatParams: []
         fsmIntParams: []
@@ -1668,7 +1671,8 @@ MonoBehaviour:
         animationCurveParams: []
         functionCallParams: []
         fsmTemplateControlParams:
-        - fsmTemplate: {fileID: 0}
+        - fsmTemplate: {fileID: 11400000, guid: 7bf628ea9b5434a938d335bb5c2d3390,
+            type: 2}
           fsmVarOverrides:
           - variable:
               useVariable: 1
@@ -1747,6 +1751,8 @@ MonoBehaviour:
           vector4Values: []
           objectReferences:
           - {fileID: 4069214941539995710}
+          - {fileID: 5424412345176020230}
+          - {fileID: 6682519452164284125}
         fsmEnumParams: []
         fsmFloatParams: []
         fsmIntParams:
@@ -1965,7 +1971,7 @@ MonoBehaviour:
     locked: 0
     manualUpdate: 0
     keepDelayedEventsOnStateExit: 0
-    preprocessed: 1
+    preprocessed: 0
     ExposedEvents: []
     RestartOnEnable: 1
     EnableDebugFlow: 0

@@ -1,0 +1,22 @@
+{
+    "name": "Walkio.Tool.Hud-Design-Export.Editor",
+    "references": [
+        "Unity.Addressables",
+        "Unity.Addressables.Editor",
+        "I2Localization",
+        "Walkio.Tool.Hud-Design-Export",
+        "Walkio.Game.Common",
+        "Walkio.Game.Common.Editor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

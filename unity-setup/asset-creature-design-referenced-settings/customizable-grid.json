@@ -1,6 +1,6 @@
 {
     "name": "Zaroa Net",
-    "use": true,
+    "use": false,
     "toSymlink": [
       {
         "name": "CustomizableGrid",

@@ -13,8 +13,9 @@
         "UniRx",
         "Walkio.Game.Command",
         "Walkio.Game.Common",
-        "Walkio.Game.CrowdSimulate.Common",
         "Walkio.Game.Flow-Control.Common",
+        "Walkio.Game.Move.Common",
+        "Walkio.Game.Move-CrowdSimulate.Common",
         "Walkio.Game.Level.Common"
     ],
     "includePlatforms": [],

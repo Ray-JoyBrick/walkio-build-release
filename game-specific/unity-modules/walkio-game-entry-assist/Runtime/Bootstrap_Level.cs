@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using UIWidgets;
+    // using UIWidgets;
     using UniRx;
     using Unity.Mathematics;
     using UnityEngine;
@@ -15,8 +15,10 @@
     using GameLevelAssist = JoyBrick.Walkio.Game.Level.Assist;
 #endif
 
-    public partial class Bootstrap :
-        GameLevelAssist.IGridWorldProvider
+    public partial class Bootstrap
+#if WALKIO_LEVEL_ASSIST
+        : GameLevelAssist.IGridWorldProvider
+#endif
     {
         //
         public GameObject obstaclePrefab;

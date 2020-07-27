@@ -1,26 +1,34 @@
 {
-  "name": "game-specific",
-  "use": true,
-  "toSymlink": [
-    {
-      "name": "unity-modules/walkio-game-entry/Runtime",
-      "to": "Assets/_/1 - Game/Module - Entry/Scripts/Runtime"
-    },
-    {
-      "name": "unity-modules/walkio-game-entry-assist/Runtime",
-      "to": "Assets/_/1 - Game/Module - Entry - Assist/Scripts/Runtime"
-    },
-    {
-      "name": "preprocess-assets/design-use",
-      "to": "Assets/_/1 - Game/Preprocess Assets/design-use"
-    },
-    {
-      "name": "development-assets/Gizmos/JoyBrick",
-      "to": "Assets/Gizmos/JoyBrick"
-    },
-    {
-      "name": "extend-3rd/Setting - Editor Console Pro",
-      "to": "Assets/_/5 - Misc/Setting - Editor Console Pro"
-    }
-  ]
+    "name": "game-specific",
+    "use": true,
+    "toSymlink": [
+        {
+            "name": "unity-modules/walkio-game-entry/Editor",
+            "to": "Assets/_/1 - Game/Module - Entry/Scripts/Editor"
+        },
+        {
+            "name": "unity-modules/walkio-game-entry/Runtime",
+            "to": "Assets/_/1 - Game/Module - Entry/Scripts/Runtime"
+        },
+        {
+            "name": "unity-modules/walkio-game-entry-assist/Editor",
+            "to": "Assets/_/1 - Game/Module - Entry - Assist/Scripts/Editor"
+        },
+        {
+            "name": "unity-modules/walkio-game-entry-assist/Runtime",
+            "to": "Assets/_/1 - Game/Module - Entry - Assist/Scripts/Runtime"
+        },
+        {
+            "name": "preprocess-assets/external-data",
+            "to": "Assets/_/1 - Game/Preprocess Assets/external-data"
+        },
+        {
+            "name": "development-assets/Gizmos/JoyBrick",
+            "to": "Assets/Gizmos/JoyBrick"
+        },
+        {
+            "name": "extend-3rd/Setting - Editor Console Pro",
+            "to": "Assets/_/5 - Misc/Setting - Editor Console Pro"
+        }
+    ]
 }

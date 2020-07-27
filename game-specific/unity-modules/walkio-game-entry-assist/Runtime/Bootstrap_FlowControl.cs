@@ -52,82 +52,85 @@ namespace JoyBrick.Walkio.Game.Assist
 
 #if WALKIO_CREATURE
             {
-                var loadAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameCreature.LoadAssetSystem>();
-                loadAssetSystem.ProvideExternalAsset = true;
+                var prepareAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameCreature.PrepareAssetSystem>();
+                prepareAssetSystem.ProvideExternalAsset = true;
             }
 #endif
 
 // #if WALKIO_FLOWCONTROL
 //             {
-//                 var loadAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameFlowControl.LoadAssetSystem>();
+//                 var prepareAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameFlowControl.PrepareAssetSystem>();
 //                 loadAssetSystem.ProvideExternalAsset = true;
 //             }
 // #endif
 
 // #if WALKIO_HUD_APP
 //             {
-//                 var loadAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameHudApp.LoadAssetSystem>();
-//                 loadAssetSystem.ProvideExternalAsset = true;
+//                 var prepareAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameHudApp.PrepareAssetSystem>();
+//                 prepareAssetSystem.ProvideExternalAsset = true;
 //             }
 // #endif
 
-#if WALKIO_HUD_PREPARATION
-            {
-                var loadAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameHudPreparation.LoadAssetSystem>();
-                loadAssetSystem.ProvideExternalAsset = true;
-            }
-#endif
+// #if WALKIO_HUD_PREPARATION
+//             {
+//                 var prepareAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameHudPreparation.PrepareAssetSystem>();
+//                 prepareAssetSystem.ProvideExternalAsset = true;
+//             }
+// #endif
 
 #if WALKIO_HUD_STAGE
             {
-                var loadAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameHudStage.LoadAssetSystem>();
-                loadAssetSystem.ProvideExternalAsset = true;
+                var prepareAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameHudStage.PrepareAssetSystem>();
+                prepareAssetSystem.ProvideExternalAsset = true;
             }
 #endif
 
 #if WALKIO_MOVE_CROWDSIMULATE
             {
-                var loadAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameMoveCrowdSimulate.LoadAssetSystem>();
-                loadAssetSystem.ProvideExternalAsset = true;
+                var prepareAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameMoveCrowdSimulate.PrepareAssetSystem>();
+                prepareAssetSystem.ProvideExternalAsset = true;
             }
 #endif
 
 #if WALKIO_MOVE_FLOWFIELD
             {
-                var loadAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameMoveFlowField.LoadAssetSystem>();
-                loadAssetSystem.ProvideExternalAsset = true;
+                var prepareAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameMoveFlowField.PrepareAssetSystem>();
+                prepareAssetSystem.ProvideExternalAsset = true;
             }
 #endif
 
 #if WALKIO_MOVE_WAYPOINT
             {
-                var loadAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameMoveWaypoint.LoadAssetSystem>();
-                loadAssetSystem.ProvideExternalAsset = true;
+                var prepareAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameMoveWaypoint.PrepareAssetSystem>();
+                prepareAssetSystem.ProvideExternalAsset = true;
             }
 #endif
 
         }
-        
+
         private void SignalStartLoadingAssetForStage()
         {
+#if WALKIO_FLOWCONTROL
             Observable.Timer(System.TimeSpan.FromMilliseconds(500))
                 .Subscribe(_ =>
                 {
                     var flowControl = _assistable.RefGameObject.GetComponent<GameFlowControl.IFlowControl>();
                     // flowControl.StartLoadingAsset("Stage");
+                    _logger.Debug($"Bootstrap Assist - Flow Control - SignalStartLoadingAssetForStage - Start loading stage");
                     flowControl.StartLoadingAsset(new GameFlowControl.FlowControlContext
                     {
                         Name = "Stage"
                     });
                 })
                 .AddTo(_compositeDisposable);
+#endif
         }
 
         private void StartGameFlow()
         {
             _logger.Debug($"Bootstrap Assist - StartGameFlow");
 
-            SignalStartLoadingAssetForStage();
+            // SignalStartLoadingAssetForStage();
         }
     }
 }

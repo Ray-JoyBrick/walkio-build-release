@@ -76,7 +76,8 @@ namespace JoyBrick.Walkio.Game.FlowControl
             FlowControl?.IndividualAssetSettingFinished
                 .Where(x => x.Name.Contains("Stage"))
                 // Should be loading from some settings
-                .Buffer(flowControlData.doneSettingAssetWaitForStage)
+                // .Buffer(flowControlData.doneSettingAssetWaitForStage)
+                .Buffer(2)
                 .Subscribe(x =>
                 {
                     _logger.Debug($"Module - SettingDoneCheckSystem - Construct - IndividualAssetSettingFinished for Stage");

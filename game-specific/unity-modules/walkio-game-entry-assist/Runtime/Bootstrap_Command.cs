@@ -17,6 +17,7 @@ namespace JoyBrick.Walkio.Game.Assist
         // private void SendShowHideRequestEventForStage(int category, bool hide, int timeInMs)
         private void SendShowHideRequestEventForStage(int category, bool hide)
         {
+#if WALKIO_LEVEL_ASSIST
             var archetype =
                 World.DefaultGameObjectInjectionWorld.EntityManager.CreateArchetype(
                     typeof(GameLevelAssist.ShowHideRequest),
@@ -35,6 +36,7 @@ namespace JoyBrick.Walkio.Game.Assist
                 });
                 // })
                 // .AddTo(_compositeDisposable);
+#endif
         }
     }
 }

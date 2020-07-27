@@ -11,12 +11,14 @@ namespace JoyBrick.Walkio.Game.Assist
     using UnityEngine.Events;
     using UnityEngine.SceneManagement;
 
-#if COMPLETE_PROJECT
+#if WALKIO_HUD_APP_ASSIST
 
     using GameHudAppAssist = JoyBrick.Walkio.Game.Hud.App.Assist;
     // using GameHudPreparation = JoyBrick.Walkio.Game.Hud.Preparation;
+#endif
+
+#if WALKIO_HUD_STAGE_ASSIST
     using GameHudStageAssist = JoyBrick.Walkio.Game.Hud.Stage.Assist;
-    
 #endif
 
     public partial class Bootstrap
@@ -47,7 +49,7 @@ namespace JoyBrick.Walkio.Game.Assist
         {
             return UpdateAction.Postpone;
         }
-        
+
         bool CheckValidation(ReleaseDetails releaseDetails)
         {
             // Look at releaseDetails public properties to get version information, release notes text or release notes URL

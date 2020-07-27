@@ -1,0 +1,28 @@
+{
+    "name": "Walkio.Tool.Creature-Design-Export.Editor",
+    "references": [
+        "Unity.Addressables",
+        "Unity.Addressables.Editor",
+        "Unity.Entities",
+        "Unity.Entities.Hybrid",
+        "Unity.ProBuilder",
+        "Unity.Scenes.Hybrid",
+        "AstarPackageToolsEditor",
+        "Walkio.Game.Common",
+        "Walkio.Game.Common.Editor",
+        "Walkio.Tool.Creature-Design-Export",
+        "Cinemachine",
+        "Unity.RenderPipelines.Core.Runtime"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

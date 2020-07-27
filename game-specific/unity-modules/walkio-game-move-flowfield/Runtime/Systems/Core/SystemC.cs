@@ -1,148 +1,195 @@
-// namespace JoyBrick.Walkio.Game.Move.FlowField
-// {
-//     using System.Collections.Generic;
-//     using System.Linq;
-//     using UniRx;
-//     using Unity.Collections;
-//     using Unity.Entities;
-//     using Unity.Mathematics;
-//     using Unity.Transforms;
+namespace JoyBrick.Walkio.Game.Move.FlowField
+{
+    using System.Collections.Generic;
+    using System.Linq;
+    using UniRx;
+    using Unity.Collections;
+    using Unity.Entities;
+    using Unity.Mathematics;
+    using Unity.Transforms;
 
-//     [DisableAutoCreation]
-//     [UpdateAfter(typeof(SystemA))]
-//     public class SystemB : SystemBase
-//     {
-//         private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(SystemB));
+    //
+    using GameCommon = JoyBrick.Walkio.Game.Common;
 
-//         //
-//         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
+#if WALKIO_FLOWCONTROL
+    using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
+#endif
 
-//         //
-//         private BeginInitializationEntityCommandBufferSystem _entityCommandBufferSystem;
+    using GameLevel = JoyBrick.Walkio.Game.Level;
 
-//         public IFlowFieldWorldProvider FlowFieldWorldProvider { get; set; }
+    [DisableAutoCreation]
+    [UpdateAfter(typeof(SystemA))]
+    public class SystemC : SystemBase
+    {
+        private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(SystemC));
 
-//         public void Construct()
-//         {
-//             _logger.Debug($"Module - SystemB - Construct");
-//         }
+        //
+        private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
 
-//         protected override void OnCreate()
-//         {
-//             base.OnCreate();
+        //
+        private BeginInitializationEntityCommandBufferSystem _entityCommandBufferSystem;
+        private EntityQuery _gridWorldEntityQuery;
 
-//             _entityCommandBufferSystem = World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
-//         }
+        //
+        private bool _canUpdate;
 
-//         private void ProcessPathPoint(
-//             int2 gridCellCount, float2 gridCellSize,
-//             int2 tileCellCount, float2 tileCellSize,
-//             EntityCommandBuffer commandBuffer,
-//             Entity entity,
-//             int groupId,
-//             DynamicBuffer<PathPointSeparationBuffer> pathPointSeparationBuffers, DynamicBuffer<PathPointBuffer> pathPointBuffers,
-//             EntityArchetype leadingToSetEntityArchetype, EntityArchetype flowFieldTileEntityArchetype)
-//         {
-//             var capacity = pathPointBuffers.Length;
-//             using (var hashTable = new NativeHashMap<int2, bool>(capacity, Allocator.TempJob))
-//             {
-//                 _logger.Debug($"Module - SystemB - OnUpdate - event entity: {entity}");
+#if WALKIO_FLOWCONTROL
+        public GameFlowControl.IFlowControl FlowControl { get; set; }
+#endif
 
-//                 for (var i = 0; i < pathPointSeparationBuffers.Length; ++i)
-//                 {
-//                     var index = pathPointSeparationBuffers[i];
+        //
+        public IFlowFieldWorldProvider FlowFieldWorldProvider { get; set; }
 
-//                     var startIndex = index.Value.x;
-//                     var endIndex = index.Value.y;
+        public void Construct()
+        {
+            _logger.Debug($"Module - Move - FlowField - SystemC - Construct");
 
-//                     for (var j = startIndex; j < endIndex; ++j)
-//                     {
-//                         var pathPoint = pathPointBuffers[j];
-//                         var tileIndex = Utility.FlowFieldTileHelper.PositionToTileIndexAtGrid2D(
-//                             gridCellCount, gridCellSize,
-//                             tileCellCount, tileCellSize,
-//                             new float2(pathPoint.Value.x, pathPoint.Value.z));
+            //
+#if WALKIO_FLOWCONTROL
+            FlowControl?.FlowReadyToStart
+                .Where(x => x.Name.Contains("Stage"))
+                .Subscribe(x =>
+                {
+                    _logger.Debug($"Module - Move - FlowField - SystemC - Construct - Receive AllDoneSettingAsset");
+                    _canUpdate = true;
+                })
+                .AddTo(_compositeDisposable);
+#endif
+        }
 
-//                         var added = hashTable.TryAdd(tileIndex, true);
-//                         // if (added)
-//                         // {
-//                         //     _logger.Debug($"Module - SystemB - OnUpdate - tileIndex: {tileIndex} is added");
-//                         // }
-//                     }
-//                 }
+        protected override void OnCreate()
+        {
+            base.OnCreate();
 
-//                 using (var tileIndices = hashTable.GetKeyArray(Allocator.TempJob))
-//                 {
-//                     var leadingToSetEntity = commandBuffer.CreateEntity(leadingToSetEntityArchetype);
+            _entityCommandBufferSystem = World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
 
-//                     var leadingToTileBuffer = commandBuffer.AddBuffer<LeadingToTileBuffer>(leadingToSetEntity);
+            _gridWorldEntityQuery = GetEntityQuery(new EntityQueryDesc
+            {
+                All = new ComponentType[]
+                {
+                    ComponentType.ReadOnly<GameLevel.GridWorld>(),
+                    ComponentType.ReadOnly<GameLevel.GridWorldProperty>()
+                }
+            });
 
-//                     var tileCount = tileIndices.Length;
-//                     leadingToTileBuffer.ResizeUninitialized(tileCount);
-//                     for (var tileIndex = 0; tileIndex < tileCount; ++tileIndex)
-//                     {
-//                         var flowFieldTileEntity = commandBuffer.CreateEntity(flowFieldTileEntityArchetype);
+            RequireForUpdate(_gridWorldEntityQuery);
+        }
 
-//                         commandBuffer.SetComponent(flowFieldTileEntity, new FlowFieldTileProperty
-//                         {
-//                             WorldId = 0,
-//                             GroupId = groupId,
-//                             TileIndex = tileIndices[tileIndex]
-//                         });
+        // private void CreateLeadingToSetEntity()
+        // {
+        //     var leadingToSetEntityArchetype = EntityManager.CreateArchetype(
+        //         typeof(LeadingToSet),
+        //         typeof(LeadingToTileBuffer));
 
-//                         leadingToTileBuffer[tileIndex] = flowFieldTileEntity;
-//                     }
-//                 }
-//             }
-//         }
+        //     var leadingToSetEntity = commandBuffer.CreateEntity(leadingToSetEntityArchetype);
 
-//         protected override void OnUpdate()
-//         {
-//             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
-//             var concurrentCommandBuffer = commandBuffer.ToConcurrent();
+        //     var leadingToTileBuffer = commandBuffer.AddBuffer<LeadingToTileBuffer>(leadingToSetEntity);
 
-//             var gridCellCount = new int2(256, 192);
-//             var gridCellSize = new float2(1.0f, 1.0f);
-//             var flowFieldWorldData = FlowFieldWorldProvider.FlowFieldWorldData as Template.FlowFieldWorldData;
-//             var tileCellCount = new int2(flowFieldWorldData.tileCellCount.x, flowFieldWorldData.tileCellCount.y);
-//             var tileCellSize = (float2)flowFieldWorldData.tileCellSize;
 
-//             var leadingToSetEntityArchetype = EntityManager.CreateArchetype(
-//                 typeof(LeadingToSet),
-//                 typeof(LeadingToTileBuffer));
+        // }
 
-//             var flowFieldTileEntityArchetype = EntityManager.CreateArchetype(
-//                 typeof(FlowFieldTile),
-//                 typeof(FlowFieldTileProperty),
-//                 typeof(FlowFieldTileCellBuffer));
+        protected override void OnUpdate()
+        {
+            // if (!_canUpdate) return;
 
-//             Entities
-//                 .WithAll<PathPointFound>()
-//                 .ForEach((Entity entity, PathPointFoundProperty pathPointFoundProperty, DynamicBuffer<PathPointSeparationBuffer> pathPointSeparationBuffers, DynamicBuffer<PathPointBuffer> pathPointBuffers) =>
-//                 {
-//                     ProcessPathPoint(
-//                         gridCellCount, gridCellSize,
-//                         tileCellCount, tileCellSize,
-//                         commandBuffer,
-//                         entity,
-//                         pathPointFoundProperty.GroupId,
-//                         pathPointSeparationBuffers, pathPointBuffers,
-//                         leadingToSetEntityArchetype,
-//                         flowFieldTileEntityArchetype);
-//                     // Destroy the event so it won't be processed again
-//                     commandBuffer.DestroyEntity(entity);
-//                 })
-//                 .WithoutBurst()
-//                 .Run();
+            var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
+            var concurrentCommandBuffer = commandBuffer.ToConcurrent();
 
-//             _entityCommandBufferSystem.AddJobHandleForProducer(Dependency);
-//         }
+            var atTileChangeEventEntityArchetype = EntityManager.CreateArchetype(
+                typeof(AtTileChange),
+                typeof(AtTileChangeProperty));
 
-//         protected override void OnDestroy()
-//         {
-//             base.OnDestroy();
+            var atTileCellChangeEventEntityArchetype = EntityManager.CreateArchetype(
+                typeof(AtTileCellChange),
+                typeof(AtTileCellChangeProperty));
 
-//             _compositeDisposable?.Dispose();
-//         }
-//     }
-// }
+            var gridWorldProperty = _gridWorldEntityQuery.GetSingleton<GameLevel.GridWorldProperty>();
+
+            var gridCellCount = gridWorldProperty.CellCount;
+            var gridCellSize = gridWorldProperty.CellSize;
+            var flowFieldWorldData = FlowFieldWorldProvider.FlowFieldWorldData as Template.FlowFieldWorldData;
+            var tileCellCount = new int2(flowFieldWorldData.tileCellCount.x, flowFieldWorldData.tileCellCount.y);
+            var tileCellSize = (float2)flowFieldWorldData.tileCellSize;
+
+            Entities
+                .WithAll<ToBeChasedTarget>()
+                .ForEach((Entity entity, LocalToWorld localToWorld, ref ToBeChasedTargetProperty toBeChasedTargetProperty) =>
+                {
+                    //
+                    var initialized = toBeChasedTargetProperty.Initialized;
+                    // var initialized = (toBeChasedTargetProperty.LeadingToSetEntity != Entity.Null);
+
+                    //
+                    var updatedTileAndTileCellIndex =
+                        Utility.FlowFieldTileHelper.PositionToTileAndTileCellIndexAtGridTo2DIndex(
+                            gridCellCount, gridCellSize,
+                            tileCellCount, tileCellSize,
+                            new float2(localToWorld.Position.x, localToWorld.Position.z));
+
+                    var originalTileIndex = toBeChasedTargetProperty.AtTileIndex;
+                    var originalTileCellIndex = toBeChasedTargetProperty.AtTileCellIndex;
+                    var updatedTileIndex = new int2(updatedTileAndTileCellIndex.x, updatedTileAndTileCellIndex.y);
+                    var updatedTileCellIndex = new int2(updatedTileAndTileCellIndex.z, updatedTileAndTileCellIndex.w);
+                    var atOriginalTile =
+                        (updatedTileIndex.x == originalTileIndex.x)
+                        && (updatedTileIndex.y == originalTileIndex.y);
+                    var atOriginalTileCell =
+                        (updatedTileCellIndex.x == originalTileCellIndex.x)
+                        && (updatedTileCellIndex.y == originalTileCellIndex.y);
+
+                    toBeChasedTargetProperty.AtTileIndex = updatedTileIndex;
+                    toBeChasedTargetProperty.AtTileCellIndex = updatedTileCellIndex;
+
+                    var issueTileChangeEvent = (!initialized || !atOriginalTile);
+
+                    if (issueTileChangeEvent)
+                    {
+                        _logger.Debug($"Module - Move - FlowField - SystemC - OnUpdate - need to issue tile change event, not at original tile: {originalTileIndex}, but at: {updatedTileIndex}");
+                        // This is event entity. It notifies target at tile is changed
+                        var atTileChangeEventEntity = commandBuffer.CreateEntity(atTileChangeEventEntityArchetype);
+
+                        commandBuffer.SetComponent(atTileChangeEventEntity, new AtTileChangeProperty
+                        {
+                            GroupId = toBeChasedTargetProperty.BelongToGroup,
+                            ChangeToPosition = localToWorld.Position,
+                            ChangeToTileIndex = updatedTileIndex
+                        });
+
+                        toBeChasedTargetProperty.Initialized = true;
+                    }
+                    else
+                    {
+                        // Tile is the same, but tile cell might be different
+                        var issueTileCellChangeEvent = !atOriginalTileCell;
+                        if (issueTileCellChangeEvent)
+                        {
+                            _logger.Debug($"Module - Move - FlowField - SystemC - OnUpdate - need to issue tile cell change event, not at original tile cell: {originalTileCellIndex}, but at: {updatedTileCellIndex}");
+
+                            var atTileCellChangeEventEntity = commandBuffer.CreateEntity(atTileCellChangeEventEntityArchetype);
+
+                            commandBuffer.SetComponent(atTileCellChangeEventEntity, new AtTileCellChangeProperty
+                            {
+                                GroupId = toBeChasedTargetProperty.BelongToGroup,
+                                ChangeToPosition = localToWorld.Position,
+                                ChangeToTileIndex = updatedTileIndex,
+                                // LeadingToSetEntity should still be valid
+                                LeadingToSetEntity = toBeChasedTargetProperty.LeadingToSetEntity
+                            });
+                        }
+                    }
+
+                })
+                .WithoutBurst()
+                .Run();
+
+            _entityCommandBufferSystem.AddJobHandleForProducer(Dependency);
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            _compositeDisposable?.Dispose();
+        }
+    }
+}

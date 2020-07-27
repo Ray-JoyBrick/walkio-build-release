@@ -75,7 +75,7 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
         //
         public void Construct()
         {
-            _logger.Debug($"Module - SetupAssetSystem - Construct");
+            _logger.Debug($"Module - Move - CrowdSimulate - SetupAssetSystem - Construct");
 
 #if WALKIO_FLOWCONTROL
             //
@@ -83,7 +83,7 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
                 .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"SetupAssetSystem - Construct - Receive SettingAsset");
+                    _logger.Debug($"Module - Move - CrowdSimulate - SetupAssetSystem - Construct - Receive SettingAsset");
 
                     _canSetup = true;
                     _doingSetup = true;
@@ -96,7 +96,7 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
 
         protected override void OnCreate()
         {
-            _logger.Debug($"Module - SetupAssetSystem - OnCreate");
+            _logger.Debug($"Module - Move - CrowdSimulate - SetupAssetSystem - OnCreate");
 
             base.OnCreate();
 
@@ -106,8 +106,10 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
             {
                 All = new ComponentType[]
                 {
+#if WALKIO_LEVEL
                     ComponentType.ReadOnly<GameLevel.GridWorld>(),
                     ComponentType.ReadOnly<GameLevel.GridWorldProperty>()
+#endif
                 }
             });
 

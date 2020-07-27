@@ -1,6 +1,7 @@
 {
     "name": "Walkio.Game.Move-FlowField",
     "references": [
+        "Unity.Burst",
         "Unity.Collections",
         "Unity.Entities",
         "Unity.Entities.Hybrid",
@@ -12,6 +13,7 @@
         "Walkio.Game.Common",
         "Walkio.Game.Flow-Control.Common",
         "Walkio.Game.Level.Common",
+        "Walkio.Game.Move.Common",
         "Walkio.Game.Move-FlowField.Common"
     ],
     "includePlatforms": [],

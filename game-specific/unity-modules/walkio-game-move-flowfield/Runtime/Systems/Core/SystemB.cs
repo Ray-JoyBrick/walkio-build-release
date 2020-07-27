@@ -8,6 +8,15 @@
     using Unity.Mathematics;
     using Unity.Transforms;
 
+    //
+    using GameCommon = JoyBrick.Walkio.Game.Common;
+
+#if WALKIO_FLOWCONTROL
+    using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
+#endif
+
+    using GameLevel = JoyBrick.Walkio.Game.Level;
+
     [DisableAutoCreation]
     [UpdateAfter(typeof(SystemA))]
     public class SystemB : SystemBase
@@ -19,12 +28,30 @@
 
         //
         private BeginInitializationEntityCommandBufferSystem _entityCommandBufferSystem;
+        private EntityQuery _gridWorldEntityQuery;
 
+#if WALKIO_FLOWCONTROL
+        public GameFlowControl.IFlowControl FlowControl { get; set; }
+#endif
         public IFlowFieldWorldProvider FlowFieldWorldProvider { get; set; }
+
+        //
+        private bool _canUpdate;
 
         public void Construct()
         {
             _logger.Debug($"Module - SystemB - Construct");
+
+#if WALKIO_FLOWCONTROL
+            FlowControl?.FlowReadyToStart
+                .Where(x => x.Name.Contains("Stage"))
+                .Subscribe(x =>
+                {
+                    _logger.Debug($"Module - Move - FlowField - SystemC - Construct - Receive AllDoneSettingAsset");
+                    _canUpdate = true;
+                })
+                .AddTo(_compositeDisposable);
+#endif
         }
 
         protected override void OnCreate()
@@ -32,6 +59,17 @@
             base.OnCreate();
 
             _entityCommandBufferSystem = World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
+
+            _gridWorldEntityQuery = GetEntityQuery(new EntityQueryDesc
+            {
+                All = new ComponentType[]
+                {
+                    ComponentType.ReadOnly<GameLevel.GridWorld>(),
+                    ComponentType.ReadOnly<GameLevel.GridWorldProperty>()
+                }
+            });
+
+            RequireForUpdate(_gridWorldEntityQuery);
         }
 
         private static int GetBaseCostByGridCellIndex(int gridCellIndex)
@@ -76,17 +114,17 @@
                 //             {
                 //                 if (goalTileIndex.x == tileIndex.x && goalTileIndex.y == tileIndex.y)
                 //                 {
-                //                     
+                //
                 //                 }
                 //                 else
                 //                 {
                 //                     _logger.Warning($"Module - SystemB - ProcessPathPoint: goalTileIndex {goalTileIndex} is not the same as {tileIndex}");
                 //                 }
                 //             }
-                //             
+                //
                 //             goalTileIndex = tileIndex;
                 //         }
-                //         
+                //
                 //         var added = hashTable.TryAdd(tileIndex, true);
                 //         // if (added)
                 //         // {
@@ -94,7 +132,7 @@
                 //         // }
                 //     }
                 // }
-                
+
                 for (var i = 0; i < pathPointSeparationBuffers.Length; ++i)
                 {
                     var index = pathPointSeparationBuffers[i];
@@ -132,14 +170,14 @@
                     //         tileCellCount, tileCellSize,
                     //         new float2(pathPoint.Value.x, pathPoint.Value.z));
                     //
-                    //     
+                    //
                     //     var added = hashTable.TryAdd(tileIndex, true);
                     //     // if (added)
                     //     // {
                     //     //     _logger.Debug($"Module - SystemB - OnUpdate - tileIndex: {tileIndex} is added");
                     //     // }
                     // }
-                }                
+                }
 
                 using (var tileIndices = hashTable.GetKeyArray(Allocator.TempJob))
                 {
@@ -151,20 +189,20 @@
                     leadingToTileBuffer.ResizeUninitialized(tileCount);
 
                     // var goalTileIndex = tileIndices[tileCount - 1];
-                    
+
                     for (var ti = 0; ti < tileCount; ++ti)
                     {
                         var flowFieldTileEntity = commandBuffer.CreateEntity(flowFieldTileEntityArchetype);
 
                         var tileIndex = tileIndices[ti];
-                        
+
                         commandBuffer.SetComponent(flowFieldTileEntity, new FlowFieldTileProperty
                         {
                             WorldId = 0,
                             GroupId = groupId,
                             TileIndex = tileIndex
                         });
-                        
+
                         // Set flow tile cell buffer for this tile
                         var gridCellIndices =
                             Utility.FlowFieldTileHelper.GetGridCellIndicesInTile(
@@ -175,7 +213,7 @@
                         var tileCellBuffer = commandBuffer.AddBuffer<FlowFieldTileCellBuffer>(flowFieldTileEntity);
                         var totalTileCellCount = tileCellCount.x * tileCellCount.y;
                         tileCellBuffer.ResizeUninitialized(totalTileCellCount);
-                        
+
                         //
                         var baseCosts = new NativeArray<int>(totalTileCellCount, Allocator.Temp);
 
@@ -212,7 +250,11 @@
                         }
 
                         //
-                        leadingToTileBuffer[ti] = flowFieldTileEntity;
+                        leadingToTileBuffer[ti] = new LeadingToTileContent
+                        {
+                            Tile = flowFieldTileEntity
+                        };
+                        // leadingToTileBuffer[ti] = flowFieldTileEntity;
                     }
                 }
             }
@@ -220,11 +262,15 @@
 
         protected override void OnUpdate()
         {
+            // if (!_canUpdate) return;
+
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
             var concurrentCommandBuffer = commandBuffer.ToConcurrent();
 
-            var gridCellCount = new int2(256, 192);
-            var gridCellSize = new float2(1.0f, 1.0f);
+            var gridWorldProperty = _gridWorldEntityQuery.GetSingleton<GameLevel.GridWorldProperty>();
+
+            var gridCellCount = gridWorldProperty.CellCount;
+            var gridCellSize = gridWorldProperty.CellSize;
             var flowFieldWorldData = FlowFieldWorldProvider.FlowFieldWorldData as Template.FlowFieldWorldData;
             var tileCellCount = new int2(flowFieldWorldData.tileCellCount.x, flowFieldWorldData.tileCellCount.y);
             var tileCellSize = (float2)flowFieldWorldData.tileCellSize;

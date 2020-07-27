@@ -61,14 +61,14 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
             var concurrentCommandBuffer = commandBuffer.ToConcurrent();
 
-            // Entities
-            //     .WithAll<AtTileChange>()
-            //     .ForEach((Entity entity, AtTileChangeProperty atTileChangeProperty) =>
-            //     {
-            //         _logger.Debug($"Module - SsytemA - OnUpdate - event entity: {entity}");
-            //     })
-            //     .WithoutBurst()
-            //     .Run();
+            Entities
+                .WithAll<Particle>()
+                .ForEach((Entity entity, ParticleProperty particleProperty) =>
+                {
+                    _logger.Debug($"Module - SsytemA - OnUpdate - event entity: {entity}");
+                })
+                .WithoutBurst()
+                .Run();
 
             _entityCommandBufferSystem.AddJobHandleForProducer(Dependency);
         }

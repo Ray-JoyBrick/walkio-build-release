@@ -22,6 +22,7 @@
     {
         private void _ShowPoints(int groupId, List<Vector3> points, float timeInSeconds)
         {
+#if WALKIO_MOVE_FLOWFIELD_ASSIST
             var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
 
             var temporaryPointIndicationEntityArchetype = entityManager.CreateArchetype(
@@ -40,6 +41,7 @@
                     CountDown = 0
                 });
             });
+#endif
         }
     }
 }

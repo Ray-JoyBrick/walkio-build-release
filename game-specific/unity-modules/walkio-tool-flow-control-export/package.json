@@ -1,0 +1,16 @@
+{
+  "name": "com.walkio.tool.flow-control-export",
+  "displayName": "_ Walkio Tool Flow Control Export",
+  "version": "0.2.0",
+  "unity": "2020.1",
+  "description": "Walkio Tool Flow Control Export",
+  "keywords": [
+  ],
+  "category": "",
+  "dependencies": {},
+  "author": {
+    "email": "ray@joybrick.cc",
+    "name": "Ray Wang",
+    "url": "https://joybrick.cc"
+  }
+}

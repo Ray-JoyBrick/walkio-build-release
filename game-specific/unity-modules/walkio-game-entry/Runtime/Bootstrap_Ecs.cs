@@ -32,14 +32,15 @@
             FlowControl_SettingDoneCheckSystem(initializationSystemGroup);
 
             //
-            FlowControl_LoadAssetSystem(initializationSystemGroup);
+            FlowControl_PrepareAssetSystem(initializationSystemGroup);
+            FlowControlPreparation_PrepareAssetSystem(initializationSystemGroup);
 
             //
-            HudApp_LoadAssetSystem(initializationSystemGroup);
+            HudApp_PrepareAssetSystem(initializationSystemGroup);
             HudApp_SetupAssetSystem(initializationSystemGroup);
-            HudPreparation_LoadAssetSystem(initializationSystemGroup);
+            HudPreparation_PrepareAssetSystem(initializationSystemGroup);
             HudPreparation_SetupAssetSystem(initializationSystemGroup);
-            HudStage_LoadAssetSystem(initializationSystemGroup);
+            HudStage_PrepareAssetSystem(initializationSystemGroup);
             HudStage_SetupAssetSystem(initializationSystemGroup);
 
             //
@@ -47,14 +48,25 @@
             Level_SetupAssetSystem(initializationSystemGroup);
 
             //
-            MoveFlowField_LoadAssetSystem(initializationSystemGroup);
+            MoveFlowField_PrepareAssetSystem(initializationSystemGroup);
             MoveFlowField_SetupAssetSystem(initializationSystemGroup);
 
-            MoveFlowField_SetupInitialLeadingToSetSystem(initializationSystemGroup);
-            MoveFlowField_CheckTargetAtTileChangeSystem(initializationSystemGroup);
+            // MoveFlowField_SetupInitialLeadingToSetSystem(initializationSystemGroup);
+            // MoveFlowField_CheckTargetAtTileChangeSystem(initializationSystemGroup);
             //
-            MoveFlowField_SystemA(initializationSystemGroup);
-            MoveFlowField_SystemB(initializationSystemGroup);
+            // MoveFlowField_SystemC(initializationSystemGroup);
+            // MoveFlowField_SystemD(initializationSystemGroup);
+            // MoveFlowField_SystemE(initializationSystemGroup);
+            // // MoveFlowField_SystemA(initializationSystemGroup);
+            // MoveFlowField_SystemB(initializationSystemGroup);
+
+            MoveFlowField_SystemM01(initializationSystemGroup);
+            MoveFlowField_SystemM02(initializationSystemGroup);
+            MoveFlowField_SystemM03(initializationSystemGroup);
+            MoveFlowField_SystemM08(initializationSystemGroup);
+
+            MoveCrowdSimulate_SystemA(initializationSystemGroup);
+
         }
 
         void CleanUpEcsWorldContext()
