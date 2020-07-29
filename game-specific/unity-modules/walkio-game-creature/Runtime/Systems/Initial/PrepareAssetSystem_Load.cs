@@ -27,9 +27,16 @@
         //
         public bool ProvideExternalAsset { get; set; }
 
-        private async Task Load()
+        private async Task<ScriptableObject> Load()
         //private async Task<ScriptableObject> Load(string levelAssetName, string specificLevelName)
         {
+            _logger.Debug($"Module - Creature - PrepareAssetSystem - Load");
+
+            var creatureRepoDataAssetTask = GameCommon.Utility.AssetLoadingHelper.GetAsset<ScriptableObject>($"Creature Repo Data");
+
+            var creatureRepoDataAsset = await creatureRepoDataAssetTask;
+
+            return creatureRepoDataAsset;
         }
 
         private void InternalLoadAsset(
@@ -41,8 +48,14 @@
                 .Subscribe(result =>
                 {
                     //
-                    // (_levelDataAsset, _sceneInstance) = result;
-                    // _levelDataAsset = result;
+                    _creatureRepoDataAsset = result;
+
+                    var creatureRepoData = _creatureRepoDataAsset as Template.CreatureRepoData;
+                    creatureRepoData.teamLeaderNpcAssets.ForEach(x =>
+                    {
+                        var creatureData = x as Template.CreatureData;
+                        CreatureProvider.AddTeamLeaderNpcPrefab(creatureData.avatarPrefab);
+                    });
 
                     loadingDoneAction();
                 })
@@ -69,10 +82,10 @@
                         // Since internal loading might be very time consuming, after it is finished, it will
                         // send an event entity. This event entity is caught in Update and process further.
 
-                        // FlowControl.FinishIndividualLoadingAsset(new GameFlowControl.FlowControlContext
-                        // {
-                        //     Name = "Stage"
-                        // });
+                        FlowControl.FinishIndividualLoadingAsset(new GameFlowControl.FlowControlContext
+                        {
+                            Name = "Stage"
+                        });
                     });
             }
         }

@@ -125,7 +125,7 @@
                     }
 
                     // var positions = tileIndices.ToList()
-                    FlowFieldWorldProvider?.CalculateLeadingTilePath(forWhichGroupId, changeToPosition, positions);
+                    // FlowFieldWorldProvider?.CalculateLeadingTilePath(forWhichGroupId,  changeToPosition, positions);
                 }
             }
         }

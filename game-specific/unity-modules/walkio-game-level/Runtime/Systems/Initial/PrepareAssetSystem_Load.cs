@@ -84,24 +84,24 @@
 #endif
             //
             _logger.Debug($"Module - Level - LoadAssetSystem - MakeWorld - load level data");
-            var levelData = levelSettingDataAsset as Template.LevelData;
-            if (levelData != null)
+            LevelData = levelSettingDataAsset as Template.LevelData;
+            if (LevelData != null)
             {
                 // Should read the value from data asset instead of hard code
-                var gridWorldTileCount = levelData.gridWorldTileCount;
-                var gridWorldTileCellCount = levelData.gridWorldTielCellCount;
-                var gridWorldCellSize = levelData.gridWorldCellSize;
+                var gridWorldTileCount = LevelData.gridWorldTileCount;
+                var gridWorldTileCellCount = LevelData.gridWorldTielCellCount;
+                var gridWorldCellSize = LevelData.gridWorldCellSize;
                 var gridWorldData = GridWorldProvider.GridWorldData as Template.GridWorldData;
 
                 var lookupTable =
-                    levelData.areaLookup
+                    LevelData.areaLookup
                         .ToDictionary(x => x.areaColor, x => x.index);
 
                 var prefab = gridWorldData.gridMapBlobAssetAuthoringPrefab;
 
                 SetupGridMap(
                     prefab,
-                    lookupTable, levelData.subLevelImages,
+                    lookupTable, LevelData.subLevelImages,
                     gridWorldTileCount, gridWorldTileCellCount, gridWorldCellSize);
             }
 

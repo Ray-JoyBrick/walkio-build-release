@@ -136,7 +136,9 @@
                             {
                                 GroupId = toBeChasedTargetProperty.BelongToGroup,
                                 ChangeToPosition = localToWorld.Position,
-                                ChangeToTileIndex = updatedTileIndex
+                                ChangeToTileIndex = updatedTileIndex,
+
+                                ForWhichLeader = entity
                             });
 
                         toBeChasedTargetProperty.Initialized = true;

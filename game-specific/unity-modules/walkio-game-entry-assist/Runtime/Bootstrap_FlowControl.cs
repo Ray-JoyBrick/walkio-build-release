@@ -49,13 +49,13 @@ namespace JoyBrick.Walkio.Game.Assist
         private void HandleSetupAfterEcs()
         {
             _logger.Debug($"Bootstrap Assist - HandleSetupAfterEcs");
-
-#if WALKIO_CREATURE
-            {
-                var prepareAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameCreature.PrepareAssetSystem>();
-                prepareAssetSystem.ProvideExternalAsset = true;
-            }
-#endif
+//
+// #if WALKIO_CREATURE
+//             {
+//                 var prepareAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameCreature.PrepareAssetSystem>();
+//                 prepareAssetSystem.ProvideExternalAsset = true;
+//             }
+// #endif
 
 // #if WALKIO_FLOWCONTROL
 //             {
@@ -78,12 +78,12 @@ namespace JoyBrick.Walkio.Game.Assist
 //             }
 // #endif
 
-#if WALKIO_HUD_STAGE
-            {
-                var prepareAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameHudStage.PrepareAssetSystem>();
-                prepareAssetSystem.ProvideExternalAsset = true;
-            }
-#endif
+// #if WALKIO_HUD_STAGE
+//             {
+//                 var prepareAssetSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<GameHudStage.PrepareAssetSystem>();
+//                 prepareAssetSystem.ProvideExternalAsset = true;
+//             }
+// #endif
 
 #if WALKIO_MOVE_CROWDSIMULATE
             {

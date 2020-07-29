@@ -44,7 +44,6 @@
                 {
                     _assetData = result;
 
-
                     var usedFlowData = _assetData as Template.UsedFlowData;
                     usedFlowData.flowPrefabs.ForEach(prefab =>
                     {
@@ -59,6 +58,8 @@
                         ExtensionService.SetReferenceToExtension(createdInstance);
 
                         SceneService.MoveToCurrentScene(createdInstance);
+
+                        _flowInstances.Add(createdInstance);
                     });
 
                     loadingDoneAction();

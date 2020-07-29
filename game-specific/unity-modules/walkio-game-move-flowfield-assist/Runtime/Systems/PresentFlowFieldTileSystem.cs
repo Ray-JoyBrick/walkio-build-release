@@ -108,21 +108,25 @@
             }
             else if (valueIndex == 3)
             {
-                direction = math.normalize(new float3(-1.00f, 0, 0f));
+                direction = math.normalize(new float3(-1.0f, 0, 0f));
             }
             else if (valueIndex == 4)
             {
-                direction = math.normalize(new float3(1.0f, 0, 0.0f));
+                direction = math.normalize(new float3(0, 0, 0));
             }
             else if (valueIndex == 5)
             {
-                direction = math.normalize(new float3(-1.0f, 0, -1.0f));
+                direction = math.normalize(new float3(1.0f, 0, 0.0f));
             }
             else if (valueIndex == 6)
             {
-                direction = math.normalize(new float3(0.0f, 0, -1.0f));
+                direction = math.normalize(new float3(-1.0f, 0, -1.0f));
             }
             else if (valueIndex == 7)
+            {
+                direction = math.normalize(new float3(0.0f, 0, -1.0f));
+            }
+            else if (valueIndex == 8)
             {
                 direction = math.normalize(new float3(1.0f, 0, -1.0f));
             }
@@ -204,7 +208,7 @@
 
                                 commandBuilder.Arrowhead(tileCellPos, direction,
                                     new float3(0, 1.0f, 0), 0.35f, Color.green);
-                                commandBuilder.Label2D(tileCellPos, cost.ToString(), Color.green);
+                                commandBuilder.Label2D(tileCellPos, cost.ToString(), 14.0f, Color.blue);
                             }
                         }
                     })

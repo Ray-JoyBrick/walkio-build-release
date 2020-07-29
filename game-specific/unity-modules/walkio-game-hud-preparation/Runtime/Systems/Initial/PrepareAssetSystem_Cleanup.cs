@@ -8,6 +8,7 @@
     using Unity.Entities;
     using Unity.Mathematics;
     using UnityEngine;
+    using UnityEngine.AddressableAssets;
 
     //
     using GameCommon = JoyBrick.Walkio.Game.Common;
@@ -21,6 +22,15 @@
     {
         private async Task Unload()
         {
+            if (_canvas != null)
+            {
+                GameObject.Destroy(_canvas);
+            }
+
+            if (_hudSettingDataAsset != null)
+            {
+                Addressables.Release(_hudSettingDataAsset);
+            }
         }
 
         private void InternalUnloadAsset(

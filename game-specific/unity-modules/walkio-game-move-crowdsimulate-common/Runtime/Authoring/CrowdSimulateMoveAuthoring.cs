@@ -14,6 +14,7 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
         public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
         {
             dstManager.AddComponentData(entity, new Particle());
+            dstManager.AddComponentData(entity, new ParticleProperty());
         }
     }
 }

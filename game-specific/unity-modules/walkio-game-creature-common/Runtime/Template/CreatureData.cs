@@ -6,7 +6,7 @@
     [CreateAssetMenu(fileName = "Creature Data", menuName = "Walkio/Game/Creature/Creature Data")]
     public class CreatureData : ScriptableObject
     {
-
+        //
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.BoxGroup("Basic")]
 #endif

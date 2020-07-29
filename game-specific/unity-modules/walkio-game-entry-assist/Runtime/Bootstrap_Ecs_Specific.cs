@@ -132,7 +132,7 @@
         private void Level_PresentWorldSystem(ComponentSystemGroup componentSystemGroup)
         {
 #if WALKIO_MOVE_FLOWFIELD
-            _logger.Debug($"Bootstrap - Module Creation - Level_PresentWorldSystem");
+            _logger.Debug($"Bootstrap Assist - Module Creation - Level_PresentWorldSystem");
 
             var createdSystem =
                 World.DefaultGameObjectInjectionWorld
@@ -153,7 +153,7 @@
         private void MoveFlowField_PresentChasedTargetSystem(ComponentSystemGroup componentSystemGroup)
         {
 #if WALKIO_MOVE_FLOWFIELD
-            _logger.Debug($"Bootstrap - Module Creation - MoveFlowField_PresentChasedTargetSystem");
+            _logger.Debug($"Bootstrap Assist - Module Creation - MoveFlowField_PresentChasedTargetSystem");
 
             var createdSystem =
                 World.DefaultGameObjectInjectionWorld
@@ -199,7 +199,7 @@
         private void MoveFlowField_PresentIndicationSystem(ComponentSystemGroup componentSystemGroup)
         {
 #if WALKIO_MOVE_FLOWFIELD
-            _logger.Debug($"Bootstrap - Module Creation - MoveFlowField_PresentIndicationSystem");
+            _logger.Debug($"Bootstrap Assist - Module Creation - MoveFlowField_PresentIndicationSystem");
 
             var createdSystem =
                 World.DefaultGameObjectInjectionWorld
@@ -218,7 +218,7 @@
         private void MoveFlowField_PresentWorldSystem(ComponentSystemGroup componentSystemGroup)
         {
 #if WALKIO_MOVE_FLOWFIELD
-            _logger.Debug($"Bootstrap - Module Creation - MoveFlowField_PresentWorldSystem");
+            _logger.Debug($"Bootstrap Assist - Module Creation - MoveFlowField_PresentWorldSystem");
 
             var createdSystem =
                 World.DefaultGameObjectInjectionWorld
@@ -238,7 +238,7 @@
         private void MoveFlowField_PresentTemporaryPointIndicationSystem(ComponentSystemGroup componentSystemGroup)
         {
 #if WALKIO_MOVE_FLOWFIELD
-            _logger.Debug($"Bootstrap - Module Creation - MoveFlowField_PresentTemporaryPointIndicationSystem");
+            _logger.Debug($"Bootstrap Assist - Module Creation - MoveFlowField_PresentTemporaryPointIndicationSystem");
 
             var createdSystem =
                 World.DefaultGameObjectInjectionWorld
@@ -261,7 +261,7 @@
         private void MoveFlowField_RemoveTemporaryPointIndicationSystem(ComponentSystemGroup componentSystemGroup)
         {
 #if WALKIO_MOVE_FLOWFIELD
-            _logger.Debug($"Bootstrap - Module Creation - MoveFlowField_RemoveTemporaryPointIndicationSystem");
+            _logger.Debug($"Bootstrap Assist - Module Creation - MoveFlowField_RemoveTemporaryPointIndicationSystem");
 
             var createdSystem =
                 World.DefaultGameObjectInjectionWorld

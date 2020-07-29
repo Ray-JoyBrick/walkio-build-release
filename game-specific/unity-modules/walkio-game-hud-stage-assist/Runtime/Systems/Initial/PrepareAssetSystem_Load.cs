@@ -62,7 +62,7 @@
 
 #if UNITY_EDITOR
                         _canvas.name = _canvas.name.Replace("(Clone)", "");
-                        _canvas.name = _canvas.name + $" - Preparation";
+                        _canvas.name = _canvas.name + $" - Stage Assist";
 #endif
 
                         CommandService.AddCommandStreamProducer(_canvas);

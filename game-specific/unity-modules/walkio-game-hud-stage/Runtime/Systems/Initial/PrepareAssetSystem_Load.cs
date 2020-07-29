@@ -62,7 +62,7 @@
 
 #if UNITY_EDITOR
                         _canvas.name = _canvas.name.Replace("(Clone)", "");
-                        _canvas.name = _canvas.name + $" - Preparation";
+                        _canvas.name = _canvas.name + $" - Stage";
 #endif
 
                         CommandService.AddCommandStreamProducer(_canvas);
@@ -113,7 +113,7 @@
         //
         private void RegisterToLoadFlow()
         {
-            _logger.Debug($"Module - Hud App - PrepareAssetSystem - RegisterToLoadFlow");
+            _logger.Debug($"Module - Hud Stage - PrepareAssetSystem - RegisterToLoadFlow");
 
 #if WALKIO_FLOWCONTROL
             FlowControl?.AssetLoadingStarted

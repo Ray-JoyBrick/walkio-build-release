@@ -32,6 +32,8 @@ namespace JoyBrick.Walkio.Game.FlowControl.Preparation
         //
         private ScriptableObject _assetData;
 
+        private readonly List<GameObject> _flowInstances = new List<GameObject>();
+
         //
         public GameCommon.ISceneService SceneService { get; set; }
         public IFlowControl FlowControl { get; set; }

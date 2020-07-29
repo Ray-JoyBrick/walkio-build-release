@@ -34,6 +34,7 @@
             //
             FlowControl_PrepareAssetSystem(initializationSystemGroup);
             FlowControlPreparation_PrepareAssetSystem(initializationSystemGroup);
+            FlowControlStage_PrepareAssetSystem(initializationSystemGroup);
 
             //
             HudApp_PrepareAssetSystem(initializationSystemGroup);
@@ -44,12 +45,20 @@
             HudStage_SetupAssetSystem(initializationSystemGroup);
 
             //
-            Level_LoadAssetSystem(initializationSystemGroup);
+            Creature_PrepareAssetSystem(initializationSystemGroup);
+
+            Level_PrepareAssetSystem(initializationSystemGroup);
             Level_SetupAssetSystem(initializationSystemGroup);
 
             //
+            MoveCrowdSimulate_PrepareAssetSystem(initializationSystemGroup);
+            MoveCrowdSimulate_SetupAssetSystem(initializationSystemGroup);
+
             MoveFlowField_PrepareAssetSystem(initializationSystemGroup);
             MoveFlowField_SetupAssetSystem(initializationSystemGroup);
+
+            MoveWaypoint_PrepareAssetSystem(initializationSystemGroup);
+            MoveWaypoint_SetupAssetSystem(initializationSystemGroup);
 
             // MoveFlowField_SetupInitialLeadingToSetSystem(initializationSystemGroup);
             // MoveFlowField_CheckTargetAtTileChangeSystem(initializationSystemGroup);
@@ -60,10 +69,13 @@
             // // MoveFlowField_SystemA(initializationSystemGroup);
             // MoveFlowField_SystemB(initializationSystemGroup);
 
+            MoveFlowField_SystemH01(initializationSystemGroup);
+
             MoveFlowField_SystemM01(initializationSystemGroup);
             MoveFlowField_SystemM02(initializationSystemGroup);
             MoveFlowField_SystemM03(initializationSystemGroup);
             MoveFlowField_SystemM08(initializationSystemGroup);
+            MoveFlowField_SystemM09(initializationSystemGroup);
 
             MoveCrowdSimulate_SystemA(initializationSystemGroup);
 

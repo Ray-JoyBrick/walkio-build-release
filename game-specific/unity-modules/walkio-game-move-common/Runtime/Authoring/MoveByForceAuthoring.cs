@@ -1,4 +1,4 @@
-namespace JoyBrick.Walkio.Game.Move.FlowField
+namespace JoyBrick.Walkio.Game.Move
 {
     using Unity.Entities;
     using Unity.Transforms;
@@ -12,9 +12,9 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
         IConvertGameObjectToEntity
     {
         // public bool inInCharge;
-        public bool toBeChased;
-        public int belongToGroup;
-        public bool syncFromMonoBehaviorWorld;
+        // public bool toBeChased;
+        // public int belongToGroup;
+        // public bool syncFromMonoBehaviorWorld;
 
         public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
         {

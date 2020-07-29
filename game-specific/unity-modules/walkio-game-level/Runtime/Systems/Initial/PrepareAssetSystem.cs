@@ -66,6 +66,9 @@ namespace JoyBrick.Walkio.Game.Level
         public string AtPart => "Stage";
 
         //
+        public Template.LevelData LevelData { get; set; }
+
+        //
         public void Construct()
         {
             _logger.Debug($"Module - Level - PrepareAssetSystem - Construct");
@@ -99,7 +102,8 @@ namespace JoyBrick.Walkio.Game.Level
         {
             var notSetEvents = eventSlots.Where(x => x == 0);
 
-            return !notSetEvents.Any();
+            // return !notSetEvents.Any();
+            return true;
         }
 
         private static void ResetWaitingEventSlots(List<int> eventSlots)

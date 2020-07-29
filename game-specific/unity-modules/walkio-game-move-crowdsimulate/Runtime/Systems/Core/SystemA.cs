@@ -6,7 +6,10 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
     using Unity.Collections;
     using Unity.Entities;
     using Unity.Mathematics;
+    using Unity.Physics;
     using Unity.Transforms;
+
+    using GameMove = JoyBrick.Walkio.Game.Move;
 
     //
 #if WALKIO_FLOWCONTROL
@@ -34,7 +37,7 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
 
         public void Construct()
         {
-            _logger.Debug($"Module - SystemA - Construct");
+            _logger.Debug($"Module - Move - CrowdSimulate - SystemA - Construct");
 
 #if WALKIO_FLOWCONTROL
             //
@@ -42,11 +45,11 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
                 .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"Module - SystemA - Construct - Receive AllDoneSettingAsset");
+                    _logger.Debug($"Module - Move - CrowdSimulate - SystemA - Construct - Receive AllDoneSettingAsset");
                     _canUpdate = true;
                 })
                 .AddTo(_compositeDisposable);
-#endif            
+#endif
         }
 
         protected override void OnCreate()
@@ -63,9 +66,12 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
 
             Entities
                 .WithAll<Particle>()
-                .ForEach((Entity entity, ParticleProperty particleProperty) =>
+                .ForEach((Entity entity, LocalToWorld localToWorld, ParticleProperty particleProperty, GameMove.MoveByForce moveByForce, ref PhysicsVelocity physicsVelocity) =>
                 {
-                    _logger.Debug($"Module - SsytemA - OnUpdate - event entity: {entity}");
+                    // _logger.Debug($"Module - Move - CrowdSimulate - SystemA - OnUpdate - event entity: {entity}");
+
+                    physicsVelocity.Linear = moveByForce.Direction * moveByForce.Force;
+
                 })
                 .WithoutBurst()
                 .Run();

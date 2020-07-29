@@ -124,7 +124,7 @@
 
         public void StartUnloadingAsset(GameFlowControl.FlowControlContext context)
         {
-            _logger.Debug($"Bootstrap - FinishIndividualUnloadingAsset - {context}");
+            _logger.Debug($"Bootstrap - StartUnloadingAsset - {context}");
 
             _notifyAssetUnloadingStarted.OnNext(context);
         }

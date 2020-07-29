@@ -59,6 +59,8 @@
                         ExtensionService.SetReferenceToExtension(createdInstance);
 
                         SceneService.MoveToCurrentScene(createdInstance);
+
+                        _flowInstances.Add(createdInstance);
                     });
 
                     loadingDoneAction();
@@ -83,6 +85,7 @@
                     assetName,
                     () =>
                     {
+                        _logger.Debug($"Module - Flow Control - Stage - PrepareAssetSystem - LoadingAsset - send finish loading signal");
                         FlowControl?.FinishIndividualLoadingAsset(new FlowControlContext
                         {
                             Name = "Stage"

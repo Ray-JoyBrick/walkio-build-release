@@ -6,5 +6,7 @@
     public struct PathPointFoundProperty : IComponentData
     {
         public int GroupId;
+
+        public Entity ForWhichLeader;
     }
 }

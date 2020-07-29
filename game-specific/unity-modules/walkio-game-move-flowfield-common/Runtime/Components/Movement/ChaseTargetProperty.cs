@@ -12,5 +12,7 @@
         public int2 AtTileCellIndex;
 
         public Entity AtFlowFieldTile;
+
+        public Entity LeadingToSet;
     }
 }

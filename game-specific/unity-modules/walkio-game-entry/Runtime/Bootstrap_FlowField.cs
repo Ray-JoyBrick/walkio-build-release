@@ -42,7 +42,7 @@
                 typeof(GameMoveFlowField.PathPointBuffer));
         }
 
-        public void CalculateLeadingTilePath(int forWhichGroup, float3 targetPosition, List<float3> positions)
+        public void CalculateLeadingTilePath(int forWhichGroup, Entity forWhichLeader, float3 targetPosition, List<float3> positions)
         {
             var pool = PoolKit.Find("Seeker Pool");
             if (pool == null)
@@ -56,6 +56,11 @@
             {
                 _logger.Warning($"Bootstrap - CalculateLeadingTilePath - Can not spawn");
                 return;
+            }
+
+            if (!positions.Any())
+            {
+                _logger.Warning($"Bootstrap - CalculateLeadingTilePath - No start points to start the process");
             }
 
             var seeker = spawned.GetComponent<Pathfinding.Seeker>();
@@ -108,7 +113,8 @@
 #endif
                         _entityManager.SetComponentData(pathPointFoundEventEntity, new GameMoveFlowField.PathPointFoundProperty
                         {
-                            GroupId = forWhichGroup
+                            GroupId = forWhichGroup,
+                            ForWhichLeader = forWhichLeader
                         });
 
                         var pathPointSeparationBuffer =
@@ -133,19 +139,20 @@
 
                         _assistants?.ForEach(assistant =>
                         {
-                            // assistant?.ShowPoints(forWhichGroup, combinedPoints, 3.0f);
-                            assistant?.ShowPoints(forWhichGroup, combinedPoints, 300.0f);
+                            assistant?.ShowPoints(forWhichGroup, combinedPoints, 3.0f);
+                            // assistant?.ShowPoints(forWhichGroup, combinedPoints, 300.0f);
                         });
                     }
                 }
 
-                // Observable.Timer(System.TimeSpan.FromMilliseconds(UnityEngine.Random.Range(30000, 40000)))
-                Observable.Timer(System.TimeSpan.FromMilliseconds(UnityEngine.Random.Range(200, 1000)))
-                    .Subscribe(_ =>
-                    {
-                        pool.Despawn(spawned);
-                    })
-                    .AddTo(_compositeDisposable);
+                // // Observable.Timer(System.TimeSpan.FromMilliseconds(UnityEngine.Random.Range(30000, 40000)))
+                // Observable.Timer(System.TimeSpan.FromMilliseconds(UnityEngine.Random.Range(200, 1000)))
+                //     .Subscribe(_ =>
+                //     {
+                //         pool.Despawn(spawned);
+                //     })
+                //     .AddTo(_compositeDisposable);
+                pool.Despawn(spawned);
             });
         }
     }

@@ -21,7 +21,7 @@
     // [UpdateAfter(typeof(SystemA))]
     public class SystemM08 : SystemBase
     {
-        private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(SystemM01));
+        private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(SystemM08));
 
         //
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
@@ -75,17 +75,54 @@
             RequireForUpdate(_gridWorldEntityQuery);
         }
 
+        private void AssignToMatchedToBeChasedTarget(
+            int2 gridCellCount, float2 gridCellSize,
+            int2 tileCellCount, float2 tileCellSize,
+            EntityCommandBuffer commandBuffer,
+            Entity leadingToSetEntity,
+            LeadingToSetProperty leadingToSetProperty,
+            DynamicBuffer<LeadingToTileBuffer> leadingToTileBuffers,
+            EntityArchetype toBeDeletedLeadingToSetEventEntityArchetype)
+        {
+            Entities
+                .WithAll<ToBeChasedTarget>()
+                .ForEach((Entity entity, ref ToBeChasedTargetProperty toBeChasedTargetProperty) =>
+                // .ForEach((Entity entity, int entityInQueryIndex, ref ToBeChasedTargetProperty toBeChasedTargetProperty) =>
+                {
+                    if (toBeChasedTargetProperty.BelongToGroup == leadingToSetProperty.GroupId)
+                    {
+                        if (toBeChasedTargetProperty.LeadingToSetEntity != Entity.Null)
+                        {
+                            commandBuffer.AddComponent<ToBeDeletedLeadingToSet>(toBeChasedTargetProperty.LeadingToSetEntity);
+                            commandBuffer.AddComponent(toBeChasedTargetProperty.LeadingToSetEntity, new ToBeDeletedLeadingToSetProperty
+                            {
+                                IntervalMax = 3,
+                                CountDown = 0
+                            });
+                        }
+
+                        toBeChasedTargetProperty.LeadingToSetEntity = leadingToSetEntity;
+                    }
+                })
+                .WithoutBurst()
+                .Run();
+                // .WithBurst()
+                // .Schedule();
+        }
+
         private void AssignToMatchedChaseTarget(
             int2 gridCellCount, float2 gridCellSize,
             int2 tileCellCount, float2 tileCellSize,
             // EntityCommandBuffer commandBuffer,
+            Entity leadingToSetEntity,
             LeadingToSetProperty leadingToSetProperty,
             DynamicBuffer<LeadingToTileBuffer> leadingToTileBuffers)
         {
             Entities
                 .WithAll<ChaseTarget>()
-                // .ForEach((Entity entity, LocalToWorld localToWorld, ref ChaseTargetProperty chaseTargetProperty) =>
-                .ForEach((Entity entity, int entityInQueryIndex, LocalToWorld localToWorld, ref ChaseTargetProperty chaseTargetProperty) =>
+                .ForEach((Entity entity, LocalToWorld localToWorld, ref ChaseTargetProperty chaseTargetProperty) =>
+                // .ForEach((Entity entity, int entityInQueryIndex, LocalToWorld localToWorld,
+                //     ref ChaseTargetProperty chaseTargetProperty) =>
                 {
                     if (chaseTargetProperty.BelongToGroup == leadingToSetProperty.GroupId)
                     {
@@ -108,6 +145,9 @@
                                 chaseTargetProperty.AtTileIndex = atTileAndTileCellIndex.xy;
                                 chaseTargetProperty.AtTileCellIndex = atTileAndTileCellIndex.zw;
 
+                                //
+                                chaseTargetProperty.LeadingToSet = entity;
+
                                 break;
                             }
                         }
@@ -115,10 +155,11 @@
                         #endregion
                     }
                 })
-                // .WithoutBurst()
-                // .Run();
-                .WithBurst()
-                .Schedule();
+                .WithoutBurst()
+                .Run();
+                // .WithBurst()
+                // .Schedule();
+
         }
 
         protected override void OnUpdate()
@@ -136,6 +177,10 @@
             var tileCellCount = new int2(flowFieldWorldData.tileCellCount.x, flowFieldWorldData.tileCellCount.y);
             var tileCellSize = (float2)flowFieldWorldData.tileCellSize;
 
+            var toBeDeletedLeadingToSetEventEntityArchetype = EntityManager.CreateArchetype(
+                typeof(ToBeDeletedLeadingToSet),
+                typeof(ToBeDeletedLeadingToSetProperty));
+
             Entities
                 .WithAll<LeadingToSetCreated>()
                 .ForEach((Entity entity, LeadingToSetProperty leadingToSetProperty,
@@ -146,7 +191,17 @@
                     AssignToMatchedChaseTarget(
                         gridCellCount, gridCellSize, tileCellCount, tileCellSize,
                         // commandBuffer,
+                        entity,
                         leadingToSetProperty, leadingToTileBuffers);
+
+                    AssignToMatchedToBeChasedTarget(
+                        gridCellCount, gridCellSize, tileCellCount, tileCellSize,
+                        commandBuffer,
+                        entity,
+                        leadingToSetProperty, leadingToTileBuffers,
+                        toBeDeletedLeadingToSetEventEntityArchetype);
+
+                    commandBuffer.RemoveComponent<LeadingToSetCreated>(entity);
                 })
                 .WithoutBurst()
                 .Run();

@@ -136,7 +136,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
                         positions.Add(position);
                     }
 
-                    FlowFieldWorldProvider?.CalculateLeadingTilePath(leadingToSetPlaceholderProperty.GroupId, leadingToSetPlaceholderProperty.ChangeToPosition, positions);
+                    // FlowFieldWorldProvider?.CalculateLeadingTilePath(leadingToSetPlaceholderProperty.GroupId, leadingToSetPlaceholderProperty.ChangeToPosition, positions);
 
                 })
                 .WithoutBurst()

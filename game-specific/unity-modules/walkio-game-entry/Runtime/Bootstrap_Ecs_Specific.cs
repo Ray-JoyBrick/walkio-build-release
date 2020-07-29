@@ -5,6 +5,7 @@
     //
     using GameCommand = JoyBrick.Walkio.Game.Command;
     using GameCommon = JoyBrick.Walkio.Game.Common;
+    using GameCreature = JoyBrick.Walkio.Game.Creature;
 
 #if WALKIO_EXTENSION
     using GameExtension = JoyBrick.Walkio.Game.Extension;
@@ -52,6 +53,29 @@
 
     public partial class Bootstrap
     {
+        private void Creature_PrepareAssetSystem(ComponentSystemGroup componentSystemGroup)
+        {
+#if WALKIO_CREATURE
+            _logger.Debug($"Bootstrap - Module Creation - Creature_PrepareAssetSystem");
+
+            var createdSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameCreature.PrepareAssetSystem>();
+
+            //
+            createdSystem.CreatureProvider = (GameCreature.ICreatureProvider) this;
+            createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
+
+            //
+            createdSystem.Construct();
+
+            //
+            componentSystemGroup.AddSystemToUpdateList(createdSystem);
+#else
+            _logger.Debug($"Bootstrap - No Module - Creature_PrepareAssetSystem");
+#endif
+        }
+
         private void FlowControl_PrepareAssetSystem(ComponentSystemGroup componentSystemGroup)
         {
 #if WALKIO_FLOWCONTROL
@@ -154,6 +178,7 @@
                     .GetOrCreateSystem<GameFlowControlStage.PrepareAssetSystem>();
 
             //
+            createdSystem.SceneService = (GameCommon.ISceneService) this;
             createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
             createdSystem.ExtensionService = (GameExtension.IExtensionService) this;
 
@@ -273,6 +298,7 @@
 
             //
             createdSystem.SceneService = (GameCommon.ISceneService) this;
+            createdSystem.CommandService = (GameCommand.ICommandService) this;
             createdSystem.ExtensionService = (GameExtension.IExtensionService) this;
             createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
 
@@ -308,10 +334,10 @@
 #endif
         }
 
-        private void Level_LoadAssetSystem(ComponentSystemGroup componentSystemGroup)
+        private void Level_PrepareAssetSystem(ComponentSystemGroup componentSystemGroup)
         {
 #if WALKIO_LEVEL
-            _logger.Debug($"Bootstrap - Module Creation - Level_LoadAssetSystem");
+            _logger.Debug($"Bootstrap - Module Creation - Level_PrepareAssetSystem");
 
             var createdSystem =
                 World.DefaultGameObjectInjectionWorld
@@ -327,7 +353,7 @@
             //
             componentSystemGroup.AddSystemToUpdateList(createdSystem);
 #else
-            _logger.Debug($"Bootstrap - No Module - Level_LoadAssetSystem");
+            _logger.Debug($"Bootstrap - No Module - Level_PrepareAssetSystem");
 #endif
         }
 
@@ -339,6 +365,9 @@
             var createdSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameLevel.SetupAssetSystem>();
+
+            createdSystem.CreatureProvider = (GameCreature.ICreatureProvider) this;
+            createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
 
             //
             createdSystem.Construct();
@@ -361,7 +390,7 @@
 
             //
             createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
-            createdSystem.FlowFieldWorldProvider = (GameMoveFlowField.IFlowFieldWorldProvider) this;
+            // createdSystem.FlowFieldWorldProvider = (GameMoveFlowField.IFlowFieldWorldProvider) this;
 
             //
             createdSystem.Construct();
@@ -384,7 +413,7 @@
 
             //
             createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
-            createdSystem.FlowFieldWorldProvider = (GameMoveFlowField.IFlowFieldWorldProvider) this;
+            // createdSystem.FlowFieldWorldProvider = (GameMoveFlowField.IFlowFieldWorldProvider) this;
 
             //
             createdSystem.Construct();
@@ -407,7 +436,7 @@
 
             //
             createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
-            createdSystem.FlowFieldWorldProvider = (GameMoveFlowField.IFlowFieldWorldProvider) this;
+            // createdSystem.FlowFieldWorldProvider = (GameMoveFlowField.IFlowFieldWorldProvider) this;
 
             //
             createdSystem.Construct();
@@ -620,6 +649,31 @@
 #endif
         }
 
+        private void MoveFlowField_SystemH01(ComponentSystemGroup componentSystemGroup)
+        {
+#if WALKIO_MOVE_FLOWFIELD
+            _logger.Debug($"Bootstrap - Module Creation - MoveFlowField_SystemH01");
+
+            var createdSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameMoveFlowField.SystemH01>();
+
+            //
+            createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
+            // createdSystem.GridWorldProvider = (GameLevel.IGridWorldProvider) this;
+            createdSystem.FlowFieldWorldProvider = (GameMoveFlowField.IFlowFieldWorldProvider) this;
+
+            //
+            createdSystem.Construct();
+
+            //
+            componentSystemGroup.AddSystemToUpdateList(createdSystem);
+#else
+            _logger.Debug($"Bootstrap - No Module - MoveFlowField_SystemH01");
+#endif
+        }
+
+
         private void MoveFlowField_SystemM01(ComponentSystemGroup componentSystemGroup)
         {
 #if WALKIO_MOVE_FLOWFIELD
@@ -710,6 +764,75 @@
             componentSystemGroup.AddSystemToUpdateList(createdSystem);
 #else
             _logger.Debug($"Bootstrap - No Module - MoveFlowField_SystemM08");
+#endif
+        }
+
+        private void MoveFlowField_SystemM09(ComponentSystemGroup componentSystemGroup)
+        {
+#if WALKIO_MOVE_FLOWFIELD
+            _logger.Debug($"Bootstrap - Module Creation - MoveFlowField_SystemM09");
+
+            var createdSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameMoveFlowField.SystemM09>();
+
+            //
+            createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
+            createdSystem.FlowFieldWorldProvider = (GameMoveFlowField.IFlowFieldWorldProvider) this;
+
+            //
+            createdSystem.Construct();
+
+            //
+            componentSystemGroup.AddSystemToUpdateList(createdSystem);
+#else
+            _logger.Debug($"Bootstrap - No Module - MoveFlowField_SystemM09");
+#endif
+        }
+
+        private void MoveWaypoint_PrepareAssetSystem(ComponentSystemGroup componentSystemGroup)
+        {
+#if WALKIO_MOVE_WAYPOINT
+            _logger.Debug($"Bootstrap - Module Creation - MoveWaypoint_PrepareAssetSystem");
+
+            var createdSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameMoveWaypoint.PrepareAssetSystem>();
+
+            //
+            createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
+            // createdSystem.FlowFieldWorldProvider = (GameMoveFlowField.IFlowFieldWorldProvider) this;
+
+            //
+            createdSystem.Construct();
+
+            //
+            componentSystemGroup.AddSystemToUpdateList(createdSystem);
+#else
+            _logger.Debug($"Bootstrap - No Module - MoveWaypoint_PrepareAssetSystem");
+#endif
+        }
+
+        private void MoveWaypoint_SetupAssetSystem(ComponentSystemGroup componentSystemGroup)
+        {
+#if WALKIO_MOVE_WAYPOINT
+            _logger.Debug($"Bootstrap - Module Creation - MoveWaypoint_SetupAssetSystem");
+
+            var createdSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameMoveWaypoint.SetupAssetSystem>();
+
+            //
+            createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
+            // createdSystem.FlowFieldWorldProvider = (GameMoveFlowField.IFlowFieldWorldProvider) this;
+
+            //
+            createdSystem.Construct();
+
+            //
+            componentSystemGroup.AddSystemToUpdateList(createdSystem);
+#else
+            _logger.Debug($"Bootstrap - No Module - MoveWaypoint_SetupAssetSystem");
 #endif
         }
     }

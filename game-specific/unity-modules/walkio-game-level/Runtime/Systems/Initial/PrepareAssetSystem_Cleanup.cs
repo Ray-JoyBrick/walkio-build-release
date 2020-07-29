@@ -27,6 +27,13 @@
     {
         private async Task Unload()
         {
+            var unload = UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(_sceneInstance.Scene);
+            await unload.AsObservable().ToTask();
+
+            if (_levelDataAsset != null)
+            {
+                Addressables.Release(_levelDataAsset);
+            }
         }
 
         private void InternalUnloadAsset(

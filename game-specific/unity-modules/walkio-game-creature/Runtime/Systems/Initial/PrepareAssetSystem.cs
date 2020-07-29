@@ -35,8 +35,8 @@
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
 
         //
-        private ScriptableObject _levelDataAsset;
-        private SceneInstance _sceneInstance;
+        private ScriptableObject _creatureRepoDataAsset;
+
 
         //
         private EntityArchetype _entityArchetype;
@@ -56,6 +56,7 @@
 
         //
         // public GameCommand.ICommandService CommandService { get; set; }
+        public ICreatureProvider CreatureProvider { get; set; }
 #if WALKIO_FLOWCONTROL
         public GameFlowControl.IFlowControl FlowControl { get; set; }
 #endif

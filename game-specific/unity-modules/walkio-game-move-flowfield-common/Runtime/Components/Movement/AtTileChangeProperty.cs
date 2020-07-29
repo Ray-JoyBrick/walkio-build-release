@@ -9,5 +9,7 @@
         public int GroupId;
         public float3 ChangeToPosition;
         public int2 ChangeToTileIndex;
+
+        public Entity ForWhichLeader;
     }
 }

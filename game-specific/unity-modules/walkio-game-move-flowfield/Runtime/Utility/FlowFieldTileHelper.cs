@@ -151,7 +151,7 @@
                     var cellIndex = -1;
 
                     // Debug.Log($"baseIndex: {baseIndex} checkIndex: {checkIndex}");
-                    
+
                     if (checkIndex.x < gridCellCount.x && checkIndex.y < gridCellCount.y)
                     {
                         cellIndex = (checkIndex.y * gridCellCount.x) + checkIndex.x;
@@ -163,13 +163,13 @@
 
             return indices;
         }
-        
+
         private static int ConvertToTileCellIndex1D(
             int2 tileCellCount, int2 tileCellIndex)
         {
             return (tileCellIndex.y * tileCellCount.x + tileCellIndex.x);
         }
-        
+
         public static bool TileCellIndexInsideTile(
             int2 tileCellCount, int2 tileCellIndex)
         {
@@ -198,12 +198,12 @@
 
             var hTileCellIndex = tileCellIndex % tileCellCount.x;
             var vTileCellIndex = tileCellIndex / tileCellCount.x;
-            
+
             var left = new int2(hTileCellIndex - 1, vTileCellIndex + 0);
             var right = new int2(hTileCellIndex + 1, vTileCellIndex + 0);
             var up = new int2(hTileCellIndex + 0, vTileCellIndex + 1);
             var down = new int2(hTileCellIndex + 0, vTileCellIndex - 1);
-            
+
             var upLeft = new int2(hTileCellIndex - 1, vTileCellIndex + 1);
             var upRight = new int2(hTileCellIndex + 1, vTileCellIndex + 1);
             var downLeft = new int2(hTileCellIndex - 1, vTileCellIndex - 1);
@@ -228,7 +228,7 @@
             {
                 possibleNeighbors[3] = ConvertToTileCellIndex1D(tileCellCount, left);
             }
-            
+
             if (TileCellIndexInsideTile(tileCellCount, right))
             {
                 possibleNeighbors[4] = ConvertToTileCellIndex1D(tileCellCount, right);
@@ -266,12 +266,12 @@
 
             var hTileCellIndex = tileCellIndex % tileCellCount.x;
             var vTileCellIndex = tileCellIndex / tileCellCount.x;
-            
+
             var left = new int2(hTileCellIndex - 1, vTileCellIndex + 0);
             var right = new int2(hTileCellIndex + 1, vTileCellIndex + 0);
             var up = new int2(hTileCellIndex + 0, vTileCellIndex + 1);
             var down = new int2(hTileCellIndex + 0, vTileCellIndex - 1);
-            
+
             var upLeft = new int2(hTileCellIndex - 1, vTileCellIndex + 1);
             var upRight = new int2(hTileCellIndex + 1, vTileCellIndex + 1);
             var downLeft = new int2(hTileCellIndex - 1, vTileCellIndex - 1);
@@ -296,7 +296,7 @@
             {
                 possibleNeighbors[3] = new int2(3, ConvertToTileCellIndex1D(tileCellCount, left));
             }
-            
+
             if (TileCellIndexInsideTile(tileCellCount, right))
             {
                 possibleNeighbors[4] = new int2(5, ConvertToTileCellIndex1D(tileCellCount, right));
@@ -369,7 +369,7 @@
 
             return 1;
         }
-        
+
         public static NativeArray<int> GetIntegrationCostForTile(
             int2 gridCellCount, float2 gridCellSize,
             int2 tileCellCount, float2 tileCellSize,
@@ -379,7 +379,7 @@
             var accumulateCosts = new NativeArray<int>(baseCosts.Length, Allocator.Temp);
 
             var openIndexQueue = new NativeQueue<int>(Allocator.Temp);
-            
+
             // Might be better to use hash map?
             var deadendIndexHashMap = new NativeHashMap<int, int>(baseCosts.Length, Allocator.Temp);
 
@@ -399,13 +399,13 @@
             accumulateCosts[goalTileCellIndex1D] = 0;
             openIndexQueue.Enqueue(ConvertToTileCellIndex1D(tileCellCount, goalTileCellIndex));
             deadendIndexHashMap.Remove(goalTileCellIndex1D);
-            
+
             while (openIndexQueue.Count > 0)
             {
                 var index = openIndexQueue.Dequeue();
-                
+
                 // Debug.Log($"index: {index}");
-                
+
                 var neighborIndices = GetNeighborTileCellIndex(gridCellCount, gridCellSize, tileCellCount, tileCellSize, index);
 
                 for (var i = 0; i < neighborIndices.Length; ++i)
@@ -416,7 +416,7 @@
 
                     if (neighborIndex >= 0)
                     {
-                        
+
                         // Need to know if neighbor is diagonal or not.
                         var neighborKind = GetNeighborKindByTileCellIndex(tileCellCount, index, neighborIndex);
                         var neighborToAddCost = (neighborKind == 0) ? 10 : 14;
@@ -426,7 +426,7 @@
                         var neighborAccumulateCost = accumulateCosts[neighborIndex];
 
                         var calculatedCost = currentAccumulateCost + neighborBaseCost + neighborToAddCost;
-                        
+
                         // Debug.Log($"index: {index} neighborIndex: {neighborIndex} calculatedCost: {calculatedCost} neighborBaseCost: {neighborBaseCost} currentAccumulateCost: {currentAccumulateCost}  neighborAccumulateCost: {neighborAccumulateCost}");
 
                         if (calculatedCost < neighborAccumulateCost)
@@ -438,7 +438,7 @@
 
                                 deadendIndexHashMap.Remove(neighborIndex);
                             }
-                        
+
                             // Store the smallest value back
                             accumulateCosts[neighborIndex] = calculatedCost;
                         }
@@ -479,18 +479,65 @@
                 tileCellCount, tileCellSize,
                 goalTileCellIndex2D, baseCosts);
         }
-        
+
+        public static int NeighborTileDirection(int2 selfTileIndex, int2 neighborTileIndex)
+        {
+            var x = neighborTileIndex.x - selfTileIndex.x;
+            var y = neighborTileIndex.y - selfTileIndex.y;
+
+            if (x == -1 && y == 1)
+            {
+                return 0;
+            }
+            else if (x == 0 && y == 1)
+            {
+                return 1;
+            }
+            else if (x == 1 && y == 1)
+            {
+                return 2;
+            }
+            else if (x == -1 && y == 0)
+            {
+                return 3;
+            }
+            else if (x == 1 && y == 0)
+            {
+                return 5;
+            }
+            else if (x == -1 && y == -1)
+            {
+                return 6;
+            }
+            else if (x == 0 && y == -1)
+            {
+                return 7;
+            }
+            else if (x == 1 && y == -1)
+            {
+                return 8;
+            }
+
+            return 4;
+        }
+
+        // The number neighborDirection
+        // 0 1 2
+        // 3 4 5
+        // 6 7 8
         public static NativeArray<int> GetDirectionForTile(
             int2 gridCellCount, float2 gridCellSize,
             int2 tileCellCount, float2 tileCellSize,
-            int2 goalTileCellIndex, NativeArray<int> baseCosts)
+            int2 goalTileCellIndex,
+            int neighborTileDirection,
+            NativeArray<int> baseCosts)
         {
             var integrationCosts =
                 GetIntegrationCostForTile(
                     gridCellCount, gridCellSize,
                     tileCellCount, tileCellSize,
                     goalTileCellIndex, baseCosts);
-            
+
             var directions = new NativeArray<int>(integrationCosts.Length, Allocator.Temp);
 
             for (var i = 0; i < directions.Length; ++i)
@@ -499,15 +546,17 @@
             }
 
             var goalTileCellIndex1D = goalTileCellIndex.y * tileCellCount.x + goalTileCellIndex.x;
-            
+
             for (var i = 0; i < integrationCosts.Length; ++i)
             {
                 var cost = integrationCosts[i];
                 var minCost = new int2(-1, int.MaxValue);
-                
+
                 if (goalTileCellIndex1D == i)
                 {
-                    directions[i] = 4;
+                    // This is the goal, which is the out cell index, assign a direction to neighbor
+                    // directions[i] = 4;
+                    directions[i] = neighborTileDirection;
                 }
                 else
                 {
@@ -523,9 +572,9 @@
                         {
                             var neighborDirection = neighborDirectionAndIndex.x;
                             var neighborCost = integrationCosts[neighborDirectionAndIndex.y];
-                        
+
                             // Debug.Log($"i: {i} cost: {cost} neighborDirection: {neighborDirection} neighborCost: {neighborCost}");
-                        
+
                             if (neighborCost < minCost.y)
                             {
                                 minCost.x = neighborDirection;
@@ -533,7 +582,7 @@
                             }
 
                             // Debug.Log($"i: {i} cost: {cost} minCost: {minCost}");
-                        
+
                             if (minCost.y <= cost)
                             {
                                 directions[i] = minCost.x;
@@ -550,7 +599,7 @@
 
             return directions;
         }
-        
+
         //
         public static NativeArray<int2> GetTileIndexPairOnPath(
             int2 gridCellCount, float2 gridCellSize,
@@ -572,7 +621,7 @@
                         gridCellCount, gridCellSize,
                         tileCellCount, tileCellSize,
                         currentPoint);
-                
+
                 Debug.Log($"GetTileIndexPairOnPath - currentPoint: {currentPoint} tileIndex: {tileIndex}");
 
                 // var inCache = cachedIndices.ContainsKey(tileIndex);
@@ -638,7 +687,7 @@
                         gridCellCount, gridCellSize,
                         tileCellCount, tileCellSize,
                         currentPoint);
-                
+
                 Debug.Log($"GetTileIndexPairOnPath - currentPoint: {currentPoint} tileIndex: {tileIndex}");
 
                 if (i == 0)
@@ -668,6 +717,118 @@
             }
 
             return tilePairInfos.AsArray();
+        }
+
+                public struct TilePairInfo2D
+        {
+            public int2 OutTileIndex;
+            public int2 InTileIndex;
+            public int2 OutTileCellIndex;
+            public int2 InTileCellIndex;
+
+            public override string ToString()
+            {
+                var desc =
+                    $"OutTileIndex: {OutTileIndex} InTileIndex: {InTileIndex} OutTileCellIndex: {OutTileCellIndex} InTileCellIndex: {InTileCellIndex}";
+                return desc;
+            }
+        }
+
+        public static NativeArray<TilePairInfo2D> GetTilePairInfoOnPath2DArray(
+            int2 gridCellCount, float2 gridCellSize,
+            int2 tileCellCount, float2 tileCellSize,
+            NativeArray<float2> points)
+        {
+            var tilePairInfos = new NativeList<TilePairInfo2D>(Allocator.Temp);
+
+            var previousPoint = new float2(0, 0);
+            var previousTileCellIndex = new int2(-1, -1);
+            var previousTileIndex = new int2(-1, -1);
+
+            for (var i = 0; i < points.Length; ++i)
+            {
+                var currentPoint = points[i];
+                var tileAndTileCellIndex =
+                    PositionToTileAndTileCellIndexAtGridTo2DIndex(
+                        gridCellCount, gridCellSize,
+                        tileCellCount, tileCellSize,
+                        currentPoint);
+
+                // Debug.Log($"GetTilePairInfoOnPath2DArray - currentPoint: {currentPoint} tileIndex: {tileAndTileCellIndex.xy} tileCellIndex: {tileAndTileCellIndex.zw}");
+
+                if (i == 0)
+                {
+                    // The first point, no previous point
+                }
+                else
+                {
+                    // Should have previous tileIndex
+                    if (previousTileIndex.x == tileAndTileCellIndex.x && previousTileIndex.y == tileAndTileCellIndex.y)
+                    {
+
+                    }
+                    else
+                    {
+                        tilePairInfos.Add(new TilePairInfo2D
+                        {
+                            OutTileIndex = previousTileIndex,
+                            InTileIndex = tileAndTileCellIndex.xy,
+                            OutTileCellIndex = previousTileCellIndex,
+                            InTileCellIndex = tileAndTileCellIndex.zw
+                        });
+                    }
+                }
+
+                previousPoint = currentPoint;
+                previousTileIndex = tileAndTileCellIndex.xy;
+                previousTileCellIndex = tileAndTileCellIndex.zw;
+            }
+
+            return tilePairInfos.AsArray();
+        }
+
+        public static float3 FromIntDirectionToNormalizedVector(int v)
+        {
+            var direction = float3.zero;
+
+            if (v == 0)
+            {
+                direction = math.normalize(new float3(-1.0f, 0, 1.0f));
+            }
+            else if (v == 1)
+            {
+                direction = math.normalize(new float3(0.0f, 0, 1.0f));
+            }
+            else if (v == 2)
+            {
+                direction = math.normalize(new float3(1.0f, 0, 1.0f));
+            }
+            else if (v == 3)
+            {
+                direction = math.normalize(new float3(-1.0f, 0, 0.0f));
+            }
+            else if (v == 4)
+            {
+                direction = math.normalize(new float3(-0.0f, 0, 0.0f));
+            }
+            else if (v == 5)
+            {
+                direction = math.normalize(new float3(1.0f, 0, 0.0f));
+            }
+            else if (v == 6)
+            {
+                direction = math.normalize(new float3(-1.0f, 0, -1.0f));
+            }
+            else if (v == 7)
+            {
+                direction = math.normalize(new float3(0.0f, 0, -1.0f));
+            }
+            else if (v == 8)
+            {
+                direction = math.normalize(new float3(1.0f, 0, -1.0f));
+            }
+
+            return direction;
         }
     }
 }

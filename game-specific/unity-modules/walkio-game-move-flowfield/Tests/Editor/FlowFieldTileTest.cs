@@ -171,7 +171,7 @@
             var expected = new int2(15, 24);
             Assert.AreEqual(expected, tileIndex);
         }
-        
+
         [Test]
         public void GetGridCellIndicesInTile_FirstTile()
         {
@@ -205,7 +205,7 @@
                 Assert.AreEqual(expected[i], indices[i]);
             }
         }
-        
+
         [Test]
         public void GetGridCellIndicesInTile_X3Y1()
         {
@@ -239,7 +239,7 @@
                 Assert.AreEqual(expected[i], indices[i]);
             }
         }
-        
+
         [Test]
         public void GetGridCellIndicesInTile_LastTile()
         {
@@ -273,7 +273,7 @@
                 Assert.AreEqual(expected[i], indices[i]);
             }
         }
-        
+
         [Test]
         public void GetGridCellIndicesInTile_Bigger()
         {
@@ -316,7 +316,7 @@
             Assert.AreEqual(1, 1);
 
         }
-        
+
                 [Test]
         public void GetIntegrationCostFor04_04TileCase00_00()
         {
@@ -325,9 +325,9 @@
             var gridCellSize = new float2(1.0f, 1.0f);
             var tileCellCount = new int2(4, 4);
             var tileCellSize = new float2(1.0f, 1.0f);
-            
+
             var goalTileCellIndex = new int2(0, 0);
-            
+
             var baseCosts = new NativeArray<int>(tileCellCount.x * tileCellCount.y, Allocator.Temp);
 
             baseCosts[ 0] = 0;
@@ -346,7 +346,7 @@
             baseCosts[13] = 0;
             baseCosts[14] = 0;
             baseCosts[15] = 0;
-            
+
             // act
             var integrationCosts =
                 FlowFieldTileHelper.GetIntegrationCostForTile(
@@ -358,7 +358,7 @@
             {
                 Debug.Log($"integrationCosts[{i}]: {integrationCosts[i]}");
             }
-            
+
             // assert
             Assert.AreEqual(0, integrationCosts[ 0]);
             Assert.AreEqual(10, integrationCosts[ 1]);
@@ -382,7 +382,7 @@
                 integrationCosts.Dispose();
             }
         }
-        
+
         [Test]
         public void GetIntegrationCostFor04_04TileCase02_02()
         {
@@ -391,9 +391,9 @@
             var gridCellSize = new float2(1.0f, 1.0f);
             var tileCellCount = new int2(4, 4);
             var tileCellSize = new float2(1.0f, 1.0f);
-            
+
             var goalTileCellIndex = new int2(2, 2);
-            
+
             var baseCosts = new NativeArray<int>(tileCellCount.x * tileCellCount.y, Allocator.Temp);
 
             baseCosts[ 0] = 0;
@@ -412,7 +412,7 @@
             baseCosts[13] = 0;
             baseCosts[14] = 0;
             baseCosts[15] = 0;
-            
+
             // act
             var integrationCosts =
                 FlowFieldTileHelper.GetIntegrationCostForTile(
@@ -424,7 +424,7 @@
             {
                 Debug.Log($"integrationCosts[{i}]: {integrationCosts[i]}");
             }
-            
+
             // assert
             Assert.AreEqual(28, integrationCosts[ 0]);
             Assert.AreEqual(24, integrationCosts[ 1]);
@@ -457,9 +457,9 @@
             var gridCellSize = new float2(1.0f, 1.0f);
             var tileCellCount = new int2(4, 4);
             var tileCellSize = new float2(1.0f, 1.0f);
-            
+
             var goalTileCellIndex = new int2(2, 2);
-            
+
             var baseCosts = new NativeArray<int>(tileCellCount.x * tileCellCount.y, Allocator.Temp);
 
             baseCosts[ 0] = 0;
@@ -478,19 +478,21 @@
             baseCosts[13] = 0;
             baseCosts[14] = 0;
             baseCosts[15] = 0;
-            
+
             // act
             var directions =
                 FlowFieldTileHelper.GetDirectionForTile(
                     gridCellCount, gridCellSize,
                     tileCellCount, tileCellSize,
-                    goalTileCellIndex, baseCosts);
+                    goalTileCellIndex,
+                    0,
+                    baseCosts);
 
             for (var i = 0; i < directions.Length; ++i)
             {
                 Debug.Log($"integrationCosts[{i}]: {directions[i]}");
             }
-            
+
             // assert
             Assert.AreEqual(2, directions[ 0]);
             Assert.AreEqual(2, directions[ 1]);
@@ -514,7 +516,7 @@
                 directions.Dispose();
             }
         }
-        
+
                 [Test]
         public void GetTileIndexPairOnPath()
         {
@@ -523,7 +525,7 @@
             var gridCellSize = new float2(1.0f, 1.0f);
             var tileCellCount = new int2(4, 4);
             var tileCellSize = new float2(1.0f, 1.0f);
-            
+
             var pathPoints = new NativeArray<float2>(22, Allocator.Temp);
             pathPoints[ 0] = new float2(1.2f,  5.2f);
             pathPoints[ 1] = new float2(1.5f,  5.8f);
@@ -559,7 +561,7 @@
             {
                 Debug.Log($"tileIndexPairs[{i}]: {tileIndexPairs[i]}");
             }
-            
+
             // assert
             Assert.AreEqual(new int2(3, 4), tileIndexPairs[ 0]);
             Assert.AreEqual(new int2(4, 7), tileIndexPairs[ 1]);
@@ -572,7 +574,7 @@
                 pathPoints.Dispose();
             }
         }
-        
+
         [Test]
         public void GetTilePairInfoOnPath()
         {
@@ -581,7 +583,7 @@
             var gridCellSize = new float2(1.0f, 1.0f);
             var tileCellCount = new int2(4, 4);
             var tileCellSize = new float2(1.0f, 1.0f);
-            
+
             var pathPoints = new NativeArray<float2>(22, Allocator.Temp);
             pathPoints[ 0] = new float2(1.2f,  5.2f);
             pathPoints[ 1] = new float2(1.5f,  5.8f);
@@ -617,7 +619,7 @@
             {
                 Debug.Log($"tileIndexPairs[{i}]: {tilePairInfos[i]}");
             }
-            
+
             // assert
             Assert.AreEqual(new FlowFieldTileHelper.TilePairInfo
             {
@@ -654,5 +656,90 @@
                 pathPoints.Dispose();
             }
         }
+
+                [Test]
+        public void GetTilePairInfoOnPath2D()
+        {
+            // arrange
+            var gridCellCount = new int2(12, 12);
+            var gridCellSize = new float2(1.0f, 1.0f);
+            var tileCellCount = new int2(4, 4);
+            var tileCellSize = new float2(1.0f, 1.0f);
+
+            var pathPoints = new NativeArray<float2>(22, Allocator.Temp);
+            pathPoints[ 0] = new float2(1.2f,  5.2f);
+            pathPoints[ 1] = new float2(1.5f,  5.8f);
+            pathPoints[ 2] = new float2(2.2f,  6.2f);
+            pathPoints[ 3] = new float2(2.7f,  6.5f);
+            pathPoints[ 4] = new float2(3.5f,  6.5f);
+            pathPoints[ 5] = new float2(4.2f,  6.6f);
+            pathPoints[ 6] = new float2(4.4f,  6.9f);
+            pathPoints[ 7] = new float2(4.5f,  7.5f);
+            pathPoints[ 8] = new float2(4.6f,  7.9f);
+            pathPoints[ 9] = new float2(4.7f,  8.1f);
+            pathPoints[10] = new float2(4.7f,  9.5f);
+            pathPoints[11] = new float2(4.8f, 10.2f);
+            pathPoints[12] = new float2(5.1f, 10.5f);
+            pathPoints[13] = new float2(6.2f, 10.2f);
+            pathPoints[14] = new float2(6.3f,  9.2f);
+            pathPoints[15] = new float2(6.3f,  8.6f);
+            pathPoints[16] = new float2(6.2f,  7.5f);
+            pathPoints[17] = new float2(6.3f,  6.5f);
+            pathPoints[18] = new float2(6.8f,  5.1f);
+            pathPoints[19] = new float2(6.2f,  4.6f);
+            pathPoints[20] = new float2(6.3f,  3.7f);
+            pathPoints[21] = new float2(5.5f,  2.5f);
+
+            // act
+            var tilePairInfos =
+                FlowFieldTileHelper.GetTilePairInfoOnPath2DArray(
+                    gridCellCount, gridCellSize,
+                    tileCellCount, tileCellSize,
+                    pathPoints);
+
+            for (var i = 0; i < tilePairInfos.Length; ++i)
+            {
+                Debug.Log($"tileIndexPairs[{i}]: {tilePairInfos[i]}");
+            }
+
+            // assert
+            Assert.AreEqual(new FlowFieldTileHelper.TilePairInfo2D
+            {
+                OutTileIndex = new int2(0, 1),
+                InTileIndex = new int2(1, 1),
+                OutTileCellIndex = new int2(3, 2),
+                InTileCellIndex = new int2(0, 2)
+            }, tilePairInfos[ 0]);
+            Assert.AreEqual(new FlowFieldTileHelper.TilePairInfo2D
+            {
+                OutTileIndex = new int2(1, 1),
+                InTileIndex = new int2(1, 2),
+                OutTileCellIndex = new int2(0, 3),
+                InTileCellIndex = new int2(0, 0)
+            }, tilePairInfos[ 1]);
+            Assert.AreEqual(new FlowFieldTileHelper.TilePairInfo2D
+            {
+                OutTileIndex = new int2(1, 2),
+                InTileIndex = new int2(1, 1),
+                OutTileCellIndex = new int2(2, 0),
+                InTileCellIndex = new int2(2, 3)
+            }, tilePairInfos[ 2]);
+            Assert.AreEqual(new FlowFieldTileHelper.TilePairInfo2D
+            {
+                OutTileIndex = new int2(1, 1),
+                InTileIndex = new int2(1, 0),
+                OutTileCellIndex = new int2(2, 0),
+                InTileCellIndex = new int2(2, 3)
+            }, tilePairInfos[ 3]);
+
+            // Assert.AreEqual(1, 1);
+
+
+            if (pathPoints.IsCreated)
+            {
+                pathPoints.Dispose();
+            }
+        }
+
     }
 }

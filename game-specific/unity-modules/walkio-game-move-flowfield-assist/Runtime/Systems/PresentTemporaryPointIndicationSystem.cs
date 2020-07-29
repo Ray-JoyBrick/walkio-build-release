@@ -98,7 +98,7 @@
             var assistFlowFieldWorldData =
                 AssistFlowFieldWorldProvider.FlowFieldWorldData as Template.FlowFieldWorldData;
 
-            using (var commandBuilder = DrawingManager.GetBuilder(true))
+            using (var commandBuilder = DrawingManager.GetBuilder(false))
             {
                 Entities
                     .WithAll<TemporaryPointIndication>()

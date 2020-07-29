@@ -94,7 +94,7 @@
             // var a = _entityQuery.ToComponentDataArray<FlowFieldMoveIndication>();
             var flowFieldMoveIndications = GetArchetypeChunkComponentType<FlowFieldMoveIndication>();
 
-            using (var commandBuilder = DrawingManager.GetBuilder(true))
+            using (var commandBuilder = DrawingManager.GetBuilder(false))
             {
                 Entities
                     .WithAll<ToBeChasedTarget>()

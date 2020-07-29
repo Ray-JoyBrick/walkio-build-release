@@ -11,6 +11,7 @@ namespace JoyBrick.Walkio.Game.Level
 
     //
     using GameCommon = JoyBrick.Walkio.Game.Common;
+    using GameCreature = JoyBrick.Walkio.Game.Creature;
 
 #if WALKIO_FLOWCONTROL
     using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
@@ -29,13 +30,35 @@ namespace JoyBrick.Walkio.Game.Level
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
 
         //
+        public GameCreature.ICreatureProvider CreatureProvider { get; set; }
 #if WALKIO_FLOWCONTROL
         public GameFlowControl.IFlowControl FlowControl { get; set; }
 #endif
 
+        private void SpawnTeamLeaderNpc(
+            Template.LevelData levelData,
+            GameCreature.ICreatureProvider creatureProvider)
+        {
+            var teamLeaderNpcCount = levelData.teamLeaderNpcSpawnCount;
+            // creatureProvider.
+            for (var i = 0; i < teamLeaderNpcCount; ++i)
+            {
+                var index = levelData.teamLeaderNpcSpawnLocations[i];
+
+                var location = new Vector3(index.x + 0.5f, 0, index.y + 0.5f);
+
+                creatureProvider.CreateTeamLeaderNpcAt(location);
+            }
+        }
+
         private async Task Setup()
         {
-            _logger.Debug($"Module - SetupAssetSystem - Setup");
+            _logger.Debug($"Module - Level - SetupAssetSystem - Setup");
+            var prepareAssetSsytem = World.GetExistingSystem<PrepareAssetSystem>();
+
+            //
+            SpawnTeamLeaderNpc(prepareAssetSsytem.LevelData, CreatureProvider);
+
         }
 
         private void SettingAsset()
@@ -60,7 +83,7 @@ namespace JoyBrick.Walkio.Game.Level
 
         public void Construct()
         {
-            _logger.Debug($"Module - SetupAssetSystem - Construct");
+            _logger.Debug($"Module - Level - SetupAssetSystem - Construct");
 
 #if WALKIO_FLOWCONTROL
             //
@@ -68,11 +91,13 @@ namespace JoyBrick.Walkio.Game.Level
                 .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"SetupAssetSystem - Construct - Receive SettingAsset");
+                    _logger.Debug($"Module - Level - SetupAssetSystem - Construct - Receive SettingAsset");
 
                     // _canSetup = true;
                     // _doingSetup = true;
-                    //
+
+
+                    // At this time, creature data should be loaded, can create on-level creature
                     SettingAsset();
                 })
                 .AddTo(_compositeDisposable);
@@ -81,7 +106,7 @@ namespace JoyBrick.Walkio.Game.Level
 
         protected override void OnCreate()
         {
-            _logger.Debug($"Module - SetupAssetSystem - OnCreate");
+            _logger.Debug($"Module - Level - SetupAssetSystem - OnCreate");
 
             base.OnCreate();
         }

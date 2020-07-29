@@ -1,4 +1,4 @@
-namespace JoyBrick.Walkio.Game.Move.Common
+namespace JoyBrick.Walkio.Game.Move
 {
     using Unity.Entities;
     using Unity.Mathematics;

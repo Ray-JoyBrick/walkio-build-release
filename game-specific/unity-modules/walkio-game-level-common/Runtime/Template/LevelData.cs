@@ -15,6 +15,16 @@
     public class LevelData : ScriptableObject
     {
 #if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.BoxGroup("Spawn")]
+#endif
+        public int teamLeaderNpcSpawnCount;
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.BoxGroup("Spawn")]
+#endif
+        // Spawn at grid cell index instead of position
+        public List<Vector2Int> teamLeaderNpcSpawnLocations;
+
+#if ODIN_INSPECTOR
         [Sirenix.OdinInspector.BoxGroup("Lookup")]
 #endif
         public List<AreaItem> areaLookup;

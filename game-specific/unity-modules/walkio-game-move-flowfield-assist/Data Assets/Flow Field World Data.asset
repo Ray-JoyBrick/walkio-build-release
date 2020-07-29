@@ -15,3 +15,5 @@ MonoBehaviour:
   temporaryPointShowTime: 0
   groups:
   - color: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 1}
+  - color: {r: 0.49803922, g: 0, b: 0, a: 1}
+  - color: {r: 0, g: 0.43137255, b: 0.41960785, a: 1}

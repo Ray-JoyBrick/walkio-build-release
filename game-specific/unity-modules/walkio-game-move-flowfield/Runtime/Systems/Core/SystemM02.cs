@@ -70,7 +70,8 @@
         private void UpdateEachChaseTarget(
             int2 gridCellCount, float2 gridCellSize,
             int2 tileCellCount, float2 tileCellSize,
-            int forWhichGroupId, float3 changeToPosition)
+            int forWhichGroupId, float3 changeToPosition,
+            Entity forWhichLeaderEntity)
         {
             using (var tileHashTable = new NativeHashMap<int2, int>(100, Allocator.TempJob))
             {
@@ -86,7 +87,7 @@
                                     gridCellCount, gridCellSize,
                                     tileCellCount, tileCellSize,
                                     new float2(localToWorld.Position.x, localToWorld.Position.z));
-                            _logger.Debug($"Module - SystemM02 - UpdateEachChaseTarget - chase target entity: {entity} atTileIndex: {atTileIndex}");
+                            // _logger.Debug($"Module - SystemM02 - UpdateEachChaseTarget - chase target entity: {entity} atTileIndex: {atTileIndex}");
 
                             var count = 0;
                             var hasKey = tileHashTable.TryGetValue(atTileIndex, out count);
@@ -119,7 +120,7 @@
                     }
 
                     // var positions = tileIndices.ToList()
-                    FlowFieldWorldProvider?.CalculateLeadingTilePath(forWhichGroupId, changeToPosition, positions);
+                    FlowFieldWorldProvider?.CalculateLeadingTilePath(forWhichGroupId, forWhichLeaderEntity, changeToPosition, positions);
                 }
             }
         }
@@ -144,12 +145,13 @@
                 .ForEach((Entity entity, AtTileChangeProperty atTileChangeProperty) =>
                 // .ForEach((Entity entity, int entityInQueryIndex, AtTileChangeProperty atTileChangeProperty) =>
                 {
-                    _logger.Debug($"Module - SystemM02 - OnUpdate - event entity: {entity}");
+                    // _logger.Debug($"Module - SystemM02 - OnUpdate - event entity: {entity}");
 
                     UpdateEachChaseTarget(
                         gridCellCount, gridCellSize,
                         tileCellCount, tileCellSize,
-                        atTileChangeProperty.GroupId, atTileChangeProperty.ChangeToPosition);
+                        atTileChangeProperty.GroupId, atTileChangeProperty.ChangeToPosition,
+                        atTileChangeProperty.ForWhichLeader);
 
                     // Destroy the event so it won't be processed again
                     commandBuffer.DestroyEntity(entity);
