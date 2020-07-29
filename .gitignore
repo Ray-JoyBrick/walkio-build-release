@@ -7,6 +7,8 @@
 !README.md
 
 !unity-project.code-workspace
+!asset-creature-design-project.code-workspace
+!behavior-unification-project.code-workspace
 
 !cloudbuild-build-asset.yaml
 !cloudbuild-build-release.yaml

@@ -61,6 +61,7 @@
             if (!positions.Any())
             {
                 _logger.Warning($"Bootstrap - CalculateLeadingTilePath - No start points to start the process");
+                return;
             }
 
             var seeker = spawned.GetComponent<Pathfinding.Seeker>();

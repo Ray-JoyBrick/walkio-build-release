@@ -23,6 +23,8 @@
         private BeginPresentationEntityCommandBufferSystem _entityCommandBufferSystem;
         private EntityQuery _entityQuery;
 
+        public IFlowFieldWorldProvider AssistFlowFieldWorldProvider { get; set; }
+
         //
         private bool _canUpdate;
 
@@ -89,18 +91,25 @@
             // var a = _entityQuery.ToComponentDataArray<FlowFieldMoveIndication>();
             var flowFieldMoveIndications = GetArchetypeChunkComponentType<FlowFieldMoveIndication>();
 
+            //
+            var assistFlowFieldWorldData = AssistFlowFieldWorldProvider.FlowFieldWorldData as Template.FlowFieldWorldData;
+
             using (var commandBuilder = DrawingManager.GetBuilder(true))
             {
                 Entities
-                    .WithAll<FlowFieldMoveIndication>()
-                    .ForEach((Entity entity, LocalToWorld localToWorld) =>
+                    .WithAll<FlowFieldMoveIndication, ChaseTarget>()
+                    .ForEach((Entity entity, LocalToWorld localToWorld, ChaseTargetProperty chaseTargetProperty) =>
                     {
+                        var group = assistFlowFieldWorldData.groups[chaseTargetProperty.BelongToGroup];
+                        var color = group.color;
+
                         var boxSize = new float3(1.0f, 1.6f, 1.0f);
                         var adjustedPos = localToWorld.Position;
                         adjustedPos.y = 0.8f;
                         var bounds = new Bounds(adjustedPos, boxSize);
                         // Use bounds will have no error
-                        commandBuilder.WireBox(bounds, Color.yellow);
+                        // commandBuilder.WireBox(bounds, color);
+                        commandBuilder.SolidBox(bounds, color);
                     })
                     // .WithBurst()
                     // .Schedule();

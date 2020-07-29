@@ -20,7 +20,7 @@ MonoBehaviour:
     m_nodeInstance:
       m_className: UnityEngine.AssetGraph.Loader, Unity.AssetGraph.Editor, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      m_instanceData: B64|eyJtX2xvYWRQYXRoIjp7Im1fdmFsdWVzIjpbeyJ0YXJnZXRHcm91cCI6MCwidmFsdWUiOiJfL19HZW5lcmF0ZWQgLSBGbG93IENvbnRyb2wvRmxvdyBDb250cm9sIC0gQXBwIn1dfSwibV9sb2FkUGF0aEd1aWQiOnsibV92YWx1ZXMiOlt7InRhcmdldEdyb3VwIjowLCJ2YWx1ZSI6Ijk0NDQ2OWM0OTE2ZTMzMzQ1YjExYjUxYmU2ODFiYmQ2In1dfSwibV9pZ25vcmVQYXR0ZXJucyI6W10sIm1fcmVzcG9uZFRvQXNzZXRDaGFuZ2UiOmZhbHNlfQ==
+      m_instanceData: B64|eyJtX2xvYWRQYXRoIjp7Im1fdmFsdWVzIjpbeyJ0YXJnZXRHcm91cCI6MCwidmFsdWUiOiJfL19HZW5lcmF0ZWQgLSBGbG93IENvbnRyb2wvRmxvdyBDb250cm9sIC0gQXBwIn1dfSwibV9sb2FkUGF0aEd1aWQiOnsibV92YWx1ZXMiOlt7InRhcmdldEdyb3VwIjowLCJ2YWx1ZSI6IjQyNGY3MDRhZDJmNjJhMDQ2YjYxNTZiZTE2ZmJhZTQwIn1dfSwibV9pZ25vcmVQYXR0ZXJucyI6W10sIm1fcmVzcG9uZFRvQXNzZXRDaGFuZ2UiOmZhbHNlfQ==
     m_inputPoints: []
     m_outputPoints:
     - id: 3e6ef2af-312d-4b26-8845-85848a065b0d
@@ -95,12 +95,12 @@ MonoBehaviour:
         height: 23
   - m_name: Set Asset Group
     m_id: 2e2bfa8a-b541-406d-8044-582b1f52d8ef
-    m_x: 776
-    m_y: 236
+    m_x: 780
+    m_y: 240
     m_nodeInstance:
       m_className: UnityEngine.AssetGraph.AddressableAssetGroup, Unity.AssetGraph.Editor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_instanceData: B64|eyJtX2dyb3VwR3VpZCI6IjQyNjc1NGIyODUxZDM0NjQ0YThhMzkyNzE2NWFmZDllIn0=
+      m_instanceData: B64|eyJtX2dyb3VwR3VpZCI6ImYwMGJlZjFiOGNlY2EzZTRjODk5YWNlOTI3NWQ1MGMzIn0=
     m_inputPoints:
     - id: d4cac8b7-f90b-452d-b5f9-7d82834b6ef2
       label: '-'

@@ -24,7 +24,11 @@
 //
 //         private GameCreature.Template.CreatureData CreatureData => creatureData as GameCreature.Template.CreatureData;
 
+        // This is read from Addressable and store here for later use as a cache
         private List<GameObject> _teamLeaderNpcPrefabs = new List<GameObject>();
+        private List<GameObject> _teamMinionPrefabs = new List<GameObject>();
+
+        private List<GameCreature.MinionData> _teamMinionDatas = new List<GameCreature.MinionData>();
 
         private int _addedToSceneTeamLeaderNpcCount = 0;
 
@@ -35,6 +39,26 @@
             if (!contained)
             {
                 _teamLeaderNpcPrefabs.Add(prefab);
+            }
+        }
+
+        public void AddTeamMinionPrefab(GameObject prefab)
+        {
+            _logger.Debug($"Bootstrap - AddTeamMinionPrefab");
+            var contained = _teamMinionPrefabs.Contains(prefab);
+            if (!contained)
+            {
+                _teamMinionPrefabs.Add(prefab);
+            }
+        }
+
+        public void AddTeamMinionData(GameCreature.MinionData minionData)
+        {
+            _logger.Debug($"Bootstrap - AddTeamMinionData");
+            var contained = _teamMinionDatas.Contains(minionData);
+            if (!contained)
+            {
+                _teamMinionDatas.Add(minionData);
             }
         }
 
@@ -62,6 +86,18 @@
         public void CreateTeamLeaderPlayerAt(Vector3 location)
         {
 
+        }
+
+        public GameObject GetTeamMinionPrefab(int index)
+        {
+            return _teamMinionPrefabs[index];
+        }
+        
+        public int GetMinionDataCount => _teamMinionDatas.Count;
+        
+        public GameCreature.MinionData GetMinionDataByIndex(int index)
+        {
+            return _teamMinionDatas[index];
         }
     }
 }

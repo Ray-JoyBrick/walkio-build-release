@@ -183,7 +183,8 @@
                         var cells = tileCellCount;
                         var totalSizes = oneTileOffset;
 
-                        var group = assistFlowFieldWorldData.groups[flowFieldTileProperty.GroupId];
+                        var groupId = flowFieldTileProperty.GroupId;
+                        var group = assistFlowFieldWorldData.groups[groupId];
                         var color = group.color;
 
                         commandBuilder.WireGrid(tilePos, Quaternion.identity, cells, totalSizes, color);
@@ -197,7 +198,7 @@
 
                                 var tileCellPos = new float3(
                                     tilePos.x + tx + 0.5f - (0.5f * oneTileOffset.x),
-                                    tilePos.y,
+                                    tilePos.y + (groupId * 0.25f),
                                     tilePos.z + ty + 0.5f - (0.5f * oneTileOffset.y));
 
                                 if (cellBuffer.Length == 0) continue;
@@ -207,8 +208,8 @@
                                 var cost = cellBuffer[i].Value.BaseCost;
 
                                 commandBuilder.Arrowhead(tileCellPos, direction,
-                                    new float3(0, 1.0f, 0), 0.35f, Color.green);
-                                commandBuilder.Label2D(tileCellPos, cost.ToString(), 14.0f, Color.blue);
+                                    new float3(0, 1.0f, 0), 0.35f, color);
+                                commandBuilder.Label2D(tileCellPos, cost.ToString(), 14.0f, color);
                             }
                         }
                     })

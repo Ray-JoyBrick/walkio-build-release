@@ -8,6 +8,7 @@
     //
     using GameCommand = JoyBrick.Walkio.Game.Command;
     using GameCommon = JoyBrick.Walkio.Game.Common;
+    using GameCreature = JoyBrick.Walkio.Game.Creature;
     using GameExtension = JoyBrick.Walkio.Game.Extension;
 
     using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
@@ -35,6 +36,27 @@
 
     public partial class Bootstrap
     {
+        private void CreatureAssist_TimedSpawnTeamUnitSystem(ComponentSystemGroup componentSystemGroup)
+        {
+#if WALKIO_MOVE_FLOWFIELD
+            _logger.Debug($"Bootstrap Assist - Module Creation - CreatureAssist_TimedSpawnTeamUnitSystem");
+
+            var createdSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameCreature.Assist.TimedSpawnTeamUnitSystem>();
+
+            createdSystem.FlowControl = _assistable.RefGameObject.GetComponent<GameFlowControl.IFlowControl>();
+
+            //
+            createdSystem.Construct();
+
+            //
+            componentSystemGroup.AddSystemToUpdateList(createdSystem);
+#else
+            _logger.Debug($"Bootstrap - No Module - CreatureAssist_TimedSpawnTeamUnitSystem");
+#endif
+        }
+
         private void HudAppAssist_PrepareAssetSystem(ComponentSystemGroup componentSystemGroup)
         {
 #if WALKIO_HUD_APP_ASSIST
@@ -204,6 +226,8 @@
             var createdSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMoveFlowFieldAssist.PresentIndicationSystem>();
+
+            createdSystem.AssistFlowFieldWorldProvider = (GameMoveFlowFieldAssist.IFlowFieldWorldProvider) this;
 
             //
             createdSystem.Construct();

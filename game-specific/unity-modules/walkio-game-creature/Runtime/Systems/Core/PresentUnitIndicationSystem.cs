@@ -2,20 +2,41 @@ namespace JoyBrick.Walkio.Game.Creature
 {
     using System.Collections;
     using System.Collections.Generic;
+    using UniRx;
     using Unity.Collections;
     using Unity.Entities;
     using Unity.Mathematics;
     using Unity.Transforms;
     using UnityEngine;
     using UnityEngine.Rendering;
+    
+    using GameLevel = JoyBrick.Walkio.Game.Level;
 
+#if WALKIO_FLOWCONTROL
+    using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
+#endif
+    
+#if WALKIO_FLOWCONTROL
+    [GameFlowControl.DoneSettingAssetWait("Stage")]
+#endif
     [DisableAutoCreation]
     public class PresentUnitIndicationSystem : SystemBase
     {
+        private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(PresentUnitIndicationSystem));
+
         //
-        public Camera SceneCamera { get; set; }
-        public List<Mesh> UnitMeshs { get; set; }
-        public List<Material> UnitMaterials { get; set; }
+        private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
+        
+        //
+        // public Camera SceneCamera { get; set; }
+        // public List<Mesh> UnitMeshs { get; set; }
+        // public List<Material> UnitMaterials { get; set; }
+
+#if WALKIO_FLOWCONTROL
+        public GameFlowControl.IFlowControl FlowControl { get; set; }
+#endif
+        public ICreatureProvider CreatureProvider { get; set; }
+        public GameLevel.ILevelPropProvider LevelPropProvider { get; set; }
 
         //
         private EntityQuery _entityQuery;
@@ -25,13 +46,39 @@ namespace JoyBrick.Walkio.Game.Creature
 
         //
         private const int SliceCount = 1023;
+
+        private bool _canUpdate;
+        
             
         public void Construct()
         {
-            for (var i = 0; i < UnitMeshs.Count; ++i)
-            {
-                _cachedCounts.Add(i, new List<int>());
-            }
+#if WALKIO_FLOWCONTROL
+            //
+            FlowControl?.AssetSettingStarted
+                .Where(x => x.Name.Contains("Stage"))
+                .Subscribe(x =>
+                {
+                    _logger.Debug($"Module - Creature - PresentUnitIndicationSystem - Construct - Receive SettingAsset");
+
+                    // _canUpdate = true;
+                    
+                    for (var i = 0; i < CreatureProvider.GetMinionDataCount; ++i)
+                    {
+                        _cachedCounts.Add(i, new List<int>());
+                    }
+                })
+                .AddTo(_compositeDisposable);
+            
+            FlowControl?.FlowReadyToStart
+                .Where(x => x.Name.Contains("Stage"))
+                .Subscribe(x =>
+                {
+                    _logger.Debug($"Module - Creature - PresentUnitIndicationSystem - Construct - Receive FlowReadyToStart");
+                    _canUpdate = true;
+                })
+                .AddTo(_compositeDisposable);            
+#endif
+
         }
 
         protected override void OnCreate()
@@ -43,6 +90,8 @@ namespace JoyBrick.Walkio.Game.Creature
                 All = new ComponentType[] { typeof(UnitIndication), typeof(LocalToWorld) },
                 None = new ComponentType[] { typeof(Leader) }
             });
+            
+            RequireForUpdate(_entityQuery);
         }
 
         private void UpdateEachKind(
@@ -66,6 +115,8 @@ namespace JoyBrick.Walkio.Game.Creature
                     matrices.Add(matrix);
                 }
 
+                var camera = LevelPropProvider.LevelCamera;
+                
                 Graphics.DrawMeshInstanced(
                     mesh,
                     0,
@@ -77,7 +128,7 @@ namespace JoyBrick.Walkio.Game.Creature
                     // false,
                     true,
                     0,
-                    SceneCamera
+                    camera
                 );
             }
         }
@@ -85,6 +136,10 @@ namespace JoyBrick.Walkio.Game.Creature
         //
         protected override void OnUpdate()
         {
+            // _logger.Debug($"Module - Creature - PresentUnitIndicationSystem - Update - _canUpdate: {_canUpdate}");
+
+            if (!_canUpdate) return;
+
             //
             for (var i = 0; i < _cachedCounts.Count; ++i)
             {
@@ -98,6 +153,8 @@ namespace JoyBrick.Walkio.Game.Creature
             {
                 using (var localToWorlds = _entityQuery.ToComponentDataArray<LocalToWorld>(Allocator.TempJob))
                 {
+                    // _logger.Debug($"Module - Creature - PresentUnitIndicationSystem - Update - indication count: {unitIndications.Length}");
+
                     //
                     for (var i = 0; i < unitIndications.Length; ++i)
                     {
@@ -107,13 +164,25 @@ namespace JoyBrick.Walkio.Game.Creature
 
                     foreach (var pair in _cachedCounts)
                     {
-                        var mesh = UnitMeshs[pair.Key];
-                        var material = UnitMaterials[pair.Key];
+                        var minionData = CreatureProvider.GetMinionDataByIndex(pair.Key);
+
+                        var mesh = minionData.mesh;
+                        var material = minionData.material;
+                        
+                        // _logger.Debug($"Module - Creature - PresentUnitIndicationSystem - Update - mesh: {mesh} material: {material}");
+
 
                         UpdateEachKind(pair.Value, in localToWorlds, materialPropertyBlock, mesh, material);
                     }
                 }
             }
+        }
+        
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            _compositeDisposable?.Dispose();
         }
     }
 }

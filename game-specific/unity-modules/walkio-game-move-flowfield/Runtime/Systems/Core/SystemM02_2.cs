@@ -28,6 +28,7 @@
 
         //
         private bool _canUpdate;
+        private EntityQuery _someEntityQuery;
 
         //
         public GameFlowControl.IFlowControl FlowControl { get; set; }
@@ -64,13 +65,59 @@
                 }
             });
 
+            _someEntityQuery = GetEntityQuery(new EntityQueryDesc
+            {
+                All = new ComponentType[]
+                {
+                    ComponentType.ReadOnly<FlowFieldTileCellBuffer>()
+                }
+            });
+
             RequireForUpdate(_gridWorldEntityQuery);
+            RequireForUpdate(_someEntityQuery);
+        }
+
+        private void UpdateForFlowFieldTile(
+            int totalTileCellCount,
+            NativeArray<int> gridCellIndices,
+            NativeArray<int> costs,
+            NativeArray<int> directions,
+            Entity flowFieldTileEntity)
+        {
+            Entities
+                .WithAll<FlowFieldTile>()
+                .ForEach((Entity entity, ref DynamicBuffer<FlowFieldTileCellBuffer> flowFieldTileCellBuffers) =>
+                {
+                    if (entity == flowFieldTileEntity)
+                    {
+                        // _logger.Debug($"Module - SystemM02_2 - UpdateForFlowFieldTile - find matched flow field tile: {entity}");
+
+                        // flowFieldTileCellBuffers.ResizeUninitialized(totalTileCellCount);
+                        
+                        for (var m = 0; m < totalTileCellCount; ++m)
+                        {
+                            // Assign grid cell index into tile cell for now
+                            // Can also assign the content of that grid cell into tile cell
+                            // tileCellBuffer[i] = gridCellIndices[i];
+                            flowFieldTileCellBuffers[m] = new TileCellContent
+                            {
+                                CellIndex = gridCellIndices[m],
+                                BaseCost = costs[m],
+                                Direction = directions[m]
+                            };
+                        }
+                    }
+                })
+                .WithoutBurst()
+                .Run();            
         }
 
         private void UpdateEachChaseTarget(
             int2 gridCellCount, float2 gridCellSize,
             int2 tileCellCount, float2 tileCellSize,
-            int forWhichGroupId, float3 changeToPosition,
+            int forWhichGroupId,
+            int2 changeToTileCellIndex,
+            float3 changeToPosition,
             GameLevel.GridWorldProperty gridWorldProperty)
             // Entity forWhichLeaderEntity)
         {
@@ -82,7 +129,14 @@
                     var matchGroupId = (leadingToSetProperty.GroupId == forWhichGroupId);
                     if (matchGroupId)
                     {
-                        _logger.Debug($"Module - SystemM02_2 - UpdateEachChaseTarget - find matched group: {matchGroupId} for tile cell change");
+                        _logger.Debug($"Module - SystemM02_2 - UpdateEachChaseTarget - find matched group: {forWhichGroupId} for tile cell change");
+                        
+                        var gridCellIndices =
+                            Utility.FlowFieldTileHelper.GetGridCellIndicesInTile(
+                                gridCellCount, gridCellSize,
+                                tileCellCount, tileCellSize,
+                                // inTileIndex);
+                                leadingToSetProperty.TileIndex);                        
                         
                         var totalTileCellCount = tileCellCount.x * tileCellCount.y;
                         var baseCosts = new NativeArray<int>(totalTileCellCount, Allocator.Temp);
@@ -106,7 +160,7 @@
                             }
                             else
                             {
-                                _logger.Debug($"Module - Move - FlowField - SystemM03 - OnUpdate - gridCellIndex -1 at tileIndex: {leadingToSetProperty.TileIndex} for tileCellIndex: {g}");
+                                _logger.Debug($"Module - Move - FlowField - SystemM02_2 - OnUpdate - gridCellIndex -1 at tileIndex: {leadingToSetProperty.TileIndex} for tileCellIndex: {g}");
                             }
                         }
                         
@@ -114,7 +168,7 @@
                             Utility.FlowFieldTileHelper.GetIntegrationCostForTile(
                                 gridCellCount, gridCellSize,
                                 tileCellCount, tileCellSize,
-                                leadingToSetProperty.TileIndex,
+                                changeToTileCellIndex,
                                 // inTileCellIndex,
                                 baseCosts);
                         // var neighborDirection = Utility.FlowFieldTileHelper.NeighborTileDirection(outTileIndex, inTileIndex);
@@ -123,10 +177,14 @@
                             Utility.FlowFieldTileHelper.GetDirectionForTile(
                                 gridCellCount, gridCellSize,
                                 tileCellCount, tileCellSize,
-                                leadingToSetProperty.TileIndex,
+                                changeToTileCellIndex,
                                 // inTileCellIndex,
                                 neighborDirection,
-                                baseCosts);                        
+                                baseCosts);
+
+                        // _logger.Debug($"Module - SystemM02_2 - UpdateEachChaseTarget - change to tile cell index: {changeToTileCellIndex}");
+                        
+                        UpdateForFlowFieldTile(totalTileCellCount, gridCellIndices, costs, directions, leadingToSetProperty.LeadingToTile);
                     }
                 })
                 .WithoutBurst()
@@ -147,18 +205,21 @@
             var flowFieldWorldData = FlowFieldWorldProvider.FlowFieldWorldData as Template.FlowFieldWorldData;
             var tileCellCount = new int2(flowFieldWorldData.tileCellCount.x, flowFieldWorldData.tileCellCount.y);
             var tileCellSize = (float2)flowFieldWorldData.tileCellSize;
-
+            
             Entities
                 .WithAll<AtTileCellChange>()
                 .ForEach((Entity entity, AtTileCellChangeProperty atTileCellChangeProperty) =>
                 // .ForEach((Entity entity, int entityInQueryIndex, AtTileChangeProperty atTileChangeProperty) =>
                 {
-                    _logger.Debug($"Module - SystemM02_2 - OnUpdate - receive AtTileCellChange event entity: {entity}");
+                    _logger.Debug($"Module - SystemM02_2 - OnUpdate - receive AtTileCellChange event entity: {entity} to tileCellIndex: {atTileCellChangeProperty.ChangeToTileCellIndex}");
 
-                    // UpdateEachChaseTarget(
-                    //     gridCellCount, gridCellSize,
-                    //     tileCellCount, tileCellSize,
-                    //     atTileCellChangeProperty.GroupId, atTileCellChangeProperty.ChangeToPosition);
+                    UpdateEachChaseTarget(
+                        gridCellCount, gridCellSize,
+                        tileCellCount, tileCellSize,
+                        atTileCellChangeProperty.GroupId,
+                        atTileCellChangeProperty.ChangeToTileCellIndex,
+                        atTileCellChangeProperty.ChangeToPosition,
+                        gridWorldProperty);
                         // atTileCellChangeProperty.ForWhichLeader);
 
                     // Destroy the event so it won't be processed again

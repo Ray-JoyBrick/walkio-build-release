@@ -11,5 +11,16 @@
         [Sirenix.OdinInspector.BoxGroup("Basic")]
 #endif
         public GameObject avatarPrefab;
+        
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.BoxGroup("Vertex Animation")]
+#endif
+        public Mesh mesh;
+
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.BoxGroup("Vertex Animation")]
+#endif
+        public Material material;
+
     }
 }

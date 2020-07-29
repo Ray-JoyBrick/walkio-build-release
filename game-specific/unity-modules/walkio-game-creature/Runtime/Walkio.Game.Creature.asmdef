@@ -14,7 +14,8 @@
         "UniRx",
         "Walkio.Game.Common",
         "Walkio.Game.Creature.Common",
-        "Walkio.Game.Flow-Control.Common"
+        "Walkio.Game.Flow-Control.Common",
+        "Walkio.Game.Level.Common"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

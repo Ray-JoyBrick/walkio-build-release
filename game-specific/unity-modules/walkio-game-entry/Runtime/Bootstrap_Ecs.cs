@@ -2,12 +2,18 @@
 {
     using Unity.Entities;
 
-    public partial class Bootstrap
+    //
+    using GameCommon = JoyBrick.Walkio.Game.Common;
+    
+    public partial class Bootstrap :
+        GameCommon.IEcsSettingProvider
     {
         private GameObjectConversionSettings _gameObjectConversionSettings;
         private EntityManager _entityManager;
 
         public EntityManager EntityManager => _entityManager;
+
+        public GameObjectConversionSettings RefGameObjectConversionSettings => _gameObjectConversionSettings;
 
         void SetupEcsWorldContext()
         {
@@ -46,6 +52,7 @@
 
             //
             Creature_PrepareAssetSystem(initializationSystemGroup);
+            Creature_SpawnTeamUnitSystem(initializationSystemGroup);
 
             Level_PrepareAssetSystem(initializationSystemGroup);
             Level_SetupAssetSystem(initializationSystemGroup);
@@ -73,12 +80,15 @@
 
             MoveFlowField_SystemM01(initializationSystemGroup);
             MoveFlowField_SystemM02(initializationSystemGroup);
+            MoveFlowField_SystemM02_2(initializationSystemGroup);
             MoveFlowField_SystemM03(initializationSystemGroup);
             MoveFlowField_SystemM08(initializationSystemGroup);
             MoveFlowField_SystemM09(initializationSystemGroup);
 
             MoveCrowdSimulate_SystemA(initializationSystemGroup);
 
+            //
+            Creature_PresentUnitIndicationSystem(presentationSystemGroup);
         }
 
         void CleanUpEcsWorldContext()

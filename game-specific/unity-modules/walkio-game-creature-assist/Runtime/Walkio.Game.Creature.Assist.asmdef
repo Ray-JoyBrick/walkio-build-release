@@ -11,7 +11,9 @@
         "Unity.Rendering.Hybrid",
         "UniRx",
         "Walkio.Game.Common",
-        "Walkio.Game.Creature.Common"
+        "Walkio.Game.Creature.Common",
+        "Walkio.Game.Creature",
+        "Walkio.Game.Flow-Control.Common"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

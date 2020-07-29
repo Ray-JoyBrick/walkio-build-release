@@ -76,7 +76,11 @@
 
         private void MakeWorld(ScriptableObject levelSettingDataAsset, SceneInstance sceneInstance)
         {
-            //
+            // For Unity scene specific
+            var sceneCamera = GameCommon.Utility.SceneHelper.GetComponentAtScene<Camera>(sceneInstance.Scene);
+            LevelPropProvider.LevelCamera = sceneCamera;
+            
+            // For game scene rule
             var gridWorldEntity = EntityManager.CreateEntity(_entityArchetype);
 
 #if UNITY_EDITOR

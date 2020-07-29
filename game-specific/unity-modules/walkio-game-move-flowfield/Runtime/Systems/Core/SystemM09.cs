@@ -116,7 +116,7 @@
                         var direction = flowFieldTileCells[tileCellIndex].Value.Direction;
                         moveByForce.Direction =
                             Utility.FlowFieldTileHelper.FromIntDirectionToNormalizedVector(direction);
-                        moveByForce.Force = 0.40f;
+                        moveByForce.Force = 0.80f;
                     }
                 })
                 .WithoutBurst()

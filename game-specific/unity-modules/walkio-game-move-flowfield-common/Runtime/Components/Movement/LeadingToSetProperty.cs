@@ -7,5 +7,8 @@
     public struct LeadingToSetProperty : IComponentData
     {
         public int GroupId;
+
+        public int2 TileIndex;
+        public Entity LeadingToTile;
     }
 }

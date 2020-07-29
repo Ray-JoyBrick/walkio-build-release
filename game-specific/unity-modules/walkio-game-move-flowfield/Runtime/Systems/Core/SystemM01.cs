@@ -114,7 +114,7 @@
                     var updatedTileIndex = updatedTileAndTileCellIndex.xy;
                     var updatedTileCellIndex = updatedTileAndTileCellIndex.zw;
 
-                    // Compare before assigning
+                    // Compare before assigning, all index compare is int value, which will require no additional checking
                     var atOriginalTile = (updatedTileIndex.x == originalTileIndex.x) && (updatedTileIndex.y == originalTileIndex.y);
                     var atOriginalTileCell = (updatedTileCellIndex.x == originalTileCellIndex.x) && (updatedTileCellIndex.y == originalTileCellIndex.y);
 
@@ -122,6 +122,7 @@
                     toBeChasedTargetProperty.AtTileIndex = updatedTileIndex;
                     toBeChasedTargetProperty.AtTileCellIndex = updatedTileCellIndex;
 
+                    //
                     var issueTileChangeEvent = (!initialized || !atOriginalTile);
                     if (issueTileChangeEvent)
                     {
@@ -162,9 +163,12 @@
                                     GroupId = toBeChasedTargetProperty.BelongToGroup,
                                     ChangeToPosition = localToWorld.Position,
                                     ChangeToTileIndex = updatedTileIndex,
+                                    ChangeToTileCellIndex = updatedTileCellIndex,
                                     // LeadingToSetEntity should still be valid
                                     LeadingToSetEntity = toBeChasedTargetProperty.LeadingToSetEntity
                                 });
+
+                            toBeChasedTargetProperty.AtTileCellIndex = updatedTileCellIndex;
                         }
                     }
                 })

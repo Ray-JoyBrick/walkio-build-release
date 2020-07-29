@@ -4,5 +4,6 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
 
     public struct FlowFieldMoveIndication : IComponentData
     {
+        // public int GroupId;
     }
 }

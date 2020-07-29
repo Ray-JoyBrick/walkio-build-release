@@ -75,6 +75,54 @@
             _logger.Debug($"Bootstrap - No Module - Creature_PrepareAssetSystem");
 #endif
         }
+        
+        private void Creature_SpawnTeamUnitSystem(ComponentSystemGroup componentSystemGroup)
+        {
+#if WALKIO_CREATURE
+            _logger.Debug($"Bootstrap - Module Creation - Creature_SpawnTeamUnitSystem");
+
+            var createdSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameCreature.SpawnTeamUnitSystem>();
+
+            //
+            createdSystem.CreatureProvider = (GameCreature.ICreatureProvider) this;
+            createdSystem.EcsSettingProvider = (GameCommon.IEcsSettingProvider) this;
+            createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
+
+            //
+            createdSystem.Construct();
+
+            //
+            componentSystemGroup.AddSystemToUpdateList(createdSystem);
+#else
+            _logger.Debug($"Bootstrap - No Module - Creature_SpawnTeamUnitSystem");
+#endif
+        }
+        
+        private void Creature_PresentUnitIndicationSystem(ComponentSystemGroup componentSystemGroup)
+        {
+#if WALKIO_CREATURE
+            _logger.Debug($"Bootstrap - Module Creation - Creature_PresentUnitIndicationSystem");
+
+            var createdSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameCreature.PresentUnitIndicationSystem>();
+
+            // //
+            createdSystem.CreatureProvider = (GameCreature.ICreatureProvider) this;
+            createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
+            createdSystem.LevelPropProvider = (GameLevel.ILevelPropProvider) this;
+            
+            //
+            createdSystem.Construct();
+
+            //
+            componentSystemGroup.AddSystemToUpdateList(createdSystem);
+#else
+            _logger.Debug($"Bootstrap - No Module - Creature_PresentUnitIndicationSystem");
+#endif
+        }
 
         private void FlowControl_PrepareAssetSystem(ComponentSystemGroup componentSystemGroup)
         {
@@ -346,8 +394,8 @@
             //
             createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
             createdSystem.GridWorldProvider = (GameLevel.IGridWorldProvider) this;
-
-            //
+            createdSystem.LevelPropProvider = (GameLevel.ILevelPropProvider) this;
+                //
             createdSystem.Construct();
 
             //
@@ -718,6 +766,29 @@
             componentSystemGroup.AddSystemToUpdateList(createdSystem);
 #else
             _logger.Debug($"Bootstrap - No Module - MoveFlowField_SystemM02");
+#endif
+        }
+        
+        private void MoveFlowField_SystemM02_2(ComponentSystemGroup componentSystemGroup)
+        {
+#if WALKIO_MOVE_FLOWFIELD
+            _logger.Debug($"Bootstrap - Module Creation - MoveFlowField_SystemM02_2");
+
+            var createdSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameMoveFlowField.SystemM02_2>();
+
+            //
+            createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
+            createdSystem.FlowFieldWorldProvider = (GameMoveFlowField.IFlowFieldWorldProvider) this;
+
+            //
+            createdSystem.Construct();
+
+            //
+            componentSystemGroup.AddSystemToUpdateList(createdSystem);
+#else
+            _logger.Debug($"Bootstrap - No Module - MoveFlowField_SystemM02_2");
 #endif
         }
 

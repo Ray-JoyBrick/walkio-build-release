@@ -17,7 +17,8 @@
     public partial class Bootstrap
 
 #if WALKIO_LEVEL
-        : GameLevel.IGridWorldProvider
+        : GameLevel.IGridWorldProvider,
+            GameLevel.ILevelPropProvider
 #endif
 
     {
@@ -32,5 +33,6 @@
         {
         }
 
+        public Camera LevelCamera { get; set; }
     }
 }

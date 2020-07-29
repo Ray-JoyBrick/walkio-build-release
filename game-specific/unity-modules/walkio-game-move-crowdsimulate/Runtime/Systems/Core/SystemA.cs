@@ -64,14 +64,27 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
             var concurrentCommandBuffer = commandBuffer.ToConcurrent();
 
+            //
+            var deltaTime = Time.DeltaTime;
+
             Entities
                 .WithAll<Particle>()
-                .ForEach((Entity entity, LocalToWorld localToWorld, ParticleProperty particleProperty, GameMove.MoveByForce moveByForce, ref PhysicsVelocity physicsVelocity) =>
+                .ForEach((Entity entity, LocalToWorld localToWorld, ParticleProperty particleProperty, GameMove.MoveByForce moveByForce, ref PhysicsVelocity physicsVelocity, ref Rotation rotation) =>
                 {
                     // _logger.Debug($"Module - Move - CrowdSimulate - SystemA - OnUpdate - event entity: {entity}");
 
                     physicsVelocity.Linear = moveByForce.Direction * moveByForce.Force;
 
+                    var adjustedDirection = moveByForce.Direction;
+                    if (moveByForce.Direction.x == 0 && moveByForce.Direction.y == 0 && moveByForce.Direction.z == 0)
+                    {
+                        adjustedDirection = new float3(1.0f, 0, 0);
+                    }
+                    
+                    // var smoothedRotation = math.slerp(
+                    //     rotation.Value,
+                    //     quaternion.LookRotationSafe(adjustedDirection, math.up()), 1f - math.exp(-deltaTime));
+                    // rotation.Value = smoothedRotation;
                 })
                 .WithoutBurst()
                 .Run();

@@ -15,5 +15,6 @@ MonoBehaviour:
   teamLeaderNpcAssets:
   - {fileID: 11400000, guid: ee63e8c8f29c68045929408dc51281f5, type: 2}
   teamLeaderPlayerAssets: []
-  teamMinionAssets: []
+  teamMinionAssets:
+  - {fileID: 11400000, guid: d9bdfa4e513b586499158e572b44b118, type: 2}
   neutralMinionAssetss: []
