@@ -1,0 +1,16 @@
+{
+  "name": "com.walkio.game.hud.common",
+  "displayName": "_ Walkio Game Hud Common",
+  "version": "0.2.0",
+  "unity": "2020.1",
+  "description": "Walkio Game Hud Common",
+  "keywords": [
+  ],
+  "category": "",
+  "dependencies": {},
+  "author": {
+    "email": "ray@joybrick.cc",
+    "name": "Ray Wang",
+    "url": "https://joybrick.cc"
+  }
+}

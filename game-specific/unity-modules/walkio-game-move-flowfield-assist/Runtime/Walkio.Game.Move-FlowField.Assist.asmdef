@@ -12,6 +12,7 @@
         "UniRx",
         "ProceduralToolkit",
         "ALINE",
+        "Walkio.Game.Flow-Control.Common",
         "Walkio.Game.Level.Common",
         "Walkio.Game.Move-FlowField.Common",
         "Walkio.Game.Move-FlowField"

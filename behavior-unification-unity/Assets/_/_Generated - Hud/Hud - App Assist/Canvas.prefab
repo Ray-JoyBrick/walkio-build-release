@@ -381,6 +381,7 @@ GameObject:
   - component: {fileID: 1056011802100874543}
   - component: {fileID: 718868233784876229}
   - component: {fileID: 2727663878522167172}
+  - component: {fileID: 7879330947262935071}
   m_Layer: 5
   m_Name: View
   m_TagString: Untagged
@@ -415,7 +416,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1519011110689351634}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
@@ -496,6 +497,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7879330947262935071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519011110689351634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14c541a8c9bb91b4484d0c72ad9d704b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 706887818732618104}
+  canvasGroup: {fileID: 1056011802100874543}
 --- !u!1 &1630822151176553150
 GameObject:
   m_ObjectHideFlags: 0
@@ -769,6 +784,7 @@ GameObject:
   - component: {fileID: 4193371536208727463}
   - component: {fileID: 2978033770067814844}
   - component: {fileID: 3913294495884114503}
+  - component: {fileID: 3667769894381960079}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -859,6 +875,20 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 55
+--- !u!114 &3667769894381960079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3147247457995343526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91d8856815ba93049adf8b02060b35ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewContainer: {fileID: 6352014086066943417}
+  viewSelectionDropdown: {fileID: 8522123976578442144}
 --- !u!1 &4541904147174597046
 GameObject:
   m_ObjectHideFlags: 0
@@ -1703,6 +1733,16 @@ PrefabInstance:
       propertyPath: m_fontSizeBase
       value: 36
       objectReference: {fileID: 0}
+    - target: {fileID: 3052335391014774718, guid: 38650c29fd8c7434fbaddf682b3e710b,
+        type: 3}
+      propertyPath: m_text
+      value: "\u904A\u6232\u958B\u767C\n\u5354\u52A9\u5DE5\u5177"
+      objectReference: {fileID: 0}
+    - target: {fileID: 4096203402897136854, guid: 38650c29fd8c7434fbaddf682b3e710b,
+        type: 3}
+      propertyPath: originalParent
+      value: 
+      objectReference: {fileID: 6860544408660082929}
     - target: {fileID: 5797920063300929207, guid: 38650c29fd8c7434fbaddf682b3e710b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1813,15 +1853,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: View - Base
       objectReference: {fileID: 0}
+    - target: {fileID: 9219489900601153723, guid: 38650c29fd8c7434fbaddf682b3e710b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 611104701166978197, guid: 38650c29fd8c7434fbaddf682b3e710b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 38650c29fd8c7434fbaddf682b3e710b, type: 3}
---- !u!1 &9032840775468833622 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9219489900601153723, guid: 38650c29fd8c7434fbaddf682b3e710b,
-    type: 3}
-  m_PrefabInstance: {fileID: 191734918325847021}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &5971619656391214426 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5797920063300929207, guid: 38650c29fd8c7434fbaddf682b3e710b,
@@ -1944,7 +1983,7 @@ PrefabInstance:
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 9032840775468833622}
+      objectReference: {fileID: 7879330947262935071}
     - target: {fileID: 5196078835845010249, guid: ae4c298a790e5e8488f46ce07a58d3fd,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
@@ -1953,17 +1992,17 @@ PrefabInstance:
     - target: {fileID: 5196078835845010249, guid: ae4c298a790e5e8488f46ce07a58d3fd,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActive
+      value: TurnOnOff
       objectReference: {fileID: 0}
     - target: {fileID: 5196078835845010249, guid: ae4c298a790e5e8488f46ce07a58d3fd,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
+      value: JoyBrick.Walkio.Game.Hud.ContainerView, Walkio.Game.Hud.Common
       objectReference: {fileID: 0}
     - target: {fileID: 5196078835845010249, guid: ae4c298a790e5e8488f46ce07a58d3fd,
         type: 3}
       propertyPath: m_IsOn
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8884866191503662747, guid: ae4c298a790e5e8488f46ce07a58d3fd,
         type: 3}

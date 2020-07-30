@@ -21,7 +21,7 @@ namespace JoyBrick.Walkio.Game.Hud.App.Assist
     using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
 #endif
 
-#if WALKIO_FLOWCONTROL
+#if WALKIO_FLOWCONTROL && WALKIO_HUD_APP_ASSIST
     [GameFlowControl.DoneLoadingAssetWait("App")]
 #endif
     [DisableAutoCreation]

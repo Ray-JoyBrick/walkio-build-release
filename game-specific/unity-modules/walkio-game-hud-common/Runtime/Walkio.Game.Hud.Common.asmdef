@@ -1,5 +1,5 @@
 {
-    "name": "Walkio.Game.Hud-Stage.Assist",
+    "name": "Walkio.Game.Hud.Common",
     "references": [
         "Unity.Addressables",
         "Unity.Entities",
@@ -8,15 +8,14 @@
         "Unity.Collections",
         "Unity.Transforms",
         "Unity.Entities.Hybrid",
-        "Unity.Entities.Properties",
         "Unity.Mathematics",
         "Unity.ResourceManager",
+        "Unity.TextMeshPro",
         "UniRx",
         "Walkio.Game.Command",
         "Walkio.Game.Common",
         "Walkio.Game.Extension.Common",
-        "Walkio.Game.Flow-Control.Common",
-        "Walkio.Game.Hud.Common"
+        "Walkio.Game.Flow-Control.Common"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -24,10 +23,7 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [
-        "WALKIO_HUD_STAGE",
-        "WALKIO_HUD_STAGE_ASSIST"
-    ],
+    "defineConstraints": [],
     "versionDefines": [],
     "noEngineReferences": false
 }

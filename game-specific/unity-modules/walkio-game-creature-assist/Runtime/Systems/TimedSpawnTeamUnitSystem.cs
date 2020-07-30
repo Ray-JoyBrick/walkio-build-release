@@ -12,6 +12,9 @@
     using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
     using GameCreature = JoyBrick.Walkio.Game.Creature;
 
+#if WALKIO_FLOWCONTROL && WALKIO_CREATURE_ASSIST
+    [GameFlowControl.DoneSettingAssetWait("Stage")]
+#endif
     [DisableAutoCreation]
     public class TimedSpawnTeamUnitSystem : SystemBase
     {
@@ -20,7 +23,7 @@
 
         //
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
-        
+
         //
         private BeginInitializationEntityCommandBufferSystem _entityCommandBufferSystem;
         private EntityQuery _theEnvironmentQuery;
@@ -32,7 +35,7 @@
 
         //
         private bool _canUpdate;
-        
+
         //
         public GameFlowControl.IFlowControl FlowControl { get; set; }
 
@@ -40,7 +43,7 @@
         public void Construct()
         {
             _logger.Debug($"Module Assist - Creature - TimedSpawnTeamUnitSystem - Construct");
-            
+
             FlowControl?.AssetSettingStarted
                 .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
@@ -60,7 +63,7 @@
                     });
                 })
                 .AddTo(_compositeDisposable);
-    
+
             //
             FlowControl?.FlowReadyToStart
                 .Where(x => x.Name.Contains("Stage"))
@@ -78,7 +81,7 @@
 
             //
             _entityCommandBufferSystem = World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
-            
+
             // _theEnvironmentQuery = GetEntityQuery(new EntityQueryDesc
             // {
             //     All = new ComponentType[] { typeof(TheEnvironment) }
@@ -89,7 +92,7 @@
             //
             // RequireForUpdate(_theEnvironmentQuery);
         }
-        
+
         private void CreateEventEntity(
             EntityCommandBuffer entityCommandBuffer,
             EntityArchetype eventEntityArchetype)
@@ -110,16 +113,16 @@
 
                 return v;
             }
-            
+
             var teamId = GetTeamId();
             var kind = UnityEngine.Random.Range(1, 4);
             var atPosition = new float3(
                 UnityEngine.Random.Range(10.0f, 192.0f),
                 0,
                 UnityEngine.Random.Range(10.0f, 192.0f));
-            
+
             // _logger.Debug($"Module Assist - Creature - TimedSpawnTeamUnitSystem - CreateEventEntity - teamId: {teamId} kind: {kind}");
-            
+
             entityCommandBuffer.SetComponent(eventEntity, new GameCreature.CreateTeamUnitProperty
             {
                 TeamId = teamId,
@@ -127,7 +130,7 @@
                 AtPosition = atPosition
             });
         }
-        
+
         protected override void OnUpdate()
         {
             if (!_canUpdate) return;

@@ -14,6 +14,8 @@
     using GameMoveFlowField = JoyBrick.Walkio.Game.Move.FlowField;
     using GameMoveFlowFieldUtility = JoyBrick.Walkio.Game.Move.FlowField.Utility;
 
+    using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
+
     [DisableAutoCreation]
     public class PresentChasedTargetSystem : SystemBase
     {
@@ -32,26 +34,20 @@
 
         //
         public GameMoveFlowField.IFlowFieldWorldProvider FlowFieldWorldProvider { get; set; }
+        public GameFlowControl.IFlowControl FlowControl { get; set; }
 
         //
         public void Construct()
         {
             _logger.Debug($"Module - PresentChasedTargetSystem - Construct");
 
-#if WALKIO_FLOWCONTROL_SYSTEM
+#if WALKIO_FLOWCONTROL
             //
-            FlowControl.AllDoneSettingAsset
+            FlowControl?.FlowReadyToStart
                 .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"Module - PresentChasedTargetSystem - Construct - Receive AllDoneSettingAsset");
-                    _canUpdate = true;
-                })
-                .AddTo(_compositeDisposable);
-#else
-            Observable.Timer(System.TimeSpan.FromMilliseconds(500))
-                .Subscribe(_ =>
-                {
+                    _logger.Debug($"Module - PresentChasedTargetSystem - Construct - Receive FlowReadyToStart");
                     _canUpdate = true;
                 })
                 .AddTo(_compositeDisposable);

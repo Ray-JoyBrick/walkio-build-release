@@ -10,6 +10,8 @@
     using Unity.Transforms;
     using UnityEngine;
 
+    using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
+
     [DisableAutoCreation]
     public class PresentIndicationSystem : SystemBase
     {
@@ -24,6 +26,7 @@
         private EntityQuery _entityQuery;
 
         public IFlowFieldWorldProvider AssistFlowFieldWorldProvider { get; set; }
+        public GameFlowControl.IFlowControl FlowControl { get; set; }
 
         //
         private bool _canUpdate;

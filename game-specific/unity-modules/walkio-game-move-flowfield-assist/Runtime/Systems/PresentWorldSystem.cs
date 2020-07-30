@@ -14,8 +14,8 @@ namespace JoyBrick.Walkio.Game.Move.FlowField.Assist
     using UnityEngine.Rendering;
 
     //
-#if WALKIO_FLOWCONTROL_SYSTEM
-    using GameCommon = JoyBrick.Walkio.GameCommon;
+#if WALKIO_FLOWCONTROL
+    using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
 #endif
 
     [DisableAutoCreation]
@@ -34,8 +34,8 @@ namespace JoyBrick.Walkio.Game.Move.FlowField.Assist
         //
         private bool _canUpdate;
 
-#if WALKIO_FLOWCONTROL_SYSTEM
-        public GameCommon.IFlowControl FlowControl { get; set; }
+#if WALKIO_FLOWCONTROL
+        public GameFlowControl.IFlowControl FlowControl { get; set; }
 #endif
         public IFlowFieldWorldProvider FlowFieldWorldProvider { get; set; }
 
@@ -43,20 +43,13 @@ namespace JoyBrick.Walkio.Game.Move.FlowField.Assist
         {
             _logger.Debug($"PresentWorldSystem - Construct");
 
-#if WALKIO_FLOWCONTROL_SYSTEM
+#if WALKIO_FLOWCONTROL
             //
-            FlowControl.AllDoneSettingAsset
+            FlowControl?.FlowReadyToStart
                 .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"PresentWorldSystem - Construct - Receive AllDoneSettingAsset");
-                    _canUpdate = true;
-                })
-                .AddTo(_compositeDisposable);
-#else
-            Observable.Timer(System.TimeSpan.FromMilliseconds(500))
-                .Subscribe(_ =>
-                {
+                    _logger.Debug($"PresentWorldSystem - Construct - Receive FlowReadyToStart");
                     _canUpdate = true;
                 })
                 .AddTo(_compositeDisposable);

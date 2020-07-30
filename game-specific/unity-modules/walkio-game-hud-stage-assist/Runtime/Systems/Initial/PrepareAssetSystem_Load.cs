@@ -70,6 +70,9 @@
                         ExtensionService.SetReferenceToExtension(_canvas);
 
                         SceneService.MoveToCurrentScene(_canvas);
+
+                        //
+                        Utility.HudHelper.ExtractView(_canvas);
                     }
                     else
                     {

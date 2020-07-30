@@ -11,6 +11,9 @@
     using UnityEngine;
 
     //
+    using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
+
+    //
     using GameMoveFlowField = JoyBrick.Walkio.Game.Move.FlowField;
     using GameMoveFlowFieldUtility = JoyBrick.Walkio.Game.Move.FlowField.Utility;
 
@@ -34,25 +37,20 @@
         public GameMoveFlowField.IFlowFieldWorldProvider FlowFieldWorldProvider { get; set; }
         public GameMoveFlowField.Assist.IFlowFieldWorldProvider AssistFlowFieldWorldProvider { get; set; }
 
+        public GameFlowControl.IFlowControl FlowControl { get; set; }
+
         //
         public void Construct()
         {
             _logger.Debug($"Module - PresentTemporaryPointIndicationSystem - Construct");
 
-#if WALKIO_FLOWCONTROL_SYSTEM
+#if WALKIO_FLOWCONTROL
             //
-            FlowControl.AllDoneSettingAsset
+            FlowControl?.FlowReadyToStart
                 .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
                     _logger.Debug($"Module - PresentTemporaryPointIndicationSystem - Construct - Receive AllDoneSettingAsset");
-                    _canUpdate = true;
-                })
-                .AddTo(_compositeDisposable);
-#else
-            Observable.Timer(System.TimeSpan.FromMilliseconds(500))
-                .Subscribe(_ =>
-                {
                     _canUpdate = true;
                 })
                 .AddTo(_compositeDisposable);

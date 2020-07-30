@@ -225,6 +225,7 @@ GameObject:
   - component: {fileID: -5733624777878308003}
   - component: {fileID: -5775256324047587595}
   - component: {fileID: 552739674861929738}
+  - component: {fileID: 4096203402897136854}
   m_Layer: 5
   m_Name: View - Base
   m_TagString: Untagged
@@ -357,3 +358,17 @@ PlayableDirector:
   m_SceneBindings: []
   m_ExposedReferences:
     m_References: []
+--- !u!114 &4096203402897136854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9219489900601153723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 998076637e934ce4287a634d0d5cef65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inDropdownName: Overivew
+  originalParent: {fileID: 0}
