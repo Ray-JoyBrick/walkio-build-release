@@ -31,6 +31,9 @@
             MoveFlowField_RemoveTemporaryPointIndicationSystem(initializationSystemGroup);
 
             //
+            Level_ShowHideEnvironmentSystem(initializationSystemGroup);
+
+            //
             Level_PresentWorldSystem(presentationSystemGroup);
             //
             MoveFlowField_PresentChasedTargetSystem(presentationSystemGroup);

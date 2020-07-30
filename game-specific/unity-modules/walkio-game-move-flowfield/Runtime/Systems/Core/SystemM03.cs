@@ -183,12 +183,14 @@
                         var gridMapContext = gridWorldProperty.GridMapBlobAssetRef.Value.GridMapContextArray[gridCellIndex];
                         if (gridMapContext == 1)
                         {
-                            baseCosts[g] = 1000;
+                            baseCosts[g] = 50000;
                         }
                     }
                     else
                     {
-                        _logger.Debug($"Module - Move - FlowField - SystemM03 - OnUpdate - gridCellIndex -1 at tileIndex: {outTileIndex} for tileCellIndex: {g}");
+                        // This might be the case where the tile has some portion outside the boundary
+                        baseCosts[g] = 70000;
+                        // _logger.Debug($"Module - Move - FlowField - SystemM03 - OnUpdate - gridCellIndex -1 at tileIndex: {outTileIndex} for tileCellIndex: {g}");
                     }
                 }
 

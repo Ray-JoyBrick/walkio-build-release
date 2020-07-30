@@ -11,6 +11,9 @@
         "UniRx",
         "PackageTools",
         "ALINE",
+        "Walkio.Game.Common",
+        "Walkio.Game.Command",
+        "Walkio.Game.Flow-Control.Common",
         "Walkio.Game.Level.Common"
     ],
     "includePlatforms": [],

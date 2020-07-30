@@ -11,10 +11,10 @@ namespace JoyBrick.Walkio.Game.Level.Assist
     using Unity.Rendering;
     using UnityEngine;
 
-    //
-#if WALKIO_FLOWCONTROL_SYSTEM
-    using GameCommon = JoyBrick.Walkio.Game.Common;
     using GameCommand = JoyBrick.Walkio.Game.Command;
+    //
+#if WALKIO_FLOWCONTROL
+    using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
 #endif
 
     //
@@ -34,23 +34,23 @@ namespace JoyBrick.Walkio.Game.Level.Assist
         private bool _canUpdate;
 
         //
-#if WALKIO_FLOWCONTROL_SYSTEM        
-        public GameCommand.ICommandService CommandService { get; set; }
-        public GameCommon.IFlowControl FlowControl { get; set; }
+        // public GameCommand.ICommandService CommandService { get; set; }
+#if WALKIO_FLOWCONTROL
+        public GameFlowControl.IFlowControl FlowControl { get; set; }
 #endif
         
         //
         public void Construct()
         {
-            _logger.Debug($"Module - ShowHideEnvironmentSystem - Construct");
+            _logger.Debug($"Module Assist - Level - ShowHideEnvironmentSystem - Construct");
 
-#if WALKIO_FLOWCONTROL_SYSTEM
+#if WALKIO_FLOWCONTROL
             //
-            FlowControl.AllDoneSettingAsset
+            FlowControl?.FlowReadyToStart
                 .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"Module - ShowHideEnvironmentSystem - Construct - Receive DoneSettingAsset");
+                    _logger.Debug($"Module Assist - Level - ShowHideEnvironmentSystem - Construct - Receive FlowReadyToStart");
                     _canUpdate = true;
                 })
                 .AddTo(_compositeDisposable);
@@ -59,7 +59,7 @@ namespace JoyBrick.Walkio.Game.Level.Assist
 
         protected override void OnCreate()
         {
-            _logger.Debug($"Module - ShowHideEnvironmentSystem - OnCreate");
+            _logger.Debug($"Module Assist - Level - ShowHideEnvironmentSystem - OnCreate");
 
             base.OnCreate();
             
@@ -110,7 +110,7 @@ namespace JoyBrick.Walkio.Game.Level.Assist
                 if (gotShowHideRequest)
                 {
                     // _logger.Debug($"ShowHideEnvironmentSystem - OnUpdate - reactToShowHideEntities.Length: {reactToShowHideEntities.Length} gotShowHideRequest: {gotShowHideRequest}, showHide: {showHide}");
-                    _logger.Debug($"Module - ShowHideEnvironmentSystem - OnUpdate - reactToShowHideEntities.Length: {sceneTagEntities.Length} gotShowHideRequest: {gotShowHideRequest}, showHide: {showHide}");
+                    _logger.Debug($"Module Assist - Level - ShowHideEnvironmentSystem - OnUpdate - reactToShowHideEntities.Length: {sceneTagEntities.Length} gotShowHideRequest: {gotShowHideRequest}, showHide: {showHide}");
 
                     // for (var i = 0; i < reactToShowHideEntities.Length; ++i)
                     for (var i = 0; i < sceneTagEntities.Length; ++i)

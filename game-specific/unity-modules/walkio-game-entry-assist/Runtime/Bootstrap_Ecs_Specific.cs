@@ -151,6 +151,27 @@
 #endif
         }
 
+        private void Level_ShowHideEnvironmentSystem(ComponentSystemGroup componentSystemGroup)
+        {
+#if WALKIO_MOVE_FLOWFIELD
+            _logger.Debug($"Bootstrap Assist - Module Creation - Level_PresentWorldSystem");
+
+            var createdSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameLevelAssist.ShowHideEnvironmentSystem>();
+
+            createdSystem.FlowControl = _assistable.RefGameObject.GetComponent<GameFlowControl.IFlowControl>();
+
+            //
+            createdSystem.Construct();
+
+            //
+            componentSystemGroup.AddSystemToUpdateList(createdSystem);
+#else
+            _logger.Debug($"Bootstrap - No Module - Level_PresentWorldSystem");
+#endif
+        }
+
         private void Level_PresentWorldSystem(ComponentSystemGroup componentSystemGroup)
         {
 #if WALKIO_MOVE_FLOWFIELD
@@ -183,6 +204,7 @@
 
             //
             createdSystem.FlowFieldWorldProvider = _assistable.RefGameObject.GetComponent<GameMoveFlowField.IFlowFieldWorldProvider>();
+            createdSystem.FlowControl = _assistable.RefGameObject.GetComponent<GameFlowControl.IFlowControl>();
 
             //
             createdSystem.Construct();
@@ -207,6 +229,7 @@
             createdSystem.GridWorldProvider = _assistable.RefGameObject.GetComponent<GameLevel.IGridWorldProvider>();
             createdSystem.FlowFieldWorldProvider = _assistable.RefGameObject.GetComponent<GameMoveFlowField.IFlowFieldWorldProvider>();
             createdSystem.AssistFlowFieldWorldProvider = (GameMoveFlowFieldAssist.IFlowFieldWorldProvider) this;
+            createdSystem.FlowControl = _assistable.RefGameObject.GetComponent<GameFlowControl.IFlowControl>();
 
             //
             createdSystem.Construct();
@@ -228,6 +251,7 @@
                     .GetOrCreateSystem<GameMoveFlowFieldAssist.PresentIndicationSystem>();
 
             createdSystem.AssistFlowFieldWorldProvider = (GameMoveFlowFieldAssist.IFlowFieldWorldProvider) this;
+            createdSystem.FlowControl = _assistable.RefGameObject.GetComponent<GameFlowControl.IFlowControl>();
 
             //
             createdSystem.Construct();
@@ -247,6 +271,8 @@
             var createdSystem =
                 World.DefaultGameObjectInjectionWorld
                     .GetOrCreateSystem<GameMoveFlowFieldAssist.PresentWorldSystem>();
+
+            createdSystem.FlowControl = _assistable.RefGameObject.GetComponent<GameFlowControl.IFlowControl>();
 
             //
             createdSystem.Construct();
@@ -271,6 +297,7 @@
             //
             createdSystem.FlowFieldWorldProvider = _assistable.RefGameObject.GetComponent<GameMoveFlowField.IFlowFieldWorldProvider>();
             createdSystem.AssistFlowFieldWorldProvider = (GameMoveFlowFieldAssist.IFlowFieldWorldProvider) this;
+            createdSystem.FlowControl = _assistable.RefGameObject.GetComponent<GameFlowControl.IFlowControl>();
 
             //
             createdSystem.Construct();
@@ -293,6 +320,7 @@
 
             //
             createdSystem.FlowFieldWorldProvider = _assistable.RefGameObject.GetComponent<GameMoveFlowField.IFlowFieldWorldProvider>();
+            createdSystem.FlowControl = _assistable.RefGameObject.GetComponent<GameFlowControl.IFlowControl>();
 
             //
             createdSystem.Construct();

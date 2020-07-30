@@ -81,10 +81,10 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
                         adjustedDirection = new float3(1.0f, 0, 0);
                     }
                     
-                    // var smoothedRotation = math.slerp(
-                    //     rotation.Value,
-                    //     quaternion.LookRotationSafe(adjustedDirection, math.up()), 1f - math.exp(-deltaTime));
-                    // rotation.Value = smoothedRotation;
+                    var smoothedRotation = math.slerp(
+                        rotation.Value,
+                        quaternion.LookRotationSafe(adjustedDirection, math.up()), 1f - math.exp(-deltaTime));
+                    rotation.Value = smoothedRotation;
                 })
                 .WithoutBurst()
                 .Run();

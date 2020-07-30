@@ -44,7 +44,7 @@
         //
         public void Construct()
         {
-            _logger.Debug($"PresentWorldSystem - Construct");
+            _logger.Debug($"Module Assist - PresentWorldSystem - Construct");
 
 #if WALKIO_FLOWCONTROL
             //
@@ -52,7 +52,7 @@
                 .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"Module - PresentIndicationSystem - Construct - Receive FlowReadyToStart");
+                    _logger.Debug($"Module Assist - PresentFlowFieldTileSystem - Construct - Receive FlowReadyToStart");
                     _canUpdate = true;
                 })
                 .AddTo(_compositeDisposable);
@@ -150,7 +150,7 @@
             var oneTileOffset = tileCellCount * tileCellSize;
             var basePosition = new float3(0, 0.1f, 0);
 
-            // _logger.Debug($"Module - PresentFlowFieldTileSystem - OnUpdate - cell count: {gridCellCount}, cell size: {gridCellSize} tile cell count: {tileCellCount} tileCellSize: {tileCellSize} oneTileOffset: {oneTileOffset}");
+            // _logger.Debug($"Module Assist - PresentFlowFieldTileSystem - OnUpdate - cell count: {gridCellCount}, cell size: {gridCellSize} tile cell count: {tileCellCount} tileCellSize: {tileCellSize} oneTileOffset: {oneTileOffset}");
 
             //
             var assistFlowFieldWorldData = AssistFlowFieldWorldProvider.FlowFieldWorldData as Template.FlowFieldWorldData;

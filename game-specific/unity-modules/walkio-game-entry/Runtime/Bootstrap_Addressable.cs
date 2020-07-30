@@ -31,6 +31,8 @@
             
             // _notifyAssetLoadingStarted.OnNext();
             StartLoadingAsset_App();
+            
+            SetupLevelPart();
         }
 
         private void SetupAddressable()

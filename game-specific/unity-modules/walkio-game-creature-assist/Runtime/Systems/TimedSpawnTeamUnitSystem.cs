@@ -1,6 +1,8 @@
 ﻿namespace JoyBrick.Walkio.Game.Creature.Assist
 {
+    using System.Collections.Generic;
     using UniRx;
+    using Unity.Collections;
     using Unity.Entities;
     using Unity.Mathematics;
     // using Unity.Physics;
@@ -35,6 +37,7 @@
 
         //
         private bool _canUpdate;
+        private EntityQuery _teamUnityQuery;
 
         //
         public GameFlowControl.IFlowControl FlowControl { get; set; }
@@ -82,53 +85,100 @@
             //
             _entityCommandBufferSystem = World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
 
-            // _theEnvironmentQuery = GetEntityQuery(new EntityQueryDesc
-            // {
-            //     All = new ComponentType[] { typeof(TheEnvironment) }
-            // });
-            //
-            // // var settings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, null);
-            // // GameObjectConversionUtility.ConvertGameObjectHierarchy(neutralUnitPrefab, settings);
-            //
-            // RequireForUpdate(_theEnvironmentQuery);
+            _teamUnityQuery = GetEntityQuery(new EntityQueryDesc
+            {
+                All = new ComponentType[]
+                {
+                    typeof(TeamForce),
+                    typeof(JoyBrick.Walkio.Game.Creature.Unit)
+                }
+            });
+
+            RequireForUpdate(_teamUnityQuery);
         }
 
         private void CreateEventEntity(
-            EntityCommandBuffer entityCommandBuffer,
+            EntityCommandBuffer commandBuffer,
+            EntityArchetype eventEntityArchetype,
+            int teamId, float3 atPosition)
+        {
+            var eventEntity = commandBuffer.CreateEntity(eventEntityArchetype);
+
+            // var teamId = GetTeamId();
+            // var kind = UnityEngine.Random.Range(1, 4);
+            var kind = 0;
+
+            // _logger.Debug($"Module Assist - Creature - TimedSpawnTeamUnitSystem - CreateEventEntity - teamId: {teamId} kind: {kind}");
+
+            commandBuffer.SetComponent(eventEntity, new GameCreature.CreateTeamUnitProperty
+            {
+                TeamId = teamId,
+                Kind = kind,
+                AtPosition = new float3(atPosition.x + 1.0f, atPosition.y, atPosition.z)
+            });
+        }
+
+        private void CheckForEachTeamForce(
+            EntityCommandBuffer commandBuffer,
             EntityArchetype eventEntityArchetype)
         {
-            var eventEntity = entityCommandBuffer.CreateEntity(eventEntityArchetype);
-
-            // TODO: Remove this once the creation is timed but event
-            int GetTeamId()
+            int GetRandomTeamId()
             {
-                // var v = UnityEngine.Random.Range(1, 7);
-                // var result = v + 10;
-                // if (result > 15)
-                // {
-                //     result = 1;
-                // }
-
                 var v = UnityEngine.Random.Range(0, 2);
 
                 return v;
             }
 
-            var teamId = GetTeamId();
-            var kind = UnityEngine.Random.Range(1, 4);
-            var atPosition = new float3(
-                UnityEngine.Random.Range(10.0f, 192.0f),
-                0,
-                UnityEngine.Random.Range(10.0f, 192.0f));
+            var spawnForTeamId = GetRandomTeamId();
 
-            // _logger.Debug($"Module Assist - Creature - TimedSpawnTeamUnitSystem - CreateEventEntity - teamId: {teamId} kind: {kind}");
+            // // var aaa = _teamUnityQuery.CreateArchetypeChunkArray(Allocator.TempJob);
+            // // aaa[0].GetChunkComponentData<TeamForce>(aaa);
+            //
+            // var entities = _teamUnityQuery.ToEntityArray(Allocator.TempJob);
+            //
+            // entities
+            
+            // _teamUnityQuery.ToComponentDataArray<LocalToWorld>()
 
-            entityCommandBuffer.SetComponent(eventEntity, new GameCreature.CreateTeamUnitProperty
-            {
-                TeamId = teamId,
-                Kind = kind,
-                AtPosition = atPosition
-            });
+            // using (var inSameTeamUnits = new NativeArray<float3>())
+            // {
+            var positions = new List<float3>();
+            Entities
+                .WithStoreEntityQueryInField(ref _teamUnityQuery)
+                .ForEach((Entity entity, TeamForce teamForce, LocalToWorld localToWorld) =>
+                {
+                    // _logger.Debug($"Module Assist - Creature - TimedSpawnTeamUnitSystem - CheckForEachTeamForce - entity: {entity}");
+                    // inSameTeamUnits.AddTo(localToWorld.Position);
+                    // inSameTeamUnits.
+                    
+                    positions.Add(localToWorld.Position);
+                })
+                // .WithDeallocateOnJobCompletion(entities)
+                .WithoutBurst()
+                .Run();
+
+                
+            // }
+
+            var spawnPosition = UnityEngine.Random.Range(0, positions.Count);
+            
+            CreateEventEntity(
+                commandBuffer, eventEntityArchetype,
+                spawnForTeamId, spawnPosition);
+
+            // Entities
+            //     .WithAll<TeamForce>()
+            //     .ForEach((Entity entity, LocalToWorld localToWorld) =>
+            //     {
+            //         
+            //         // var spawnPosition = localToWorld.Position;
+            //         //
+            //         // CreateEventEntity(
+            //         //     commandBuffer, eventEntityArchetype,
+            //         //     spawnForTeamId, spawnPosition);
+            //     })
+            //     .WithoutBurst()
+            //     .Run();
         }
 
         protected override void OnUpdate()
@@ -160,7 +210,7 @@
                     {
                         teamUnitSpawnTimerProperty.CountDown = 0;
 
-                        CreateEventEntity(commandBuffer, eventEntityArchetype);
+                        CheckForEachTeamForce(commandBuffer, eventEntityArchetype);
                     }
 
                     commandBuffer.SetComponent(entity, teamUnitSpawnTimerProperty);

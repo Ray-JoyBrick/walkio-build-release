@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 5757798662699686203}
   - component: {fileID: 5757798662699686180}
   m_Layer: 0
-  m_Name: Unit 001
+  m_Name: Avatar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -117,6 +117,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3e70b1bc0205594d8f06e9569332ed8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  k: 1.5
+  t0: 3
+  m: 1
+  ksi: 0.54
+  speed: 1
+  radius: 0.5
 --- !u!114 &5757798662699686203
 MonoBehaviour:
   m_ObjectHideFlags: 0

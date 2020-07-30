@@ -11,10 +11,26 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
         MonoBehaviour,
         IConvertGameObjectToEntity
     {
+        public float k;
+        public float t0;
+        public float m;
+        public float ksi;
+        public float speed;
+        public float radius;
+        
         public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
         {
             dstManager.AddComponentData(entity, new Particle());
-            dstManager.AddComponentData(entity, new ParticleProperty());
+            dstManager.AddComponentData(entity, new ParticleProperty
+            {
+                K = k,
+                T0 = t0,
+                M = m,
+                Ksi = ksi,
+                PrefSpeed = speed,
+                Radius = radius
+            });
+            dstManager.AddBuffer<NearbyParticleBuffer>(entity);
         }
     }
 }

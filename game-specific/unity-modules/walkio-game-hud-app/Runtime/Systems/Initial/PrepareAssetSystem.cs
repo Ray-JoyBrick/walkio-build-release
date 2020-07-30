@@ -52,6 +52,23 @@ namespace JoyBrick.Walkio.Game.Hud.App
 
         public string AtPart => "App";
 
+        private void ActivateLoadingView(bool flag)
+        {
+            _logger.Debug($"Module - Hud {AtPart} - PrepareAssetSystem - ActivateLoadingView - flag: {flag}");
+            
+            // TODO: Rename to follow the system use contract. Starting as "zz_"
+            if (flag)
+            {
+                ExtensionService?.SendExtensionEvent("Activate_Loading_View");
+                // GameExtension.BridgeExtension.SendEvent("zz_Activate_Loading_View");
+            }
+            else
+            {
+                ExtensionService?.SendExtensionEvent("Deactivate_Loading_View");
+                // GameExtension.BridgeExtension.SendEvent("zz_Deactivate_Loading_View");
+            }
+        }
+        
         //
         public void Construct()
         {
@@ -59,6 +76,18 @@ namespace JoyBrick.Walkio.Game.Hud.App
 
             RegisterToLoadFlow();
             RegisterToCleanupFlow();
+            
+            CommandService.CommandStream
+                // .Do(x => _logger.Debug($"Receive Command Stream: {x}"))
+                .Where(x => (x as GameCommand.ActivateLoadingViewCommand) != null)
+                .Subscribe(x =>
+                {
+                    _logger.Debug($"LoadAppHudSystem - Construct - Receive ActivateLoadingViewCommand");
+                    var activateLoadingViewCommand = (x as GameCommand.ActivateLoadingViewCommand);
+                    //
+                    ActivateLoadingView(activateLoadingViewCommand.Flag);
+                })
+                .AddTo(_compositeDisposable);            
         }
 
         protected override void OnCreate()

@@ -5,5 +5,7 @@ namespace JoyBrick.Walkio.Game.Extension
     public interface IExtensionService
     {
         void SetReferenceToExtension(GameObject inGO);
+
+        void SendExtensionEvent(string eventName);
     }
 }

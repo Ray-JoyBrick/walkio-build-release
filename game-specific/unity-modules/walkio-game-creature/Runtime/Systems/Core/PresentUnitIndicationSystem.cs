@@ -94,6 +94,17 @@ namespace JoyBrick.Walkio.Game.Creature
             RequireForUpdate(_entityQuery);
         }
 
+        private static void CheckAnyMatrixNaN(in Matrix4x4 m)
+        {
+            // for (var i = 0; i < 16; ++i)
+            // {
+            //     if (float.IsNaN(m[i]))
+            //     {
+            //         Debug.Log($"Matrix value at [{i}] is NaN");
+            //     }
+            // }
+        }
+        
         private void UpdateEachKind(
             List<int> indices,
             in NativeArray<LocalToWorld> localToWorlds,
@@ -112,6 +123,9 @@ namespace JoyBrick.Walkio.Game.Creature
                     var actualIndex = indices[i + j];
                     var localToWorld = localToWorlds[actualIndex];
                     var matrix = Matrix4x4.TRS(localToWorld.Position, localToWorld.Rotation, Vector3.one);
+
+                    CheckAnyMatrixNaN(matrix);
+                    
                     matrices.Add(matrix);
                 }
 

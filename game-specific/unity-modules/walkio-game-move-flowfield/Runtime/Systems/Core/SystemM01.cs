@@ -101,6 +101,7 @@
                     //
                     var initialized = toBeChasedTargetProperty.Initialized;
                     // var initialized = (toBeChasedTargetProperty.LeadingToSetEntity != Entity.Null);
+                    var belongToGroup = toBeChasedTargetProperty.BelongToGroup;
 
                     //
                     var updatedTileAndTileCellIndex =
@@ -126,7 +127,7 @@
                     var issueTileChangeEvent = (!initialized || !atOriginalTile);
                     if (issueTileChangeEvent)
                     {
-                        // _logger.Debug($"Module - Move - FlowField - SystemM01 - OnUpdate - need to issue tile change event, not at original tile: {originalTileIndex}, but at: {updatedTileIndex}");
+                        _logger.Debug($"Module - Move - FlowField - SystemM01 - OnUpdate - to be chased: [{belongToGroup}] need to issue tile change event, not at original tile: {originalTileIndex}, but at: {updatedTileIndex}");
                         // This is event entity. It notifies target at tile is changed
                         // var atTileChangeEventEntity = commandBuffer.CreateEntity(atTileChangeEventEntityArchetype);
                         var atTileChangeEventEntity = concurrentCommandBuffer.CreateEntity(entityInQueryIndex, atTileChangeEventEntityArchetype);
@@ -150,7 +151,7 @@
                         var issueTileCellChangeEvent = !atOriginalTileCell;
                         if (issueTileCellChangeEvent)
                         {
-                            // _logger.Debug($"Module - Move - FlowField - SystemM01 - OnUpdate - need to issue tile cell change event, not at original tile cell: {originalTileCellIndex}, but at: {updatedTileCellIndex}");
+                            _logger.Debug($"Module - Move - FlowField - SystemM01 - OnUpdate - to be chased: [{belongToGroup}] need to issue tile cell change event, not at original tile cell: {originalTileCellIndex}, but at: {updatedTileCellIndex}");
 
                             var atTileCellChangeEventEntity =
                                 // commandBuffer.CreateEntity(atTileCellChangeEventEntityArchetype);

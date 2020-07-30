@@ -62,5 +62,10 @@
 #endif
         }
 
+        public void SendExtensionEvent(string eventName)
+        {
+            
+        }
+
     }
 }

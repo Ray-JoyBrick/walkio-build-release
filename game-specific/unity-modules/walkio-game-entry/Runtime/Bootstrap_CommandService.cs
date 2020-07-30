@@ -81,13 +81,16 @@ namespace JoyBrick.Walkio.Game
             _rpInfos.Select(x => x).Switch();
         private readonly ReactiveProperty<IObservable<GameCommand.IInfo>> _rpInfos =
             new ReactiveProperty<IObservable<GameCommand.IInfo>>(Observable.Empty<GameCommand.IInfo>());
+        
+        private readonly Subject<GameCommand.IInfo> _notifyInfo = new Subject<GameCommand.IInfo>();
 
         void ReformInfoStream()
         {
             var combinedObs =
                 _infoPresenters
                     .Select(x => x.InfoStream)
-                    .Aggregate(Observable.Empty<GameCommand.IInfo>(), (acc, next) => acc.Merge(next));
+                    // .Aggregate(Observable.Empty<GameCommand.IInfo>(), (acc, next) => acc.Merge(next));
+                    .Aggregate(_notifyInfo.AsObservable(), (acc, next) => acc.Merge(next));
 
             _rpInfos.Value = combinedObs;
         }

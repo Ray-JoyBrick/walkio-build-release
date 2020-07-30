@@ -39,7 +39,7 @@
         //
         public void Construct()
         {
-            _logger.Debug($"Module - PresentChasedTargetSystem - Construct");
+            _logger.Debug($"Module Assist - PresentChasedTargetSystem - Construct");
 
 #if WALKIO_FLOWCONTROL
             //
@@ -47,7 +47,7 @@
                 .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"Module - PresentChasedTargetSystem - Construct - Receive FlowReadyToStart");
+                    _logger.Debug($"Module Assist - PresentChasedTargetSystem - Construct - Receive FlowReadyToStart");
                     _canUpdate = true;
                 })
                 .AddTo(_compositeDisposable);

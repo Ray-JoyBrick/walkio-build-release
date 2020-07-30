@@ -58,6 +58,9 @@
             Level_SetupAssetSystem(initializationSystemGroup);
 
             //
+            Level_CheckTeamForceCountSystem(initializationSystemGroup);
+
+            //
             MoveCrowdSimulate_PrepareAssetSystem(initializationSystemGroup);
             MoveCrowdSimulate_SetupAssetSystem(initializationSystemGroup);
 
@@ -85,7 +88,11 @@
             MoveFlowField_SystemM08(initializationSystemGroup);
             MoveFlowField_SystemM09(initializationSystemGroup);
 
-            MoveCrowdSimulate_SystemA(initializationSystemGroup);
+            // MoveCrowdSimulate_SystemA(initializationSystemGroup);
+
+            MoveCrowdSimulate_SystemC01(simulationSystemGroup);
+            MoveCrowdSimulate_SystemC02(simulationSystemGroup);
+            MoveCrowdSimulate_SystemC03(simulationSystemGroup);
 
             //
             Creature_PresentUnitIndicationSystem(presentationSystemGroup);

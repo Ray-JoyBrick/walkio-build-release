@@ -1,5 +1,6 @@
 ﻿namespace JoyBrick.Walkio.Game.Creature
 {
+    using UniRx;
     using UnityEngine;
     
     //
@@ -23,5 +24,6 @@
         GameObject GetTeamMinionPrefab(int index);
         int GetMinionDataCount { get; }
         MinionData GetMinionDataByIndex(int index);
+        
     }
 }
