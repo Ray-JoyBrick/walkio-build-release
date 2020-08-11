@@ -3,12 +3,14 @@
     using System.Collections.Generic;
     using System.Linq;
     using Hud.Stage;
+    using Opsive.UltimateCharacterController.Camera;
     // using HellTap.PoolKit;
     using Pathfinding;
     using UniRx;
     using Unity.Entities;
     using Unity.Mathematics;
     using UnityEngine;
+    using UnityEngine.SceneManagement;
 
     //
     using GameCommand = JoyBrick.Walkio.Game.Command;
@@ -86,14 +88,36 @@
                     });
                 })
                 .AddTo(_compositeDisposable);
-
-            
         }
 
+        public Scene LevelAtScene { get; set; }
+
         public Camera LevelCamera { get; set; }
+
+        public GameObject MainPlayerVirtualCamera { get; set; }
+
+        public void SetupFollowingCamera(GameObject playerGo)
+        {
+            var cameraController = LevelCamera.GetComponent<CameraController>();
+            cameraController.Character = playerGo;
+            // cameraController.
+        }
 
         //
         private ReactiveDictionary<int, int> _teamForceUnitCounts = new ReactiveDictionary<int, int>();
         public ReactiveDictionary<int, int> TeamForceUnitCounts => _teamForceUnitCounts;
+
+        //
+        private void MoveToLevelAtScene(GameObject inGo)
+        {
+            if (LevelAtScene.IsValid())
+            {
+                SceneManager.MoveGameObjectToScene(inGo, LevelAtScene);
+            }
+            else
+            {
+                _logger.Warning($"Bootstrap - MoveToLevelAtScene - LevelAtScene is not valid");
+            }
+        }
     }
 }

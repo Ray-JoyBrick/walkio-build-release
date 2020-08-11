@@ -65,7 +65,8 @@ namespace JoyBrick.Walkio.Game.Move.Waypoint
 #if WALKIO_FLOWCONTROL
                     FlowControl?.FinishIndividualSettingAsset(new GameFlowControl.FlowControlContext
                     {
-                        Name = "Stage"
+                        Name = "Stage",
+                        Description = "Module - Move - Waypoint - SetupAssetSystem"
                     });
 #endif
                 })

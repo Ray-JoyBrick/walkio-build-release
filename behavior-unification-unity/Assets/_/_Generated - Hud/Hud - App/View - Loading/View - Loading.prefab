@@ -308,7 +308,7 @@ MonoBehaviour:
         serializedVersion: 2
         x: 472
         y: 227
-        width: 182
+        width: 202
         height: 48
       isBreakpoint: 0
       isSequence: 0
@@ -323,7 +323,7 @@ MonoBehaviour:
         linkConstraint: 0
         colorIndex: 0
       - fsmEvent:
-          name: Deactivate_Loading_View
+          name: zz_Deactivate_Loading_View
           isSystemEvent: 0
           isGlobal: 0
         toState: "\u756B\u9762\u95DC\u9589\u6642\u8A2D\u5B9A"
@@ -519,19 +519,19 @@ MonoBehaviour:
     - name: FINISHED
       isSystemEvent: 1
       isGlobal: 0
-    - name: Activate_Loading_View
-      isSystemEvent: 0
-      isGlobal: 0
     - name: Activating View
       isSystemEvent: 0
       isGlobal: 0
     - name: Canvas Just Initialize
       isSystemEvent: 0
       isGlobal: 0
-    - name: Deactivate_Loading_View
+    - name: Deactivating
       isSystemEvent: 0
       isGlobal: 0
-    - name: Deactivating
+    - name: zz_Activate_Loading_View
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: zz_Deactivate_Loading_View
       isSystemEvent: 0
       isGlobal: 0
     globalTransitions:
@@ -552,7 +552,7 @@ MonoBehaviour:
       linkConstraint: 0
       colorIndex: 0
     - fsmEvent:
-        name: Activate_Loading_View
+        name: zz_Activate_Loading_View
         isSystemEvent: 0
         isGlobal: 0
       toState: "\u5448\u73FE\u6B64\u756B\u9762"
@@ -743,7 +743,8 @@ MonoBehaviour:
   m_text: "\u8B80\u53D6\u4E2D"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d103e192537b448a19ab043986ebe956, type: 2}
-  m_sharedMaterial: {fileID: -2954162126928628401, guid: d103e192537b448a19ab043986ebe956, type: 2}
+  m_sharedMaterial: {fileID: -2954162126928628401, guid: d103e192537b448a19ab043986ebe956,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

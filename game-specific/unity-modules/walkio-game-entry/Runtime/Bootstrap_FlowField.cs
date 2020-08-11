@@ -42,8 +42,16 @@
                 typeof(GameMoveFlowField.PathPointBuffer));
         }
 
-        public void CalculateLeadingTilePath(int forWhichGroup, Entity forWhichLeader, float3 targetPosition, List<float3> positions)
+        public void CalculateLeadingTilePath(int forWhichGroup, int2 atTileIndex, Entity atTileEntity, float3 targetPosition, List<float3> positions)
         {
+            //
+            if (!positions.Any())
+            {
+                _logger.Warning($"Bootstrap - CalculateLeadingTilePath - No start points to start the process");
+                return;
+            }
+
+            //
             var pool = PoolKit.Find("Seeker Pool");
             if (pool == null)
             {
@@ -54,13 +62,7 @@
             var spawned = pool.Spawn("Seeker", Vector3.zero, Quaternion.identity);
             if (spawned == null)
             {
-                _logger.Warning($"Bootstrap - CalculateLeadingTilePath - Can not spawn");
-                return;
-            }
-
-            if (!positions.Any())
-            {
-                _logger.Warning($"Bootstrap - CalculateLeadingTilePath - No start points to start the process");
+                _logger.Warning($"Bootstrap - CalculateLeadingTilePath - Can not spawn seeker");
                 return;
             }
 
@@ -115,7 +117,9 @@
                         _entityManager.SetComponentData(pathPointFoundEventEntity, new GameMoveFlowField.PathPointFoundProperty
                         {
                             GroupId = forWhichGroup,
-                            ForWhichLeader = forWhichLeader
+                            // ForWhichLeader = forWhichLeader
+                            AtTileIndex = atTileIndex,
+                            AtTileEntity = atTileEntity
                         });
 
                         var pathPointSeparationBuffer =
@@ -141,7 +145,6 @@
                         _assistants?.ForEach(assistant =>
                         {
                             assistant?.ShowPoints(forWhichGroup, combinedPoints, 3.0f);
-                            // assistant?.ShowPoints(forWhichGroup, combinedPoints, 300.0f);
                         });
                     }
                 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1171496058240066970}
   - component: {fileID: 1171496058240066969}
   m_Layer: 0
-  m_Name: Flow
+  m_Name: Flow - Main
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54,7 +54,7 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 63
+        x: 351
         y: 102.02344
         width: 150
         height: 16
@@ -106,8 +106,8 @@ MonoBehaviour:
       colorIndex: 5
       position:
         serializedVersion: 2
-        x: 219.41406
-        y: 461.0625
+        x: 505.41406
+        y: 529.0625
         width: 150
         height: 32
       isBreakpoint: 0
@@ -184,8 +184,8 @@ MonoBehaviour:
       colorIndex: 3
       position:
         serializedVersion: 2
-        x: 667.9219
-        y: 452.66406
+        x: 942.7578
+        y: 514.90625
         width: 150
         height: 32
       isBreakpoint: 0
@@ -262,7 +262,7 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 221.41406
+        x: 509.41406
         y: 252.0625
         width: 176
         height: 32
@@ -274,7 +274,7 @@ MonoBehaviour:
           name: FINISHED
           isSystemEvent: 1
           isGlobal: 0
-        toState: "\u5EF6\u7DE9\u9032\u5165\u6E96\u5099\u756B\u9762\u6642\u9593"
+        toState: "\u7B49\u5F85\u9032\u5165\u6E96\u5099\u756B\u9762\u6642\u9593"
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -365,8 +365,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 248.41406
-        y: 553.0625
+        x: 534.41406
+        y: 621.0625
         width: 102
         height: 32
       isBreakpoint: 0
@@ -450,7 +450,7 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 661.9219
+        x: 949.9219
         y: 242.66406
         width: 144
         height: 32
@@ -462,7 +462,7 @@ MonoBehaviour:
           name: FINISHED
           isSystemEvent: 1
           isGlobal: 0
-        toState: "\u5EF6\u7DE9\u9032\u5165\u904A\u6232\u95DC\u5361\u6642\u9593"
+        toState: "\u7B49\u5F85\u9032\u5165\u904A\u6232\u95DC\u5361\u6642\u9593"
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -553,8 +553,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 680.9219
-        y: 547.66406
+        x: 955.7578
+        y: 609.90625
         width: 102
         height: 32
       isBreakpoint: 0
@@ -656,8 +656,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 165.41406
-        y: 358.0625
+        x: 55.445312
+        y: 397.57812
         width: 291
         height: 32
       isBreakpoint: 0
@@ -728,8 +728,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 594.9219
-        y: 354.66406
+        x: 1222.2969
+        y: 377.03125
         width: 393
         height: 32
       isBreakpoint: 0
@@ -795,6 +795,126 @@ MonoBehaviour:
         - realTime
         paramDataPos: 000000000000000000000000
         paramByteDataSize: 000000000000000001000000
+    - name: "\u7B49\u5F85\u9032\u5165\u6E96\u5099\u756B\u9762\u6642\u9593"
+      description: "\u9019\u500B\u76F4\u63A5\u7B49\u5230\u5B8C\u4E8B\u4EF6\u767C\u751F\u5F8C\u518D\u8F49\u5230\u4E0B\u500B\u72C0\u614B"
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 465.125
+        y: 397.14062
+        width: 228
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: zz_Preparation Done Setting
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: "\u6E96\u5099\u756B\u9762"
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      actionData:
+        actionNames: []
+        customNames: []
+        actionEnabled: 
+        actionIsOpen: 
+        actionStartIndex: 
+        actionHashCodes: 
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: "\u7B49\u5F85\u9032\u5165\u904A\u6232\u95DC\u5361\u6642\u9593"
+      description: "\u9019\u500B\u76F4\u63A5\u7B49\u5230\u5B8C\u4E8B\u4EF6\u767C\u751F\u5F8C\u518D\u8F49\u5230\u4E0B\u500B\u72C0\u614B"
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 926.21094
+        y: 374.53906
+        width: 211
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: zz_Stage Done Setting
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: "\u904A\u73A9\u95DC\u5361"
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      actionData:
+        actionNames: []
+        customNames: []
+        actionEnabled: 
+        actionIsOpen: 
+        actionStartIndex: 
+        actionHashCodes: 
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
     events:
     - name: FINISHED
       isSystemEvent: 1
@@ -815,6 +935,12 @@ MonoBehaviour:
       isSystemEvent: 0
       isGlobal: 0
     - name: zz_Exit Current Flow
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: zz_Preparation Done Setting
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: zz_Stage Done Setting
       isSystemEvent: 0
       isGlobal: 0
     globalTransitions:
@@ -866,7 +992,7 @@ MonoBehaviour:
     locked: 0
     manualUpdate: 0
     keepDelayedEventsOnStateExit: 0
-    preprocessed: 0
+    preprocessed: 1
     ExposedEvents: []
     RestartOnEnable: 1
     EnableDebugFlow: 0
@@ -900,4 +1026,4 @@ MonoBehaviour:
     handleAnimatorMove: 0
     handleAnimatorIK: 0
   fsmTemplate: {fileID: 0}
-  eventHandlerComponentsAdded: 0
+  eventHandlerComponentsAdded: 1

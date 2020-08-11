@@ -797,7 +797,7 @@
             }
             else if (v == 1)
             {
-                direction = math.normalize(new float3(0.0f, 0, 1.0f));
+                direction = new float3(0.0f, 0, 1.0f);
             }
             else if (v == 2)
             {
@@ -805,15 +805,16 @@
             }
             else if (v == 3)
             {
-                direction = math.normalize(new float3(-1.0f, 0, 0.0f));
+                direction = new float3(-1.0f, 0, 0.0f);
             }
             else if (v == 4)
             {
-                direction = math.normalize(new float3(-0.0f, 0, 0.0f));
+                // direction = math.normalize(new float3(0, 0, 0));
+                direction = new float3(0, 0, 0);
             }
             else if (v == 5)
             {
-                direction = math.normalize(new float3(1.0f, 0, 0.0f));
+                direction = new float3(1.0f, 0, 0.0f);
             }
             else if (v == 6)
             {
@@ -821,7 +822,7 @@
             }
             else if (v == 7)
             {
-                direction = math.normalize(new float3(0.0f, 0, -1.0f));
+                direction = new float3(0.0f, 0, -1.0f);
             }
             else if (v == 8)
             {

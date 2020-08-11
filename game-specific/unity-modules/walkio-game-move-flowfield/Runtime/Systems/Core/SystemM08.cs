@@ -50,7 +50,7 @@
                 .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"Module - Move - FlowField - SystemM08 - Construct - Receive AllDoneSettingAsset");
+                    _logger.Debug($"Module - Move - FlowField - SystemM08 - Construct - Receive FlowReadyToStart");
                     _canUpdate = true;
                 })
                 .AddTo(_compositeDisposable);
@@ -91,12 +91,15 @@
                 {
                     if (toBeChasedTargetProperty.BelongToGroup == leadingToSetProperty.GroupId)
                     {
+                        _logger.Debug($"Module - Move - FlowField - SystemM08 - AssignToMatchedToBeChasedTarget - assign leading to set to {leadingToSetProperty.GroupId}");
+
                         if (toBeChasedTargetProperty.LeadingToSetEntity != Entity.Null)
                         {
+                            _logger.Debug($"Module - Move - FlowField - SystemM08 - AssignToMatchedToBeChasedTarget - found previous entity: {toBeChasedTargetProperty.LeadingToSetEntity} removing");
                             commandBuffer.AddComponent<ToBeDeletedLeadingToSet>(toBeChasedTargetProperty.LeadingToSetEntity);
                             commandBuffer.AddComponent(toBeChasedTargetProperty.LeadingToSetEntity, new ToBeDeletedLeadingToSetProperty
                             {
-                                IntervalMax = 3,
+                                IntervalMax = 1.0f,
                                 CountDown = 0
                             });
                         }
@@ -126,6 +129,11 @@
                 {
                     if (chaseTargetProperty.BelongToGroup == leadingToSetProperty.GroupId)
                     {
+                        // Reset to entity null first
+                        chaseTargetProperty.AtFlowFieldTile = Entity.Null;
+                        chaseTargetProperty.LeadingToSet = Entity.Null;
+
+                        //
                         var atTileAndTileCellIndex =
                             Utility.FlowFieldTileHelper.PositionToTileAndTileCellIndexAtGridTo2DIndex(
                                 gridCellCount, gridCellSize,
@@ -146,7 +154,7 @@
                                 chaseTargetProperty.AtTileCellIndex = atTileAndTileCellIndex.zw;
 
                                 //
-                                chaseTargetProperty.LeadingToSet = entity;
+                                chaseTargetProperty.LeadingToSet = leadingToSetEntity;
 
                                 break;
                             }
@@ -165,6 +173,7 @@
         protected override void OnUpdate()
         {
             // if (!_canUpdate) return;
+            // if (true) return;
 
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
             var concurrentCommandBuffer = commandBuffer.ToConcurrent();
@@ -188,6 +197,8 @@
                 // .ForEach((Entity entity, int entityInQueryIndex, LeadingToSetProperty leadingToSetProperty,
                 //     DynamicBuffer<LeadingToTileBuffer> leadingToTileBuffers) =>
                 {
+                    _logger.Debug($"Module - Move - FlowField - SystemM08 - Update - LeadingToSetCreated for group: {leadingToSetProperty.GroupId}");
+
                     AssignToMatchedChaseTarget(
                         gridCellCount, gridCellSize, tileCellCount, tileCellSize,
                         // commandBuffer,
@@ -201,6 +212,7 @@
                         leadingToSetProperty, leadingToTileBuffers,
                         toBeDeletedLeadingToSetEventEntityArchetype);
 
+                    //
                     commandBuffer.RemoveComponent<LeadingToSetCreated>(entity);
                 })
                 .WithoutBurst()

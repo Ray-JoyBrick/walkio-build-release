@@ -10,5 +10,7 @@
 
         public Vector3 originalPosition;
         public Vector3 positionOffset;
+
+        public float defaultAssignedForce;
     }
 }

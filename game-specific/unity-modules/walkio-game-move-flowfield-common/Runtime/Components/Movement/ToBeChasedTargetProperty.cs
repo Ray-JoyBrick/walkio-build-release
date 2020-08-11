@@ -15,6 +15,7 @@
         //
         public int2 AtTileIndex;
         public int2 AtTileCellIndex;
+        public Entity AtTileEntity;
 
         //
         public Entity LeadingToSetEntity;

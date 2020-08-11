@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a252a0ec267407aa56b1dbbd92bf0b6, type: 3}
   m_Name: Flow Field World Data
   m_EditorClassIdentifier: 
-  tileCellCount: {x: 10, y: 10}
+  tileCellCount: {x: 40, y: 40}
   tileCellSize: {x: 1, y: 1}
   originalPosition: {x: 0, y: 0, z: 0}
   positionOffset: {x: -5, y: 0, z: -5}
+  defaultAssignedForce: 5

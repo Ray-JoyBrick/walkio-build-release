@@ -65,7 +65,8 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
 #if WALKIO_FLOWCONTROL
                     FlowControl?.FinishIndividualSettingAsset(new GameFlowControl.FlowControlContext
                     {
-                        Name = "Stage"
+                        Name = "Stage",
+                        Description = "Module - Move - Crowd Simulate - SetupAssetSystem"
                     });
 #endif
                 })

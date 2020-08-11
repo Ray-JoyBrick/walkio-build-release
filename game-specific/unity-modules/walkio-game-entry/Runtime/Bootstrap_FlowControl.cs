@@ -116,7 +116,7 @@
 
             //
             var eventName = $"zz_{context.Name} Done Setting";
-            GameExtension.BridgeExtension.SendEvent(eventName);
+            SendExtensionEvent(eventName);
 
             //
             _notifyFlowReadyToStart.OnNext(context);

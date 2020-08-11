@@ -51,7 +51,8 @@ namespace JoyBrick.Walkio.Game.Hud.Stage
                     // SettingAsset();
                     FlowControl?.FinishIndividualSettingAsset(new GameFlowControl.FlowControlContext
                     {
-                        Name = "Stage"
+                        Name = "Stage",
+                        Description = "Module - Hud - Stage - SetupAssetSystem"
                     });
                 })
                 .AddTo(_compositeDisposable);

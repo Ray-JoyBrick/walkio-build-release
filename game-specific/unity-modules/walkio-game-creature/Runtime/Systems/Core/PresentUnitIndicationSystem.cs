@@ -9,13 +9,13 @@ namespace JoyBrick.Walkio.Game.Creature
     using Unity.Transforms;
     using UnityEngine;
     using UnityEngine.Rendering;
-    
+
     using GameLevel = JoyBrick.Walkio.Game.Level;
 
 #if WALKIO_FLOWCONTROL
     using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
 #endif
-    
+
 #if WALKIO_FLOWCONTROL
     [GameFlowControl.DoneSettingAssetWait("Stage")]
 #endif
@@ -26,7 +26,7 @@ namespace JoyBrick.Walkio.Game.Creature
 
         //
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
-        
+
         //
         // public Camera SceneCamera { get; set; }
         // public List<Mesh> UnitMeshs { get; set; }
@@ -40,7 +40,7 @@ namespace JoyBrick.Walkio.Game.Creature
 
         //
         private EntityQuery _entityQuery;
-        
+
         //
         private readonly Dictionary<int, List<int>> _cachedCounts = new Dictionary<int, List<int>>();
 
@@ -48,8 +48,8 @@ namespace JoyBrick.Walkio.Game.Creature
         private const int SliceCount = 1023;
 
         private bool _canUpdate;
-        
-            
+
+
         public void Construct()
         {
 #if WALKIO_FLOWCONTROL
@@ -61,14 +61,20 @@ namespace JoyBrick.Walkio.Game.Creature
                     _logger.Debug($"Module - Creature - PresentUnitIndicationSystem - Construct - Receive SettingAsset");
 
                     // _canUpdate = true;
-                    
+
                     for (var i = 0; i < CreatureProvider.GetMinionDataCount; ++i)
                     {
                         _cachedCounts.Add(i, new List<int>());
                     }
+
+                    FlowControl?.FinishIndividualSettingAsset(new GameFlowControl.FlowControlContext
+                    {
+                        Name = "Stage",
+                        Description = "Module - Creature - PresentUnitIndicationSystem"
+                    });
                 })
                 .AddTo(_compositeDisposable);
-            
+
             FlowControl?.FlowReadyToStart
                 .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
@@ -76,7 +82,21 @@ namespace JoyBrick.Walkio.Game.Creature
                     _logger.Debug($"Module - Creature - PresentUnitIndicationSystem - Construct - Receive FlowReadyToStart");
                     _canUpdate = true;
                 })
-                .AddTo(_compositeDisposable);            
+                .AddTo(_compositeDisposable);
+
+            FlowControl?.AssetUnloadingStarted
+                .Where(x => x.Name.Contains("Stage"))
+                .Subscribe(x =>
+                {
+                    _logger.Debug($"Module - Creature - PresentUnitIndicationSystem - Construct - Receive AssetUnloadingStarted");
+
+                    //
+                    _cachedCounts.Clear();
+
+                    _canUpdate = false;
+                })
+                .AddTo(_compositeDisposable);
+
 #endif
 
         }
@@ -84,13 +104,13 @@ namespace JoyBrick.Walkio.Game.Creature
         protected override void OnCreate()
         {
             base.OnCreate();
-            
+
             _entityQuery = GetEntityQuery(new EntityQueryDesc
             {
                 All = new ComponentType[] { typeof(UnitIndication), typeof(LocalToWorld) },
                 None = new ComponentType[] { typeof(Leader) }
             });
-            
+
             RequireForUpdate(_entityQuery);
         }
 
@@ -104,7 +124,7 @@ namespace JoyBrick.Walkio.Game.Creature
             //     }
             // }
         }
-        
+
         private void UpdateEachKind(
             List<int> indices,
             in NativeArray<LocalToWorld> localToWorlds,
@@ -125,12 +145,12 @@ namespace JoyBrick.Walkio.Game.Creature
                     var matrix = Matrix4x4.TRS(localToWorld.Position, localToWorld.Rotation, Vector3.one);
 
                     CheckAnyMatrixNaN(matrix);
-                    
+
                     matrices.Add(matrix);
                 }
 
                 var camera = LevelPropProvider.LevelCamera;
-                
+
                 Graphics.DrawMeshInstanced(
                     mesh,
                     0,
@@ -146,7 +166,7 @@ namespace JoyBrick.Walkio.Game.Creature
                 );
             }
         }
-        
+
         //
         protected override void OnUpdate()
         {
@@ -182,7 +202,7 @@ namespace JoyBrick.Walkio.Game.Creature
 
                         var mesh = minionData.mesh;
                         var material = minionData.material;
-                        
+
                         // _logger.Debug($"Module - Creature - PresentUnitIndicationSystem - Update - mesh: {mesh} material: {material}");
 
 
@@ -191,7 +211,7 @@ namespace JoyBrick.Walkio.Game.Creature
                 }
             }
         }
-        
+
         protected override void OnDestroy()
         {
             base.OnDestroy();

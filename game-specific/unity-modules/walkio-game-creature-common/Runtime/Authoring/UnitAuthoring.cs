@@ -6,6 +6,8 @@
     using Unity.Transforms;
     using UnityEngine;
 
+    using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
+
     public class UnitAuthoring :
         MonoBehaviour,
         IConvertGameObjectToEntity
@@ -35,6 +37,8 @@
                     Kind = indicationKind
                 });
             }
+
+            dstManager.AddComponentData(entity, new GameFlowControl.StageUse());
 
 //             dstManager.AddComponentData(entity, new UnitMovement());
 //

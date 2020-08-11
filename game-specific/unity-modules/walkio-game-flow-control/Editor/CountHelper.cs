@@ -7,7 +7,7 @@
     using System.Reflection;
     using UnityEditor;
     using UnityEngine;
-    
+
     using GameCommon = JoyBrick.Walkio.Game.Common;
 
     public static class CountHelper
@@ -23,16 +23,16 @@
                 select new { Type = t, Attributes = attributes.Cast<DoneLoadingAssetWaitAttribute>() };
 
             var addToCountAttributes = typesWithAddToCountAttribute.ToList();
-            var appCount =
+            var appAttributes =
                 addToCountAttributes
                     .Where(x => String.Compare(x.Attributes.First().FlowName, "App", StringComparison.Ordinal) == 0)
                     .ToList();
-            var preparationCount =
+            var preparationAttributes =
                 addToCountAttributes
                     .Where(x =>
                         String.Compare(x.Attributes.First().FlowName, "Preparation", StringComparison.Ordinal) == 0)
                     .ToList();
-            var stageCount =
+            var stageAttributes =
                 addToCountAttributes
                     .Where(x => String.Compare(x.Attributes.First().FlowName, "Stage", StringComparison.Ordinal) == 0)
                     .ToList();
@@ -42,19 +42,19 @@
 
             if (flowControlData != null)
             {
-                flowControlData.doneLoadingAssetWaitForApp = appCount.Count;
-                flowControlData.doneLoadingAssetWaitForPreparation = preparationCount.Count;
-                flowControlData.doneLoadingAssetWaitForStage = stageCount.Count;
-                
+                flowControlData.doneLoadingAssetWaitForApp = appAttributes.Count;
+                flowControlData.doneLoadingAssetWaitForPreparation = preparationAttributes.Count;
+                flowControlData.doneLoadingAssetWaitForStage = stageAttributes.Count;
+
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
             }
 
-            Debug.Log($"CountHelper - CountDoneLoadingAssetWaitAttribute - has {appCount.Count} of <AddToCountAttribute> classes for app in the project");
-            Debug.Log($"CountHelper - CountDoneLoadingAssetWaitAttribute - has {preparationCount.Count} of <AddToCountAttribute> classes for preparation in the project");
-            Debug.Log($"CountHelper - CountDoneLoadingAssetWaitAttribute - has {stageCount.Count} of <AddToCountAttribute> classes for stage in the project");
+            Debug.Log($"CountHelper - CountDoneLoadingAssetWaitAttribute - has {appAttributes.Count} of <AddToCountAttribute> classes for app in the project");
+            Debug.Log($"CountHelper - CountDoneLoadingAssetWaitAttribute - has {preparationAttributes.Count} of <AddToCountAttribute> classes for preparation in the project");
+            Debug.Log($"CountHelper - CountDoneLoadingAssetWaitAttribute - has {stageAttributes.Count} of <AddToCountAttribute> classes for stage in the project");
         }
-        
+
         [MenuItem("Assets/Walkio/Game/Flow Control/Count Done Setting Asset Wait Attribute")]
         public static void CountDoneSettingAssetWaitAttribute()
         {
@@ -66,16 +66,16 @@
                 select new { Type = t, Attributes = attributes.Cast<DoneSettingAssetWaitAttribute>() };
 
             var addToCountAttributes = typesWithAddToCountAttribute.ToList();
-            var appCount =
+            var appAttributes =
                 addToCountAttributes
                     .Where(x => String.Compare(x.Attributes.First().FlowName, "App", StringComparison.Ordinal) == 0)
                     .ToList();
-            var preparationCount =
+            var preparationAttributes =
                 addToCountAttributes
                     .Where(x =>
                         String.Compare(x.Attributes.First().FlowName, "Preparation", StringComparison.Ordinal) == 0)
                     .ToList();
-            var stageCount =
+            var stageAttributes =
                 addToCountAttributes
                     .Where(x => String.Compare(x.Attributes.First().FlowName, "Stage", StringComparison.Ordinal) == 0)
                     .ToList();
@@ -85,17 +85,26 @@
 
             if (flowControlData != null)
             {
-                flowControlData.doneSettingAssetWaitForApp = appCount.Count;
-                flowControlData.doneSettingAssetWaitForPreparation = preparationCount.Count;
-                flowControlData.doneSettingAssetWaitForStage = stageCount.Count;
-                
+                flowControlData.doneSettingAssetWaitForApp = appAttributes.Count;
+                flowControlData.doneSettingAssetWaitForPreparation = preparationAttributes.Count;
+                flowControlData.doneSettingAssetWaitForStage = stageAttributes.Count;
+
+                stageAttributes.ForEach(x =>
+                {
+                    x.Attributes.ToList().ForEach(y =>
+                    {
+                        var typeName = y.GetType().ToString();
+                        Debug.Log($"stage {x.Type.ToString()} type: {typeName}");
+                    });
+                });
+
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
             }
 
-            Debug.Log($"CountHelper - CountDoneSettingAssetWaitAttribute - has {appCount.Count} of <AddToCountAttribute> classes for app in the project");
-            Debug.Log($"CountHelper - CountDoneSettingAssetWaitAttribute - has {preparationCount.Count} of <AddToCountAttribute> classes for preparation in the project");
-            Debug.Log($"CountHelper - CountDoneSettingAssetWaitAttribute - has {stageCount.Count} of <AddToCountAttribute> classes for stage in the project");
+            Debug.Log($"CountHelper - CountDoneSettingAssetWaitAttribute - has {appAttributes.Count} of <AddToCountAttribute> classes for app in the project");
+            Debug.Log($"CountHelper - CountDoneSettingAssetWaitAttribute - has {preparationAttributes.Count} of <AddToCountAttribute> classes for preparation in the project");
+            Debug.Log($"CountHelper - CountDoneSettingAssetWaitAttribute - has {stageAttributes.Count} of <AddToCountAttribute> classes for stage in the project");
         }
 
     }

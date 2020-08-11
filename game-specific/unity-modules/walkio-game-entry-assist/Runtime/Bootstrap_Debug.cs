@@ -29,6 +29,9 @@
                 typeof(GameMoveFlowFieldAssist.TemporaryPointIndication),
                 typeof(GameMoveFlowFieldAssist.TemporaryPointIndicationProperty));
 
+            var ffwd = flowFieldWorldData as GameMoveFlowField.Assist.Template.FlowFieldWorldData;
+            var temporaryPointShowTime = (ffwd == null) ? timeInSeconds : ffwd.temporaryPointShowTime;
+
             points.ForEach(p =>
             {
                 var temporaryPointIndicationEntity = entityManager.CreateEntity(temporaryPointIndicationEntityArchetype);
@@ -37,7 +40,7 @@
                     GroupId = groupId,
                     Location = (float3)p,
 
-                    IntervalMax = timeInSeconds,
+                    IntervalMax = temporaryPointShowTime,
                     CountDown = 0
                 });
             });

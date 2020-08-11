@@ -42,7 +42,7 @@
         //
         public void Construct()
         {
-            _logger.Debug($"Module - PresentTemporaryPointIndicationSystem - Construct");
+            _logger.Debug($"Module Assist - Move - FlowField - PresentTemporaryPointIndicationSystem - Construct");
 
 #if WALKIO_FLOWCONTROL
             //
@@ -50,7 +50,7 @@
                 .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"Module - PresentTemporaryPointIndicationSystem - Construct - Receive AllDoneSettingAsset");
+                    _logger.Debug($"Module Assist - Move - FlowField - PresentTemporaryPointIndicationSystem - Construct - Receive FlowReadyToStart");
                     _canUpdate = true;
                 })
                 .AddTo(_compositeDisposable);

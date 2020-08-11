@@ -1319,10 +1319,10 @@ RectTransform:
   m_Father: {fileID: 8331186758945031948}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 360, y: -610.3846}
+  m_SizeDelta: {x: 720, y: 1100.7692}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8643477024578098556
 MonoBehaviour:
@@ -1462,10 +1462,10 @@ RectTransform:
   m_Father: {fileID: 8331186758945031948}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 360, y: 0}
+  m_SizeDelta: {x: 720, y: 60}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &5758245818171202784
 MonoBehaviour:
@@ -1707,37 +1707,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6860544408660082929}
     m_Modifications:
-    - target: {fileID: 611104701166978197, guid: 38650c29fd8c7434fbaddf682b3e710b,
-        type: 3}
-      propertyPath: originalParent
-      value: 
-      objectReference: {fileID: 6860544408660082929}
-    - target: {fileID: 3052335391014774718, guid: 38650c29fd8c7434fbaddf682b3e710b,
-        type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
-        type: 2}
-    - target: {fileID: 3052335391014774718, guid: 38650c29fd8c7434fbaddf682b3e710b,
-        type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-    - target: {fileID: 3052335391014774718, guid: 38650c29fd8c7434fbaddf682b3e710b,
-        type: 3}
-      propertyPath: m_fontSize
-      value: 36
-      objectReference: {fileID: 0}
-    - target: {fileID: 3052335391014774718, guid: 38650c29fd8c7434fbaddf682b3e710b,
-        type: 3}
-      propertyPath: m_fontSizeBase
-      value: 36
-      objectReference: {fileID: 0}
-    - target: {fileID: 3052335391014774718, guid: 38650c29fd8c7434fbaddf682b3e710b,
-        type: 3}
-      propertyPath: m_text
-      value: "\u904A\u6232\u958B\u767C\n\u5354\u52A9\u5DE5\u5177"
-      objectReference: {fileID: 0}
     - target: {fileID: 4096203402897136854, guid: 38650c29fd8c7434fbaddf682b3e710b,
         type: 3}
       propertyPath: originalParent
@@ -1853,13 +1822,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: View - Base
       objectReference: {fileID: 0}
-    - target: {fileID: 9219489900601153723, guid: 38650c29fd8c7434fbaddf682b3e710b,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 611104701166978197, guid: 38650c29fd8c7434fbaddf682b3e710b, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38650c29fd8c7434fbaddf682b3e710b, type: 3}
 --- !u!224 &5971619656391214426 stripped
 RectTransform:

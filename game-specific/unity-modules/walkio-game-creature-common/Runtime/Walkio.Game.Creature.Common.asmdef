@@ -10,7 +10,8 @@
         "Unity.Physics.Hybrid",
         "Unity.Rendering.Hybrid",
         "UniRx",
-        "Walkio.Game.Common"
+        "Walkio.Game.Common",
+        "Walkio.Game.Flow-Control.Common"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

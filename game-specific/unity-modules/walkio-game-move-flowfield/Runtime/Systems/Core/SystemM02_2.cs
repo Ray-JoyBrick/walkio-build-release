@@ -93,7 +93,7 @@
                         // _logger.Debug($"Module - SystemM02_2 - UpdateForFlowFieldTile - find matched flow field tile: {entity}");
 
                         // flowFieldTileCellBuffers.ResizeUninitialized(totalTileCellCount);
-                        
+
                         for (var m = 0; m < totalTileCellCount; ++m)
                         {
                             // Assign grid cell index into tile cell for now
@@ -109,7 +109,7 @@
                     }
                 })
                 .WithoutBurst()
-                .Run();            
+                .Run();
         }
 
         private void UpdateEachChaseTarget(
@@ -130,17 +130,17 @@
                     if (matchGroupId)
                     {
                         _logger.Debug($"Module - SystemM02_2 - UpdateEachChaseTarget - find matched group: {forWhichGroupId} for tile cell change");
-                        
+
                         var gridCellIndices =
                             Utility.FlowFieldTileHelper.GetGridCellIndicesInTile(
                                 gridCellCount, gridCellSize,
                                 tileCellCount, tileCellSize,
                                 // inTileIndex);
-                                leadingToSetProperty.TileIndex);                        
-                        
+                                leadingToSetProperty.TileIndex);
+
                         var totalTileCellCount = tileCellCount.x * tileCellCount.y;
                         var baseCosts = new NativeArray<int>(totalTileCellCount, Allocator.Temp);
-                        
+
                         var gridCellIndicesInOutTile =
                             Utility.FlowFieldTileHelper.GetGridCellIndicesInTile(
                                 gridCellCount, gridCellSize,
@@ -149,7 +149,7 @@
                         for (var g = 0; g < baseCosts.Length; ++g)
                         {
                             var gridCellIndex = gridCellIndicesInOutTile[g];
-                        
+
                             if (gridCellIndex != -1)
                             {
                                 var gridMapContext = gridWorldProperty.GridMapBlobAssetRef.Value.GridMapContextArray[gridCellIndex];
@@ -163,7 +163,7 @@
                                 _logger.Debug($"Module - Move - FlowField - SystemM02_2 - OnUpdate - gridCellIndex -1 at tileIndex: {leadingToSetProperty.TileIndex} for tileCellIndex: {g}");
                             }
                         }
-                        
+
                         var costs =
                             Utility.FlowFieldTileHelper.GetIntegrationCostForTile(
                                 gridCellCount, gridCellSize,
@@ -183,7 +183,7 @@
                                 baseCosts);
 
                         // _logger.Debug($"Module - SystemM02_2 - UpdateEachChaseTarget - change to tile cell index: {changeToTileCellIndex}");
-                        
+
                         UpdateForFlowFieldTile(totalTileCellCount, gridCellIndices, costs, directions, leadingToSetProperty.LeadingToTile);
                     }
                 })
@@ -194,6 +194,7 @@
         protected override void OnUpdate()
         {
             // if (!_canUpdate) return;
+            if (true) return;
 
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
             var concurrentCommandBuffer = commandBuffer.ToConcurrent();
@@ -205,7 +206,7 @@
             var flowFieldWorldData = FlowFieldWorldProvider.FlowFieldWorldData as Template.FlowFieldWorldData;
             var tileCellCount = new int2(flowFieldWorldData.tileCellCount.x, flowFieldWorldData.tileCellCount.y);
             var tileCellSize = (float2)flowFieldWorldData.tileCellSize;
-            
+
             Entities
                 .WithAll<AtTileCellChange>()
                 .ForEach((Entity entity, AtTileCellChangeProperty atTileCellChangeProperty) =>

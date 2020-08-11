@@ -8,14 +8,14 @@
         "Unity.Collections",
         "Unity.Transforms",
         "Unity.Entities.Hybrid",
-        "Unity.Entities.Properties",
         "Unity.Mathematics",
         "Unity.ResourceManager",
         "UniRx",
         "Walkio.Game.Command",
         "Walkio.Game.Common",
         "Walkio.Game.Extension.Common",
-        "Walkio.Game.Flow-Control.Common"
+        "Walkio.Game.Flow-Control.Common",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

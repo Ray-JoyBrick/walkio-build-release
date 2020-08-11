@@ -124,7 +124,7 @@
                 .Where(x => x.Name.Contains(AtPart))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"Module - Hud {AtPart} - PrepareAssetSystem - RegisterToLoadFlow - Receive AssetLoadingStarted");
+                    _logger.Debug($"Module Assist - Hud {AtPart} - PrepareAssetSystem - RegisterToLoadFlow - Receive AssetLoadingStarted");
                     // var hudAssetName = x.HudAssetName;
                     var hudAssetName = $"Hud - {AtPart} Assist/Hud Data";
                     LoadingAsset(hudAssetName);

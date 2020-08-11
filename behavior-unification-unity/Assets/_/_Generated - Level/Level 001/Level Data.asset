@@ -12,15 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a7dd50c31654058bacf5d24251982cd, type: 3}
   m_Name: Level Data
   m_EditorClassIdentifier: 
-  teamLeaderNpcSpawnCount: 2
+  teamLeaderNpcSpawnCount: 1
   teamLeaderNpcSpawnLocations:
-  - {x: 20, y: 20}
+  - {x: 40, y: 40}
   - {x: 100, y: 100}
-  - {x: 150, y: 60}
+  - {x: 80, y: 60}
   - {x: 70, y: 100}
   - {x: 100, y: 150}
   - {x: 95, y: 65}
   - {x: 25, y: 100}
+  teamLeaderPlayerSpawnLocations:
+  - {x: 112, y: 114}
   areaLookup:
   - areaColor:
       serializedVersion: 2
@@ -35,6 +37,7 @@ MonoBehaviour:
   gridWorldTileCount: {x: 4, y: 3}
   gridWorldTielCellCount: {x: 64, y: 64}
   gridWorldCellSize: {x: 1, y: 1}
+  astarGraph: {fileID: 4900000, guid: 0a39ac6a0d4ec3e4d8d7eec49b14b93b, type: 3}
   subLevelImages:
   - {fileID: 2800000, guid: 034d914778852774986f8ef1e1010c30, type: 3}
   - {fileID: 2800000, guid: 0b4094bba011a9a439df738ab1e92d3c, type: 3}

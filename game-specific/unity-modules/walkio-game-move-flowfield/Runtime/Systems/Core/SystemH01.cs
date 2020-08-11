@@ -17,6 +17,8 @@
 
     using GameLevel = JoyBrick.Walkio.Game.Level;
 
+    // This system is going to be responsible to destroy old leading-to-set entity and all entity buffer associated
+    // with it
     [DisableAutoCreation]
     // [UpdateAfter(typeof(SystemA))]
     public class SystemH01 : SystemBase
@@ -50,7 +52,7 @@
                 .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"Module - Move - FlowField - SystemH01 - Construct - Receive AllDoneSettingAsset");
+                    _logger.Debug($"Module - Move - FlowField - SystemH01 - Construct - Receive FlowReadyToStart");
                     _canUpdate = true;
                 })
                 .AddTo(_compositeDisposable);
@@ -98,11 +100,22 @@
 
                         for (var i = 0; i < leadingToTileBuffers.Length; ++i)
                         {
+                            // First tile should be previous at-tile which should be destroyed else where?
+
                             commandBuffer.DestroyEntity(leadingToTileBuffers[i].Value.Tile);
                         }
 
                         commandBuffer.DestroyEntity(entity);
                     }
+                })
+                .WithoutBurst()
+                .Run();
+
+            Entities
+                .WithAll<ToBeDeletedFlowFieldTile>()
+                .ForEach((Entity entity) =>
+                {
+                    commandBuffer.DestroyEntity(entity);
                 })
                 .WithoutBurst()
                 .Run();

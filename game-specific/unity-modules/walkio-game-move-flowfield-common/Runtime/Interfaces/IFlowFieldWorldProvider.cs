@@ -16,6 +16,6 @@
 
         GameObject FlowFieldTileBlobAssetAuthoringPrefab { get; set; }
 
-        void CalculateLeadingTilePath(int forWhichGroup, Entity forWhichLeader, float3 targetPosition, List<float3> positions);
+        void CalculateLeadingTilePath(int forWhichGroup, int2 atTileIndex, Entity atTileEntity, float3 targetPosition, List<float3> positions);
     }
 }

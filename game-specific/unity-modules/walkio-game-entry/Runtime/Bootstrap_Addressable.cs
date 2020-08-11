@@ -17,6 +17,7 @@
             SetupEcsWorldContext();
             SetupEcsWorldSystem();
 
+            SetupCreaturePart();
             SetupFlowFieldPart();
 
             _notifySetupAfterEcs.OnNext(1);
@@ -28,10 +29,14 @@
             // });
             //
             // _notifySetupEcsDone.OnNext(1);
-            
+
             // _notifyAssetLoadingStarted.OnNext();
+
+            ReformCommandStream();
+            ReformInfoStream();
+
             StartLoadingAsset_App();
-            
+
             SetupLevelPart();
         }
 

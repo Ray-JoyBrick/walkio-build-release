@@ -146,6 +146,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField.Assist
         protected override void OnUpdate()
         {
             if (!_canUpdate) return;
+            // if (true) return;
 
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
             var concurrentCommandBuffer = commandBuffer.ToConcurrent();

@@ -55,10 +55,16 @@ namespace JoyBrick.Walkio.Game
 
         public void AddCommandStreamProducer(GameObject inGO)
         {
+            _logger.Debug($"Bootstrap - AddCommandStreamProducer - gameObject: {inGO}");
+
             var commandStreamProducer = inGO.GetComponent<GameCommand.ICommandStreamProducer>();
             if (commandStreamProducer != null)
             {
                 AddCommandStreamProducer(commandStreamProducer);
+            }
+            else
+            {
+                _logger.Debug($"Bootstrap - AddCommandStreamProducer - gameObject has no ICommandStreamProducer");
             }
         }
 
@@ -81,7 +87,7 @@ namespace JoyBrick.Walkio.Game
             _rpInfos.Select(x => x).Switch();
         private readonly ReactiveProperty<IObservable<GameCommand.IInfo>> _rpInfos =
             new ReactiveProperty<IObservable<GameCommand.IInfo>>(Observable.Empty<GameCommand.IInfo>());
-        
+
         private readonly Subject<GameCommand.IInfo> _notifyInfo = new Subject<GameCommand.IInfo>();
 
         void ReformInfoStream()
@@ -144,6 +150,14 @@ namespace JoyBrick.Walkio.Game
                     Flag = false
                 });
             }
+            else if (String.CompareOrdinal(commandName, "Pause Countdown Timer") == 0)
+            {
+                SendExtensionEvent("Stop Countdown");
+            }
+            else if (String.CompareOrdinal(commandName, "Unpause Countdown Timer") == 0)
+            {
+                SendExtensionEvent("Resume Countdown");
+            }
             else if (String.CompareOrdinal(commandName, "Bring Up Help") == 0)
             {
                 // _notifyCommand.OnNext(new GameCommand.ActivateLoadingViewCommand
@@ -154,12 +168,12 @@ namespace JoyBrick.Walkio.Game
 #if COMPLETE_PROJECT || BEHAVIOR_PROJECT
             else if (String.CompareOrdinal(commandName, "Load Preparation") == 0)
             {
-                GameExtension.BridgeExtension.SendEvent("zz_Exit Current Flow");
+                SendExtensionEvent("zz_Exit Current Flow");
                 // GameExtension.BridgeExtension.SendEvent("zz_Enter Preparation");
             }
             else if (String.CompareOrdinal(commandName, "Load Stage") == 0)
             {
-                GameExtension.BridgeExtension.SendEvent("zz_Exit Current Flow");
+                SendExtensionEvent("zz_Exit Current Flow");
                 // GameExtension.BridgeExtension.SendEvent("zz_Enter Stage");
                 // _notifyCommand.OnNext(new GameCommand.ChangeToGameFlow
                 // {
@@ -178,7 +192,7 @@ namespace JoyBrick.Walkio.Game
                 // {
                 // });
 
-                GameExtension.BridgeExtension.SendEvent("zz_Exit Current Flow");
+                SendExtensionEvent("zz_Exit Current Flow");
             }
             else if (String.CompareOrdinal(commandName, "Place All Team Force Leader") == 0)
             {

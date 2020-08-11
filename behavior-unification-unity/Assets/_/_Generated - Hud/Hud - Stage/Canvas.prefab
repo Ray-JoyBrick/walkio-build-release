@@ -880,7 +880,7 @@ MonoBehaviour:
     locked: 0
     manualUpdate: 0
     keepDelayedEventsOnStateExit: 0
-    preprocessed: 0
+    preprocessed: 1
     ExposedEvents: []
     RestartOnEnable: 1
     EnableDebugFlow: 0
@@ -914,7 +914,7 @@ MonoBehaviour:
     handleAnimatorMove: 0
     handleAnimatorIK: 0
   fsmTemplate: {fileID: 0}
-  eventHandlerComponentsAdded: 0
+  eventHandlerComponentsAdded: 1
 --- !u!114 &3323917515016644216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1001,15 +1001,25 @@ MonoBehaviour:
       actionData:
         actionNames:
         - HutongGames.PlayMaker.Actions.SendEventByName
+        - JoyBrick.Walkio.Game.Extension.PlayMaker.Actions.GetCommandService
         customNames:
         - 
-        actionEnabled: 01
-        actionIsOpen: 01
-        actionStartIndex: 00000000
-        actionHashCodes: ba7ea101
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000004000000
+        actionHashCodes: ba7ea1019bd6f801
         unityObjectParams: []
         fsmGameObjectParams: []
-        fsmOwnerDefaultParams: []
+        fsmOwnerDefaultParams:
+        - ownerOption: 1
+          gameObject:
+            useVariable: 1
+            name: zz_Command Service
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: {fileID: 0}
         animationCurveParams: []
         functionCallParams: []
         fsmTemplateControlParams: []
@@ -1055,6 +1065,12 @@ MonoBehaviour:
           showInInspector: 0
           networkSync: 0
           value: Activating View
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: Pause Countdown Timer
         fsmObjectParams: []
         fsmVarParams: []
         fsmArrayParams: []
@@ -1079,14 +1095,16 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 1f000000120000000f00000001000000
+        paramDataType: 1f000000120000000f000000010000001400000012000000
         paramName:
         - eventTarget
         - sendEvent
         - delay
         - everyFrame
-        paramDataPos: 00000000000000000000000000000000
-        paramByteDataSize: 00000000000000000000000001000000
+        - gameObject
+        - commandName
+        paramDataPos: 000000000000000000000000000000000000000001000000
+        paramByteDataSize: 000000000000000000000000010000000000000000000000
     - name: State 3
       description: 
       colorIndex: 0
@@ -1103,15 +1121,25 @@ MonoBehaviour:
       actionData:
         actionNames:
         - HutongGames.PlayMaker.Actions.SendEventByName
+        - JoyBrick.Walkio.Game.Extension.PlayMaker.Actions.GetCommandService
         customNames:
         - 
-        actionEnabled: 01
-        actionIsOpen: 01
-        actionStartIndex: 00000000
-        actionHashCodes: ba7ea101
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000004000000
+        actionHashCodes: ba7ea1019bd6f801
         unityObjectParams: []
         fsmGameObjectParams: []
-        fsmOwnerDefaultParams: []
+        fsmOwnerDefaultParams:
+        - ownerOption: 1
+          gameObject:
+            useVariable: 1
+            name: zz_Command Service
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: {fileID: 0}
         animationCurveParams: []
         functionCallParams: []
         fsmTemplateControlParams: []
@@ -1157,6 +1185,12 @@ MonoBehaviour:
           showInInspector: 0
           networkSync: 0
           value: Deactivating View
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: Unpause Countdown Timer
         fsmObjectParams: []
         fsmVarParams: []
         fsmArrayParams: []
@@ -1181,14 +1215,16 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 1f000000120000000f00000001000000
+        paramDataType: 1f000000120000000f000000010000001400000012000000
         paramName:
         - eventTarget
         - sendEvent
         - delay
         - everyFrame
-        paramDataPos: 00000000000000000000000000000000
-        paramByteDataSize: 00000000000000000000000001000000
+        - gameObject
+        - commandName
+        paramDataPos: 000000000000000000000000000000000000000001000000
+        paramByteDataSize: 000000000000000000000000010000000000000000000000
     - name: State 4
       description: 
       colorIndex: 0
@@ -1370,7 +1406,7 @@ MonoBehaviour:
     locked: 0
     manualUpdate: 0
     keepDelayedEventsOnStateExit: 0
-    preprocessed: 0
+    preprocessed: 1
     ExposedEvents: []
     RestartOnEnable: 1
     EnableDebugFlow: 0
@@ -1404,7 +1440,7 @@ MonoBehaviour:
     handleAnimatorMove: 0
     handleAnimatorIK: 0
   fsmTemplate: {fileID: 0}
-  eventHandlerComponentsAdded: 0
+  eventHandlerComponentsAdded: 1
 --- !u!114 &597487083699874253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1417,7 +1453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c84c03642b164cbeb3d1c777b56e55b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  button: {fileID: 4385374572482226548}
+  button: {fileID: 0}
 --- !u!1001 &8481922033070721336
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1530,12 +1566,12 @@ PrefabInstance:
     - target: {fileID: 4886676706477812409, guid: 3b8090ec3839f496d9c35545aa3779be,
         type: 3}
       propertyPath: m_fontSize
-      value: 36
+      value: 108
       objectReference: {fileID: 0}
     - target: {fileID: 4886676706477812409, guid: 3b8090ec3839f496d9c35545aa3779be,
         type: 3}
       propertyPath: m_fontSizeBase
-      value: 36
+      value: 108
       objectReference: {fileID: 0}
     - target: {fileID: 6004337977761379018, guid: 3b8090ec3839f496d9c35545aa3779be,
         type: 3}
@@ -1701,18 +1737,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 8481922033070721336}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4385374572482226548 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5291217010400174156, guid: 3b8090ec3839f496d9c35545aa3779be,
-    type: 3}
-  m_PrefabInstance: {fileID: 8481922033070721336}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &8991805289853218104
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1724,47 +1748,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: View - Option
-      objectReference: {fileID: 0}
-    - target: {fileID: 7591221787139932122, guid: 769767bd779f44493973b412fe3d06b7,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7591221787139932122, guid: 769767bd779f44493973b412fe3d06b7,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7591221787139932122, guid: 769767bd779f44493973b412fe3d06b7,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7591221787139932122, guid: 769767bd779f44493973b412fe3d06b7,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7591221787139932122, guid: 769767bd779f44493973b412fe3d06b7,
-        type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
-        type: 2}
-    - target: {fileID: 7591221787139932122, guid: 769767bd779f44493973b412fe3d06b7,
-        type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-    - target: {fileID: 7591221787139932122, guid: 769767bd779f44493973b412fe3d06b7,
-        type: 3}
-      propertyPath: m_fontSize
-      value: 36
-      objectReference: {fileID: 0}
-    - target: {fileID: 7591221787139932122, guid: 769767bd779f44493973b412fe3d06b7,
-        type: 3}
-      propertyPath: m_fontSizeBase
-      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 8194656199877649825, guid: 769767bd779f44493973b412fe3d06b7,
         type: 3}
@@ -1870,47 +1853,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8774759200099471541, guid: 769767bd779f44493973b412fe3d06b7,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8774759200099471541, guid: 769767bd779f44493973b412fe3d06b7,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8774759200099471541, guid: 769767bd779f44493973b412fe3d06b7,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8774759200099471541, guid: 769767bd779f44493973b412fe3d06b7,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8774759200099471541, guid: 769767bd779f44493973b412fe3d06b7,
-        type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
-        type: 2}
-    - target: {fileID: 8774759200099471541, guid: 769767bd779f44493973b412fe3d06b7,
-        type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-    - target: {fileID: 8774759200099471541, guid: 769767bd779f44493973b412fe3d06b7,
-        type: 3}
-      propertyPath: m_fontSize
-      value: 36
-      objectReference: {fileID: 0}
-    - target: {fileID: 8774759200099471541, guid: 769767bd779f44493973b412fe3d06b7,
-        type: 3}
-      propertyPath: m_fontSizeBase
-      value: 36
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 769767bd779f44493973b412fe3d06b7, type: 3}

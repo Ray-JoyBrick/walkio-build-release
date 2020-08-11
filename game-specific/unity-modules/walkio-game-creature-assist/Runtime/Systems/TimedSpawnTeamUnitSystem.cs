@@ -14,9 +14,9 @@
     using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
     using GameCreature = JoyBrick.Walkio.Game.Creature;
 
-#if WALKIO_FLOWCONTROL && WALKIO_CREATURE_ASSIST
-    [GameFlowControl.DoneSettingAssetWait("Stage")]
-#endif
+// #if WALKIO_FLOWCONTROL && WALKIO_CREATURE_ASSIST
+//     [GameFlowControl.DoneSettingAssetWait("Stage")]
+// #endif
     [DisableAutoCreation]
     public class TimedSpawnTeamUnitSystem : SystemBase
     {
@@ -63,6 +63,12 @@
                     {
                         IntervalMax = 0.24f,
                         CountDown = 0
+                    });
+
+                    FlowControl?.FinishIndividualSettingAsset(new GameFlowControl.FlowControlContext
+                    {
+                        Name = "Stage",
+                        Description = "Module Assist - Creature - TimedSpawnTeamUnitSystem"
                     });
                 })
                 .AddTo(_compositeDisposable);
@@ -137,7 +143,7 @@
             // var entities = _teamUnityQuery.ToEntityArray(Allocator.TempJob);
             //
             // entities
-            
+
             // _teamUnityQuery.ToComponentDataArray<LocalToWorld>()
 
             // using (var inSameTeamUnits = new NativeArray<float3>())
@@ -150,18 +156,18 @@
                     // _logger.Debug($"Module Assist - Creature - TimedSpawnTeamUnitSystem - CheckForEachTeamForce - entity: {entity}");
                     // inSameTeamUnits.AddTo(localToWorld.Position);
                     // inSameTeamUnits.
-                    
+
                     positions.Add(localToWorld.Position);
                 })
                 // .WithDeallocateOnJobCompletion(entities)
                 .WithoutBurst()
                 .Run();
 
-                
+
             // }
 
             var spawnPosition = UnityEngine.Random.Range(0, positions.Count);
-            
+
             CreateEventEntity(
                 commandBuffer, eventEntityArchetype,
                 spawnForTeamId, spawnPosition);
@@ -170,7 +176,7 @@
             //     .WithAll<TeamForce>()
             //     .ForEach((Entity entity, LocalToWorld localToWorld) =>
             //     {
-            //         
+            //
             //         // var spawnPosition = localToWorld.Position;
             //         //
             //         // CreateEventEntity(

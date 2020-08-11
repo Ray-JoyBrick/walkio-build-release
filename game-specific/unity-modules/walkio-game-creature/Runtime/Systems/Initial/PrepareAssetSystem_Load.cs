@@ -51,14 +51,21 @@
                     _creatureRepoDataAsset = result;
 
                     var creatureRepoData = _creatureRepoDataAsset as Template.CreatureRepoData;
-                    
+
                     //
                     creatureRepoData.teamLeaderNpcAssets.ForEach(x =>
                     {
                         var creatureData = x as Template.CreatureData;
                         CreatureProvider.AddTeamLeaderNpcPrefab(creatureData.avatarPrefab);
                     });
-                    
+
+                    //
+                    creatureRepoData.teamLeaderPlayerAssets.ForEach(x =>
+                    {
+                        var creatureData = x as Template.CreatureData;
+                        CreatureProvider.AddTeamLeaderPlayerPrefab(creatureData.avatarPrefab);
+                    });
+
                     //
                     creatureRepoData.teamMinionAssets.ForEach(x =>
                     {

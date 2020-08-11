@@ -51,7 +51,7 @@
                 .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"Module - Move - FlowField - SystemM08 - Construct - Receive AllDoneSettingAsset");
+                    _logger.Debug($"Module - Move - FlowField - SystemM08 - Construct - Receive FlowReadyToStart");
                     _canUpdate = true;
                 })
                 .AddTo(_compositeDisposable);
@@ -76,7 +76,7 @@
             RequireForUpdate(_gridWorldEntityQuery);
         }
 
-                private void ForEachChaseTarget(int2 gridCellCount, float2 gridCellSize, int2 tileCellCount, float2 tileCellSize,
+        private void ForEachChaseTarget(int2 gridCellCount, float2 gridCellSize, int2 tileCellCount, float2 tileCellSize,
             DynamicBuffer<LeadingToTileBuffer> leadingToTileBuffers)
         {
             Entities
@@ -116,16 +116,99 @@
                         var direction = flowFieldTileCells[tileCellIndex].Value.Direction;
                         moveByForce.Direction =
                             Utility.FlowFieldTileHelper.FromIntDirectionToNormalizedVector(direction);
-                        moveByForce.Force = 0.80f;
+                        // moveByForce.Force = 0.80f;
+                        moveByForce.Force = 1.80f;
                     }
                 })
                 .WithoutBurst()
                 .Run();
         }
 
+        private float4 AssignFromTheSameTile(
+            int2 tileCellCount,
+            Entity atTileEntity,
+            GameMove.MoveByForce moveByForce,
+            int2 atTileCellIndex)
+        {
+            var directionWithForce = float4.zero;
+
+            Entities
+                .WithAll<FlowFieldTile>()
+                .ForEach((Entity entity, DynamicBuffer<FlowFieldTileCellBuffer> flowFieldTileCellBuffers) =>
+                {
+                    if (atTileEntity == entity)
+                    {
+                        // _logger.Debug($"Module - Move - FlowField - SystemM09 - FindInLeadingToSet - matching at tile: {atTileEntity}");
+
+                        var tileCellIndex = atTileCellIndex.y * tileCellCount.x + atTileCellIndex.x;
+                        var direction = flowFieldTileCellBuffers[tileCellIndex].Value.Direction;
+                        moveByForce.Direction =
+                            Utility.FlowFieldTileHelper.FromIntDirectionToNormalizedVector(direction);
+                        moveByForce.Force = 1.80f;
+
+                        directionWithForce = new float4(moveByForce.Direction.xyz, moveByForce.Force);
+                    }
+                })
+                .WithoutBurst()
+                .Run();
+
+            return directionWithForce;
+        }
+
+        private (float4, Entity) FindInLeadingToSet(
+            int2 tileCellCount,
+            Entity currentLeadingToSetEntity,
+            GameMove.MoveByForce moveByForce,
+            int2 atTileIndex,
+            int2 atTileCellIndex)
+        {
+            var directionWithForce = float4.zero;
+            var foundTileEntity = Entity.Null;
+
+            Entities
+                .WithAll<LeadingToSet>()
+                .WithNone<ToBeDeletedLeadingToSet>()
+                .ForEach((Entity entity, DynamicBuffer<LeadingToTileBuffer> leadingToTileBuffers) =>
+                {
+                    if (currentLeadingToSetEntity == entity)
+                    {
+                        // _logger.Debug($"Module - Move - FlowField - SystemM09 - FindInLeadingToSet - find leading entity: {currentLeadingToSetEntity}");
+
+                        var foundTile = false;
+                        for (var i = 0; i < leadingToTileBuffers.Length; ++i)
+                        {
+                            var matchingTileIndex =
+                                (atTileIndex.x == leadingToTileBuffers[i].Value.TileIndex.x) &&
+                                (atTileIndex.y == leadingToTileBuffers[i].Value.TileIndex.y);
+
+                            if (matchingTileIndex)
+                            {
+                                foundTileEntity = leadingToTileBuffers[i].Value.Tile;
+                                directionWithForce =
+                                    AssignFromTheSameTile(tileCellCount, foundTileEntity, moveByForce,
+                                        atTileCellIndex);
+
+                                foundTile = true;
+                                break;
+                            }
+                        }
+
+                        if (!foundTile)
+                        {
+                            _logger.Debug($"Module - Move - FlowField - SystemM09 - FindInLeadingToSet - cant not find tile in leading set");
+                        }
+                    }
+                })
+                .WithoutBurst()
+                .Run();
+
+            return (directionWithForce, foundTileEntity);
+        }
+
         protected override void OnUpdate()
         {
             // if (!_canUpdate) return;
+            // if (true) return;
 
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
             var concurrentCommandBuffer = commandBuffer.ToConcurrent();
@@ -138,19 +221,84 @@
             var tileCellCount = new int2(flowFieldWorldData.tileCellCount.x, flowFieldWorldData.tileCellCount.y);
             var tileCellSize = (float2)flowFieldWorldData.tileCellSize;
 
+            var defaultAssignedForce = flowFieldWorldData.defaultAssignedForce;
+
             var toBeDeletedLeadingToSetEventEntityArchetype = EntityManager.CreateArchetype(
                 typeof(ToBeDeletedLeadingToSet),
                 typeof(ToBeDeletedLeadingToSetProperty));
 
             Entities
-                .WithAll<LeadingToSet>()
-                .WithNone<ToBeDeletedLeadingToSet>()
-                .ForEach((Entity leadingToSet, DynamicBuffer<LeadingToTileBuffer> leadingToTileBuffers) =>
+                .WithAll<ChaseTarget>()
+                .ForEach((Entity entity, LocalToWorld localToWorld, ref ChaseTargetProperty chaseTargetProperty, ref GameMove.MoveByForce moveByForce) =>
                 {
-                    ForEachChaseTarget(gridCellCount, gridCellSize, tileCellCount, tileCellSize, leadingToTileBuffers);
+                    var atTileAndTileCellIndex =
+                        Utility.FlowFieldTileHelper.PositionToTileAndTileCellIndexAtGridTo2DIndex(
+                            gridCellCount, gridCellSize,
+                            tileCellCount, tileCellSize,
+                            new float2(localToWorld.Position.x, localToWorld.Position.z));
+
+                    var stillAtTheSameTile =
+                        (atTileAndTileCellIndex.x == chaseTargetProperty.AtTileIndex.x)
+                        && (atTileAndTileCellIndex.y == chaseTargetProperty.AtTileIndex.y);
+
+                    var directionWithForce = float4.zero;
+
+                    if (stillAtTheSameTile)
+                    {
+                        // _logger.Debug($"Module - Move - FlowField - SystemM09 - Update - {entity} still at tile: {atTileAndTileCellIndex.xy}");
+
+                        // Just use the same tile, but update for cell
+                        // chaseTargetProperty.AtFlowFieldTile
+                        directionWithForce = AssignFromTheSameTile(tileCellCount, chaseTargetProperty.AtFlowFieldTile, moveByForce,
+                            atTileAndTileCellIndex.zw);
+                    }
+                    else
+                    {
+                        // _logger.Debug($"Module - Move - FlowField - SystemM09 - Update - {entity} still at was at tile: {chaseTargetProperty.AtTileIndex} now at tile: {atTileAndTileCellIndex.xy}");
+                        // If not at the same tile, find in leading-to-set
+                        var pair = FindInLeadingToSet(tileCellCount, chaseTargetProperty.LeadingToSet, moveByForce,
+                            atTileAndTileCellIndex.xy, atTileAndTileCellIndex.zw);
+                        directionWithForce = pair.Item1;
+
+                        chaseTargetProperty.AtFlowFieldTile = pair.Item2;
+                    }
+                    // _logger.Debug($"Module - Move - FlowField - SystemM09 - Update - returned: {directionWithForce}");
+
+                    chaseTargetProperty.AtTileIndex = atTileAndTileCellIndex.xy;
+                    chaseTargetProperty.AtTileCellIndex = atTileAndTileCellIndex.zw;
+
+                    // if (directionWithForce.x == 0 && directionWithForce.y == 0 && directionWithForce.z == 0 &&
+                    //     directionWithForce.w == 0)
+                    if (directionWithForce.x == 0 && directionWithForce.y == 0 && directionWithForce.z == 0)
+                    {
+                        // _logger.Debug($"Module - Move - FlowField - SystemM09 - Update - {entity} direction is zero");
+                        // commandBuffer.SetComponent(entity, new GameMove.MoveByForce
+                        // {
+                        //     Direction = new float3(1.0f, 0, 0),
+                        //     Force = defaultAssignedForce
+                        // });
+                    }
+                    else
+                    {
+                        commandBuffer.SetComponent(entity, new GameMove.MoveByForce
+                        {
+                            Direction = directionWithForce.xyz,
+                            Force = defaultAssignedForce
+                        });
+                    }
                 })
                 .WithoutBurst()
                 .Run();
+
+            // Entities
+            //     .WithAll<LeadingToSet>()
+            //     .WithNone<ToBeDeletedLeadingToSet>()
+            //     .ForEach((Entity leadingToSet, DynamicBuffer<LeadingToTileBuffer> leadingToTileBuffers) =>
+            //     {
+            //         ForEachChaseTarget(gridCellCount, gridCellSize, tileCellCount, tileCellSize, leadingToTileBuffers);
+            //     })
+            //     .WithoutBurst()
+            //     .Run();
 
             // Entities
             //     .WithAll<ChaseTarget>()

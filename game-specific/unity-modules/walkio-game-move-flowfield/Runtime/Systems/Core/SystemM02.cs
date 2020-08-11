@@ -42,7 +42,7 @@
                 .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"Module - Move - FlowField - SystemM02 - Construct - Receive AllDoneSettingAsset");
+                    _logger.Debug($"Module - Move - FlowField - SystemM02 - Construct - Receive FlowReadyToStart");
                     _canUpdate = true;
                 })
                 .AddTo(_compositeDisposable);
@@ -71,7 +71,8 @@
             int2 gridCellCount, float2 gridCellSize,
             int2 tileCellCount, float2 tileCellSize,
             int forWhichGroupId, float3 changeToPosition,
-            Entity forWhichLeaderEntity)
+            int2 tileIndex, int2 tileCellIndex,
+            Entity atTileEntity)
         {
             using (var tileHashTable = new NativeHashMap<int2, int>(100, Allocator.TempJob))
             {
@@ -90,8 +91,9 @@
                             // _logger.Debug($"Module - SystemM02 - UpdateEachChaseTarget - chase target entity: {entity} atTileIndex: {atTileIndex}");
 
                             var count = 0;
+                            var atToBeChasedTile = (tileIndex.x == atTileIndex.x) && (tileIndex.y == atTileIndex.y);
                             var hasKey = tileHashTable.TryGetValue(atTileIndex, out count);
-                            if (!hasKey)
+                            if (!atToBeChasedTile && !hasKey)
                             {
                                 tileHashTable.Add(atTileIndex, 1);
                             }
@@ -105,12 +107,14 @@
                     var positions = new List<float3>();
                     for (var i = 0; i < tileIndices.Length; ++i)
                     {
-                        var tileIndex = tileIndices[i];
+                        var cachedTileIndex = tileIndices[i];
+
+                        // Should get any position in the tile that is not obstacle
                         var positionXZ =
                             Utility.FlowFieldTileHelper.TileIndexToPosition2D(
                                 gridCellCount, gridCellSize,
                                 tileCellCount, tileCellSize,
-                                tileIndex);
+                                cachedTileIndex);
 
                         var position = new float3(positionXZ.x, 0, positionXZ.y);
 
@@ -120,7 +124,7 @@
                     }
 
                     // var positions = tileIndices.ToList()
-                    FlowFieldWorldProvider?.CalculateLeadingTilePath(forWhichGroupId, forWhichLeaderEntity, changeToPosition, positions);
+                    FlowFieldWorldProvider?.CalculateLeadingTilePath(forWhichGroupId, tileIndex, atTileEntity, changeToPosition, positions);
                 }
             }
         }
@@ -150,8 +154,11 @@
                     UpdateEachChaseTarget(
                         gridCellCount, gridCellSize,
                         tileCellCount, tileCellSize,
-                        atTileChangeProperty.GroupId, atTileChangeProperty.ChangeToPosition,
-                        atTileChangeProperty.ForWhichLeader);
+                        atTileChangeProperty.GroupId,
+                        atTileChangeProperty.ChangeToPosition,
+                        atTileChangeProperty.ChangeToTileIndex,
+                        atTileChangeProperty.ChangeToTileCellIndex,
+                        atTileChangeProperty.AtTileEntity);
 
                     // Destroy the event so it won't be processed again
                     commandBuffer.DestroyEntity(entity);

@@ -133,6 +133,7 @@
         protected override void OnUpdate()
         {
             if (!_canUpdate) return;
+            // if (true) return;
 
             var gridWorldProperty = _gridWorldEntityQuery.GetSingleton<GameLevel.GridWorldProperty>();
 
@@ -180,7 +181,10 @@
                         var totalSizes = oneTileOffset;
 
                         var groupId = flowFieldTileProperty.GroupId;
-                        var group = assistFlowFieldWorldData.groups[groupId];
+                        var adjustedGroupId = (groupId >= assistFlowFieldWorldData.groups.Count)
+                            ? (assistFlowFieldWorldData.groups.Count - 1)
+                            : groupId;
+                        var group = assistFlowFieldWorldData.groups[adjustedGroupId];
                         var color = group.color;
 
                         commandBuilder.WireGrid(tilePos, Quaternion.identity, cells, totalSizes, color);

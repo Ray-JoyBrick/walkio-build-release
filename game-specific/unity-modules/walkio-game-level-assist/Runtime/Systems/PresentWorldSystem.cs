@@ -11,6 +11,8 @@ namespace JoyBrick.Walkio.Game.Level.Assist
     using UnityEngine;
     using UnityEngine.Rendering;
 
+    using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
+
     //
 #if WALKIO_LEVEL_ASSIST
     using GameLevelAssist = JoyBrick.Walkio.Game.Level.Assist;
@@ -33,8 +35,8 @@ namespace JoyBrick.Walkio.Game.Level.Assist
         private bool _canUpdate;
         private EntityQuery _gridWorldEntityQuery;
 
-#if WALKIO_FLOWCONTROL_SYSTEM
-        public GameCommon.IFlowControl FlowControl { get; set; }
+#if WALKIO_FLOWCONTROL
+        public GameFlowControl.IFlowControl FlowControl { get; set; }
 #endif
         // public IFlowFieldWorldProvider FlowFieldWorldProvider { get; set; }
 
@@ -44,13 +46,13 @@ namespace JoyBrick.Walkio.Game.Level.Assist
         {
             _logger.Debug($"PresentWorldSystem - Construct");
 
-#if WALKIO_FLOWCONTROL_SYSTEM
+#if WALKIO_FLOWCONTROL
             //
-            FlowControl.AllDoneSettingAsset
+            FlowControl?.FlowReadyToStart
                 .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"PresentWorldSystem - Construct - Receive AllDoneSettingAsset");
+                    _logger.Debug($"PresentWorldSystem - Construct - Receive FlowReadyToStart");
                     _canUpdate = true;
                 })
                 .AddTo(_compositeDisposable);
@@ -161,7 +163,8 @@ namespace JoyBrick.Walkio.Game.Level.Assist
 
         protected override void OnUpdate()
         {
-            //if (!_canUpdate) return;
+            // if (!_canUpdate) return;
+            // if (true) return;
 
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
             var concurrentCommandBuffer = commandBuffer.ToConcurrent();

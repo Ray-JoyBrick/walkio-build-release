@@ -61,7 +61,7 @@ namespace JoyBrick.Walkio.Game.Level
 #endif
 
         public IGridWorldProvider GridWorldProvider { get; set; }
-        
+
         public ILevelPropProvider LevelPropProvider { get; set; }
 
         //
@@ -87,7 +87,8 @@ namespace JoyBrick.Walkio.Game.Level
 
             _entityArchetype = EntityManager.CreateArchetype(
                 typeof(GridWorld),
-                typeof(GridWorldProperty));
+                typeof(GridWorldProperty),
+                typeof(GameFlowControl.StageUse));
 
             _gridMapBlobAssetConstructedEventEntityQuery = GetEntityQuery(new EntityQueryDesc
             {

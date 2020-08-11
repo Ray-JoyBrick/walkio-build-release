@@ -64,7 +64,7 @@
 
         public void SendExtensionEvent(string eventName)
         {
-            
+            GameExtension.BridgeExtension.SendEvent(eventName);
         }
 
     }

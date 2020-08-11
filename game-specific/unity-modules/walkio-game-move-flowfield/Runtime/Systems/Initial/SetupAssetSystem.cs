@@ -57,7 +57,8 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
 
             var archetype = EntityManager.CreateArchetype(
                 typeof(FlowFieldWorld),
-                typeof(FlowFieldWorldProperty));
+                typeof(FlowFieldWorldProperty),
+                typeof(GameFlowControl.StageUse));
 
             var entity = EntityManager.CreateEntity(archetype);
 
@@ -153,7 +154,8 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
 #if WALKIO_FLOWCONTROL
                     FlowControl?.FinishIndividualSettingAsset(new GameFlowControl.FlowControlContext
                     {
-                        Name = "Stage"
+                        Name = "Stage",
+                        Description = "Module - Move - FlowField - SetupAssetSystem"
                     });
 #endif
                 })

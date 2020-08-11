@@ -1,0 +1,26 @@
+{
+    "name": "Walkio.Game.Physics.Extension",
+    "references": [
+        "Unity.Entities",
+        "Unity.Entities.Hybrid",
+        "Unity.Mathematics",
+        "Unity.Transforms",
+        "Unity.Transforms.Hybrid",
+        "Unity.Physics",
+        "Unity.Physics.Hybrid",
+        "Unity.Rendering.Hybrid",
+        "UniRx",
+        "Walkio.Game.Common",
+        "Walkio.Game.Flow-Control.Common",
+        "Unity.Collections"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

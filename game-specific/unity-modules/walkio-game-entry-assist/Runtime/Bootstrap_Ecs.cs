@@ -25,7 +25,7 @@
             HudStageAssist_PrepareAssetSystem(initializationSystemGroup);
             HudStageAssist_SetupAssetSystem(initializationSystemGroup);
 
-            CreatureAssist_TimedSpawnTeamUnitSystem(initializationSystemGroup);
+            // CreatureAssist_TimedSpawnTeamUnitSystem(initializationSystemGroup);
 
             //
             MoveFlowField_RemoveTemporaryPointIndicationSystem(initializationSystemGroup);

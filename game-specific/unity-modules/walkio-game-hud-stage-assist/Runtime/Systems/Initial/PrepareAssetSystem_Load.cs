@@ -116,14 +116,14 @@
         //
         private void RegisterToLoadFlow()
         {
-            _logger.Debug($"Module - Hud App - PrepareAssetSystem - RegisterToLoadFlow");
+            _logger.Debug($"Module Assist - Hud Stage - PrepareAssetSystem - RegisterToLoadFlow");
 
 #if WALKIO_FLOWCONTROL
             FlowControl?.AssetLoadingStarted
                 .Where(x => x.Name.Contains(AtPart))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"Module - Hud Stage - PrepareAssetSystem - RegisterToLoadFlow - Receive AssetLoadingStarted");
+                    _logger.Debug($"Module Assist - Hud Stage - PrepareAssetSystem - RegisterToLoadFlow - Receive AssetLoadingStarted");
                     // var hudAssetName = x.HudAssetName;
                     var hudAssetName = $"Hud - Stage Assist/Hud Data";
                     LoadingAsset(hudAssetName);

@@ -67,19 +67,29 @@
             }
         }
 
-        // private void SetupAStarPathfinder(Scene scene, TextAsset textAsset)
-        // {
-        //     _logger.Debug($"LoadAssetSystem - SetupAStarPathfinder - {scene.name}, {textAsset.bytes.Length}");
-        //
-        //     AstarPath.active.data.DeserializeGraphs(textAsset.bytes);
-        // }
+        private void SetupAStarPathfinder(Scene scene, TextAsset textAsset)
+        {
+            _logger.Debug($"Module - Level - LoadAssetSystem - SetupAStarPathfinder - {scene.name}, {textAsset.bytes.Length}");
+
+            // Should be able to perform this static call
+            AstarPath.active.data.DeserializeGraphs(textAsset.bytes);
+        }
 
         private void MakeWorld(ScriptableObject levelSettingDataAsset, SceneInstance sceneInstance)
         {
+            //
+            LevelPropProvider.LevelAtScene = sceneInstance.Scene;
+
             // For Unity scene specific
             var sceneCamera = GameCommon.Utility.SceneHelper.GetComponentAtScene<Camera>(sceneInstance.Scene);
             LevelPropProvider.LevelCamera = sceneCamera;
-            
+
+            // Currently only one in the scene, but there might be several others later for the cut scene use?
+            var mainPlayerVirtualCamera =
+                // GameCommon.Utility.SceneHelper.GetComponentAtScene<Cinemachine.CinemachineVirtualCamera>(sceneInstance.Scene);
+                GameCommon.Utility.SceneHelper.GetComponentAtScene<PlayerNormalMoveUseCamera>(sceneInstance.Scene);
+            LevelPropProvider.MainPlayerVirtualCamera = mainPlayerVirtualCamera.gameObject;
+
             // For game scene rule
             var gridWorldEntity = EntityManager.CreateEntity(_entityArchetype);
 
@@ -107,6 +117,8 @@
                     prefab,
                     lookupTable, LevelData.subLevelImages,
                     gridWorldTileCount, gridWorldTileCellCount, gridWorldCellSize);
+
+                SetupAStarPathfinder(sceneInstance.Scene, LevelData.astarGraph);
             }
 
             // var fakeTextAsset = new TextAsset();

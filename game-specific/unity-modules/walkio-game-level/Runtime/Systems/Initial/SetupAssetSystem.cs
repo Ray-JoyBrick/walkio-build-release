@@ -4,6 +4,7 @@ namespace JoyBrick.Walkio.Game.Level
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Cinemachine;
     using UniRx;
     using Unity.Entities;
     using Unity.Mathematics;
@@ -34,6 +35,7 @@ namespace JoyBrick.Walkio.Game.Level
 #if WALKIO_FLOWCONTROL
         public GameFlowControl.IFlowControl FlowControl { get; set; }
 #endif
+        public ILevelPropProvider LevelPropProvider { get; set; }
 
         private void SpawnTeamLeaderNpc(
             Template.LevelData levelData,
@@ -43,11 +45,68 @@ namespace JoyBrick.Walkio.Game.Level
             // creatureProvider.
             for (var i = 0; i < teamLeaderNpcCount; ++i)
             {
-                var index = levelData.teamLeaderNpcSpawnLocations[i];
+                var location = levelData.teamLeaderNpcSpawnLocations[i];
 
-                var location = new Vector3(index.x + 0.5f, 0, index.y + 0.5f);
+                var adjustedLocation = new Vector3(location.x + 0.5f, 0, location.y + 0.5f);
 
-                creatureProvider.CreateTeamLeaderNpcAt(location);
+                creatureProvider.CreateTeamLeaderNpcAt(adjustedLocation);
+            }
+        }
+
+        private void SpawnTeamLeaderPlayer(
+            Template.LevelData levelData,
+            GameCreature.ICreatureProvider creatureProvider)
+        {
+            // Suppose there is only one for now
+
+            var randomIndex = UnityEngine.Random.Range(0, levelData.teamLeaderPlayerSpawnLocations.Count);
+            var location = levelData.teamLeaderPlayerSpawnLocations[randomIndex];
+
+            var adjustedLocation = new Vector3(location.x + 0.5f, 0, location.y + 0.5f);
+
+            creatureProvider.CreateTeamLeaderPlayerAt(adjustedLocation);
+        }
+
+        private void SetupPlayerFollowingCamera(
+            ILevelPropProvider levelPropProvider,
+            GameCreature.ICreatureProvider creatureProvider)
+        {
+            var player = creatureProvider.GetCurrentPlayer();
+            levelPropProvider.SetupFollowingCamera(player);
+        }
+
+        private void SetupPlayerFollowingVirtualCamera(
+            ILevelPropProvider levelPropProvider,
+            GameCreature.ICreatureProvider creatureProvider)
+        {
+            if (levelPropProvider.MainPlayerVirtualCamera != null)
+            {
+                var mainPlayerVirtualCamera = levelPropProvider.MainPlayerVirtualCamera.GetComponent<CinemachineVirtualCamera>();
+
+                if (mainPlayerVirtualCamera != null)
+                {
+                    var player = creatureProvider.GetCurrentPlayer();
+
+                    if (player != null)
+                    {
+                        mainPlayerVirtualCamera.Follow = player.transform;
+                        mainPlayerVirtualCamera.LookAt = player.transform;
+                    }
+                    else
+                    {
+                        _logger.Error($"Module - Level - SetupAssetSystem - SetupPlayerFollowingVirtualCamera - player is null");
+                    }
+                }
+                else
+                {
+                    _logger.Error($"Module - Level - SetupAssetSystem - SetupPlayerFollowingVirtualCamera - mainPlayerVirtualCamera is null");
+
+                }
+            }
+            else
+            {
+                _logger.Error($"Module - Level - SetupAssetSystem - SetupPlayerFollowingVirtualCamera - levelPropProvider.MainPlayerVirtualCamera is null");
+
             }
         }
 
@@ -56,9 +115,15 @@ namespace JoyBrick.Walkio.Game.Level
             _logger.Debug($"Module - Level - SetupAssetSystem - Setup");
             var prepareAssetSsytem = World.GetExistingSystem<PrepareAssetSystem>();
 
-            //
+            // Spawn first
             SpawnTeamLeaderNpc(prepareAssetSsytem.LevelData, CreatureProvider);
+            SpawnTeamLeaderPlayer(prepareAssetSsytem.LevelData, CreatureProvider);
 
+            // Assign the value to camera, etc.
+            SetupPlayerFollowingCamera(LevelPropProvider, CreatureProvider);
+            SetupPlayerFollowingVirtualCamera(LevelPropProvider, CreatureProvider);
+
+            await Task.Delay(System.TimeSpan.FromMilliseconds(2000));
         }
 
         private void SettingAsset()
@@ -69,12 +134,11 @@ namespace JoyBrick.Walkio.Game.Level
                 .SubscribeOnMainThread()
                 .Subscribe(result =>
                 {
-                    // _canSetup = false;
-
 #if WALKIO_FLOWCONTROL
                     FlowControl?.FinishIndividualSettingAsset(new GameFlowControl.FlowControlContext
                     {
-                        Name = "Stage"
+                        Name = "Stage",
+                        Description = "Module - Level - SetupAssetSystem"
                     });
 #endif
                 })
@@ -92,10 +156,6 @@ namespace JoyBrick.Walkio.Game.Level
                 .Subscribe(x =>
                 {
                     _logger.Debug($"Module - Level - SetupAssetSystem - Construct - Receive SettingAsset");
-
-                    // _canSetup = true;
-                    // _doingSetup = true;
-
 
                     // At this time, creature data should be loaded, can create on-level creature
                     SettingAsset();

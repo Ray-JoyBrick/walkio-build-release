@@ -11,7 +11,8 @@
         "Unity.Mathematics",
         "UniRx",
         "AstarPathfindingProject",
-        "PackageTools"
+        "PackageTools",
+        "Walkio.Game.Flow-Control.Common"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -2,7 +2,7 @@
 {
     using UniRx;
     using UnityEngine;
-    
+
     //
     public class MinionData
     {
@@ -13,17 +13,20 @@
     public interface ICreatureProvider
     {
         void AddTeamLeaderNpcPrefab(GameObject prefab);
+        void AddTeamLeaderPlayerPrefab(GameObject prefab);
 
         void AddTeamMinionPrefab(GameObject prefab);
         void AddTeamMinionData(MinionData minionData);
 
         void CreateTeamLeaderNpcAt(Vector3 location);
         void CreateTeamLeaderPlayerAt(Vector3 location);
-        
+
         //
         GameObject GetTeamMinionPrefab(int index);
         int GetMinionDataCount { get; }
         MinionData GetMinionDataByIndex(int index);
-        
+
+        //
+        GameObject GetCurrentPlayer();
     }
 }

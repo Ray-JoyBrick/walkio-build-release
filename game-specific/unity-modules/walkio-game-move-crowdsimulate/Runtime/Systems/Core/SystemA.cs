@@ -7,6 +7,7 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
     using Unity.Entities;
     using Unity.Mathematics;
     using Unity.Physics;
+    using Unity.Physics.Systems;
     using Unity.Transforms;
 
     using GameMove = JoyBrick.Walkio.Game.Move;
@@ -17,6 +18,7 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
 #endif
 
     [DisableAutoCreation]
+    [UpdateAfter(typeof(StepPhysicsWorld))]
     public class SystemA : SystemBase
     {
         private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(SystemA));
@@ -76,11 +78,11 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
                     physicsVelocity.Linear = moveByForce.Direction * moveByForce.Force;
 
                     var adjustedDirection = moveByForce.Direction;
-                    if (moveByForce.Direction.x == 0 && moveByForce.Direction.y == 0 && moveByForce.Direction.z == 0)
-                    {
-                        adjustedDirection = new float3(1.0f, 0, 0);
-                    }
-                    
+                    // if (moveByForce.Direction.x == 0 && moveByForce.Direction.y == 0 && moveByForce.Direction.z == 0)
+                    // {
+                    //     adjustedDirection = new float3(1.0f, 0, 0);
+                    // }
+
                     var smoothedRotation = math.slerp(
                         rotation.Value,
                         quaternion.LookRotationSafe(adjustedDirection, math.up()), 1f - math.exp(-deltaTime));

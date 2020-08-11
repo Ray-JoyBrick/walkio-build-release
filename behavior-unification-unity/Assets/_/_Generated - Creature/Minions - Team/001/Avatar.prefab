@@ -17,6 +17,8 @@ GameObject:
   - component: {fileID: 5757798662699686182}
   - component: {fileID: 5757798662699686203}
   - component: {fileID: 5757798662699686180}
+  - component: {fileID: 3401803665341531115}
+  - component: {fileID: 2565358970555752329}
   m_Layer: 0
   m_Name: Avatar
   m_TagString: Untagged
@@ -172,7 +174,7 @@ MonoBehaviour:
     m_Template: {fileID: 0}
     m_CollisionResponse:
       m_Override: 0
-      m_Value: 0
+      m_Value: 3
     m_Friction:
       m_Override: 0
       m_Value:
@@ -187,9 +189,9 @@ MonoBehaviour:
       m_Override: 0
       m_Value:
         Category00: 0
-        Category01: 0
-        Category02: 0
-        Category03: 0
+        Category01: 1
+        Category02: 1
+        Category03: 1
         Category04: 0
         Category05: 0
         Category06: 0
@@ -221,9 +223,9 @@ MonoBehaviour:
     m_CollidesWithCategories:
       m_Override: 0
       m_Value:
-        Category00: 0
+        Category00: 1
         Category01: 0
-        Category02: 0
+        Category02: 1
         Category03: 0
         Category04: 0
         Category05: 0
@@ -331,3 +333,38 @@ MonoBehaviour:
     Tag05: 0
     Tag06: 0
     Tag07: 0
+--- !u!114 &3401803665341531115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5757798662699686178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9457d04025dadec4b85ae39dad2e1822, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConnectedBody: {fileID: 0}
+  EnableCollision: 0
+  LockLinearAxes:
+    x: 0
+    y: 1
+    z: 0
+  LockAngularAxes:
+    x: 1
+    y: 0
+    z: 1
+--- !u!114 &2565358970555752329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5757798662699686178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ece1e60b41344d41be90a86fabd0133b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isAbsorber: 1

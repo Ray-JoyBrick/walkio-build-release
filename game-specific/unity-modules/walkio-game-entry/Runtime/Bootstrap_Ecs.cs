@@ -4,7 +4,7 @@
 
     //
     using GameCommon = JoyBrick.Walkio.Game.Common;
-    
+
     public partial class Bootstrap :
         GameCommon.IEcsSettingProvider
     {
@@ -36,6 +36,10 @@
             //
             FlowControl_LoadingDoneCheckSystem(initializationSystemGroup);
             FlowControl_SettingDoneCheckSystem(initializationSystemGroup);
+            FlowControl_CleanupSystem(initializationSystemGroup);
+
+            FlowControl_CleanupStageUseEntitySystem(initializationSystemGroup);
+            PhysicsExtension_CleanupPhysicsConstrainedPairSystem(initializationSystemGroup);
 
             //
             FlowControl_PrepareAssetSystem(initializationSystemGroup);
@@ -59,6 +63,7 @@
 
             //
             Level_CheckTeamForceCountSystem(initializationSystemGroup);
+            Level_SystemP01(initializationSystemGroup);
 
             //
             MoveCrowdSimulate_PrepareAssetSystem(initializationSystemGroup);
@@ -86,13 +91,16 @@
             MoveFlowField_SystemM02_2(initializationSystemGroup);
             MoveFlowField_SystemM03(initializationSystemGroup);
             MoveFlowField_SystemM08(initializationSystemGroup);
-            MoveFlowField_SystemM09(initializationSystemGroup);
 
-            // MoveCrowdSimulate_SystemA(initializationSystemGroup);
+            Level_SystemN01(simulationSystemGroup);
 
-            MoveCrowdSimulate_SystemC01(simulationSystemGroup);
-            MoveCrowdSimulate_SystemC02(simulationSystemGroup);
-            MoveCrowdSimulate_SystemC03(simulationSystemGroup);
+            MoveFlowField_SystemM09(simulationSystemGroup);
+
+            MoveCrowdSimulate_SystemA(simulationSystemGroup);
+
+            // MoveCrowdSimulate_SystemC01(simulationSystemGroup);
+            // MoveCrowdSimulate_SystemC02(simulationSystemGroup);
+            // MoveCrowdSimulate_SystemC03(simulationSystemGroup);
 
             //
             Creature_PresentUnitIndicationSystem(presentationSystemGroup);

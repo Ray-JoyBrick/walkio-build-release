@@ -958,6 +958,34 @@
             "isEnabled": true,
             "collapsed": false,
             "itemGUID": "b417901b-1944-4982-af70-0533f0d4e265"
+        },
+        {
+            "searchString": "Path Completed : Computation Time",
+            "searchType": "Fuzzy",
+            "removeSearchStringFromLog": false,
+            "logTypeList": [
+                {
+                    "logType": "Log",
+                    "name": "Untitled",
+                    "isEnabled": true,
+                    "collapsed": false,
+                    "itemGUID": "1e6fd60f-b86f-4c5a-b31d-200f1187c81f"
+                }
+            ],
+            "columnTypeList": [
+                {
+                    "columnType": "Log",
+                    "name": "Untitled",
+                    "isEnabled": true,
+                    "collapsed": false,
+                    "itemGUID": "b65ec571-2972-4a75-b934-413f8a4236d2"
+                }
+            ],
+            "sourceCodeList": [],
+            "name": "Untitled",
+            "isEnabled": true,
+            "collapsed": false,
+            "itemGUID": "60ba2f30-490b-4dfb-a3dc-62589227c160"
         }
     ],
     "sharedFilters": [
@@ -1782,6 +1810,143 @@
             "isEnabled": true,
             "collapsed": true,
             "itemGUID": "56628a7d-8d17-4553-8f00-333b6ba5a3ac"
+        },
+        {
+            "filterName": "Bootstrap - CalculateLeadingTilePath",
+            "mainColor": {
+                "r": 1.0,
+                "g": 0.703886866569519,
+                "b": 0.0,
+                "a": 1.0
+            },
+            "isStandardFilter": false,
+            "isTempFilter": false,
+            "filterOnly": false,
+            "useAdvancedColors": false,
+            "customTextColor": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+            },
+            "customBackgroundColor": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+            },
+            "swallowStandard": true,
+            "standardCanSwallow": false,
+            "overrideStandardColors": true,
+            "overrideStandardIcon": true,
+            "collapseIconBackground": false,
+            "collapseIconSymbol": false,
+            "collapseIconLetter": false,
+            "collapseIconTexture": false,
+            "useIconBackground": true,
+            "useIconSymbol": false,
+            "useIconLetter": true,
+            "useIconTexture": false,
+            "filterFormatVersion": -1,
+            "iconColorize": false,
+            "useAndOpForSearchList": false,
+            "searchList": [
+                {
+                    "searchString": "Bootstrap - CalculateLeadingTilePath",
+                    "searchType": "Fuzzy",
+                    "removeSearchStringFromLog": false,
+                    "logTypeList": [
+                        {
+                            "logType": "Warning",
+                            "name": null,
+                            "isEnabled": true,
+                            "collapsed": false,
+                            "itemGUID": "b83a82fb-a44d-4b1b-b181-03314ee79389"
+                        }
+                    ],
+                    "columnTypeList": [
+                        {
+                            "columnType": "Log",
+                            "name": null,
+                            "isEnabled": true,
+                            "collapsed": false,
+                            "itemGUID": "ba4f56b9-4782-4607-aa05-9fdd4f51aece"
+                        }
+                    ],
+                    "sourceCodeList": [],
+                    "name": null,
+                    "isEnabled": true,
+                    "collapsed": false,
+                    "itemGUID": "1b29f669-aba5-4a8c-8154-b2bf81ec5c5c"
+                }
+            ],
+            "iconLetter": {
+                "iconType": "Text",
+                "iconType2": "None",
+                "iconText": "A",
+                "useIconTextFirstLetter": true,
+                "useIconLogColor": false,
+                "iconColor": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 1.0
+                },
+                "iconBuiltInID": "BACKGROUNDS_ECPBGROUNDEDSQUARE",
+                "iconTextureGUID": "",
+                "useIconShadow": true,
+                "iconOffset": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "iconShadowOffset": {
+                    "x": 0.5,
+                    "y": 0.5
+                },
+                "iconSize": 13.0,
+                "name": null,
+                "isEnabled": true,
+                "collapsed": false,
+                "itemGUID": null
+            },
+            "iconSymbol": null,
+            "iconBackground": {
+                "iconType": "Background",
+                "iconType2": "None",
+                "iconText": "A",
+                "useIconTextFirstLetter": true,
+                "useIconLogColor": true,
+                "iconColor": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 1.0
+                },
+                "iconBuiltInID": "BACKGROUNDS_ECPBGROUNDEDSQUARE",
+                "iconTextureGUID": "",
+                "useIconShadow": true,
+                "iconOffset": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "iconShadowOffset": {
+                    "x": 0.5,
+                    "y": 0.5
+                },
+                "iconSize": 13.0,
+                "name": null,
+                "isEnabled": true,
+                "collapsed": false,
+                "itemGUID": null
+            },
+            "iconTexture": null,
+            "showInToolbar": true,
+            "hideLabelInToolbar": false,
+            "hideWhenNoMatches": false,
+            "name": "Bootstrap - CalculateLeadingTilePath",
+            "isEnabled": true,
+            "collapsed": false,
+            "itemGUID": "a2b93bf3-2dc8-4b4c-8597-9923d004a783"
         }
     ]
 }

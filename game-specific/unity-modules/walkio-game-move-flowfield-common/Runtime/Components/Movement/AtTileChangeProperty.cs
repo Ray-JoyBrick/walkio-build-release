@@ -9,7 +9,10 @@
         public int GroupId;
         public float3 ChangeToPosition;
         public int2 ChangeToTileIndex;
+        public int2 ChangeToTileCellIndex;
 
-        public Entity ForWhichLeader;
+        public Entity AtTileEntity;
+
+        // public Entity ForWhichLeader;
     }
 }

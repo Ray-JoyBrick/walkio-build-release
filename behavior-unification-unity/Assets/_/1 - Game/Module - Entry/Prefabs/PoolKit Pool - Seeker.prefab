@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6604883411221456523}
   - component: {fileID: 5362620717744592908}
   m_Layer: 0
-  m_Name: PoolKit Pool
+  m_Name: PoolKit Pool - Seeker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53,7 +53,7 @@ MonoBehaviour:
   - prefabToPool: {fileID: 8536187937352006067, guid: 867315233362b8e4491ed24c8d6ee999,
       type: 3}
     poolSizeOptions: 0
-    poolSize: 10
+    poolSize: 30
     limitPoolSize: 100
     keepOrganized: 1
     recycleSpawnedObjects: 0
