@@ -27,14 +27,34 @@
                 addToCountAttributes
                     .Where(x => String.Compare(x.Attributes.First().FlowName, "App", StringComparison.Ordinal) == 0)
                     .ToList();
+            var appAssistAttributes =
+                addToCountAttributes
+                    .Where(x => 
+                        String.Compare(x.Attributes.First().FlowName, "App", StringComparison.Ordinal) == 0
+                        && String.Compare(x.Attributes.First().Category, "Assist", StringComparison.Ordinal) == 0)
+                    .ToList();
+            
             var preparationAttributes =
                 addToCountAttributes
                     .Where(x =>
                         String.Compare(x.Attributes.First().FlowName, "Preparation", StringComparison.Ordinal) == 0)
                     .ToList();
+            var preparationAssistAttributes =
+                addToCountAttributes
+                    .Where(x =>
+                        String.Compare(x.Attributes.First().FlowName, "Preparation", StringComparison.Ordinal) == 0
+                        && String.Compare(x.Attributes.First().Category, "Assist", StringComparison.Ordinal) == 0)
+                    .ToList();
+
             var stageAttributes =
                 addToCountAttributes
                     .Where(x => String.Compare(x.Attributes.First().FlowName, "Stage", StringComparison.Ordinal) == 0)
+                    .ToList();
+            var stageAssistAttributes =
+                addToCountAttributes
+                    .Where(x =>
+                        String.Compare(x.Attributes.First().FlowName, "Stage", StringComparison.Ordinal) == 0
+                        && String.Compare(x.Attributes.First().Category, "Assist", StringComparison.Ordinal) == 0)
                     .ToList();
 
             var flowControlData = AssetDatabase.LoadAssetAtPath<Template.FlowControlData>(
@@ -45,6 +65,10 @@
                 flowControlData.doneLoadingAssetWaitForApp = appAttributes.Count;
                 flowControlData.doneLoadingAssetWaitForPreparation = preparationAttributes.Count;
                 flowControlData.doneLoadingAssetWaitForStage = stageAttributes.Count;
+
+                flowControlData.doneLoadingAssetWaitForAppAssist = appAssistAttributes.Count;
+                flowControlData.doneLoadingAssetWaitForPreparationAssist = preparationAssistAttributes.Count;
+                flowControlData.doneLoadingAssetWaitForStageAssist = stageAssistAttributes.Count;
 
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
@@ -70,14 +94,34 @@
                 addToCountAttributes
                     .Where(x => String.Compare(x.Attributes.First().FlowName, "App", StringComparison.Ordinal) == 0)
                     .ToList();
+            var appAssistAttributes =
+                addToCountAttributes
+                    .Where(x =>
+                        String.Compare(x.Attributes.First().FlowName, "App", StringComparison.Ordinal) == 0
+                        && String.Compare(x.Attributes.First().Category, "Assist", StringComparison.Ordinal) == 0)
+                    .ToList();
+
             var preparationAttributes =
                 addToCountAttributes
                     .Where(x =>
                         String.Compare(x.Attributes.First().FlowName, "Preparation", StringComparison.Ordinal) == 0)
                     .ToList();
+            var preparationAssistAttributes =
+                addToCountAttributes
+                    .Where(x =>
+                        String.Compare(x.Attributes.First().FlowName, "Preparation", StringComparison.Ordinal) == 0
+                        && String.Compare(x.Attributes.First().Category, "Assist", StringComparison.Ordinal) == 0)
+                    .ToList();
+
             var stageAttributes =
                 addToCountAttributes
                     .Where(x => String.Compare(x.Attributes.First().FlowName, "Stage", StringComparison.Ordinal) == 0)
+                    .ToList();
+            var stageAssistAttributes =
+                addToCountAttributes
+                    .Where(x =>
+                        String.Compare(x.Attributes.First().FlowName, "Stage", StringComparison.Ordinal) == 0
+                        && String.Compare(x.Attributes.First().Category, "Assist", StringComparison.Ordinal) == 0)
                     .ToList();
 
             var flowControlData = AssetDatabase.LoadAssetAtPath<Template.FlowControlData>(
@@ -88,6 +132,10 @@
                 flowControlData.doneSettingAssetWaitForApp = appAttributes.Count;
                 flowControlData.doneSettingAssetWaitForPreparation = preparationAttributes.Count;
                 flowControlData.doneSettingAssetWaitForStage = stageAttributes.Count;
+
+                flowControlData.doneSettingAssetWaitForAppAssist = appAssistAttributes.Count;
+                flowControlData.doneSettingAssetWaitForPreparationAssist = preparationAssistAttributes.Count;
+                flowControlData.doneSettingAssetWaitForStageAssist = stageAssistAttributes.Count;
 
                 stageAttributes.ForEach(x =>
                 {

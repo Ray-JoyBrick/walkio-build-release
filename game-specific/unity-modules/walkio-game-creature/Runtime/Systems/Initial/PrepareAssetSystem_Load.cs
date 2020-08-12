@@ -22,7 +22,6 @@
 #endif
 
     public partial class PrepareAssetSystem
-        // GameCommon.ISystemContext
     {
         //
         public bool ProvideExternalAsset { get; set; }
@@ -122,7 +121,7 @@
                 .Where(x => x.Name.Contains(AtPart))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"Module - Creature - LoadAssetSystem - Construct - Receive AssetLoadingStarted");
+                    _logger.Debug($"Module - Creature - PrepareAssetSystem - RegisterToLoadFlow - Receive AssetLoadingStarted");
 
                     // Hard code here, should be given in event
                     // var levelAssetName = $"Level Setting.asset";

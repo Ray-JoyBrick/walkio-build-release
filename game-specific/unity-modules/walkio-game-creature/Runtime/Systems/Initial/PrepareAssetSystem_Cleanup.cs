@@ -21,9 +21,7 @@
     using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
 #endif
 
-    public partial class PrepareAssetSystem :
-        SystemBase
-        // GameCommon.ISystemContext
+    public partial class PrepareAssetSystem
     {
         private async Task Unload()
         {
@@ -50,7 +48,7 @@
 #if WALKIO_FLOWCONTROL
                 FlowControl.FinishIndividualUnloadingAsset(new GameFlowControl.FlowControlContext
                 {
-                    Name = "Stage"
+                    Name = AtPart
                 });
 #endif
             }
@@ -62,7 +60,7 @@
 #if WALKIO_FLOWCONTROL
                         FlowControl.FinishIndividualUnloadingAsset(new GameFlowControl.FlowControlContext
                         {
-                            Name = "Stage"
+                            Name = AtPart
                         });
 #endif
                     });
@@ -80,7 +78,7 @@
                 .Where(x => x.Name.Contains(AtPart))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"Module - Creature - LoadAssetSystem - Construct - Receive AssetUnloadingStarted");
+                    _logger.Debug($"Module - Creature - PrepareAssetSystem - RegisterToCleanupFlow - Receive AssetUnloadingStarted");
 
                     UnloadingAsset();
                 })

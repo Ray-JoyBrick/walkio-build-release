@@ -34,9 +34,26 @@ namespace JoyBrick.Walkio.Game.FlowControl
             // The main purpose is to count loading finished event of each individual asset,
             // If it reaches the total, just issues Start Asset Setting
 
+            var doneLoadingAssetWaitForAppAll = flowControlData.doneLoadingAssetWaitForApp;
+            var doneLoadingAssetWaitForAppExcludeAssist =
+                doneLoadingAssetWaitForAppAll - flowControlData.doneLoadingAssetWaitForAppAssist;
+
+            var doneLoadingAssetWaitForPreparationAll = flowControlData.doneLoadingAssetWaitForPreparation;
+            var doneLoadingAssetWaitForPreparationExcludeAssist =
+                doneLoadingAssetWaitForPreparationAll - flowControlData.doneLoadingAssetWaitForPreparationAssist;
+
+            var doneLoadingAssetWaitForStageAll = flowControlData.doneLoadingAssetWaitForStage;
+            var doneLoadingAssetWaitForStageExcludeAssist =
+                doneLoadingAssetWaitForStageAll - flowControlData.doneLoadingAssetWaitForStageAssist;
+
+            // Use flags to decide which to use
+            var doneLoadingAssetWaitForApp = doneLoadingAssetWaitForAppAll;
+            var doneLoadingAssetWaitForPreparation = doneLoadingAssetWaitForPreparationAll;
+            var doneLoadingAssetWaitForStage = doneLoadingAssetWaitForStageAll;
+            
             FlowControl?.IndividualAssetLoadingFinished
                 .Where(x => x.Name.Contains("App"))
-                .Buffer(flowControlData.doneLoadingAssetWaitForApp)
+                .Buffer(doneLoadingAssetWaitForApp)
                 .Subscribe(x =>
                 {
                     _logger.Debug($"Module - LoadingDoneCheckSystem - Construct - IndividualAssetLoadingFinished for App");
@@ -50,7 +67,7 @@ namespace JoyBrick.Walkio.Game.FlowControl
 
             FlowControl?.IndividualAssetLoadingFinished
                 .Where(x => x.Name.Contains("Preparation"))
-                .Buffer(flowControlData.doneLoadingAssetWaitForPreparation)
+                .Buffer(doneLoadingAssetWaitForPreparation)
                 .Subscribe(x =>
                 {
                     _logger.Debug($"Module - LoadingDoneCheckSystem - Construct - IndividualAssetLoadingFinished for Preparation");
@@ -66,7 +83,7 @@ namespace JoyBrick.Walkio.Game.FlowControl
             FlowControl?.IndividualAssetLoadingFinished
                 .Where(x => x.Name.Contains("Stage"))
                 // Should be loading from some settings
-                .Buffer(flowControlData.doneLoadingAssetWaitForStage)
+                .Buffer(doneLoadingAssetWaitForStage)
                 // .Buffer(2)
                 .Subscribe(x =>
                 {

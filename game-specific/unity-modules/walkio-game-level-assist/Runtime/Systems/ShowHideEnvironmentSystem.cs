@@ -82,7 +82,7 @@ namespace JoyBrick.Walkio.Game.Level.Assist
             if (!_canUpdate) return;
             
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
-            var concurrentCommandBuffer = commandBuffer.ToConcurrent();
+            var concurrentCommandBuffer = commandBuffer.AsParallelWriter();
 
             // using (var reactToShowHideEntities = _entityQuery.ToEntityArray(Allocator.TempJob))
             // All converted game objects have SceneTag component attached. Use this info to process

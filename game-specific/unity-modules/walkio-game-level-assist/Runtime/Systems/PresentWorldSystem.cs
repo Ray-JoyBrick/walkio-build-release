@@ -167,7 +167,7 @@ namespace JoyBrick.Walkio.Game.Level.Assist
             // if (true) return;
 
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
-            var concurrentCommandBuffer = commandBuffer.ToConcurrent();
+            var concurrentCommandBuffer = commandBuffer.AsParallelWriter();
 
             // var flowFieldWorldProperty =
             //     EntityManager.GetComponentData<GameMove.FlowField.Common.FlowFieldWorldProperty>(

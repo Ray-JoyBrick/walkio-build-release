@@ -87,7 +87,7 @@
                 .Where(x => x.Name.Contains(AtPart))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"Module - Level - LoadAssetSystem - Construct - Receive AssetUnloadingStarted");
+                    _logger.Debug($"Module - Level - PrepareAssetSystem - RegisterToCleanupFlow - Receive AssetUnloadingStarted");
 
                     UnloadingAsset();
                 })

@@ -18,7 +18,8 @@
         "Walkio.Game.Common",
         "Walkio.Game.Creature.Common",
         "Walkio.Game.Flow-Control.Common",
-        "Walkio.Game.Level.Common"
+        "Walkio.Game.Level.Common",
+        "Walkio.Game.Ranking.Common"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

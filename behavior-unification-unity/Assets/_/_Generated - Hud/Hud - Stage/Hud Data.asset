@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9151b74c205b42c08596c908d548cc9c, type: 3}
   m_Name: Hud Data
   m_EditorClassIdentifier: 
-  canvasPrefab: {fileID: 3275169817967740760, guid: b5dadbaecd20f4632bc3474475515e51, type: 3}
+  canvasPrefabs:
+  - {fileID: 3275169817967740760, guid: b5dadbaecd20f4632bc3474475515e51, type: 3}
   usedPrefabs:
   - {fileID: 1391986197783793323, guid: 769767bd779f44493973b412fe3d06b7, type: 3}
   - {fileID: 7524395700769348598, guid: 3b8090ec3839f496d9c35545aa3779be, type: 3}

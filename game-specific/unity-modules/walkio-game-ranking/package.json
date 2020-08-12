@@ -1,0 +1,19 @@
+{
+  "name": "com.walkio.game.ranking",
+  "displayName": "_ Walkio Game Ranking",
+  "version": "0.1.0",
+  "unity": "2020.1",
+  "unityRelease": "0b15",
+  "description": "Walkio Game Ranking",
+  "keywords": [
+    "walkio"
+  ],
+  "category": "",
+  "dependencies": {
+  },
+  "author": {
+    "email": "ray@joybrick.cc",
+    "name": "Ray Wang",
+    "url": "https://joybrick.cc"
+  }
+}

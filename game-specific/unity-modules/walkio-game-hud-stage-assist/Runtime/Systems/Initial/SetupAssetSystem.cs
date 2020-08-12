@@ -18,7 +18,7 @@ namespace JoyBrick.Walkio.Game.Hud.Stage.Assist
 
     //
 #if WALKIO_FLOWCONTROL && WALKIO_HUD_STAGE_ASSIST
-    [GameFlowControl.DoneSettingAssetWait("Stage")]
+    [GameFlowControl.DoneSettingAssetWait("Stage", "Assist")]
 #endif
     [DisableAutoCreation]
     public class SetupAssetSystem : SystemBase

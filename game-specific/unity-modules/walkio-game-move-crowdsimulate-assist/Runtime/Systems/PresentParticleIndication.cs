@@ -81,7 +81,7 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate.Assist
             if (!_canUpdate) return;
 
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
-            var concurrentCommandBuffer = commandBuffer.ToConcurrent();
+            var concurrentCommandBuffer = commandBuffer.AsParallelWriter();
 
             // var gridCellCount = new int2(256, 192);
             // var gridCellSize = new float2(1.0f, 1.0f);

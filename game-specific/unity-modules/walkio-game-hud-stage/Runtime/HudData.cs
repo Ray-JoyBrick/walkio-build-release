@@ -6,7 +6,7 @@ namespace JoyBrick.Walkio.Game.Hud.Stage
     [CreateAssetMenu(fileName = "Hud Data", menuName = "Walkio/Game/Hud - Stage/Hud Data")]
     public class HudData : ScriptableObject
     {
-        public GameObject canvasPrefab;
+        public List<GameObject> canvasPrefabs;
 
         public List<GameObject> usedPrefabs;
         public List<ScriptableObject> usedAssets;

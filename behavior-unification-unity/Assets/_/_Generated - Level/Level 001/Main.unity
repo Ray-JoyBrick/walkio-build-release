@@ -3323,7 +3323,7 @@ Transform:
   - {fileID: 89127104}
   - {fileID: 1103686822}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &455016885
 GameObject:
@@ -4332,7 +4332,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &578235377
 PrefabInstance:
@@ -6544,7 +6544,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &844549957
 GameObject:
@@ -7702,7 +7702,7 @@ Transform:
   - {fileID: 659475691}
   - {fileID: 1302075647}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1035535637
 PrefabInstance:
@@ -10124,7 +10124,7 @@ Transform:
   - {fileID: 731387962}
   - {fileID: 43050158}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1526283195
 GameObject:
@@ -11888,7 +11888,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1756079212
 MonoBehaviour:
@@ -12711,6 +12711,72 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1898783692}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1905619849
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1905619852}
+  - component: {fileID: 1905619851}
+  - component: {fileID: 1905619850}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1905619850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905619849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &1905619851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905619849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!4 &1905619852
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905619849}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1928568650
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13113,121 +13179,7 @@ Transform:
   - {fileID: 757774061}
   - {fileID: 375148537}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2009991133
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2009991136}
-  - component: {fileID: 2009991135}
-  - component: {fileID: 2009991134}
-  m_Layer: 0
-  m_Name: HUD Navigation System
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2009991134
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2009991133}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ad9065c0cb31a149b1d36606e6cc184, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Configurations: []
---- !u!114 &2009991135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2009991133}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb9ded4d92630cb40b12b700d24579ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isEnabled: 1
-  PlayerCamera: {fileID: 0}
-  PlayerController: {fileID: 0}
-  RotationReference: 0
-  UpdateMode: 1
-  KeepAliveOnLoad: 1
-  useRadar: 0
-  radarMode: 0
-  radarZoom: 1
-  radarRadius: 50
-  radarMaxRadius: 75
-  useRadarScaling: 1
-  radarScaleDistance: 10
-  radarMinScale: 0.35
-  useRadarFading: 1
-  radarFadeDistance: 5
-  radarMinFade: 0
-  useRadarHeightSystem: 1
-  radarDistanceAbove: 10
-  radarDistanceBelow: 10
-  showRadarHeightGizmos: 0
-  radarHeightGizmoSize: {x: 100, y: 100}
-  radarHeightGizmoColor: {r: 0, g: 0, b: 1, a: 0.4}
-  useCompassBar: 0
-  compassBarRadius: 150
-  useIndicators: 1
-  indicatorRadius: 25
-  indicatorHideDistance: 3
-  useOffscreenIndicators: 1
-  indicatorOffscreenBorder: 0.075
-  useIndicatorScaling: 1
-  indicatorScaleRadius: 15
-  indicatorMinScale: 0.8
-  useIndicatorFading: 1
-  indicatorFadeRadius: 15
-  indicatorMinFade: 0
-  useMinimap: 0
-  minimapProfile: {fileID: 0}
-  currentMinimapProfile: {fileID: 0}
-  minimapMode: 1
-  minimapScale: 0.25
-  minimapRadius: 75
-  useMinimapScaling: 1
-  minimapScaleDistance: 10
-  minimapMinScale: 0.35
-  useMinimapFading: 1
-  minimapFadeDistance: 5
-  minimapMinFade: 0
-  showMinimapBounds: 1
-  minimapBoundsGizmoColor: {r: 0, g: 1, b: 0, a: 0.85}
-  useMinimapHeightSystem: 1
-  minimapDistanceAbove: 10
-  minimapDistanceBelow: 10
-  showMinimapHeightGizmos: 0
-  minimapHeightGizmoSize: {x: 100, y: 100}
-  minimapHeightGizmoColor: {r: 0, g: 0, b: 1, a: 0.4}
-  NavigationElements: []
---- !u!4 &2009991136
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2009991133}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2047106354
 PrefabInstance:

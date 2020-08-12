@@ -6,10 +6,12 @@ namespace JoyBrick.Walkio.Game.FlowControl
     public class DoneLoadingAssetWaitAttribute : Attribute
     {
         public string FlowName { get; set; }
+        public string Category { get; set; }
 
-        public DoneLoadingAssetWaitAttribute(string flowName)
+        public DoneLoadingAssetWaitAttribute(string flowName, string category = "")
         {
             FlowName = flowName;
+            Category = category;
         }
     }
 }

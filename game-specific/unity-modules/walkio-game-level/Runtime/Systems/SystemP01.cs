@@ -83,13 +83,25 @@
             if (!_canUpdate) return;
 
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
-            var concurrentCommandBuffer = commandBuffer.ToConcurrent();
+            var concurrentCommandBuffer = commandBuffer.AsParallelWriter();
+
+            var eventEntityArchetype = EntityManager.CreateArchetype(
+                typeof(Ranking.AdjustScore),
+                typeof(Ranking.AdjustScoreProperty));
 
             Entities
                 .WithAll<LevelAbsorbableIsHit>()
                 .ForEach((Entity entity, ref LevelAbsorbable levelAbsorbable) =>
                 {
                     _logger.Debug($"Module - Level - SystemP01 - OnUpdate - Receive LevelAbsorbableIsHit event entity");
+                    
+                    //
+                    var eventEntity = commandBuffer.CreateEntity(eventEntityArchetype);
+                    commandBuffer.SetComponent(eventEntity, new Ranking.AdjustScoreProperty
+                    {
+                        Id = 0,
+                        Score = 1
+                    });
 
                     //
                     commandBuffer.DestroyEntity(levelAbsorbable.AttachedEntity);

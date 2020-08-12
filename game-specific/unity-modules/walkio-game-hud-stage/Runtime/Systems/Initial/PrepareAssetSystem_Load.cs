@@ -57,19 +57,25 @@
                     {
                         _logger.Debug($"Module - Hud - Stage - PrepareAssetSystem - InternalLoadAsset - hud data is not null");
 
-                        _canvasPrefab = _hudData.canvasPrefab;
-                        _canvas = GameObject.Instantiate(_canvasPrefab);
+                        _hudData.canvasPrefabs.ForEach(prefab =>
+                        {
+                            // _canvasPrefab = prefab;
+                            var canvas = GameObject.Instantiate(prefab);
 
 #if UNITY_EDITOR
-                        _canvas.name = _canvas.name.Replace("(Clone)", "");
-                        _canvas.name = _canvas.name + $" - Stage";
+                            canvas.name = canvas.name.Replace("(Clone)", "");
+                            canvas.name = canvas.name + $" - Stage";
 #endif
 
-                        CommandService.AddCommandStreamProducer(_canvas);
-                        CommandService.AddInfoStreamPresenter(_canvas);
-                        ExtensionService.SetReferenceToExtension(_canvas);
+                            CommandService.AddCommandStreamProducer(canvas);
+                            CommandService.AddInfoStreamPresenter(canvas);
+                            ExtensionService.SetReferenceToExtension(canvas);
 
-                        SceneService.MoveToCurrentScene(_canvas);
+                            SceneService.MoveToCurrentScene(canvas);
+                            
+                            _canvasPrefabs.Add(prefab);
+                            _canvasList.Add(canvas);
+                        });
                     }
                     else
                     {

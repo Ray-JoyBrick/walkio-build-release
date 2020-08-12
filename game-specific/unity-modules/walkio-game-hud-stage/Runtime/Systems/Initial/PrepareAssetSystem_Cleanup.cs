@@ -22,9 +22,16 @@
     {
         private async Task Unload()
         {
-            if (_canvas != null)
+            _canvasPrefabs.Clear();
+            
+            if (_canvasList.Any())
             {
-                GameObject.Destroy(_canvas);
+                _canvasList.ForEach(x =>
+                {
+                    GameObject.Destroy(x);
+                });
+                
+                _canvasList.Clear();
             }
 
             if (_hudSettingDataAsset != null)

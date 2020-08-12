@@ -10,10 +10,15 @@ namespace JoyBrick.Walkio.Game.Level
 
         Camera LevelCamera { get; set; }
         GameObject MainPlayerVirtualCamera { get; set; }
-
+        
+        GameObject HUDNavigationSystemGO { get; set; }
+        GameObject HUDNavigationHudGO { get; set; }
+        
         //
         ReactiveDictionary<int, int> TeamForceUnitCounts { get; }
 
         void SetupFollowingCamera(GameObject playerGo);
+
+        void SetupPlayerToHUDNavigationSystem(GameObject playerGo);
     }
 }

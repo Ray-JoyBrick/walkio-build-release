@@ -73,7 +73,7 @@
         [BurstCompile]
         struct DrawingJob : IJob
         {
-            public ArchetypeChunkComponentType<FlowFieldMoveIndication> FlowFieldIndications;
+            public ComponentTypeHandle<FlowFieldMoveIndication> FlowFieldIndications;
             public CommandBuilder CommandBuilder;
 
             public void Execute()
@@ -87,12 +87,12 @@
             if (!_canUpdate) return;
 
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
-            var concurrentCommandBuffer = commandBuffer.ToConcurrent();
+            var concurrentCommandBuffer = commandBuffer.AsParallelWriter();
 
             // _entityQuery.CreateArchetypeChunkArray(Allocator.TempJob);
 
             // var a = _entityQuery.ToComponentDataArray<FlowFieldMoveIndication>();
-            var flowFieldMoveIndications = GetArchetypeChunkComponentType<FlowFieldMoveIndication>();
+            var flowFieldMoveIndications = GetComponentTypeHandle<FlowFieldMoveIndication>();
 
             //
             var assistFlowFieldWorldData = AssistFlowFieldWorldProvider.FlowFieldWorldData as Template.FlowFieldWorldData;

@@ -76,6 +76,29 @@
 #endif
         }
 
+        private void Creature_PrepareOverviewAssetSystem(ComponentSystemGroup componentSystemGroup)
+        {
+#if WALKIO_CREATURE
+            _logger.Debug($"Bootstrap - Module Creation - Creature_PrepareOverviewAssetSystem");
+
+            var createdSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameCreature.PrepareOverviewAssetSystem>();
+
+            //
+            createdSystem.CreatureProvider = (GameCreature.ICreatureProvider) this;
+            createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
+
+            //
+            createdSystem.Construct();
+
+            //
+            componentSystemGroup.AddSystemToUpdateList(createdSystem);
+#else
+            _logger.Debug($"Bootstrap - No Module - Creature_PrepareOverviewAssetSystem");
+#endif
+        }
+
         private void Creature_SpawnTeamUnitSystem(ComponentSystemGroup componentSystemGroup)
         {
 #if WALKIO_CREATURE
@@ -446,6 +469,28 @@
             componentSystemGroup.AddSystemToUpdateList(createdSystem);
 #else
             _logger.Debug($"Bootstrap - No Module - Level_PrepareAssetSystem");
+#endif
+        }
+        
+        private void Level_PrepareOverviewAssetSystem(ComponentSystemGroup componentSystemGroup)
+        {
+#if WALKIO_LEVEL
+            _logger.Debug($"Bootstrap - Module Creation - Level_PrepareOverviewAssetSystem");
+
+            var createdSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameLevel.PrepareOverviewAssetSystem>();
+
+            //
+            createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
+
+            //
+            createdSystem.Construct();
+
+            //
+            componentSystemGroup.AddSystemToUpdateList(createdSystem);
+#else
+            _logger.Debug($"Bootstrap - No Module - Level_PrepareOverviewAssetSystem");
 #endif
         }
 
@@ -1107,6 +1152,29 @@
             componentSystemGroup.AddSystemToUpdateList(createdSystem);
 #else
             _logger.Debug($"Bootstrap - No Module - PhysicsExtension_CleanupPhysicsConstrainedPairSystem");
+#endif
+        }
+        
+        private void Ranking_SystemR01(ComponentSystemGroup componentSystemGroup)
+        {
+#if WALKIO_MOVE_WAYPOINT
+            _logger.Debug($"Bootstrap - Module Creation - Ranking_SystemR01");
+
+            var createdSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<JoyBrick.Walkio.Game.Ranking.SystemR01>();
+
+            //
+            createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
+            // createdSystem.FlowFieldWorldProvider = (GameMoveFlowField.IFlowFieldWorldProvider) this;
+
+            //
+            createdSystem.Construct();
+
+            //
+            componentSystemGroup.AddSystemToUpdateList(createdSystem);
+#else
+            _logger.Debug($"Bootstrap - No Module - Ranking_SystemR01");
 #endif
         }
     }

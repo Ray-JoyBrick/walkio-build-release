@@ -56,5 +56,25 @@
         [Sirenix.OdinInspector.BoxGroup("Obstacle")]
 #endif
         public List<Texture2D> subLevelImages;
+        
+        //
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.BoxGroup("Navigation")]
+#endif
+        public GameObject hudNavigationSystemPrefab;
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.BoxGroup("Navigation")]
+#endif
+        public GameObject hudNavigationHudPrefab;
+        
+        //
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.BoxGroup("Cut Scenes")]
+#endif
+        public List<GameObject> openingCutScenePrefabs;
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.BoxGroup("Cut Scenes")]
+#endif
+        public List<GameObject> closingCutScenePrefabs;
     }
 }

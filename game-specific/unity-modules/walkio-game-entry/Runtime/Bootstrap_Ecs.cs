@@ -58,8 +58,12 @@
             Creature_PrepareAssetSystem(initializationSystemGroup);
             Creature_SpawnTeamUnitSystem(initializationSystemGroup);
 
+            Creature_PrepareOverviewAssetSystem(initializationSystemGroup);
+
             Level_PrepareAssetSystem(initializationSystemGroup);
             Level_SetupAssetSystem(initializationSystemGroup);
+
+            Level_PrepareOverviewAssetSystem(initializationSystemGroup);
 
             //
             Level_CheckTeamForceCountSystem(initializationSystemGroup);
@@ -74,6 +78,8 @@
 
             MoveWaypoint_PrepareAssetSystem(initializationSystemGroup);
             MoveWaypoint_SetupAssetSystem(initializationSystemGroup);
+            
+            Ranking_SystemR01(initializationSystemGroup);
 
             // MoveFlowField_SetupInitialLeadingToSetSystem(initializationSystemGroup);
             // MoveFlowField_CheckTargetAtTileChangeSystem(initializationSystemGroup);

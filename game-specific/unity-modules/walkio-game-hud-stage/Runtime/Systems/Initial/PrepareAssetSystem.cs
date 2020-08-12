@@ -37,10 +37,10 @@ namespace JoyBrick.Walkio.Game.Hud.Stage
         //
         private ScriptableObject _hudSettingDataAsset;
 
-        private GameObject _canvasPrefab;
+        private List<GameObject> _canvasPrefabs = new List<GameObject>();
         private HudData _hudData;
 
-        private GameObject _canvas;
+        private List<GameObject> _canvasList = new List<GameObject>();
 
 
         //

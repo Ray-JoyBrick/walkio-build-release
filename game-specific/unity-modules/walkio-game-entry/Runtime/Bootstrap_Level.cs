@@ -6,6 +6,7 @@
     using Opsive.UltimateCharacterController.Camera;
     // using HellTap.PoolKit;
     using Pathfinding;
+    using SickscoreGames.HUDNavigationSystem;
     using UniRx;
     using Unity.Entities;
     using Unity.Mathematics;
@@ -88,6 +89,13 @@
                     });
                 })
                 .AddTo(_compositeDisposable);
+
+            AssetUnloadingStarted?
+                .Subscribe(x =>
+                {
+                    GameObject.Destroy(HUDNavigationSystemGO);
+                })
+                .AddTo(_compositeDisposable);
         }
 
         public Scene LevelAtScene { get; set; }
@@ -95,12 +103,37 @@
         public Camera LevelCamera { get; set; }
 
         public GameObject MainPlayerVirtualCamera { get; set; }
+        
+        public GameObject HUDNavigationSystemGO { get; set; }
+        public GameObject HUDNavigationHudGO { get; set; }
 
         public void SetupFollowingCamera(GameObject playerGo)
         {
             var cameraController = LevelCamera.GetComponent<CameraController>();
             cameraController.Character = playerGo;
-            // cameraController.
+        }
+
+        public void SetupPlayerToHUDNavigationSystem(GameObject playerGo)
+        {
+            var hudNavigationSystem = HUDNavigationSystemGO.GetComponent<HUDNavigationSystem>();
+            if (hudNavigationSystem != null)
+            {
+                hudNavigationSystem.PlayerController = playerGo.transform;
+            }
+
+            var hudNavigationSceneManager = HUDNavigationSystemGO.GetComponent<HUDNavigationSceneManager>();
+            if (hudNavigationSceneManager != null)
+            {
+                var hnsSceneAsset = new HNSSceneAsset();
+                hnsSceneAsset.path = LevelAtScene.path;
+                hudNavigationSceneManager.Configurations[0] = new Configuration
+                {
+                    _Scene = hnsSceneAsset
+                };
+            }
+
+            MoveToLevelAtScene(HUDNavigationSystemGO);
+            MoveToLevelAtScene(HUDNavigationHudGO);
         }
 
         //

@@ -197,7 +197,7 @@
             // Dependency = JobHandle.CombineDependencies(Dependency, _endFramePhysicsSystem.GetOutputDependency());
 
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
-            var concurrentCommandBuffer = commandBuffer.ToConcurrent();
+            var concurrentCommandBuffer = commandBuffer.AsParallelWriter();
 
             Dependency = JobHandle.CombineDependencies(Dependency, _buildPhysicsWorld.GetOutputDependency());
 

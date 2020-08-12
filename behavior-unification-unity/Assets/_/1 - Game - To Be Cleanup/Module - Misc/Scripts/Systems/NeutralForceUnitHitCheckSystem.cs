@@ -56,8 +56,8 @@
                 var entityA = triggerEvent.Entities.EntityA;
                 var entityB = triggerEvent.Entities.EntityB;
 
-                var entityAIsNeutralAbsorbable = neutralAbsorbableGroup.Exists(entityA);
-                var entityBIsNeutralAbsorber = neutralAbsorberGroup.Exists(entityB);
+                var entityAIsNeutralAbsorbable = neutralAbsorbableGroup.HasComponent(entityA);
+                var entityBIsNeutralAbsorber = neutralAbsorberGroup.HasComponent(entityB);
                 
                 if (entityAIsNeutralAbsorbable && entityBIsNeutralAbsorber)
                 {
@@ -81,8 +81,8 @@
                 }
                 else
                 {
-                    var entityAIsNeutralAbsorber = neutralAbsorberGroup.Exists(entityA);
-                    var entityBIsNeutralAbsorbable = neutralAbsorbableGroup.Exists(entityB);
+                    var entityAIsNeutralAbsorber = neutralAbsorberGroup.HasComponent(entityA);
+                    var entityBIsNeutralAbsorbable = neutralAbsorbableGroup.HasComponent(entityB);
                     
                     if (entityAIsNeutralAbsorber && entityBIsNeutralAbsorbable)
                     {
@@ -127,7 +127,7 @@
             // if (!_canUpdate) return;
 
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
-            var concurrentCommandBuffer = commandBuffer.ToConcurrent();
+            var concurrentCommandBuffer = commandBuffer.AsParallelWriter();
             
             var job = new NeutralAbsorbableCheckSystemJob
             {

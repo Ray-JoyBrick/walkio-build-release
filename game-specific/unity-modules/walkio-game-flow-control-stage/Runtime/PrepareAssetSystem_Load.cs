@@ -75,7 +75,7 @@
                 // Since the asset is provided, just notify instantly
                 FlowControl?.FinishIndividualLoadingAsset(new FlowControlContext
                 {
-                    Name = "Stage"
+                    Name = AtPart
                 });
             }
             else
@@ -88,7 +88,7 @@
                         _logger.Debug($"Module - Flow Control - Stage - PrepareAssetSystem - LoadingAsset - send finish loading signal");
                         FlowControl?.FinishIndividualLoadingAsset(new FlowControlContext
                         {
-                            Name = "Stage"
+                            Name = AtPart
                         });
                     });
             }

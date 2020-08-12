@@ -128,7 +128,7 @@ namespace JoyBrick.Walkio.Game.Move.Waypoint
 
             //
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
-            var concurrentCommandBuffer = commandBuffer.ToConcurrent();
+            var concurrentCommandBuffer = commandBuffer.AsParallelWriter();
 
             _entityCommandBufferSystem.AddJobHandleForProducer(Dependency);
         }

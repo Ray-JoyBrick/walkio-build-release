@@ -1,0 +1,20 @@
+{
+  "name": "com.walkio.game.ranking.common",
+  "displayName": "_ Walkio Game Ranking Common",
+  "version": "0.1.0",
+  "unity": "2020.1",
+  "unityRelease": "0b15",
+  "description": "Walkio Game Ranking Common",
+  "keywords": [
+    "walkio"
+  ],
+  "category": "",
+  "dependencies": {
+    "com.unity.entities": "0.11.1-preview.4"
+  },
+  "author": {
+    "email": "ray@joybrick.cc",
+    "name": "Ray Wang",
+    "url": "https://joybrick.cc"
+  }
+}

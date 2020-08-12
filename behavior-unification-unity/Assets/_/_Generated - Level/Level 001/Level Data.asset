@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a7dd50c31654058bacf5d24251982cd, type: 3}
   m_Name: Level Data
   m_EditorClassIdentifier: 
-  teamLeaderNpcSpawnCount: 1
+  teamLeaderNpcSpawnCount: 3
   teamLeaderNpcSpawnLocations:
   - {x: 40, y: 40}
   - {x: 100, y: 100}
@@ -51,3 +51,9 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 4bce24084c2d1fb46945d1fb249ff3af, type: 3}
   - {fileID: 2800000, guid: dee9dcaf698b36648a6535eed671782f, type: 3}
   - {fileID: 2800000, guid: dcaafdb6ce0609a4d97cf16f5021f793, type: 3}
+  hudNavigationSystemPrefab: {fileID: 7755373240085464748, guid: c4c1946388fc0214fbfb784799d097f1,
+    type: 3}
+  hudNavigationHudPrefab: {fileID: 1098829523591459008, guid: e80ffc222f5e8834f8674fdb30ecacfe,
+    type: 3}
+  openingCutScenePrefabs: []
+  closingCutScenePrefabs: []

@@ -57,7 +57,7 @@
                 // Since the asset is provided, just notify instantly
                 FlowControl?.FinishIndividualUnloadingAsset(new FlowControlContext
                 {
-                    Name = "Stage"
+                    Name = AtPart
                 });
             }
             else
@@ -68,7 +68,7 @@
                     {
                         FlowControl?.FinishIndividualUnloadingAsset(new FlowControlContext
                         {
-                            Name = "Stage"
+                            Name = AtPart
                         });
                     });
             }

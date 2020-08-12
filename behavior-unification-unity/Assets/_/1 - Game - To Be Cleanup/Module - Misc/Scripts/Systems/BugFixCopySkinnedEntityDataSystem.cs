@@ -12,7 +12,7 @@
  
         protected override void OnCreate()
         {
-            World.GetOrCreateSystem<CopySkinnedEntityDataToRenderEntity>().Enabled = false;
+            // World.GetOrCreateSystem<CopySkinnedEntityDataToRenderEntity>().Enabled = false;
             Enabled = false;
             World.DestroySystem(this);
         }

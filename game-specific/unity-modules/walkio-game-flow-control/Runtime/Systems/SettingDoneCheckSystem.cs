@@ -31,9 +31,25 @@ namespace JoyBrick.Walkio.Game.FlowControl
 
             _logger.Debug($"Module - SettingDoneCheckSystem - Construct");
 
+            var doneSettingAssetWaitForAppAll = flowControlData.doneSettingAssetWaitForApp;
+            var doneSettingAssetWaitForAppExcludeAssist =
+                doneSettingAssetWaitForAppAll - flowControlData.doneSettingAssetWaitForAppAssist;
+
+            var doneSettingAssetWaitForPreparationAll = flowControlData.doneSettingAssetWaitForPreparation;
+            var doneSettingAssetWaitForPreparationExcludeAssist =
+                doneSettingAssetWaitForPreparationAll - flowControlData.doneSettingAssetWaitForPreparationAssist;
+
+            var doneSettingAssetWaitForStageAll = flowControlData.doneSettingAssetWaitForStage;
+            var doneSettingAssetWaitForStageExcludeAssist =
+                doneSettingAssetWaitForStageAll - flowControlData.doneSettingAssetWaitForStageAssist;
+
+            var doneSettingAssetWaitForApp = doneSettingAssetWaitForAppAll;
+            var doneSettingAssetWaitForPreparation = doneSettingAssetWaitForPreparationAll;
+            var doneSettingAssetWaitForStage = doneSettingAssetWaitForStageAll;
+
             FlowControl?.IndividualAssetSettingFinished
                 .Where(x => x.Name.Contains("App"))
-                .Buffer(flowControlData.doneSettingAssetWaitForApp)
+                .Buffer(doneSettingAssetWaitForApp)
                 .Subscribe(x =>
                 {
                     _logger.Debug($"Module - SettingDoneCheckSystem - Construct - IndividualAssetSettingFinished for App");
@@ -61,7 +77,7 @@ namespace JoyBrick.Walkio.Game.FlowControl
 
             FlowControl?.IndividualAssetSettingFinished
                 .Where(x => x.Name.Contains("Preparation"))
-                .Buffer(flowControlData.doneSettingAssetWaitForPreparation)
+                .Buffer(doneSettingAssetWaitForPreparation)
                 .Subscribe(x =>
                 {
                     _logger.Debug($"Module - SettingDoneCheckSystem - Construct - IndividualAssetSettingFinished for Preparation");
@@ -76,7 +92,7 @@ namespace JoyBrick.Walkio.Game.FlowControl
             FlowControl?.IndividualAssetSettingFinished
                 .Where(x => x.Name.Contains("Stage"))
                 // Should be loading from some settings
-                .Buffer(flowControlData.doneSettingAssetWaitForStage)
+                .Buffer(doneSettingAssetWaitForStage)
                 // .Buffer(2)
                 .Subscribe(x =>
                 {

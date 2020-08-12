@@ -22,7 +22,7 @@ namespace JoyBrick.Walkio.Game.Hud.App.Assist
 #endif
 
 #if WALKIO_FLOWCONTROL && WALKIO_HUD_APP_ASSIST
-    [GameFlowControl.DoneLoadingAssetWait("App")]
+    [GameFlowControl.DoneLoadingAssetWait("App", "Assist")]
 #endif
     [DisableAutoCreation]
     public partial class PrepareAssetSystem :

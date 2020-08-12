@@ -740,6 +740,7 @@
             NativeArray<float2> points)
         {
             var tilePairInfos = new NativeList<TilePairInfo2D>(Allocator.Temp);
+            // var tilePairInfos = new NativeList<TilePairInfo2D>(Allocator.Persistent);
 
             var previousPoint = new float2(0, 0);
             var previousTileCellIndex = new int2(-1, -1);
@@ -784,7 +785,8 @@
                 previousTileCellIndex = tileAndTileCellIndex.zw;
             }
 
-            return tilePairInfos.AsArray();
+            // return tilePairInfos.AsArray();
+            return tilePairInfos.ToArray(Allocator.Temp);
         }
 
         public static float3 FromIntDirectionToNormalizedVector(int v)

@@ -110,6 +110,13 @@ namespace JoyBrick.Walkio.Game.Level
             }
         }
 
+        private void SetupHUDNaviationSystem(
+            ILevelPropProvider levelPropProvider,
+            GameCreature.ICreatureProvider creatureProvider)
+        {
+            levelPropProvider.SetupPlayerToHUDNavigationSystem(creatureProvider.GetCurrentPlayer());
+        }
+
         private async Task Setup()
         {
             _logger.Debug($"Module - Level - SetupAssetSystem - Setup");
@@ -122,6 +129,8 @@ namespace JoyBrick.Walkio.Game.Level
             // Assign the value to camera, etc.
             SetupPlayerFollowingCamera(LevelPropProvider, CreatureProvider);
             SetupPlayerFollowingVirtualCamera(LevelPropProvider, CreatureProvider);
+
+            SetupHUDNaviationSystem(LevelPropProvider, CreatureProvider);
 
             await Task.Delay(System.TimeSpan.FromMilliseconds(2000));
         }

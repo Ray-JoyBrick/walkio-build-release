@@ -60,7 +60,7 @@
                 authoring.gridCellSize = gridWorldCellSize;
                 authoring.gridCells = gridCells;
 
-                 _logger.Debug($"Module - Level - LoadAssetSystem - SetupGridMap - grid cells assigned to authoring prefab");
+                 _logger.Debug($"Module - Level - PrepareAssetSystem - SetupGridMap - grid cells assigned to authoring prefab");
 
                  // This may takes several secs to get ready
                 GameObject.Instantiate(authoring);
@@ -69,10 +69,31 @@
 
         private void SetupAStarPathfinder(Scene scene, TextAsset textAsset)
         {
-            _logger.Debug($"Module - Level - LoadAssetSystem - SetupAStarPathfinder - {scene.name}, {textAsset.bytes.Length}");
+            _logger.Debug($"Module - Level - PrepareAssetSystem - SetupAStarPathfinder - {scene.name}, {textAsset.bytes.Length}");
 
             // Should be able to perform this static call
             AstarPath.active.data.DeserializeGraphs(textAsset.bytes);
+        }
+
+        private void SetupHUDNavigation(
+            Scene scene,
+            GameObject hudNavigationSystemPrefab,
+            GameObject hudNavigationHudPrefab)
+        {
+            var createdSystem = GameObject.Instantiate(hudNavigationSystemPrefab);
+            LevelPropProvider.HUDNavigationSystemGO = createdSystem;
+            
+            var createdHud = GameObject.Instantiate(hudNavigationHudPrefab);
+            LevelPropProvider.HUDNavigationHudGO = createdHud;
+        }
+
+        private void SetupCutScenes(Scene scene, List<GameObject> cutScenePrefabs)
+        {
+            cutScenePrefabs.ForEach(prefab =>
+            {
+                var createInstance = GameObject.Instantiate(prefab);
+                
+            });
         }
 
         private void MakeWorld(ScriptableObject levelSettingDataAsset, SceneInstance sceneInstance)
@@ -97,7 +118,7 @@
             EntityManager.SetName(gridWorldEntity, $"Grid World");
 #endif
             //
-            _logger.Debug($"Module - Level - LoadAssetSystem - MakeWorld - load level data");
+            _logger.Debug($"Module - Level - PrepareAssetSystem - MakeWorld - load level data");
             LevelData = levelSettingDataAsset as Template.LevelData;
             if (LevelData != null)
             {
@@ -119,6 +140,13 @@
                     gridWorldTileCount, gridWorldTileCellCount, gridWorldCellSize);
 
                 SetupAStarPathfinder(sceneInstance.Scene, LevelData.astarGraph);
+
+                SetupHUDNavigation(sceneInstance.Scene, LevelData.hudNavigationSystemPrefab, LevelData.hudNavigationHudPrefab);
+                
+                SetupCutScenes(
+                    sceneInstance.Scene, 
+                    LevelData.openingCutScenePrefabs.Concat(LevelData.closingCutScenePrefabs).ToList()
+                );
             }
 
             // var fakeTextAsset = new TextAsset();
@@ -186,7 +214,7 @@
                 .Where(x => x.Name.Contains(AtPart))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"Module - Level - LoadAssetSystem - Construct - Receive AssetLoadingStarted");
+                    _logger.Debug($"Module - Level - PrepareAssetSystem - RegisterToLoadFlow - Receive AssetLoadingStarted");
 
                     // Hard code here, should be given in event
                     // var levelAssetName = $"Level Setting.asset";

@@ -19,7 +19,7 @@ namespace Game
         protected override void OnUpdate()
         {
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
-            var concurrentCommandBuffer = commandBuffer.ToConcurrent();
+            var concurrentCommandBuffer = commandBuffer.AsParallelWriter();
 
             Entities
                 .WithAll<NeutralAbsorberInteractWithNeutralAbsorbable>()

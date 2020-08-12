@@ -75,7 +75,7 @@
             // if (true) return;
 
             var commandBuffer = _entityCommandBufferSystem.CreateCommandBuffer();
-            var concurrentCommandBuffer = commandBuffer.ToConcurrent();
+            var concurrentCommandBuffer = commandBuffer.AsParallelWriter();
 
             var gridCellCount = new int2(256, 192);
             var gridCellSize = new float2(1.0f, 1.0f);
@@ -89,7 +89,7 @@
             // _entityQuery.CreateArchetypeChunkArray(Allocator.TempJob);
 
             // var a = _entityQuery.ToComponentDataArray<FlowFieldMoveIndication>();
-            var flowFieldMoveIndications = GetArchetypeChunkComponentType<FlowFieldMoveIndication>();
+            var flowFieldMoveIndications = GetComponentTypeHandle<FlowFieldMoveIndication>();
 
             using (var commandBuilder = DrawingManager.GetBuilder(false))
             {
