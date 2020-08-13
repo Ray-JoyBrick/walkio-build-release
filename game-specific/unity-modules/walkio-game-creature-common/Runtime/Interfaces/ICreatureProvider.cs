@@ -18,8 +18,8 @@
         void AddTeamMinionPrefab(GameObject prefab);
         void AddTeamMinionData(MinionData minionData);
 
-        void CreateTeamLeaderNpcAt(Vector3 location);
-        void CreateTeamLeaderPlayerAt(Vector3 location);
+        void CreateTeamLeaderNpcAt(int id, Vector3 location);
+        void CreateTeamLeaderPlayerAt(int id, Vector3 location);
 
         //
         GameObject GetTeamMinionPrefab(int index);
@@ -28,5 +28,7 @@
 
         //
         GameObject GetCurrentPlayer();
+
+        void SetupNavigationHudIndication();
     }
 }

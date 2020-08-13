@@ -47,7 +47,16 @@ namespace JoyBrick.Walkio.Game.Level
                 .SubscribeOnMainThread()
                 .Subscribe(result =>
                 {
-
+                    var levelOverviewDataAsset = result;
+                    var levelOverviewData = levelOverviewDataAsset as Template.LevelOverviewData;
+                    if (levelOverviewData != null)
+                    {
+                        levelOverviewData.levelOverviewDetails.ForEach(x =>
+                        {
+                            LevelOverviewProvider.AddLevelOverviewDetail(x);
+                        });
+                    }
+                    
                     loadingDoneAction();
                 })
                 .AddTo(_compositeDisposable);

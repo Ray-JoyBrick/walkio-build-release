@@ -87,6 +87,7 @@
 
             //
             createdSystem.CreatureProvider = (GameCreature.ICreatureProvider) this;
+            createdSystem.CreatureOverviewProvider = (GameCreature.ICreatureOverviewProvider)this;
             createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
 
             //
@@ -390,6 +391,8 @@
                     .GetOrCreateSystem<GameHudPreparation.SetupAssetSystem>();
 
             //
+            createdSystem.CreatureOverviewProvider = (GameCreature.ICreatureOverviewProvider) this;
+            createdSystem.LevelOverviewProvider = (GameLevel.ILevelOverviewProvider) this;
             createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
 
             //
@@ -462,7 +465,9 @@
             createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
             createdSystem.GridWorldProvider = (GameLevel.IGridWorldProvider) this;
             createdSystem.LevelPropProvider = (GameLevel.ILevelPropProvider) this;
-                //
+            createdSystem.LevelSelectionProvider = (GameLevel.ILevelSelectionProvider) this;
+            
+            //
             createdSystem.Construct();
 
             //
@@ -482,6 +487,7 @@
                     .GetOrCreateSystem<GameLevel.PrepareOverviewAssetSystem>();
 
             //
+            createdSystem.LevelOverviewProvider = (GameLevel.ILevelOverviewProvider) this;
             createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
 
             //
@@ -506,6 +512,7 @@
             createdSystem.CreatureProvider = (GameCreature.ICreatureProvider) this;
             createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
             createdSystem.LevelPropProvider = (GameLevel.ILevelPropProvider) this;
+            createdSystem.TeamLeaderLevelInfoProvider = (GameLevel.ITeamLeaderLevelInfoProvider) this;
 
             //
             createdSystem.Construct();

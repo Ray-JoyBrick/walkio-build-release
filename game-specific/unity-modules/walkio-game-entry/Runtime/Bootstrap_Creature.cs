@@ -4,6 +4,7 @@
     using System.Linq;
     // using HellTap.PoolKit;
     using Pathfinding;
+    using SickscoreGames.HUDNavigationSystem;
     using UniRx;
     using Unity.Entities;
     using Unity.Mathematics;
@@ -14,7 +15,8 @@
     using GameMoveFlowField = JoyBrick.Walkio.Game.Move.FlowField;
 
     public partial class Bootstrap
-        : GameCreature.ICreatureProvider
+        : GameCreature.ICreatureProvider,
+            GameCreature.ICreatureOverviewProvider
 
     {
 // #if ODIN_INSPECTOR
@@ -110,7 +112,7 @@
         }
 
         //
-        public void CreateTeamLeaderNpcAt(Vector3 location)
+        public void CreateTeamLeaderNpcAt(int id, Vector3 location)
         {
             _logger.Debug($"Bootstrap - CreateTeamLeaderNpcAt - location: {location}");
 
@@ -118,12 +120,23 @@
             var randomIndex = UnityEngine.Random.Range(0, maxCount);
             var prefab = _teamLeaderNpcPrefabs[randomIndex];
 
+            // Need to change components on prefab before being instantiated
             var flowFieldMoveAuthoring = prefab.GetComponent<GameMoveFlowField.FlowFieldMoveAuthoring>();
             if (flowFieldMoveAuthoring != null)
             {
                 flowFieldMoveAuthoring.belongToGroup = _addedToSceneTeamLeaderNpcCount + 1;
             }
+
+            var teamForceAuthoring = prefab.GetComponent<GameCreature.TeamForceAuthoring>();
+            if (teamForceAuthoring != null)
+            {
+                teamForceAuthoring.teamId = id;
+            }
+
+
             var createdInstance = GameObject.Instantiate(prefab, location, quaternion.identity);
+            
+            // Need to change components on instance
 
             _createdTeamLeaderNpcs.Add(createdInstance);
 
@@ -132,7 +145,7 @@
             MoveToLevelAtScene(createdInstance);
         }
 
-        public void CreateTeamLeaderPlayerAt(Vector3 location)
+        public void CreateTeamLeaderPlayerAt(int id, Vector3 location)
         {
             _logger.Debug($"Bootstrap - CreateTeamLeaderPlayerAt - location: {location}");
 
@@ -141,6 +154,12 @@
             var randomIndex = UnityEngine.Random.Range(0, maxCount);
             var prefab = _teamLeaderPlayerPrefabs[randomIndex];
 
+            var teamForceAuthoring = prefab.GetComponent<GameCreature.TeamForceAuthoring>();
+            if (teamForceAuthoring != null)
+            {
+                teamForceAuthoring.teamId = id;
+            }
+            
             // Need to pass this created instance so that level setup, such as camera has the
             // target to follow
             var createdInstance = GameObject.Instantiate(prefab, location, quaternion.identity);
@@ -171,6 +190,68 @@
             }
 
             return _createdTeamLeaderPlayers.First();
+        }
+        
+        //
+        private readonly List<GameCreature.Template.TeamLeaderOverview> _teamLeaderOverviews =
+            new List<GameCreature.Template.TeamLeaderOverview>();
+        private readonly List<GameCreature.Template.TeamMinionOverview> _teamMinionOverviews =
+            new List<GameCreature.Template.TeamMinionOverview>();
+
+        public List<GameCreature.Template.TeamLeaderOverview> TeamLeaderOverviews => _teamLeaderOverviews;
+        public List<GameCreature.Template.TeamMinionOverview> TeamMinionOverviews => _teamMinionOverviews;
+        
+        public void AddTeamLeaderOverview(GameCreature.Template.TeamLeaderOverview teamLeaderOverview)
+        {
+            _teamLeaderOverviews.Add(teamLeaderOverview);
+        }
+
+        public void AddTeamMinionOverview(GameCreature.Template.TeamMinionOverview teamMinionOverview)
+        {
+            _teamMinionOverviews.Add(teamMinionOverview);
+        }
+        
+        // Make this loaded from a data asset
+        private List<Color> _groupColors = new List<Color>
+        {
+            Color.blue,
+            Color.cyan,
+            Color.green,
+            Color.magenta,
+            Color.red,
+            Color.yellow,
+            Color.gray
+        };
+
+        public void SetupNavigationHudIndication()
+        {
+            var index = 0;
+            _createdTeamLeaderPlayers.Concat(_createdTeamLeaderNpcs).ToList()
+                .ForEach(x =>
+                {
+                    var color = _groupColors[index];
+                    ++index;
+                    var hudNavigationElement = x.GetComponent<HUDNavigationElement>();
+                    if (hudNavigationElement != null)
+                    {
+                        _logger.Debug($"Bootstrap - CreateTeamLeaderNpcAt - hudNavigationElement not null");
+                        if (hudNavigationElement.Indicator != null)
+                        {
+                            _logger.Debug($"Bootstrap - CreateTeamLeaderNpcAt - hudNavigationElement indicator not null");
+                            if (hudNavigationElement.Indicator.OffscreenIcon != null)
+                            {
+                                _logger.Debug($"Bootstrap - CreateTeamLeaderNpcAt - hudNavigationElement indicator off not null");
+                                hudNavigationElement.Indicator.OffscreenIcon.color = color;
+                            }
+
+                            if (hudNavigationElement.Indicator.OnscreenIcon != null)
+                            {
+                                _logger.Debug($"Bootstrap - CreateTeamLeaderNpcAt - hudNavigationElement indicator on not null");
+                                hudNavigationElement.Indicator.OnscreenIcon.color = color;
+                            }
+                        }
+                    }
+                });
         }
     }
 }

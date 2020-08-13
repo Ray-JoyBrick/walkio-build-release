@@ -7,7 +7,13 @@ namespace JoyBrick.Walkio.Game.Level.Template
     public class LevelOverviewDetail
     {
         public int id;
-        public string nameId;
+        public string titleId;
+        
+        public override string ToString()
+        {
+            var desc = $"id: {id} titleId: {titleId}";
+            return desc;
+        }
     }
 
     [CreateAssetMenu(fileName = "Level Overview Data", menuName = "Walkio/Game/Level/Level Overview Data")]

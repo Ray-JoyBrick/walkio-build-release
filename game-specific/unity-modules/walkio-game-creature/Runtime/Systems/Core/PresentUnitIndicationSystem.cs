@@ -45,7 +45,8 @@ namespace JoyBrick.Walkio.Game.Creature
         private readonly Dictionary<int, List<int>> _cachedCounts = new Dictionary<int, List<int>>();
 
         //
-        private const int SliceCount = 1023;
+        // private const int SliceCount = 1023;
+        private const int SliceCount = 3;
 
         private bool _canUpdate;
 
@@ -128,10 +129,12 @@ namespace JoyBrick.Walkio.Game.Creature
         private void UpdateEachKind(
             List<int> indices,
             in NativeArray<LocalToWorld> localToWorlds,
-            MaterialPropertyBlock materialPropertyBlock,
+            // MaterialPropertyBlock materialPropertyBlock,
             Mesh mesh,
             Material material)
         {
+            var materialPropertyBlock = new MaterialPropertyBlock();
+
             // Group by count 1023 and send to DrawMeshInstanced
             for (var i = 0; i < indices.Count; i += SliceCount)
             {
@@ -146,11 +149,21 @@ namespace JoyBrick.Walkio.Game.Creature
 
                     CheckAnyMatrixNaN(matrix);
 
+                    // Use material property block here does not make any sense as one draw mesh instanced
+                    // uses only one property block.
+                    // materialPropertyBlock.SetFloat(Shader.PropertyToID("_DT"), 0.3f * j); 
+                    
                     matrices.Add(matrix);
                 }
 
+                // This applies to one draw, in this case, it might be 1023 instances. This means that there will
+                // be 1023 meshes uses the same delta time, which looks exact the same. But once the count is more
+                // than 1023, others will start to show different animation speed.
+                materialPropertyBlock.SetFloat(Shader.PropertyToID("_DT"), 0.1f * i);
+
                 var camera = LevelPropProvider.LevelCamera;
 
+                // The layer may or may not function in such case
                 Graphics.DrawMeshInstanced(
                     mesh,
                     0,
@@ -161,7 +174,8 @@ namespace JoyBrick.Walkio.Game.Creature
                     ShadowCastingMode.On,
                     // false,
                     true,
-                    0,
+                    // 0,
+                    LayerMask.NameToLayer("SubCharacter"),
                     camera
                 );
             }
@@ -180,8 +194,10 @@ namespace JoyBrick.Walkio.Game.Creature
                 _cachedCounts[i].Clear();
             }
 
+            var deltaTime = Time.DeltaTime;
             //
-            var materialPropertyBlock = new MaterialPropertyBlock();
+            // var materialPropertyBlock = new MaterialPropertyBlock();
+            // materialPropertyBlock.SetFloat(Shader.PropertyToID("_DT"), UnityEngine.Random.Range(0, 1.0f));
 
             using (var unitIndications = _entityQuery.ToComponentDataArray<UnitIndication>(Allocator.TempJob))
             {
@@ -203,10 +219,17 @@ namespace JoyBrick.Walkio.Game.Creature
                         var mesh = minionData.mesh;
                         var material = minionData.material;
 
+                        var materialPropertyBlock = new MaterialPropertyBlock();
+                        
                         // _logger.Debug($"Module - Creature - PresentUnitIndicationSystem - Update - mesh: {mesh} material: {material}");
-
-
-                        UpdateEachKind(pair.Value, in localToWorlds, materialPropertyBlock, mesh, material);
+                        
+                        // materialPropertyBlock.SetColor("_Color", Color.Lerp(Color.blue, Color.yellow, (Mathf.Sin(deltaTime * 1.0f + pairIndex) + 1) / 2f));
+                        // materialPropertyBlock.SetFloat(Shader.PropertyToID("_DT"), UnityEngine.Random.Range(0, 1.0f));
+                        
+                        UpdateEachKind(pair.Value, 
+                            in localToWorlds, 
+                            // materialPropertyBlock, 
+                            mesh, material);
                     }
                 }
             }

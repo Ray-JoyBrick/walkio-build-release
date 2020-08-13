@@ -39,6 +39,7 @@ namespace JoyBrick.Walkio.Game.Creature
 
         //
         public ICreatureProvider CreatureProvider { get; set; }
+        public ICreatureOverviewProvider CreatureOverviewProvider { get; set; }
 #if WALKIO_FLOWCONTROL
         public GameFlowControl.IFlowControl FlowControl { get; set; }
 #endif

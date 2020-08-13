@@ -4,7 +4,7 @@
     "com.3rd.odin-inspector": "file:../../references/Devdog/odin-inspector-package",
     "com.alelievr.node-graph-processor": "0.7.1",
     "com.arongranberg.aline": "file:../../references/Aron Granberg/ALINE",
-    "com.arongranberg.astar": "file:../../references/Aron Granberg/com.arongranberg.astar@4.3.29",
+    "com.arongranberg.astar": "file:../../references/Aron Granberg/com.arongranberg.astar@4.3.31",
     "com.cysharp.unitask": "2.0.27",
     "com.neuecc.unirx": "7.1.0",
     "com.syomus.proceduraltoolkit": "0.2.3",

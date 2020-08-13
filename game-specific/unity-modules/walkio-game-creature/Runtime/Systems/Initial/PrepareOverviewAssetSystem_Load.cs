@@ -51,6 +51,19 @@ namespace JoyBrick.Walkio.Game.Creature
 
                     var creatureOverviewRepoData = _creatureOverviewRepoDataAsset as Template.CreatureOverviewRepoData;
 
+                    if (creatureOverviewRepoData != null)
+                    {
+                        creatureOverviewRepoData.teamLeaderOverviews.ForEach(x =>
+                        {
+                            CreatureOverviewProvider.AddTeamLeaderOverview(x);
+                        });
+
+                        creatureOverviewRepoData.teamMinionOverviews.ForEach(x =>
+                        {
+                            CreatureOverviewProvider.AddTeamMinionOverview(x);
+                        });
+                    }
+
                     loadingDoneAction();
                 })
                 .AddTo(_compositeDisposable);

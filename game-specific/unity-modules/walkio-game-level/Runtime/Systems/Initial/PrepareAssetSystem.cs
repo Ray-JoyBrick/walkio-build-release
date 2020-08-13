@@ -63,6 +63,7 @@ namespace JoyBrick.Walkio.Game.Level
         public IGridWorldProvider GridWorldProvider { get; set; }
 
         public ILevelPropProvider LevelPropProvider { get; set; }
+        public ILevelSelectionProvider LevelSelectionProvider { get; set; }
 
         //
         public string AtPart => "Stage";

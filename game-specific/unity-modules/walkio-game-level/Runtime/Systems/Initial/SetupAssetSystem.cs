@@ -36,6 +36,7 @@ namespace JoyBrick.Walkio.Game.Level
         public GameFlowControl.IFlowControl FlowControl { get; set; }
 #endif
         public ILevelPropProvider LevelPropProvider { get; set; }
+        public ITeamLeaderLevelInfoProvider TeamLeaderLevelInfoProvider { get; set; }
 
         private void SpawnTeamLeaderNpc(
             Template.LevelData levelData,
@@ -49,7 +50,7 @@ namespace JoyBrick.Walkio.Game.Level
 
                 var adjustedLocation = new Vector3(location.x + 0.5f, 0, location.y + 0.5f);
 
-                creatureProvider.CreateTeamLeaderNpcAt(adjustedLocation);
+                creatureProvider.CreateTeamLeaderNpcAt(i + 1, adjustedLocation);
             }
         }
 
@@ -64,7 +65,12 @@ namespace JoyBrick.Walkio.Game.Level
 
             var adjustedLocation = new Vector3(location.x + 0.5f, 0, location.y + 0.5f);
 
-            creatureProvider.CreateTeamLeaderPlayerAt(adjustedLocation);
+            creatureProvider.CreateTeamLeaderPlayerAt(0, adjustedLocation);
+        }
+
+        private void SetupTeamLeaderStageInfo()
+        {
+            TeamLeaderLevelInfoProvider?.SetupTeamLeaderLevelInfo();
         }
 
         private void SetupPlayerFollowingCamera(
@@ -110,11 +116,16 @@ namespace JoyBrick.Walkio.Game.Level
             }
         }
 
-        private void SetupHUDNaviationSystem(
+        private void SetupHUDNavigationSystem(
             ILevelPropProvider levelPropProvider,
             GameCreature.ICreatureProvider creatureProvider)
         {
             levelPropProvider.SetupPlayerToHUDNavigationSystem(creatureProvider.GetCurrentPlayer());
+        }
+
+        private void SetupHUDNavigationElementForCreature()
+        {
+            CreatureProvider.SetupNavigationHudIndication();
         }
 
         private async Task Setup()
@@ -126,13 +137,18 @@ namespace JoyBrick.Walkio.Game.Level
             SpawnTeamLeaderNpc(prepareAssetSsytem.LevelData, CreatureProvider);
             SpawnTeamLeaderPlayer(prepareAssetSsytem.LevelData, CreatureProvider);
 
+            SetupTeamLeaderStageInfo();
+
             // Assign the value to camera, etc.
             SetupPlayerFollowingCamera(LevelPropProvider, CreatureProvider);
             SetupPlayerFollowingVirtualCamera(LevelPropProvider, CreatureProvider);
 
-            SetupHUDNaviationSystem(LevelPropProvider, CreatureProvider);
+            SetupHUDNavigationSystem(LevelPropProvider, CreatureProvider);
+            
+            await Task.Delay(System.TimeSpan.FromMilliseconds(1000));
+            SetupHUDNavigationElementForCreature();
 
-            await Task.Delay(System.TimeSpan.FromMilliseconds(2000));
+            await Task.Delay(System.TimeSpan.FromMilliseconds(500));
         }
 
         private void SettingAsset()

@@ -15,6 +15,7 @@
 
     //
     using GameCommon = JoyBrick.Walkio.Game.Common;
+    using GameCreature = JoyBrick.Walkio.Game.Creature;
 
 #if WALKIO_FLOWCONTROL
     using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
@@ -88,6 +89,11 @@
             var eventEntityArchetype = EntityManager.CreateArchetype(
                 typeof(Ranking.AdjustScore),
                 typeof(Ranking.AdjustScoreProperty));
+            
+            
+            var creatureTeamUnitEventEntityArchetype = EntityManager.CreateArchetype(
+                typeof(GameCreature.CreateTeamUnit),
+                typeof(GameCreature.CreateTeamUnitProperty));
 
             Entities
                 .WithAll<LevelAbsorbableIsHit>()
@@ -101,6 +107,15 @@
                     {
                         Id = 0,
                         Score = 1
+                    });
+                    
+                    // Create team minion entity?
+                    var creatureTeamUnitEventEntity = commandBuffer.CreateEntity(creatureTeamUnitEventEntityArchetype);
+                    commandBuffer.SetComponent(creatureTeamUnitEventEntity, new GameCreature.CreateTeamUnitProperty
+                    {
+                        TeamId = levelAbsorbable.GroupId,
+                        Kind = 0,
+                        AtPosition = levelAbsorbable.HitPosition
                     });
 
                     //

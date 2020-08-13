@@ -110,6 +110,8 @@
             public EntityCommandBuffer entityCommandBuffer;
 
             [ReadOnly] public ComponentDataFromEntity<LevelAbsorbable> LevelAbsorbableGroup;
+
+            [ReadOnly] public ComponentDataFromEntity<Translation> LevelAbosrbableGroupTranslation;
             // [ReadOnly] public ComponentDataFromEntity<LevelAbsorbableProperty> LevelAbsorbablePropertyGroup;
             public ComponentDataFromEntity<LevelAbsorber> LevelAbsorberGroup;
 
@@ -133,6 +135,8 @@
                     var absorber = LevelAbsorberGroup[entityA];
                     var absorbable = LevelAbsorbableGroup[entityB];
 
+                    var absorbableTranslation = LevelAbosrbableGroupTranslation[entityB];
+
                    // Debug.Log($"Module - Level - SystemN01 - isAAbsorber && isBAbosrbable");
 
                    if (!absorbable.TriggerCooldown)
@@ -148,7 +152,9 @@
                            TriggerCooldown = true,
                            IntervalMax = 0.2f,
                            Countdown = 0,
-
+                           
+                           HitPosition = absorbableTranslation.Value,
+                           
                            AttachedEntity = entityB
                        };
                        entityCommandBuffer.SetComponent(entityB, la);
@@ -162,6 +168,7 @@
                     var absorbable = LevelAbsorbableGroup[entityA];
                     var absorber = LevelAbsorberGroup[entityB];
 
+                    var absorbableTranslation = LevelAbosrbableGroupTranslation[entityA];
                     // Debug.Log($"Module - Level - SystemN01 - isBAbsorber && isAAbsorbable");
 
                     if (!absorbable.TriggerCooldown)
@@ -177,6 +184,8 @@
                             TriggerCooldown = true,
                             IntervalMax = 0.2f,
                             Countdown = 0,
+                            
+                            HitPosition = absorbableTranslation.Value,
 
                             AttachedEntity = entityA
                         };
@@ -206,6 +215,7 @@
                     eventEntityArchetype = _eventEntityArchetype,
                     entityCommandBuffer = commandBuffer,
                     LevelAbsorbableGroup = GetComponentDataFromEntity<LevelAbsorbable>(true),
+                    LevelAbosrbableGroupTranslation = GetComponentDataFromEntity<Translation>(true),
                     // LevelAbsorbablePropertyGroup = GetComponentDataFromEntity<LevelAbsorbableProperty>(true),
                     LevelAbsorberGroup = GetComponentDataFromEntity<LevelAbsorber>(),
                 }

@@ -12,5 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d47861ec959c4a17b469666e72ab19e8, type: 3}
   m_Name: Creature Overview Repo Data
   m_EditorClassIdentifier: 
-  teamLeaderAssets: []
-  teamMinionAssets: []
+  teamLeaderOverviews:
+  - id: 0
+    titleId: 0
+  teamMinionOverviews:
+  - id: 0
+    titleId: 0

@@ -39,6 +39,7 @@ namespace JoyBrick.Walkio.Game.Level
 
         //
         // public GameCommand.ICommandService CommandService { get; set; }
+        public ILevelOverviewProvider LevelOverviewProvider { get; set; }
 #if WALKIO_FLOWCONTROL
         public GameFlowControl.IFlowControl FlowControl { get; set; }
 #endif

@@ -12,9 +12,13 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
     //
     using GameCommon = JoyBrick.Walkio.Game.Common;
 
+    using GameCreature = JoyBrick.Walkio.Game.Creature;
+    
 #if WALKIO_FLOWCONTROL
     using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
 #endif
+
+    using GameLevel = JoyBrick.Walkio.Game.Level;
 
     //
 #if WALKIO_FLOWCONTROL
@@ -29,10 +33,29 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
 
         //
+        public GameCreature.ICreatureOverviewProvider CreatureOverviewProvider { get; set; }
+        public GameLevel.ILevelOverviewProvider LevelOverviewProvider { get; set; }
 #if WALKIO_FLOWCONTROL
         public GameFlowControl.IFlowControl FlowControl { get; set; }
 #endif
 
+        private void SettingAsset()
+        {
+            CreatureOverviewProvider.TeamLeaderOverviews.ForEach(x =>
+            {
+                _logger.Debug($"Module - Hud Preparation - SetupAssetSystem - SettingAsset - team leader {x} set to hud");
+            });
+            CreatureOverviewProvider.TeamMinionOverviews.ForEach(x =>
+            {
+                _logger.Debug($"Module - Hud Preparation - SetupAssetSystem - SettingAsset - team minion {x} set to hud");
+            });
+            
+            LevelOverviewProvider.LeveOverviewDetails.ForEach(x =>
+            {
+                _logger.Debug($"Module - Hud Preparation - SetupAssetSystem - SettingAsset - level {x} set to hud");
+            });
+        }
+        
         public void Construct()
         {
             _logger.Debug($"Module - Hud Preparation - SetupAssetSystem - Construct");
@@ -45,10 +68,7 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation
                 {
                     _logger.Debug($"Module - Hud Preparation - SetupAssetSystem - Construct - Receive SettingAsset");
 
-                    // _canSetup = true;
-                    // _doingSetup = true;
-                    //
-                    // SettingAsset();
+                    SettingAsset();
 
                     FlowControl?.FinishIndividualSettingAsset(new GameFlowControl.FlowControlContext
                     {

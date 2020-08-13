@@ -15,6 +15,8 @@
 
     //
     using GameCommand = JoyBrick.Walkio.Game.Command;
+    using GameCreature = JoyBrick.Walkio.Game.Creature;
+
 #if WALKIO_LEVEL
     using GameLevel = JoyBrick.Walkio.Game.Level;
 #endif
@@ -23,7 +25,9 @@
 
 #if WALKIO_LEVEL
         : GameLevel.IGridWorldProvider,
-            GameLevel.ILevelPropProvider
+            GameLevel.ILevelPropProvider,
+            GameLevel.ILevelOverviewProvider,
+            GameLevel.ITeamLeaderLevelInfoProvider
 #endif
 
     {
@@ -93,6 +97,9 @@
             AssetUnloadingStarted?
                 .Subscribe(x =>
                 {
+                    _teamLeaderLevelInfos.Clear();
+                    
+                    //
                     GameObject.Destroy(HUDNavigationSystemGO);
                 })
                 .AddTo(_compositeDisposable);
@@ -151,6 +158,42 @@
             {
                 _logger.Warning($"Bootstrap - MoveToLevelAtScene - LevelAtScene is not valid");
             }
+        }
+        
+        //
+        private readonly List<GameLevel.Template.LevelOverviewDetail> _leveOverviewDetails =
+            new List<GameLevel.Template.LevelOverviewDetail>();
+
+        public List<GameLevel.Template.LevelOverviewDetail> LeveOverviewDetails => _leveOverviewDetails;
+
+        public void AddLevelOverviewDetail(GameLevel.Template.LevelOverviewDetail levelOverviewDetail)
+        {
+            _leveOverviewDetails.Add(levelOverviewDetail);
+        }
+        
+        //
+        private readonly List<GameLevel.TeamLeaderLevelInfo> _teamLeaderLevelInfos =
+            new List<GameLevel.TeamLeaderLevelInfo>();
+
+        public List<GameLevel.TeamLeaderLevelInfo> TeamLeaderLevelInfos => _teamLeaderLevelInfos;
+
+        public void SetupTeamLeaderLevelInfo()
+        {
+            _logger.Warning($"Bootstrap - SetupTeamLeaderLevelInfo");
+            _createdTeamLeaderPlayers.Concat(_createdTeamLeaderNpcs).ToList()
+                .ForEach(x =>
+                {
+                    var teamForceAuthoring = x.GetComponent<GameCreature.TeamForceAuthoring>();
+                    var teamId = teamForceAuthoring.teamId;
+                    
+                    _logger.Warning($"Bootstrap - SetupTeamLeaderLevelInfo - teamId: {teamId}");
+                    _teamLeaderLevelInfos.Add(new GameLevel.TeamLeaderLevelInfo
+                    {
+                        Id = teamId,
+                        Score = 0
+                    });
+                });
+                
         }
     }
 }
