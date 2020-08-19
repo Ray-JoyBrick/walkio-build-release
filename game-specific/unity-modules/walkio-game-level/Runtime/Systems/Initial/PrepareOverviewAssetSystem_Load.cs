@@ -56,7 +56,7 @@ namespace JoyBrick.Walkio.Game.Level
                             LevelOverviewProvider.AddLevelOverviewDetail(x);
                         });
                     }
-                    
+
                     loadingDoneAction();
                 })
                 .AddTo(_compositeDisposable);
@@ -70,7 +70,8 @@ namespace JoyBrick.Walkio.Game.Level
 #if WALKIO_FLOWCONTROL
                 FlowControl.FinishIndividualLoadingAsset(new GameFlowControl.FlowControlContext
                 {
-                    Name = AtPart
+                    Name = AtPart,
+                    Description = "Level Overview"
                 });
 #endif
             }
@@ -85,7 +86,8 @@ namespace JoyBrick.Walkio.Game.Level
 
                         FlowControl.FinishIndividualLoadingAsset(new GameFlowControl.FlowControlContext
                         {
-                            Name = AtPart
+                            Name = AtPart,
+                            Description = "Level Overview"
                         });
                     });
             }

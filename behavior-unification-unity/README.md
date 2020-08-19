@@ -157,3 +157,25 @@ EntityManager.SetName(entity, "name");
 ```
 
 Make **Zone** or **Environment** entity singleton
+
+## Unity Issues
+
+### Package
+
+Addressable relies on ScriptRenderPipeline BuildLog, but it is changed in version 1.9.0, so
+
+- FormatAsTraceEventProfiler
+- FormatAsText
+
+Can not be used, the error will appear at
+
+- BuildScriptBase.cs
+
+```cs
+File.WriteAllText(Path.Combine(perfOutputDirectory, "AddressablesBuildTEP.json"), log.FormatAsTraceEventProfiler());
+File.WriteAllText(Path.Combine(perfOutputDirectory, "AddressablesBuildLog.txt"), log.FormatAsText());
+```
+
+#### Workaround
+
+The current workaround is to make it local package and comment out these two lines.

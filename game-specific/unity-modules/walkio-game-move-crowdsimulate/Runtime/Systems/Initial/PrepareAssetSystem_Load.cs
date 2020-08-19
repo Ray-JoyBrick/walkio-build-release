@@ -35,11 +35,23 @@
         private void InternalLoadAsset(
             System.Action loadingDoneAction)
         {
+            // //
+            // Load().ToObservable()
+            //     .ObserveOnMainThread()
+            //     .SubscribeOnMainThread()
+            //     .Subscribe(result =>
+            //     {
+            //         _logger.Debug($"Module - Move - CorwdSimulate - LoadAssetSystem - InternalLoadAsset");
             //
-            Load().ToObservable()
-                .ObserveOnMainThread()
-                .SubscribeOnMainThread()
-                .Subscribe(result =>
+            //         //
+            //         // _settingDataAsset = result;
+            //
+            //         loadingDoneAction();
+            //     })
+            //     .AddTo(_compositeDisposable);
+
+            Observable.Timer(System.TimeSpan.FromMilliseconds(1000))
+                .Subscribe(_ =>
                 {
                     _logger.Debug($"Module - Move - CorwdSimulate - LoadAssetSystem - InternalLoadAsset");
 
@@ -47,6 +59,7 @@
                     // _settingDataAsset = result;
 
                     loadingDoneAction();
+
                 })
                 .AddTo(_compositeDisposable);
         }

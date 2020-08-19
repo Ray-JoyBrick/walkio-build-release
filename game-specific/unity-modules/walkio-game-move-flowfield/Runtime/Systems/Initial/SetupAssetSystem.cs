@@ -51,7 +51,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField
 
         private async Task Setup()
         {
-            _logger.Debug($"Module - SetupAssetSystem - Setup");
+            _logger.Debug($"Module - Move - FlowField - SetupAssetSystem - Setup");
 
             // await Task.Delay(System.TimeSpan.FromMilliseconds(10000));
 

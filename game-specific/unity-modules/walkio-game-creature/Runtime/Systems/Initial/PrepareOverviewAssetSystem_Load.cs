@@ -30,7 +30,7 @@ namespace JoyBrick.Walkio.Game.Creature
         //private async Task<ScriptableObject> Load(string levelAssetName, string specificLevelName)
         {
             _logger.Debug($"Module - Creature - PrepareOverviewAssetSystem - Load");
-            
+
             var creatureOverviewRepoDataAssetTask = GameCommon.Utility.AssetLoadingHelper.GetAsset<ScriptableObject>($"Creature Overview Repo Data");
 
             var creatureOverviewRepoDataAsset = await creatureOverviewRepoDataAssetTask;
@@ -77,7 +77,8 @@ namespace JoyBrick.Walkio.Game.Creature
 #if WALKIO_FLOWCONTROL
                 FlowControl?.FinishIndividualLoadingAsset(new GameFlowControl.FlowControlContext
                 {
-                    Name = AtPart
+                    Name = AtPart,
+                    Description = "Creature Overview"
                 });
 #endif
             }
@@ -91,7 +92,8 @@ namespace JoyBrick.Walkio.Game.Creature
 
                         FlowControl?.FinishIndividualLoadingAsset(new GameFlowControl.FlowControlContext
                         {
-                            Name = AtPart
+                            Name = AtPart,
+                            Description = "Creature Overview"
                         });
                     });
             }

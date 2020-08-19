@@ -12,9 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dea1e24f67e74bc49e006ddfe5cf1bba, type: 3}
   m_Name: Flow Control Data
   m_EditorClassIdentifier: 
-  doneLoadingAssetWaitForApp: 0
+  doneLoadingAssetWaitForApp: 5
+  doneLoadingAssetWaitForAppAssist: 1
   doneSettingAssetWaitForApp: 0
-  doneLoadingAssetWaitForPreparation: 0
+  doneSettingAssetWaitForAppAssist: 0
+  doneLoadingAssetWaitForPreparation: 2
+  doneLoadingAssetWaitForPreparationAssist: 0
   doneSettingAssetWaitForPreparation: 0
-  doneLoadingAssetWaitForStage: 0
+  doneSettingAssetWaitForPreparationAssist: 0
+  doneLoadingAssetWaitForStage: 8
+  doneLoadingAssetWaitForStageAssist: 1
   doneSettingAssetWaitForStage: 0
+  doneSettingAssetWaitForStageAssist: 0

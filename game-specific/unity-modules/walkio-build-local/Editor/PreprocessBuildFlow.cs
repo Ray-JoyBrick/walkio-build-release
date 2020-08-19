@@ -16,7 +16,7 @@ namespace JoyBrick.Walkio.Build
 
     class PreprocessBuildFlow : IPreprocessBuildWithReport
     {
-        public int callbackOrder { get; }
+        public int callbackOrder => 0;
         public void OnPreprocessBuild(BuildReport report)
         {
             Debug.Log($"PreprocessBuildFlow - OnPreprocessBuild - report: {report}");
@@ -32,7 +32,10 @@ namespace JoyBrick.Walkio.Build
 
             // Setup app settings
 #if WALKIO_FLOWCONTROL
-            GameFlowControlEditor.CountHelper.CountDoneLoadingAssetWaitAttribute();
+            GameFlowControlEditor.CountHelper.CountAssetWaitAttribute();
+            // GameFlowControlEditor.CountHelper.CountDoneLoadingAssetWaitAttribute();
+            // GameFlowControlEditor.CountHelper.CountDoneSettingAssetWaitAttribute();
+            // AssetDatabase.Refresh();
 #endif
         }
     }
