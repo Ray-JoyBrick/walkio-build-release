@@ -1,6 +1,7 @@
 {
     "name": "Walkio.Build.Local.Editor",
     "references": [
+        "Unity.Build",
         "Walkio.Game.Common",
         "Walkio.Game.Common.Editor",
         "Walkio.Game.Flow-Control.Editor"

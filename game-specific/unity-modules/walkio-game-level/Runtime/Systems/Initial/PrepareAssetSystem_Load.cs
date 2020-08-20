@@ -27,21 +27,21 @@
         //
         public bool ProvideExternalAsset { get; set; }
 
-        private async Task<(ScriptableObject, SceneInstance)> Load(string levelAssetName, string specificLevelName)
-        //private async Task<ScriptableObject> Load(string levelAssetName, string specificLevelName)
+        // private async Task<(ScriptableObject, SceneInstance)> Load(string levelAssetName, string specificLevelName)
+        private async Task<ScriptableObject> Load(string levelAssetName, string specificLevelName)
         {
             // What to load is defined below with async task
             var levelDataAssetName = levelAssetName;
             var levelDataAssetTask = GameCommon.Utility.AssetLoadingHelper.GetAsset<ScriptableObject>(levelDataAssetName);
 
-            var levelMainSceneAssetName = specificLevelName;
-            var levelMainSceneAssetTask = GameCommon.Utility.AssetLoadingHelper.GetScene(levelMainSceneAssetName);
+            // var levelMainSceneAssetName = specificLevelName;
+            // var levelMainSceneAssetTask = GameCommon.Utility.AssetLoadingHelper.GetScene(levelMainSceneAssetName);
             //
             var levelSettingAsset = await levelDataAssetTask;
-            var sceneInstance = await levelMainSceneAssetTask;
+            // var sceneInstance = await levelMainSceneAssetTask;
 
-            return (levelSettingAsset, sceneInstance);
-            // return levelSettingAsset;
+            // return (levelSettingAsset, sceneInstance);
+            return levelSettingAsset;
         }
 
         private void SetupGridMap(
@@ -96,19 +96,25 @@
             });
         }
 
-        private void MakeWorld(ScriptableObject levelSettingDataAsset, SceneInstance sceneInstance)
+        // private void MakeWorld(ScriptableObject levelSettingDataAsset, SceneInstance sceneInstance)
+        private void MakeWorld(ScriptableObject levelSettingDataAsset, Scene scene)
         {
             //
-            LevelPropProvider.LevelAtScene = sceneInstance.Scene;
+            _scene = scene;
+
+            // LevelPropProvider.LevelAtScene = sceneInstance.Scene;
+            LevelPropProvider.LevelAtScene = scene;
 
             // For Unity scene specific
-            var sceneCamera = GameCommon.Utility.SceneHelper.GetComponentAtScene<Camera>(sceneInstance.Scene);
+            // var sceneCamera = GameCommon.Utility.SceneHelper.GetComponentAtScene<Camera>(sceneInstance.Scene);
+            var sceneCamera = GameCommon.Utility.SceneHelper.GetComponentAtScene<Camera>(scene);
             LevelPropProvider.LevelCamera = sceneCamera;
 
             // Currently only one in the scene, but there might be several others later for the cut scene use?
             var mainPlayerVirtualCamera =
                 // GameCommon.Utility.SceneHelper.GetComponentAtScene<Cinemachine.CinemachineVirtualCamera>(sceneInstance.Scene);
-                GameCommon.Utility.SceneHelper.GetComponentAtScene<PlayerNormalMoveUseCamera>(sceneInstance.Scene);
+                // GameCommon.Utility.SceneHelper.GetComponentAtScene<PlayerNormalMoveUseCamera>(sceneInstance.Scene);
+                GameCommon.Utility.SceneHelper.GetComponentAtScene<PlayerNormalMoveUseCamera>(scene);
             LevelPropProvider.MainPlayerVirtualCamera = mainPlayerVirtualCamera.gameObject;
 
             // For game scene rule
@@ -139,12 +145,15 @@
                     lookupTable, LevelData.subLevelImages,
                     gridWorldTileCount, gridWorldTileCellCount, gridWorldCellSize);
 
-                SetupAStarPathfinder(sceneInstance.Scene, LevelData.astarGraph);
+                // SetupAStarPathfinder(sceneInstance.Scene, LevelData.astarGraph);
+                SetupAStarPathfinder(scene, LevelData.astarGraph);
 
-                SetupHUDNavigation(sceneInstance.Scene, LevelData.hudNavigationSystemPrefab, LevelData.hudNavigationHudPrefab);
+                // SetupHUDNavigation(sceneInstance.Scene, LevelData.hudNavigationSystemPrefab, LevelData.hudNavigationHudPrefab);
+                SetupHUDNavigation(scene, LevelData.hudNavigationSystemPrefab, LevelData.hudNavigationHudPrefab);
                 
                 SetupCutScenes(
-                    sceneInstance.Scene, 
+                    // sceneInstance.Scene, 
+                    scene, 
                     LevelData.openingCutScenePrefabs.Concat(LevelData.closingCutScenePrefabs).ToList()
                 );
             }
@@ -164,12 +173,20 @@
                 .Subscribe(result =>
                 {
                     //
-                    (_levelDataAsset, _sceneInstance) = result;
-                    // _levelDataAsset = result;
+                    // (_levelDataAsset, _sceneInstance) = result;
+                    _levelDataAsset = result;
 
-                    MakeWorld(_levelDataAsset, _sceneInstance);
+                    SceneManager.LoadSceneAsync(specificLevelName, LoadSceneMode.Additive)
+                        .AsObservable()
+                        .Subscribe(x =>
+                        {
+                            // MakeWorld(_levelDataAsset, _sceneInstance);
+                            var scene = SceneManager.GetSceneByName(specificLevelName);
+                            MakeWorld(_levelDataAsset, scene);
 
-                    loadingDoneAction();
+                            loadingDoneAction();
+                        })
+                        .AddTo(_compositeDisposable);
                 })
                 .AddTo(_compositeDisposable);
         }
@@ -224,7 +241,8 @@
                     var adjustedSelectedLevel = selectedLevel + 1;
                     
                     var levelAssetName = $"Level {adjustedSelectedLevel:000}/Level Data";
-                    var specificLevelName = $"Level {adjustedSelectedLevel:000}/Main";
+                    // var specificLevelName = $"Level {adjustedSelectedLevel:000}/Main";
+                    var specificLevelName = $"Level {adjustedSelectedLevel:000} - Main";
                     LoadingAsset(levelAssetName, specificLevelName);
                 })
                 .AddTo(_compositeDisposable);

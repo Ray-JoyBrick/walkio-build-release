@@ -18,6 +18,19 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
 
         public float3 PrefVelocity;
 
-        public float3 Force;
+        //
+        public float3 Direction;
+        public float Force;
+
+        //
+        public float3 Position;
+        public float Mass;
+        public float InverseDensity;
+        public float Pressure;
+        public float3 ForcePressure;
+        public float3 ForceViscosity;
+        public float3 ForceTension;
+
+        public static unsafe int Stride => sizeof(ParticleProperty);
     }
 }

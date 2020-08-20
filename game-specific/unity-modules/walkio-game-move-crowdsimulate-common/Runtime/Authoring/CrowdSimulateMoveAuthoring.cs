@@ -30,7 +30,7 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
                 PrefSpeed = speed,
                 Radius = radius
             });
-            dstManager.AddBuffer<NearbyParticleBuffer>(entity);
+            dstManager.AddBuffer<ParticleNearbyBuffer>(entity);
         }
     }
 }

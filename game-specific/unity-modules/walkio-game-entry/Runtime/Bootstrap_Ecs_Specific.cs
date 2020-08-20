@@ -636,6 +636,52 @@
 #endif
         }
 
+        private void MoveCrowdSimulate_CheckBroadphasePairsSystem(ComponentSystemGroup componentSystemGroup)
+        {
+#if WALKIO_MOVE_CROWDSIMULATE
+            _logger.Debug($"Bootstrap - Module Creation - MoveCrowdSimulate_CheckBroadphasePairsSystem");
+
+            var createdSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameMoveCrowdSimulate.SystemA>();
+
+            //
+            createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
+            // createdSystem.FlowFieldWorldProvider = (GameMoveFlowField.IFlowFieldWorldProvider) this;
+
+            //
+            createdSystem.Construct();
+
+            //
+            componentSystemGroup.AddSystemToUpdateList(createdSystem);
+#else
+            _logger.Debug($"Bootstrap - No Module - MoveCrowdSimulate_CheckBroadphasePairsSystem");
+#endif
+        }
+        
+        private void MoveCrowdSimulate_MoveSystemA01(ComponentSystemGroup componentSystemGroup)
+        {
+#if WALKIO_MOVE_CROWDSIMULATE
+            _logger.Debug($"Bootstrap - Module Creation - MoveCrowdSimulate_MoveSystemA01");
+
+            var createdSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameMoveCrowdSimulate.SystemA>();
+
+            //
+            createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
+            // createdSystem.FlowFieldWorldProvider = (GameMoveFlowField.IFlowFieldWorldProvider) this;
+
+            //
+            createdSystem.Construct();
+
+            //
+            componentSystemGroup.AddSystemToUpdateList(createdSystem);
+#else
+            _logger.Debug($"Bootstrap - No Module - MoveCrowdSimulate_MoveSystemA01");
+#endif
+        }
+
         private void MoveCrowdSimulate_SystemA(ComponentSystemGroup componentSystemGroup)
         {
 #if WALKIO_MOVE_CROWDSIMULATE

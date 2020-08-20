@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 5757798662699686180}
   - component: {fileID: 3401803665341531115}
   - component: {fileID: 2565358970555752329}
+  - component: {fileID: 871725981021281670}
   m_Layer: 30
   m_Name: Avatar
   m_TagString: Untagged
@@ -296,7 +297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccea9ea98e38942e0b0938c27ed1903e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MotionType: 0
+  m_MotionType: 1
   m_Mass: 1
   m_LinearDamping: 0.01
   m_AngularDamping: 0.05
@@ -368,3 +369,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isAbsorber: 1
+--- !u!114 &871725981021281670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5757798662699686178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cf45956447c49f8902fd20fdb24b6ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mass: 1

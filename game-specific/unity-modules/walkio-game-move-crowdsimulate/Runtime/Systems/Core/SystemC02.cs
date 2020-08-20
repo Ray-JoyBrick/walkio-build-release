@@ -66,7 +66,7 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
                     ComponentType.ReadOnly<Particle>(),
                     ComponentType.ReadOnly<ParticleProperty>(),
                     ComponentType.ReadOnly<GameMove.MoveByForce>(),
-                    typeof(NearbyParticleBuffer)
+                    typeof(ParticleNearbyBuffer)
                 }
             });
 
@@ -83,7 +83,7 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
 
             Entities
                 .WithAll<Particle>()
-                .ForEach((Entity entity, LocalToWorld localToWorld, DynamicBuffer<NearbyParticleBuffer> nearbyParticleBuffers,  GameMove.MoveByForce moveByForce, ref ParticleProperty particleProperty) =>
+                .ForEach((Entity entity, LocalToWorld localToWorld, DynamicBuffer<ParticleNearbyBuffer> nearbyParticleBuffers,  GameMove.MoveByForce moveByForce, ref ParticleProperty particleProperty) =>
                 {
                     particleProperty.PrefVelocity = moveByForce.Direction;
                     
@@ -91,7 +91,7 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
                     var radius = particleProperty.Radius;
                     var velocity = particleProperty.Velocity;
                     
-                    particleProperty.Force = (particleProperty.PrefVelocity - particleProperty.Velocity) / particleProperty.Ksi;
+                    // particleProperty.Force = (particleProperty.PrefVelocity - particleProperty.Velocity) / particleProperty.Ksi;
                     
                     var nearbyAgentCount = nearbyParticleBuffers.Length;
                     for (var i = 0; i < nearbyAgentCount; ++i)
@@ -127,12 +127,12 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
                                 var t = ((b - discrSquareRoot) / a);
                                 if (t > Mathf.Epsilon)
                                 {
-                                    particleProperty.Force += (
-                                        (-particleProperty.K * Mathf.Exp(-t / particleProperty.T0))
-                                        * (v - (b * v - a * w) / discrSquareRoot)
-                                        / (a * Mathf.Pow(t, particleProperty.M))
-                                        * (particleProperty.M / t + 1.0f / particleProperty.T0)
-                                    );
+                                    // particleProperty.Force += (
+                                    //     (-particleProperty.K * Mathf.Exp(-t / particleProperty.T0))
+                                    //     * (v - (b * v - a * w) / discrSquareRoot)
+                                    //     / (a * Mathf.Pow(t, particleProperty.M))
+                                    //     * (particleProperty.M / t + 1.0f / particleProperty.T0)
+                                    // );
                                 }
                             }
                         }
