@@ -2,6 +2,7 @@
 {
     using UniRx;
     using UnityEngine;
+    using UnityEngine.SceneManagement;
 
     public partial class Bootstrap :
         MonoBehaviour
@@ -19,26 +20,37 @@
         void Start()
         {
             _logger.Debug($"Bootstrap Assist - Start");
-
-            _assistable?.SetupBeforeEcs
-                .Subscribe(x =>
+            
+#if !UNITY_EDITOR
+            SceneManager.LoadSceneAsync(assistableSceneName, LoadSceneMode.Additive).AsObservable()
+                .Delay(System.TimeSpan.FromMilliseconds(500))
+                .Subscribe(asyncOp =>
                 {
-                    //
-                    SetupEcsWorldContext();
-                    SetupEcsWorldSystem();
+#endif
+                    _assistable?.SetupBeforeEcs
+                        .Subscribe(x =>
+                        {
+                            //
+                            SetupEcsWorldContext();
+                            SetupEcsWorldSystem();
 
-                    //
-                    StartGameFlow();
+                            //
+                            StartGameFlow();
+                        })
+                        .AddTo(_compositeDisposable);
+
+                    _assistable?.SetupAfterEcs
+                        .Subscribe(x =>
+                        {
+                            //
+                            HandleSetupAfterEcs();
+                        })
+                        .AddTo(_compositeDisposable);
+#if !UNITY_EDITOR
                 })
                 .AddTo(_compositeDisposable);
+#endif
 
-            _assistable?.SetupAfterEcs
-                .Subscribe(x =>
-                {
-                    //
-                    HandleSetupAfterEcs();
-                })
-                .AddTo(_compositeDisposable);
         }
 
         private void OnDestroy()

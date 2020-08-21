@@ -22,7 +22,7 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
     [UpdateBefore(typeof(StepPhysicsWorld))]
     public class CheckBroadphasePairsSystem : SystemBase
     {
-        private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(SystemA));
+        private static readonly UniRx.Diagnostics.Logger _logger = new UniRx.Diagnostics.Logger(nameof(CheckBroadphasePairsSystem));
 
         //
         private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
@@ -46,7 +46,7 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
 
         public void Construct()
         {
-            _logger.Debug($"Module - Move - CrowdSimulate - SystemA - Construct");
+            _logger.Debug($"Module - Move - CrowdSimulate - CheckBroadphasePairsSystem - Construct");
 
 #if WALKIO_FLOWCONTROL
             //

@@ -11,33 +11,33 @@
         {
             _logger.Debug($"Bootstrap - HandleAddressableInitializeAsyncCompleted");
 
-            _notifySetupBeforeEcs.OnNext(1);
-
-            //
-            SetupEcsWorldContext();
-            SetupEcsWorldSystem();
-
-            SetupCreaturePart();
-            SetupFlowFieldPart();
-
-            _notifySetupAfterEcs.OnNext(1);
-            //
-            // //
-            // _assistants.ForEach(x =>
-            // {
-            // x.HandleAfterEcsSetup();
-            // });
-            //
-            // _notifySetupEcsDone.OnNext(1);
-
-            // _notifyAssetLoadingStarted.OnNext();
 
             ReformCommandStream();
             ReformInfoStream();
+            
+            LoadStartData().ToObservable()
+                .ObserveOnMainThread()
+                .SubscribeOnMainThread()
+                .Subscribe(x =>
+                {
+                    _notifySetupBeforeEcs.OnNext(1);
 
-            StartLoadingAsset_App();
+                    //
+                    SetupEcsWorldContext();
+                    SetupEcsWorldSystem();
 
-            SetupLevelPart();
+                    SetupCreaturePart();
+                    SetupCrowdSimulatePart();
+                    SetupFlowFieldPart();
+
+                    _notifySetupAfterEcs.OnNext(1);
+
+                    //
+                    StartLoadingAsset_App();
+
+                    SetupLevelPart();
+                })
+                .AddTo(_compositeDisposable);
         }
 
         private void SetupAddressable()

@@ -13,8 +13,10 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
         public float MaxAcceleration;
         public float PrefSpeed;
 
-        public float Radius;
+        // public float Radius;
         public float3 Velocity;
+        
+        public float3 ForcePhysic;
 
         public float3 PrefVelocity;
 
@@ -30,6 +32,17 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
         public float3 ForcePressure;
         public float3 ForceViscosity;
         public float3 ForceTension;
+
+        public float ParticleRadius;
+        public float SmoothRadius;
+        public float SmoothRadiusSquare;
+        public float RestDensity;
+        public float GravityMultiplier;
+        public float ParticleMass;
+        public float ParticleViscosity;
+        public float ParticleDrag;
+        
+        public float Density;
 
         public static unsafe int Stride => sizeof(ParticleProperty);
     }

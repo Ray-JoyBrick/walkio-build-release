@@ -24,7 +24,16 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
                 Direction = adjustedDirection,
                 Force = force,
 
-                Mass = mass
+                Mass = mass,
+                
+                ParticleRadius = 1.0f,
+                SmoothRadius = 1.0f,
+                SmoothRadiusSquare = 1.0f,
+                RestDensity = 30,
+                GravityMultiplier = 2000,
+                ParticleMass = 1.0f,
+                ParticleViscosity = 0.1f,
+                ParticleDrag = 0.025f
             });
 
             var buffer = dstManager.AddBuffer<ParticleNearbyBuffer>(entity);

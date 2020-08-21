@@ -688,7 +688,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ad964e75097841469cb4323c5a0897b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flowControlData: {fileID: 11400000, guid: ac7f5ecf2e1a3be47a9703d14044a2d5, type: 2}
+  crowdSimulateWorldData: {fileID: 11400000, guid: df8378c8ea6b3064092505dff095705f,
+    type: 2}
   flowFieldWorldData: {fileID: 11400000, guid: 6f7451ec5f10b0142bf6f0640bd8b51e, type: 2}
   gridWorldData: {fileID: 11400000, guid: 01ae9ae37d005f34a95adde5006fa051, type: 2}
   sceneName: Entry

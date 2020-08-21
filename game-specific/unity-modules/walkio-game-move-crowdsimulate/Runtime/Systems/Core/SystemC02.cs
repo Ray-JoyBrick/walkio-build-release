@@ -88,7 +88,8 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
                     particleProperty.PrefVelocity = moveByForce.Direction;
                     
                     var position = localToWorld.Position;
-                    var radius = particleProperty.Radius;
+                    // var radius = particleProperty.Radius;
+                    var radius = 1.0f;
                     var velocity = particleProperty.Velocity;
                     
                     // particleProperty.Force = (particleProperty.PrefVelocity - particleProperty.Velocity) / particleProperty.Ksi;

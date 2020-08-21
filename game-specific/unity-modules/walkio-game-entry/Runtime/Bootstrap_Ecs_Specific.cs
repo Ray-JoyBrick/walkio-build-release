@@ -624,7 +624,7 @@
 
             //
             createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
-            // createdSystem.FlowFieldWorldProvider = (GameMoveFlowField.IFlowFieldWorldProvider) this;
+            createdSystem.CrowdSimulateWorldProvider = (GameMoveCrowdSimulate.ICrowdSimulateWorldProvider) this;
 
             //
             createdSystem.Construct();
@@ -643,7 +643,7 @@
 
             var createdSystem =
                 World.DefaultGameObjectInjectionWorld
-                    .GetOrCreateSystem<GameMoveCrowdSimulate.SystemA>();
+                    .GetOrCreateSystem<GameMoveCrowdSimulate.CheckBroadphasePairsSystem>();
 
             //
             createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
@@ -666,11 +666,11 @@
 
             var createdSystem =
                 World.DefaultGameObjectInjectionWorld
-                    .GetOrCreateSystem<GameMoveCrowdSimulate.SystemA>();
+                    .GetOrCreateSystem<GameMoveCrowdSimulate.MoveSystemA01>();
 
             //
             createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
-            // createdSystem.FlowFieldWorldProvider = (GameMoveFlowField.IFlowFieldWorldProvider) this;
+            createdSystem.CrowdSimulateWorldProvider = (GameMoveCrowdSimulate.ICrowdSimulateWorldProvider) this;
 
             //
             createdSystem.Construct();

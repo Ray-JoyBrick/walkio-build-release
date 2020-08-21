@@ -91,16 +91,16 @@ namespace JoyBrick.Walkio.Build
         public static string GetPlatformVersion(int platformIndex)
         {
             var path = $"Assets/_/1 - Game/App Related/Prefabs/Main/AppwideSOI.asset";
-            var appwideSOI = (JoyBrick.DailyTalk.Game.App.Entry.Main.AppwideSOI)AssetDatabase.LoadAssetAtPath(path, typeof(JoyBrick.DailyTalk.Game.App.Entry.Main.AppwideSOI));
+            var entryData = (JoyBrick.Walkio.Game.Template.EntryData)AssetDatabase.LoadAssetAtPath(path, typeof(JoyBrick.Walkio.Game.Template.EntryData));
             // Resources.Load<JoyBrick.DailyTalk.Game.App.Entry.Main.AppwideSOI>("AppwideSOI");
             var version = "";
-            if (appwideSOI == null)
+            if (entryData == null)
             {
                 version = "0.0.0";
             }
             else
             {
-                var pv = appwideSOI.settings.platformVersion;
+                var pv = entryData.platformVersion;
                 if (pv == null)
                 {
                     version = "0.0.0.0";
@@ -126,7 +126,7 @@ namespace JoyBrick.Walkio.Build
 
         public static void HandleVersion(UnityEngine.CloudBuild.BuildManifestObject manifest)
         {
-            var appwideSOI = Resources.Load<JoyBrick.DailyTalk.Game.App.Entry.Main.AppwideSOI>("AppwideSOI");
+            var appwideSOI = Resources.Load<JoyBrick.Walkio.Game.Template.EntryData>("AppwideSOI");
             var pv = appwideSOI.settings.platformVersion;
             var buildNumber = "";
             var hasValue = manifest.TryGetValue<string>("buildNumber", out buildNumber);

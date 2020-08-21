@@ -23,12 +23,12 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
             dstManager.AddComponentData(entity, new Particle());
             dstManager.AddComponentData(entity, new ParticleProperty
             {
-                K = k,
-                T0 = t0,
-                M = m,
-                Ksi = ksi,
-                PrefSpeed = speed,
-                Radius = radius
+                // K = k,
+                // T0 = t0,
+                // M = m,
+                // Ksi = ksi,
+                // PrefSpeed = speed,
+                // Radius = radius
             });
             dstManager.AddBuffer<ParticleNearbyBuffer>(entity);
         }

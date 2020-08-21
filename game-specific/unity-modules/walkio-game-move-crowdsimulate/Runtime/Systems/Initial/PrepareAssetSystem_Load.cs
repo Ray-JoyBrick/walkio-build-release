@@ -53,11 +53,11 @@
             Observable.Timer(System.TimeSpan.FromMilliseconds(1000))
                 .Subscribe(_ =>
                 {
-                    _logger.Debug($"Module - Move - CorwdSimulate - LoadAssetSystem - InternalLoadAsset");
+                    _logger.Debug($"Module - Move - CrowdSimulate - PrepareAssetSystem - InternalLoadAsset");
 
                     //
                     // _settingDataAsset = result;
-
+                    
                     loadingDoneAction();
 
                 })
@@ -100,7 +100,7 @@
                 .Where(x => x.Name.Contains("Stage"))
                 .Subscribe(x =>
                 {
-                    _logger.Debug($"Module - Move - CorwdSimulate - LoadAssetSystem - Construct - Receive AssetLoadingStarted");
+                    _logger.Debug($"Module - Move - CrowdSimulate - PrepareAssetSystem - Construct - Receive AssetLoadingStarted");
 
                     LoadingAsset();
                 })
