@@ -31,7 +31,8 @@ namespace JoyBrick.Walkio.Game.FlowControl
     public interface IFlowControl
     {
         //
-        ScriptableObject FlowControlData { get; }
+        // ScriptableObject FlowControlData { get; }
+        Template.FlowControlDataJsonUse FlowControlData { get; }
 
         //
         IObservable<FlowControlContext> AssetLoadingStarted { get; }

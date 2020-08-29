@@ -66,7 +66,7 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
                     ComponentType.ReadOnly<Particle>(),
                     ComponentType.ReadOnly<ParticleProperty>(),
                     ComponentType.ReadOnly<GameMove.MoveByForce>(),
-                    typeof(NearbyParticleBuffer)
+                    typeof(ParticleNearbyBuffer)
                 }
             });
 
@@ -85,32 +85,32 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
                 .WithAll<Particle>()
                 .ForEach((Entity entity, ref Translation translation, ref ParticleProperty particleProperty, ref Rotation rotation) =>
                 {
-                    var acceleration = particleProperty.Force;
-                    // var deltaTime = 0.1f;
-
-                    // if (acceleration.sqrMagnitude > (_maxAcceleration * _maxAcceleration))
-                    // {
-                    //     acceleration = acceleration.normalized * _maxAcceleration;
-                    // }
-
-                    var accX = Mathf.Clamp(acceleration.x, -20.0f, 20.0f);
-                    var accZ = Mathf.Clamp(acceleration.z, -20.0f, 20.0f);
-            
-                    acceleration.x = accX;
-                    acceleration.z = accZ;
-            
-                    particleProperty.Velocity = particleProperty.Velocity + (acceleration * deltaTime);
-                    translation.Value = translation.Value + (particleProperty.Velocity * deltaTime);
-
-                    // gameObject.transform.position = _position;
-                    // gameObject.transform.forward = _velocity.normalized;
-
-                    var adjustedDirection = math.normalize(particleProperty.Velocity);
-                    
-                    var smoothedRotation = math.slerp(
-                        rotation.Value,
-                        quaternion.LookRotationSafe(adjustedDirection, math.up()), 1f - math.exp(-deltaTime));
-                    rotation.Value = smoothedRotation;
+                    // var acceleration = particleProperty.Force;
+                    // // var deltaTime = 0.1f;
+                    //
+                    // // if (acceleration.sqrMagnitude > (_maxAcceleration * _maxAcceleration))
+                    // // {
+                    // //     acceleration = acceleration.normalized * _maxAcceleration;
+                    // // }
+                    //
+                    // var accX = Mathf.Clamp(acceleration.x, -20.0f, 20.0f);
+                    // var accZ = Mathf.Clamp(acceleration.z, -20.0f, 20.0f);
+                    //
+                    // acceleration.x = accX;
+                    // acceleration.z = accZ;
+                    //
+                    // particleProperty.Velocity = particleProperty.Velocity + (acceleration * deltaTime);
+                    // translation.Value = translation.Value + (particleProperty.Velocity * deltaTime);
+                    //
+                    // // gameObject.transform.position = _position;
+                    // // gameObject.transform.forward = _velocity.normalized;
+                    //
+                    // var adjustedDirection = math.normalize(particleProperty.Velocity);
+                    //
+                    // var smoothedRotation = math.slerp(
+                    //     rotation.Value,
+                    //     quaternion.LookRotationSafe(adjustedDirection, math.up()), 1f - math.exp(-deltaTime));
+                    // rotation.Value = smoothedRotation;
                 })
                 .WithoutBurst()
                 .Run();

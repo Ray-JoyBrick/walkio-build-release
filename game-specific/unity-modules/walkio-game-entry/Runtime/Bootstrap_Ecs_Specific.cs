@@ -624,7 +624,7 @@
 
             //
             createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
-            // createdSystem.FlowFieldWorldProvider = (GameMoveFlowField.IFlowFieldWorldProvider) this;
+            createdSystem.CrowdSimulateWorldProvider = (GameMoveCrowdSimulate.ICrowdSimulateWorldProvider) this;
 
             //
             createdSystem.Construct();
@@ -633,6 +633,52 @@
             componentSystemGroup.AddSystemToUpdateList(createdSystem);
 #else
             _logger.Debug($"Bootstrap - No Module - MoveCrowdSimulate_SetupAssetSystem");
+#endif
+        }
+
+        private void MoveCrowdSimulate_CheckBroadphasePairsSystem(ComponentSystemGroup componentSystemGroup)
+        {
+#if WALKIO_MOVE_CROWDSIMULATE
+            _logger.Debug($"Bootstrap - Module Creation - MoveCrowdSimulate_CheckBroadphasePairsSystem");
+
+            var createdSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameMoveCrowdSimulate.CheckBroadphasePairsSystem>();
+
+            //
+            createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
+            // createdSystem.FlowFieldWorldProvider = (GameMoveFlowField.IFlowFieldWorldProvider) this;
+
+            //
+            createdSystem.Construct();
+
+            //
+            componentSystemGroup.AddSystemToUpdateList(createdSystem);
+#else
+            _logger.Debug($"Bootstrap - No Module - MoveCrowdSimulate_CheckBroadphasePairsSystem");
+#endif
+        }
+        
+        private void MoveCrowdSimulate_MoveSystemA01(ComponentSystemGroup componentSystemGroup)
+        {
+#if WALKIO_MOVE_CROWDSIMULATE
+            _logger.Debug($"Bootstrap - Module Creation - MoveCrowdSimulate_MoveSystemA01");
+
+            var createdSystem =
+                World.DefaultGameObjectInjectionWorld
+                    .GetOrCreateSystem<GameMoveCrowdSimulate.MoveSystemA01>();
+
+            //
+            createdSystem.FlowControl = (GameFlowControl.IFlowControl) this;
+            createdSystem.CrowdSimulateWorldProvider = (GameMoveCrowdSimulate.ICrowdSimulateWorldProvider) this;
+
+            //
+            createdSystem.Construct();
+
+            //
+            componentSystemGroup.AddSystemToUpdateList(createdSystem);
+#else
+            _logger.Debug($"Bootstrap - No Module - MoveCrowdSimulate_MoveSystemA01");
 #endif
         }
 

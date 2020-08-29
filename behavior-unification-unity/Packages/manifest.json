@@ -111,23 +111,31 @@
         "com.google"
       ]
     },
-    {
-      "name": "package.openupm.com",
-      "url": "https://package.openupm.com",
-      "scopes": [
-        "com.alelievr.node-graph-processor",
-        "com.cysharp.unitask",
-        "com.neuecc.unirx",
-        "com.openupm",
-        "com.syomus.proceduraltoolkit"
-      ]
-    },
-    {
-      "name": "npmjs",
-      "url": "https://registry.npmjs.org/",
-      "scopes": [
-        "com.unity.uiextensions"
-      ]
-    }
-  ]
+    "scopedRegistries": [
+        {
+            "name": "Game Package Registry by Google",
+            "url": "https://unityregistry-pa.googleapis.com",
+            "scopes": [
+                "com.google"
+            ]
+        },
+        {
+            "name": "package.openupm.com",
+            "url": "https://package.openupm.com",
+            "scopes": [
+                "com.alelievr.node-graph-processor",
+                "com.cysharp.unitask",
+                "com.neuecc.unirx",
+                "com.openupm",
+                "com.syomus.proceduraltoolkit"
+            ]
+        },
+        {
+            "name": "npmjs",
+            "url": "https://registry.npmjs.org/",
+            "scopes": [
+                "com.unity.uiextensions"
+            ]
+        }
+    ]
 }

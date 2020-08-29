@@ -2741,7 +2741,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ad1984cec9349bfb3f8cbaac49c80b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamId: 0
+  teamId: 3
 --- !u!114 &3727086800757648067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2769,7 +2769,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toBeChased: 1
-  belongToGroup: 2
+  belongToGroup: 3
   syncFromMonoBehaviorWorld: 1
 --- !u!114 &902783682648343431
 MonoBehaviour:

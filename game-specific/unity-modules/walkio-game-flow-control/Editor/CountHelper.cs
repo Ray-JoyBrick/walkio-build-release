@@ -3,6 +3,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Reflection;
     using UnityEditor;
@@ -99,11 +100,12 @@
                         && String.Compare(x.Attributes.First().Category, "Assist", StringComparison.Ordinal) == 0)
                     .ToList();
 
-
+            // // var flowControlData = AssetDatabase.LoadAssetAtPath<Template.FlowControlData>(
+            // //     "Packages/com.walkio.game.flow-control.common/Data Assets/Flow Control Data.asset");
             // var flowControlData = AssetDatabase.LoadAssetAtPath<Template.FlowControlData>(
-            //     "Packages/com.walkio.game.flow-control.common/Data Assets/Flow Control Data.asset");
-            var flowControlData = AssetDatabase.LoadAssetAtPath<Template.FlowControlData>(
-                $"Assets/_/1 - Game/Module - Flow Control - App/Data Assets/Flow Control Data.asset");
+            //     $"Assets/_/1 - Game/Module - Flow Control - App/Data Assets/Flow Control Data.asset");
+
+            var flowControlData = new Template.FlowControlDataJsonUse();
 
             if (flowControlData != null)
             {
@@ -132,8 +134,13 @@
                 //     });
                 // });
 
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
+                var jsonString = JsonUtility.ToJson(flowControlData);
+                var filePath = Path.Combine(Application.streamingAssetsPath, "flow-control-data.txt");
+
+                using (var outfile = new StreamWriter(filePath))
+                {
+                    outfile.Write(jsonString);
+                }
             }
 
             Debug.Log($"CountHelper - CountDoneLoadingAssetWaitAttribute - has {appAttributesDoneLoading.Count} of <AddToCountAttribute> classes for app in the project");

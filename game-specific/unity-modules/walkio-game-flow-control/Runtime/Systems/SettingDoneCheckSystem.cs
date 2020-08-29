@@ -26,22 +26,45 @@ namespace JoyBrick.Walkio.Game.FlowControl
 
         public void Construct()
         {
-            var flowControlData = FlowControl.FlowControlData as Template.FlowControlData;
+            // var flowControlData = FlowControl.FlowControlData as Template.FlowControlData;
+            // if (flowControlData == null) return;
+
+            var flowControlData = FlowControl.FlowControlData;
             if (flowControlData == null) return;
 
             _logger.Debug($"Module - SettingDoneCheckSystem - Construct");
 
-            // var doneSettingAssetWaitForAppAll = flowControlData.doneSettingAssetWaitForApp;
+            var doneSettingAssetWaitForAppAll = flowControlData.doneSettingAssetWaitForApp;
+            var doneSettingAssetWaitForAppExcludeAssist =
+                doneSettingAssetWaitForAppAll - flowControlData.doneSettingAssetWaitForAppAssist;
+            
+            var doneSettingAssetWaitForPreparationAll = flowControlData.doneSettingAssetWaitForPreparation;
+            var doneSettingAssetWaitForPreparationExcludeAssist =
+                doneSettingAssetWaitForPreparationAll - flowControlData.doneSettingAssetWaitForPreparationAssist;
+            
+            var doneSettingAssetWaitForStageAll = flowControlData.doneSettingAssetWaitForStage;
+            var doneSettingAssetWaitForStageExcludeAssist =
+                doneSettingAssetWaitForStageAll - flowControlData.doneSettingAssetWaitForStageAssist;
+            
+            var doneSettingAssetWaitForApp = doneSettingAssetWaitForAppAll;
+            var doneSettingAssetWaitForPreparation = doneSettingAssetWaitForPreparationAll;
+            var doneSettingAssetWaitForStage = doneSettingAssetWaitForStageAll;
+            
+            // var doneSettingAssetWaitForApp = doneSettingAssetWaitForAppExcludeAssist;
+            // var doneSettingAssetWaitForPreparation = doneSettingAssetWaitForPreparationExcludeAssist;
+            // var doneSettingAssetWaitForStage = doneSettingAssetWaitForStageExcludeAssist;
+
+            // var doneSettingAssetWaitForAppAll = 2;
             // var doneSettingAssetWaitForAppExcludeAssist =
-            //     doneSettingAssetWaitForAppAll - flowControlData.doneSettingAssetWaitForAppAssist;
+            //     doneSettingAssetWaitForAppAll - 1;
             //
-            // var doneSettingAssetWaitForPreparationAll = flowControlData.doneSettingAssetWaitForPreparation;
+            // var doneSettingAssetWaitForPreparationAll = 1;
             // var doneSettingAssetWaitForPreparationExcludeAssist =
-            //     doneSettingAssetWaitForPreparationAll - flowControlData.doneSettingAssetWaitForPreparationAssist;
+            //     doneSettingAssetWaitForPreparationAll - 0;
             //
-            // var doneSettingAssetWaitForStageAll = flowControlData.doneSettingAssetWaitForStage;
+            // var doneSettingAssetWaitForStageAll = 7;
             // var doneSettingAssetWaitForStageExcludeAssist =
-            //     doneSettingAssetWaitForStageAll - flowControlData.doneSettingAssetWaitForStageAssist;
+            //     doneSettingAssetWaitForStageAll - 1;
             //
             // // var doneSettingAssetWaitForApp = doneSettingAssetWaitForAppAll;
             // // var doneSettingAssetWaitForPreparation = doneSettingAssetWaitForPreparationAll;
@@ -50,26 +73,6 @@ namespace JoyBrick.Walkio.Game.FlowControl
             // var doneSettingAssetWaitForApp = doneSettingAssetWaitForAppExcludeAssist;
             // var doneSettingAssetWaitForPreparation = doneSettingAssetWaitForPreparationExcludeAssist;
             // var doneSettingAssetWaitForStage = doneSettingAssetWaitForStageExcludeAssist;
-
-            var doneSettingAssetWaitForAppAll = 2;
-            var doneSettingAssetWaitForAppExcludeAssist =
-                doneSettingAssetWaitForAppAll - 1;
-
-            var doneSettingAssetWaitForPreparationAll = 1;
-            var doneSettingAssetWaitForPreparationExcludeAssist =
-                doneSettingAssetWaitForPreparationAll - 0;
-
-            var doneSettingAssetWaitForStageAll = 7;
-            var doneSettingAssetWaitForStageExcludeAssist =
-                doneSettingAssetWaitForStageAll - 1;
-
-            // var doneSettingAssetWaitForApp = doneSettingAssetWaitForAppAll;
-            // var doneSettingAssetWaitForPreparation = doneSettingAssetWaitForPreparationAll;
-            // var doneSettingAssetWaitForStage = doneSettingAssetWaitForStageAll;
-
-            var doneSettingAssetWaitForApp = doneSettingAssetWaitForAppExcludeAssist;
-            var doneSettingAssetWaitForPreparation = doneSettingAssetWaitForPreparationExcludeAssist;
-            var doneSettingAssetWaitForStage = doneSettingAssetWaitForStageExcludeAssist;
 
             FlowControl?.IndividualAssetSettingFinished
                 .Where(x => x.Name.Contains("App"))

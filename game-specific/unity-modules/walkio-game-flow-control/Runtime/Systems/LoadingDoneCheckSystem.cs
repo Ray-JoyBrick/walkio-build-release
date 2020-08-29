@@ -26,25 +26,49 @@ namespace JoyBrick.Walkio.Game.FlowControl
 
         public void Construct()
         {
-            var flowControlData = FlowControl.FlowControlData as Template.FlowControlData;
-            if (flowControlData == null) return;
+            // var flowControlData = FlowControl.FlowControlData as Template.FlowControlData;
+            // if (flowControlData == null) return;
 
+            var flowControlData = FlowControl.FlowControlData;
+           if (flowControlData == null) return;
+           
             _logger.Debug($"Module - LoadingDoneCheckSystem - Construct");
 
             // The main purpose is to count loading finished event of each individual asset,
             // If it reaches the total, just issues Start Asset Setting
 
-            // var doneLoadingAssetWaitForAppAll = flowControlData.doneLoadingAssetWaitForApp;
+            var doneLoadingAssetWaitForAppAll = flowControlData.doneLoadingAssetWaitForApp;
+            var doneLoadingAssetWaitForAppExcludeAssist =
+                doneLoadingAssetWaitForAppAll - flowControlData.doneLoadingAssetWaitForAppAssist;
+            
+            var doneLoadingAssetWaitForPreparationAll = flowControlData.doneLoadingAssetWaitForPreparation;
+            var doneLoadingAssetWaitForPreparationExcludeAssist =
+                doneLoadingAssetWaitForPreparationAll - flowControlData.doneLoadingAssetWaitForPreparationAssist;
+            
+            var doneLoadingAssetWaitForStageAll = flowControlData.doneLoadingAssetWaitForStage;
+            var doneLoadingAssetWaitForStageExcludeAssist =
+                doneLoadingAssetWaitForStageAll - flowControlData.doneLoadingAssetWaitForStageAssist;
+            
+            // Use flags to decide which to use
+            var doneLoadingAssetWaitForApp = doneLoadingAssetWaitForAppAll;
+            var doneLoadingAssetWaitForPreparation = doneLoadingAssetWaitForPreparationAll;
+            var doneLoadingAssetWaitForStage = doneLoadingAssetWaitForStageAll;
+            
+            // var doneLoadingAssetWaitForApp = doneLoadingAssetWaitForAppExcludeAssist;
+            // var doneLoadingAssetWaitForPreparation = doneLoadingAssetWaitForPreparationExcludeAssist;
+            // var doneLoadingAssetWaitForStage = doneLoadingAssetWaitForStageExcludeAssist;
+
+            // var doneLoadingAssetWaitForAppAll = 5;
             // var doneLoadingAssetWaitForAppExcludeAssist =
-            //     doneLoadingAssetWaitForAppAll - flowControlData.doneLoadingAssetWaitForAppAssist;
+            //     doneLoadingAssetWaitForAppAll - 1;
             //
-            // var doneLoadingAssetWaitForPreparationAll = flowControlData.doneLoadingAssetWaitForPreparation;
+            // var doneLoadingAssetWaitForPreparationAll = 2;
             // var doneLoadingAssetWaitForPreparationExcludeAssist =
-            //     doneLoadingAssetWaitForPreparationAll - flowControlData.doneLoadingAssetWaitForPreparationAssist;
+            //     doneLoadingAssetWaitForPreparationAll - 0;
             //
-            // var doneLoadingAssetWaitForStageAll = flowControlData.doneLoadingAssetWaitForStage;
+            // var doneLoadingAssetWaitForStageAll = 8;
             // var doneLoadingAssetWaitForStageExcludeAssist =
-            //     doneLoadingAssetWaitForStageAll - flowControlData.doneLoadingAssetWaitForStageAssist;
+            //     doneLoadingAssetWaitForStageAll - 1;
             //
             // // Use flags to decide which to use
             // // var doneLoadingAssetWaitForApp = doneLoadingAssetWaitForAppAll;
@@ -54,27 +78,6 @@ namespace JoyBrick.Walkio.Game.FlowControl
             // var doneLoadingAssetWaitForApp = doneLoadingAssetWaitForAppExcludeAssist;
             // var doneLoadingAssetWaitForPreparation = doneLoadingAssetWaitForPreparationExcludeAssist;
             // var doneLoadingAssetWaitForStage = doneLoadingAssetWaitForStageExcludeAssist;
-
-            var doneLoadingAssetWaitForAppAll = 5;
-            var doneLoadingAssetWaitForAppExcludeAssist =
-                doneLoadingAssetWaitForAppAll - 1;
-
-            var doneLoadingAssetWaitForPreparationAll = 2;
-            var doneLoadingAssetWaitForPreparationExcludeAssist =
-                doneLoadingAssetWaitForPreparationAll - 0;
-
-            var doneLoadingAssetWaitForStageAll = 8;
-            var doneLoadingAssetWaitForStageExcludeAssist =
-                doneLoadingAssetWaitForStageAll - 1;
-
-            // Use flags to decide which to use
-            // var doneLoadingAssetWaitForApp = doneLoadingAssetWaitForAppAll;
-            // var doneLoadingAssetWaitForPreparation = doneLoadingAssetWaitForPreparationAll;
-            // var doneLoadingAssetWaitForStage = doneLoadingAssetWaitForStageAll;
-
-            var doneLoadingAssetWaitForApp = doneLoadingAssetWaitForAppExcludeAssist;
-            var doneLoadingAssetWaitForPreparation = doneLoadingAssetWaitForPreparationExcludeAssist;
-            var doneLoadingAssetWaitForStage = doneLoadingAssetWaitForStageExcludeAssist;
 
             FlowControl?.IndividualAssetLoadingFinished
                 .Where(x => x.Name.Contains("App"))

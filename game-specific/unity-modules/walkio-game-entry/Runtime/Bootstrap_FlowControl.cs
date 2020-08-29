@@ -1,12 +1,16 @@
 ﻿namespace JoyBrick.Walkio.Game
 {
     using System;
+    using System.IO;
     using System.Linq;
+    using System.Threading.Tasks;
+    using Cysharp.Threading.Tasks;
     using FlowControl.Template;
     using UniRx;
     using Unity.Entities;
     using UnityEngine;
     using UnityEngine.Events;
+    using UnityEngine.Networking;
     using UnityEngine.SceneManagement;
 
     //
@@ -22,8 +26,10 @@
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.BoxGroup("Flow Control")]
 #endif
-        public ScriptableObject flowControlData;
-        public ScriptableObject FlowControlData => flowControlData;
+        // public ScriptableObject flowControlData;
+        // public ScriptableObject FlowControlData => flowControlData;
+
+        public FlowControlDataJsonUse FlowControlData => _flowControlDataJsonUse; 
 
         //
         private readonly Subject<GameFlowControl.FlowControlContext> _notifyAssetLoadingStarted =
@@ -134,6 +140,41 @@
             _logger.Debug($"Bootstrap - FinishIndividualUnloadingAsset - {context}");
 
             _notifyIndividualAssetUnloadingFinished.OnNext(context);
+        }
+        
+        //
+        public ReactiveProperty<string> FlowControlDataJsonString => _flowControlDataJsonString;
+        private readonly ReactiveProperty<string> _flowControlDataJsonString = new ReactiveProperty<string>(string.Empty);
+        
+        private GameFlowControl.Template.FlowControlDataJsonUse _flowControlDataJsonUse = new FlowControlDataJsonUse();
+        
+        // Read back flow control data for loading, setting done check use
+        
+        // From Stackoverflow
+        // https://stackoverflow.com/questions/50400634/unity-streaming-assets-ios-not-working
+        private async Task FetchFlowControlDataJsonString()
+        {
+            _logger.Debug($"Bootstrap - FetchFlowControlDataJsonString");
+
+            var filePath = Path.Combine(StreamingAssetPath, "flow-control-data.txt");
+            if (filePath.Contains("://"))
+            {
+                using (var uwr = UnityWebRequest.Get(filePath))
+                {
+                    var uwrao = await uwr.SendWebRequest();
+                    var text = uwrao.downloadHandler.text;
+                    FlowControlDataJsonString.Value = text;
+
+                    Debug.Log($"Bootstrap - FetchFlowControlDataJsonString - flow control data json: {text}");
+                }
+            }
+            else
+            {
+                var text = System.IO.File.ReadAllText(filePath);
+                FlowControlDataJsonString.Value = text;
+
+                Debug.Log($"Bootstrap - FetchFlowControlDataJsonString - flow control data json: {text}");
+            }
         }
     }
 }

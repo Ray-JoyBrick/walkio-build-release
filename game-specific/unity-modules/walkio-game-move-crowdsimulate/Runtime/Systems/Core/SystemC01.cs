@@ -66,7 +66,7 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
                     ComponentType.ReadOnly<Particle>(),
                     ComponentType.ReadOnly<ParticleProperty>(),
                     ComponentType.ReadOnly<GameMove.MoveByForce>(),
-                    typeof(NearbyParticleBuffer)
+                    typeof(ParticleNearbyBuffer)
                 }
             });
 
@@ -76,12 +76,12 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
         private void CheckOtherParticle(
             EntityCommandBuffer commandBuffer,
             Entity selfEntity,
-            DynamicBuffer<NearbyParticleBuffer> selfNearbyParticleBuffers,
+            DynamicBuffer<ParticleNearbyBuffer> selfNearbyParticleBuffers,
             float3 selfPosition)
         {
             Entities
                 .WithStoreEntityQueryInField(ref _particleEntityQuery)
-                .ForEach((Entity entity, LocalToWorld localToWorld, DynamicBuffer<NearbyParticleBuffer> nearbyParticleBuffers, GameMove.MoveByForce moveByForce) =>
+                .ForEach((Entity entity, LocalToWorld localToWorld, DynamicBuffer<ParticleNearbyBuffer> nearbyParticleBuffers, GameMove.MoveByForce moveByForce) =>
                 {
                     if (selfEntity != entity)
                     {
@@ -90,7 +90,7 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
                         if (nearby)
                         {
                             // _logger.Debug($"Module - Move - CrowdSimulate - SystemC01 - CheckOtherParticle - self entity: {selfEntity} nearby: {entity}");
-                            commandBuffer.AppendToBuffer<NearbyParticleBuffer>(selfEntity, new NearbyParticleDetail
+                            commandBuffer.AppendToBuffer<ParticleNearbyBuffer>(selfEntity, new NearbyParticleDetail
                             {
                                 Velocity = moveByForce.Direction * moveByForce.Force,
                                 Position = localToWorld.Position,
@@ -113,7 +113,7 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
 
             Entities
                 .WithAll<Particle>()
-                .ForEach((Entity entity, LocalToWorld localToWorld, ParticleProperty particleProperty, DynamicBuffer<NearbyParticleBuffer> nearbyParticleBuffers,  GameMove.MoveByForce moveByForce) =>
+                .ForEach((Entity entity, LocalToWorld localToWorld, ParticleProperty particleProperty, DynamicBuffer<ParticleNearbyBuffer> nearbyParticleBuffers,  GameMove.MoveByForce moveByForce) =>
                 {
                     //
                     nearbyParticleBuffers.Clear();

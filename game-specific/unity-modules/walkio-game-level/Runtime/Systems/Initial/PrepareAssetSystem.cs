@@ -37,6 +37,7 @@ namespace JoyBrick.Walkio.Game.Level
         //
         private ScriptableObject _levelDataAsset;
         private SceneInstance _sceneInstance;
+        private Scene _scene;
 
         //
         private EntityArchetype _entityArchetype;

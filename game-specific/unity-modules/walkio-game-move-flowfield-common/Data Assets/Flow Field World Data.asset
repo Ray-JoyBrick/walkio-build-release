@@ -16,4 +16,4 @@ MonoBehaviour:
   tileCellSize: {x: 1, y: 1}
   originalPosition: {x: 0, y: 0, z: 0}
   positionOffset: {x: -5, y: 0, z: -5}
-  defaultAssignedForce: 5
+  defaultAssignedForce: 30

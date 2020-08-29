@@ -46,10 +46,21 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
 #if WALKIO_FLOWCONTROL
         public GameFlowControl.IFlowControl FlowControl { get; set; }
 #endif
+        
+        public ICrowdSimulateWorldProvider CrowdSimulateWorldProvider { get; set; }
 
         private async Task Setup()
         {
-            _logger.Debug($"Module - SetupAssetSystem - Setup");
+            _logger.Debug($"Module - Move - CrowdSimulate - SetupAssetSystem - Setup");
+            
+            // var archetype = EntityManager.CreateArchetype(
+            //     typeof(CrowdSimulationWorld),
+            //     typeof(CrowdSimulationWorldProperty),
+            //     typeof(GameFlowControl.StageUse));
+            //
+            // EntityManager.CreateEntity(archetype);
+
+            
         }
 
         private void SettingAsset()
@@ -66,7 +77,7 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate
                     FlowControl?.FinishIndividualSettingAsset(new GameFlowControl.FlowControlContext
                     {
                         Name = "Stage",
-                        Description = "Module - Move - Crowd Simulate - SetupAssetSystem"
+                        Description = "Module - Move - CrowdSimulate - SetupAssetSystem"
                     });
 #endif
                 })

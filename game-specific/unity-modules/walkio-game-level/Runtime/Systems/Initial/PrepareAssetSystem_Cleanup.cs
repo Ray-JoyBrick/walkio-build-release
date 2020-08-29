@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Cysharp.Threading.Tasks;
     using Pathfinding;
     using UniRx;
     using Unity.Entities;
@@ -27,8 +28,13 @@
     {
         private async Task Unload()
         {
-            var unload = UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(_sceneInstance.Scene);
-            await unload.AsObservable().ToTask();
+            // var unload = UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(_sceneInstance.Scene);
+            // await unload.AsObservable().ToTask();
+
+            if (_scene.IsValid())
+            {
+                await SceneManager.UnloadSceneAsync(_scene).AsObservable().ToTask();
+            }
 
             if (_levelDataAsset != null)
             {
