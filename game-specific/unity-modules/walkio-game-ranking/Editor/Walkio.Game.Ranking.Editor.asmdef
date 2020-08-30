@@ -1,0 +1,37 @@
+{
+    "name": "Walkio.Game.Ranking.Editor",
+    "references": [
+        "Unity.Addressables",
+        "Unity.Entities",
+        "Unity.Rendering.Hybrid",
+        "Unity.Burst",
+        "Unity.Collections",
+        "Unity.Transforms",
+        "Unity.Entities.Hybrid",
+        "Unity.Mathematics",
+        "Unity.Physics",
+        "Unity.ResourceManager",
+        "Cinemachine",
+        "UniRx",
+        "AstarPathfindingProject",
+        "PackageTools",
+        "Walkio.Game.Common",
+        "Walkio.Game.Common.Editor",
+        "Walkio.Game.Creature.Common",
+        "Walkio.Game.Flow-Control.Common",
+        "Walkio.Game.Level.Common",
+        "Walkio.Game.Ranking.Common"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

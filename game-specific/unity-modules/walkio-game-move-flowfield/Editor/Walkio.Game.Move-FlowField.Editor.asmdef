@@ -1,0 +1,32 @@
+{
+    "name": "Walkio.Game.Move-FlowField.Editor",
+    "references": [
+        "Unity.Burst",
+        "Unity.Collections",
+        "Unity.Entities",
+        "Unity.Entities.Hybrid",
+        "Unity.Mathematics",
+        "Unity.Transforms",
+        "Unity.Transforms.Hybrid",
+        "Unity.Rendering.Hybrid",
+        "UniRx",
+        "Walkio.Game.Common",
+        "Walkio.Game.Common.Editor",
+        "Walkio.Game.Flow-Control.Common",
+        "Walkio.Game.Move.Common",
+        "Walkio.Game.Move-FlowField.Common"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+    ],
+    "versionDefines": [
+    ],
+    "noEngineReferences": false
+}

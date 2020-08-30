@@ -1,0 +1,34 @@
+{
+    "name": "Walkio.Game.Hud-Stage.Editor",
+    "references": [
+        "Unity.Addressables",
+        "Unity.Entities",
+        "Unity.Rendering.Hybrid",
+        "Unity.Burst",
+        "Unity.Collections",
+        "Unity.Transforms",
+        "Unity.Entities.Hybrid",
+        "Unity.Entities.Properties",
+        "Unity.Mathematics",
+        "Unity.ResourceManager",
+        "UniRx",
+        "Walkio.Game.Command",
+        "Walkio.Game.Common",
+        "Walkio.Game.Common.Editor",
+        "Walkio.Game.Extension.Common",
+        "Walkio.Game.Flow-Control.Common",
+        "Walkio.Game.Hud.Common"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

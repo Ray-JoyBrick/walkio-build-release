@@ -1,0 +1,30 @@
+{
+    "name": "Walkio.Game.Creature.Assist.Editor",
+    "references": [
+        "Unity.Entities",
+        "Unity.Entities.Hybrid",
+        "Unity.Mathematics",
+        "Unity.Transforms",
+        "Unity.Transforms.Hybrid",
+        "Unity.Physics",
+        "Unity.Physics.Hybrid",
+        "Unity.Rendering.Hybrid",
+        "UniRx",
+        "Walkio.Game.Common",
+        "Walkio.Game.Common.Editor",
+        "Walkio.Game.Creature.Common",
+        "Walkio.Game.Creature",
+        "Walkio.Game.Flow-Control.Common"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

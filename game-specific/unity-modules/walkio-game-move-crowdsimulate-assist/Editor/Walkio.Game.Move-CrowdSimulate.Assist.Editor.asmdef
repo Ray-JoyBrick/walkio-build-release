@@ -1,0 +1,33 @@
+{
+    "name": "Walkio.Game.Move-CrowdSimulate.Assist.Editor",
+    "references": [
+        "Unity.Collections",
+        "Unity.Entities",
+        "Unity.Entities.Hybrid",
+        "Unity.Mathematics",
+        "Unity.Transforms",
+        "Unity.Transforms.Hybrid",
+        "Unity.Physics",
+        "Unity.Physics.Hybrid",
+        "Unity.Rendering.Hybrid",
+        "UniRx",
+        "Walkio.Game.Command",
+        "Walkio.Game.Common",
+        "Walkio.Game.Common.Editor",
+        "Walkio.Game.CrowdSimulate.Common",
+        "Walkio.Game.Flow-Control.Common"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+    ],
+    "versionDefines": [
+    ],
+    "noEngineReferences": false
+}

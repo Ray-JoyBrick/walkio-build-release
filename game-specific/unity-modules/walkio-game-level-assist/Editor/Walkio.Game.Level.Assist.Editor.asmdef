@@ -1,0 +1,32 @@
+{
+    "name": "Walkio.Game.Level.Assist.Editor",
+    "references": [
+        "Unity.Entities",
+        "Unity.Rendering.Hybrid",
+        "Unity.Burst",
+        "Unity.Collections",
+        "Unity.Transforms",
+        "Unity.Entities.Hybrid",
+        "Unity.Mathematics",
+        "UniRx",
+        "PackageTools",
+        "ALINE",
+        "Walkio.Game.Common",
+        "Walkio.Game.Common.Editor",
+        "Walkio.Game.Command",
+        "Walkio.Game.Flow-Control.Common",
+        "Walkio.Game.Level.Common"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
