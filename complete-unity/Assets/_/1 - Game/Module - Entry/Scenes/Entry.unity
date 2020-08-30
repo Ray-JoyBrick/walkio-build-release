@@ -267,7 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9a3a6a28c6a80a46adde9b4e01eeb93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Settings: {fileID: 11400000, guid: 67f1de03b75ae4548b728ac47ad9cf9a, type: 2}
+  Settings: {fileID: 11400000, guid: 80482a81f4b958e4890530541aaf33f9, type: 2}
 --- !u!4 &1292889002
 Transform:
   m_ObjectHideFlags: 0
@@ -515,11 +515,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1971704352}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ee6e4bb8147072439f853acee55f729, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ad964e75097841469cb4323c5a0897b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seeker: {fileID: 0}
-  quickPlayerCamera: {fileID: 0}
+  crowdSimulateWorldData: {fileID: 0}
+  flowFieldWorldData: {fileID: 0}
+  gridWorldData: {fileID: 0}
+  sceneName: Entry
 --- !u!4 &1971704354
 Transform:
   m_ObjectHideFlags: 0

@@ -6,15 +6,16 @@
 !.gitignore
 
 !_
+
 # Some Unity package create assets under Assets/Editor folder and unsure if these can be moved
 !Editor
 !Editor Default Resources
 !Gizmos
 !Plugins
-!Resources
 # Not adding a sub folder gitignore file into Resources for clean purpose
+!Resources
 Resources/**
-!Resources/DOTweenSettings.asset
+!Resources/I2Languages.asset
 !Standard Assets
 # Not adding a sub folder gitignore file into StreamingAssets for clean purpose
 !StreamingAssets
@@ -22,9 +23,28 @@ StreamingAssets/**
 !StreamingAssets/build.txt
 !StreamingAssets/build.txt.meta
 
-# Adding Inkle will result these two files being created under Assets folder. Thinking
-# to move these files somewhere else later.
-!InkLibrary.asset
-!InkLibrary.asset.meta
-!InkSettings.asset
-!InkSettings.asset.meta
+# # Adding Inkle will result these two files being created under Assets folder. Thinking
+# # to move these files somewhere else later.
+# !InkLibrary.asset
+# !InkLibrary.asset.meta
+# !InkSettings.asset
+# !InkSettings.asset.meta
+
+!AddressableAssetsData
+AddressableAssetsData/**
+!AddressableAssetsData/AssetGroupTemplates/
+AddressableAssetsData/AssetGroupTemplates/**
+!AddressableAssetsData/AssetGroupTemplates/Packed Assets.asset
+!AddressableAssetsData/AssetGroupTemplates/Packed Assets.asset.meta
+!AddressableAssetsData/DataBuilders/
+AddressableAssetsData/DataBuilders/**
+!AddressableAssetsData/DataBuilders/BuildScriptFastMode.asset
+!AddressableAssetsData/DataBuilders/BuildScriptFastMode.asset.meta
+!AddressableAssetsData/DataBuilders/BuildScriptPackedMode.asset
+!AddressableAssetsData/DataBuilders/BuildScriptPackedMode.asset.meta
+!AddressableAssetsData/DataBuilders/BuildScriptPackedPlayMode.asset
+!AddressableAssetsData/DataBuilders/BuildScriptPackedPlayMode.asset.meta
+!AddressableAssetsData/DataBuilders/BuildScriptVirtualMode.asset
+!AddressableAssetsData/DataBuilders/BuildScriptVirtualMode.asset.meta
+!AddressableAssetsData/AddressableAssetSettings.asset
+!AddressableAssetsData/DefaultObject.asset

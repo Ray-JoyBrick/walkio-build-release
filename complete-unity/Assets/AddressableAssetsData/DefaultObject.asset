@@ -9,13 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00e16f0575d73480ebe7b76bb4ae3939, type: 3}
-  m_Name: New Action
+  m_Script: {fileID: 11500000, guid: 3a189bb168d8d90478a09ea08c2f3d72, type: 3}
+  m_Name: DefaultObject
   m_EditorClassIdentifier: 
-  m_Parameters: []
-  m_Preconditions: []
-  m_CreatedObjects: []
-  m_RemovedObjects: []
-  m_ObjectModifiers: []
-  m_Reward: 0
-  m_CustomRewards: []
+  m_AddressableAssetSettingsGuid: 978948bfd323f8a4c8cca6d4c3452554

@@ -163,9 +163,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 693022054}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2910fb7e53064683a0f9d57abbc7d1e, type: 3}
+  m_Script: {fileID: 11500000, guid: 3554b07cab49474fa7f00c05ac30487d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  assistableSceneName: Entry
+  flowFieldWorldData: {fileID: 0}
+  obstaclePrefab: {fileID: 0}
 --- !u!1 &1624046444
 GameObject:
   m_ObjectHideFlags: 0
