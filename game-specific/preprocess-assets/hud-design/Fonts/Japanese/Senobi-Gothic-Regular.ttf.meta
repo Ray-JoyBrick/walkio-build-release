@@ -1,21 +1,3 @@
-fileFormatVersion: 2
-guid: 52a389045223f426b9dcb9b8bcb83a62
-TrueTypeFontImporter:
-  externalObjects: {}
-  serializedVersion: 4
-  fontSize: 16
-  forceTextureCase: -2
-  characterSpacing: 0
-  characterPadding: 1
-  includeFontData: 1
-  fontNames:
-  - Senobi Gothic
-  fallbackFontReferences: []
-  customCharacters: 
-  fontRenderingMode: 0
-  ascentCalculationMode: 1
-  useLegacyBoundsCalculation: 0
-  shouldRoundAdvanceValue: 1
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+version https://git-lfs.github.com/spec/v1
+oid sha256:b39efdd6d48802c07cdc5c8716c969d3701b12220b1b3cbaf788bd2350f0ecc8
+size 499

@@ -3,6 +3,7 @@
 .DS_Store
 
 !.editorconfig
+!.gitattributes
 !.gitignore
 !README.md
 
@@ -14,15 +15,10 @@
 !cloudbuild-build-asset.yaml
 !cloudbuild-build-release.yaml
 
-!config
-!docker-compose.yml
-!id_rsa_jb_github.enc
-
 !remove-dsstore.ps1
 !setup-game-ref.ps1
 
 # Folders below
-!add-package-to-unity
 !asset-creature-design-unity
 !asset-hud-design-unity
 !asset-level-design-unity
@@ -30,12 +26,12 @@
 !behavior-unification-unity
 !complete-unity
 !game-specific
+
+!dev-setup-unity-plugin
 !unity-setup
 
 !prepare-ucb-build-asset
 !prepare-ucb-build-release
-# Rename to prepare-build-release soon
-!push-build-release
 
 # 
 !dev-pre-setup

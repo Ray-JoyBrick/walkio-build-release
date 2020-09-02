@@ -4,12 +4,12 @@ services:
   add-package:
     build: ./add-package-to-unity
     volumes:
-      - ./asset-creature-design-unity:/asset-creature-design-unity
-      - ./asset-hud-design-unity:/asset-hud-design-unity
-      - ./asset-level-design-unity:/asset-level-design-unity
-      - ./behavior-unification-unity:/behavior-unification-unity
-      - ./complete-unity:/complete-unity
-      - ./behavior-flowfield-unity:/behavior-flowfield-unity
+      - ../asset-creature-design-unity:/asset-creature-design-unity
+      - ../asset-hud-design-unity:/asset-hud-design-unity
+      - ../asset-level-design-unity:/asset-level-design-unity
+      - ../behavior-unification-unity:/behavior-unification-unity
+      - ../complete-unity:/complete-unity
+      - ../behavior-flowfield-unity:/behavior-flowfield-unity
     command:
       - /bin/sh
       - -c
