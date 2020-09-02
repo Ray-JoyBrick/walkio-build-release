@@ -31,7 +31,7 @@ resource "google_sourcerepo_repository" "ucb-build-release" {
 }
 
 resource "google_sourcerepo_repository" "ucb-build-asset" {
-  name = "ucb-build-release"
+  name = "ucb-build-asset"
 }
 
 resource "google_storage_bucket" "joybrick-walkio-dev" {

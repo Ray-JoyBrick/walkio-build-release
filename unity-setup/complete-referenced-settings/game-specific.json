@@ -19,7 +19,7 @@
             "to": "Assets/_/1 - Game/Module - Entry - Assist/Scripts/Runtime"
         },
         {
-            "name": "preprocess-assets/hud-design",
+            "name": "preprocessed-assets/hud-design",
             "to": "Assets/_/1 - Game/Preprocessed Assets/hud-design"
         },
         {

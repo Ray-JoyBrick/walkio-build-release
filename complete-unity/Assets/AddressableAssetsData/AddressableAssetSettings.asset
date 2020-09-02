@@ -25,8 +25,18 @@ MonoBehaviour:
     m_Id: 
   m_overridePlayerVersion: 
   m_GroupAssets:
-  - {fileID: 11400000, guid: c3ade92b79916384fa37c48692cf6d20, type: 2}
-  - {fileID: 11400000, guid: 7f7dd3f26f83aa74ab2b6332c65c40fb, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 6cdd4db07814d1748a22612ecde08a78, type: 2}
+  - {fileID: 11400000, guid: 4456bbb13ff3eaa41a4b36b3b3baa797, type: 2}
+  - {fileID: 11400000, guid: 3c2648c1026788944bf991fe824de26a, type: 2}
+  - {fileID: 11400000, guid: a5c6186432f6a0a46bd0c54fda10c49b, type: 2}
+  - {fileID: 11400000, guid: ce0e0715f1c303349aeeeed3f5b1403d, type: 2}
+  - {fileID: 11400000, guid: a99db3f6d2dd05c46ae3a078bc2f5ff9, type: 2}
+  - {fileID: 11400000, guid: b20f77e8a13ab7f4b83b002f1e7417dd, type: 2}
+  - {fileID: 11400000, guid: e88a314ad7ad966458a9a7431f488f28, type: 2}
+  - {fileID: 11400000, guid: c7c584cbb4c98ed4388220017326c198, type: 2}
+  - {fileID: 11400000, guid: 8e449bdfe7f12764cb0fbd1237d26dad, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1

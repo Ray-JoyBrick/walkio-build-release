@@ -39,10 +39,10 @@ gcloud kms encrypt --location global \
 在game-unity目錄下直接執行以下的bash command，可以建置relase版本
 
 ```sh
-time DOCKER_BUILDKIT=1 docker image build -t push-build-release:latest --no-cache --build-arg SERVICE_NAME_KMS="use-kms" --build-arg SERVICE_NAME_STORAGE="use-storage" --build-arg PROJECT_ID="walkio-271711" --build-arg JSON_FILE_KEYFILE_KMS="$(cat ./secret-info/credentials/gcp/keyfile-kms.json)" --build-arg JSON_FILE_KEYFILE_STORAGE="$(cat ./secret-info/credentials/gcp/keyfile-storage.json)" --build-arg GCS_BUCKET="joybrick-walkio-dev" --build-arg COMMIT_MESSAGE="Commit for build" -f ./push-to-build-repo/Dockerfile-release .
+time DOCKER_BUILDKIT=1 docker image build -t walkio-push-build-release:latest --no-cache --build-arg SERVICE_NAME_KMS="use-kms" --build-arg SERVICE_NAME_STORAGE="use-storage" --build-arg PROJECT_ID="walkio-271711" --build-arg JSON_FILE_KEYFILE_KMS="$(cat ./secret-info/credentials/gcp/keyfile-kms.json)" --build-arg JSON_FILE_KEYFILE_STORAGE="$(cat ./secret-info/credentials/gcp/keyfile-storage.json)" --build-arg GCS_BUCKET="joybrick-walkio-dev" --build-arg COMMIT_MESSAGE="Commit for build" -f ./push-to-build-repo/Dockerfile-release .
 
 # time DOCKER_BUILDKIT=1 docker image build -t push-build-release:latest --no-cache -f ./push-build-release/Dockerfile .
 
 # Use interactive shell to interact with docker if there is any conflict
-docker container run -it push-build-release /bin/sh
+docker container run -it walkio-push-build-release /bin/sh
 ```

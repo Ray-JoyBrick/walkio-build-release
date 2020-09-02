@@ -13,6 +13,7 @@
     using UnityEditor;
     using UnityEditor.SceneManagement;
     using UnityEngine;
+    using UnityEngine.Rendering;
     using UnityEngine.SceneManagement;
 
     using GameCommon = JoyBrick.Walkio.Game.Common;
@@ -24,7 +25,7 @@
         {
             var window = GetWindow<LevelQuickCreateEditorWindow>();
             window.position = GUIHelper.GetEditorWindowRect().AlignCenter(600, 600);
-            window.titleContent = new GUIContent("Some Texture Tool Window");
+            window.titleContent = new GUIContent("Quick Level Creation");
         }
 
         // [BoxGroup("Settings")]
@@ -55,6 +56,11 @@
         [BoxGroup("Settings")]
         public Vector2Int tileCellCount;
 
+        private static void SetupDataAssets()
+        {
+            
+        }
+        
         private static void SetupMasterScene(Scene scene)
         {
             //
@@ -88,7 +94,12 @@
             var cmVCam1 = new GameObject("CM vcam1");
             cmVCam1.AddComponent<Cinemachine.CinemachineVirtualCamera>();
             EditorSceneManager.MoveGameObjectToScene(cmVCam1, scene);
+            
+            var volume = new GameObject("Volume");
+            volume.AddComponent<Volume>();
+            EditorSceneManager.MoveGameObjectToScene(volume, scene);
 
+            //
             var tpcManager = new GameObject("Third Person Controller Manager");
             tpcManager.AddComponent<SurfaceManager>();
             tpcManager.AddComponent<DecalManager>();
@@ -104,13 +115,14 @@
 
         private static void CreateScene(
             string absoluteSceneFolderPath, string relativeSceneFolderPath,
-            string sceneName)
+            string sceneName, Vector2Int tileCount, Vector2Int tileCellCount)
             // Level level)
         {
             // var masterSceneName = $"{sceneName} - Master.unity";
             var masterSceneName = $"{sceneName} - Main.unity";
             var scene = EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Single);
 
+            SetupDataAssets();
             SetupMasterScene(scene);
             //
             // // var subScene = EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Additive);
@@ -127,6 +139,7 @@
             if (saved)
             {
                 var level = ScriptableObject.CreateInstance<Level>();
+                level.name = sceneName;
 
                 Debug.Log($"scene is saved at {relativeScenePath}");
                 var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(relativeScenePath);
@@ -135,6 +148,8 @@
                 {
                     Debug.Log($"{relativeScenePath} is loaded as scene asset");
                     level.masterScene = sceneAsset;
+                    level.tileCount = tileCount;
+                    level.tileCellCount = tileCellCount;
                 }
 
                 var levelPath = Path.Combine(relativeSceneFolderPath, "Level.asset");
@@ -159,7 +174,7 @@
             var absoluteSceneFolderPath = Path.Combine(absoluteLevelPath, levelName);
             var relativeSceneFolderPath = Path.Combine(relativeLevelPath, levelName);
 
-            CreateScene(absoluteSceneFolderPath, relativeSceneFolderPath, levelName);
+            CreateScene(absoluteSceneFolderPath, relativeSceneFolderPath, levelName, tileCount, tileCellCount);
         }
 
     }

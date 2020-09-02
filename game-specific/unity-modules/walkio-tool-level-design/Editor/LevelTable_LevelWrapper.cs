@@ -98,17 +98,55 @@
 
             public void GenerateScene()
             {
+                // Scan design use level to generate obstacle texture
+                // Create Master scene and load design use master scene to copy
+                // Crate Sub scenes and loaded into Master scene
+                var levelName = Level.name;
+                
+                var absolutePathStart = Application.dataPath;
+                var relativePathStart = "Assets";
+                var designLevelPartialPath = Path.Combine("_", "1 - Game", "Design - Level");
+
+                var relativeToLevelFolder = Path.Combine(relativePathStart, designLevelPartialPath, levelName);
+                
+                var generatedLevelPartialPath = Path.Combine("_", "_Generated - Level");
+                var absoluteGeneratedToLevelFolder =
+                    Path.Combine(absolutePathStart, generatedLevelPartialPath, levelName);
+                var relativeGeneratedToLevelFolder =
+                    Path.Combine(relativePathStart, generatedLevelPartialPath, levelName);
+
+                var designUseMasterScenePath = Path.Combine(relativeToLevelFolder, $"{levelName} - Main.unity");
+                
+                var designUseMasterScene = EditorSceneManager.OpenScene(designUseMasterScenePath, OpenSceneMode.Single);
+                CreateObstacleTexture(levelName, designUseMasterScene);
+            }
+
+            public void GenerateSceneEx()
+            {
                 var levelName = Level.name;
 
+                var absolutePathStart = Application.dataPath;
+                var relativePathStart = "Assets";
+                var designLevelPartialPath = Path.Combine("_", "1 - Game", "Design - Level");
+
+                var relativeToLevelFolder = Path.Combine(relativePathStart, designLevelPartialPath, levelName);
+                
+                var generatedLevelPartialPath = Path.Combine("_", "_Generated - Level");
+                var absoluteGeneratedToLevelFolder =
+                    Path.Combine(absolutePathStart, generatedLevelPartialPath, levelName);
+                var relativeGeneratedToLevelFolder =
+                    Path.Combine(relativePathStart, generatedLevelPartialPath, levelName);
+
+                if (!Directory.Exists(absoluteGeneratedToLevelFolder))
+                {
+                    Directory.CreateDirectory(absoluteGeneratedToLevelFolder);
+                }
+                
                 var scenePaths = new List<string>();
                 Level.includedSubScenes.ForEach(sceneAsset =>
                 {
-                    // var sourcePath = Path.Combine(relativeSceneFolder, $"{sceneAsset.name}.unity");
-                    var sourcePath = Path.Combine("Assets", "_", "1 - Game - Level Design",
-                        "Module - Environment - Level", levelName, "Scenes", $"{sceneAsset.name}.unity");
-                    var targetPath = Path.Combine("Assets", "_", "1 - Game - Level Design - Generated",
-                        "Module - Environment - Level",
-                        "Levels", levelName, "scenes", $"{sceneAsset.name}.unity");
+                    var sourcePath = Path.Combine(relativeToLevelFolder, $"{sceneAsset.name}.unity");
+                    var targetPath = Path.Combine(relativeGeneratedToLevelFolder, $"{sceneAsset.name}.unity");
 
                     Debug.Log($"CreateScenes - sourcePath: {sourcePath} \n targetPath: {targetPath}");
 
@@ -122,9 +160,11 @@
                 AssetDatabase.Refresh();
 
                 // Create master scene
-                var masterScenePath = Path.Combine("Assets", "_", "1 - Game - Level Design - Generated",
-                    "Module - Environment - Level",
-                    "Levels", levelName, "scenes", $"{levelName}.unity");
+                // var masterScenePath = Path.Combine("Assets", "_", "_Generated - Level",
+                //     // "Module - Environment - Level",
+                //     // "Levels",
+                //     levelName, "scenes", $"{levelName}.unity");
+                var masterScenePath = Path.Combine(relativeGeneratedToLevelFolder, $"{levelName}.unity");
 
                 // Setup master scene
                 var masterScene = EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Single);
@@ -137,16 +177,17 @@
 
                 var cmVCam1 = new GameObject("CM vcam1");
                 cmVCam1.AddComponent<Cinemachine.CinemachineVirtualCamera>();
-
+                
                 var volumeGO = new GameObject("Volume");
                 var volume = volumeGO.AddComponent<UnityEngine.Rendering.Volume>();
-
-                var sourceVolumeProfilePath = Path.Combine("Assets", "_", "1 - Game - Level Design",
-                    "Module - Environment - Level", levelName, "Data Assets", $"Volume Profile.asset");
-
-                var targetVolumeProfilePath = Path.Combine("Assets", "_", "1 - Game - Level Design - Generated",
-                    "Module - Environment - Level", "Levels", levelName, "level-setting", $"Volume Profile.asset");
-
+                //
+                var sourceVolumeProfilePath = Path.Combine(relativeToLevelFolder, 
+                    "Data Assets", $"Volume Profile.asset");
+                //
+                var targetVolumeProfilePath = Path.Combine(relativeGeneratedToLevelFolder, 
+                    // "level-setting", 
+                    $"Volume Profile.asset");
+                
                 var volumeProfileCopied = AssetDatabase.CopyAsset(sourceVolumeProfilePath, targetVolumeProfilePath);
                 if (volumeProfileCopied)
                 {
@@ -156,10 +197,10 @@
 
                 var colliderContainer = new GameObject("Container - Collider");
                 var triggerContainer = new GameObject("Container - Trigger");
-                // var pathfinder = new GameObject("Pathfinder");
-                // pathfinder.AddComponent<AstarPath>();
-                //
-                // EditorSceneManager.SaveScene(masterScene, masterScenePath);
+                // // var pathfinder = new GameObject("Pathfinder");
+                // // pathfinder.AddComponent<AstarPath>();
+                // //
+                // // EditorSceneManager.SaveScene(masterScene, masterScenePath);
 
                 var colliderGameObjects = new List<GameObject>();
                 var triggerGameObjects = new List<GameObject>();
@@ -214,8 +255,6 @@
                         .Where(cgo => cgo.GetComponent<Collider>() != null)
                         .ToList();
 
-
-
                 // Remove game objects that have no collider
                 noColliderGameObjects.ForEach(cgo => GameObject.DestroyImmediate(cgo));
                 noColliderGameObjects.Clear();
@@ -226,12 +265,6 @@
                 //
                 filteredColliderGameObjects.ForEach(cgo =>
                 {
-                    var meshFilter = cgo.GetComponent<MeshFilter>();
-                    if (meshFilter != null)
-                    {
-                        GameObject.DestroyImmediate(meshFilter);
-                    }
-
                     var proBuilderMesh = cgo.GetComponent<UnityEngine.ProBuilder.ProBuilderMesh>();
                     if (proBuilderMesh != null)
                     {
@@ -244,17 +277,17 @@
                         GameObject.DestroyImmediate(meshRenderer);
                     }
 
-                    cgo.transform.SetParent(colliderContainer.transform);
-                });
-
-                filteredTriggerGameObjects.ForEach(tgo =>
-                {
-                    var meshFilter = tgo.GetComponent<MeshFilter>();
+                    var meshFilter = cgo.GetComponent<MeshFilter>();
                     if (meshFilter != null)
                     {
                         GameObject.DestroyImmediate(meshFilter);
                     }
 
+                    cgo.transform.SetParent(colliderContainer.transform);
+                });
+
+                filteredTriggerGameObjects.ForEach(tgo =>
+                {
                     var proBuilderMesh = tgo.GetComponent<UnityEngine.ProBuilder.ProBuilderMesh>();
                     if (proBuilderMesh != null)
                     {
@@ -265,6 +298,12 @@
                     if (meshRenderer != null)
                     {
                         GameObject.DestroyImmediate(meshRenderer);
+                    }
+
+                    var meshFilter = tgo.GetComponent<MeshFilter>();
+                    if (meshFilter != null)
+                    {
+                        GameObject.DestroyImmediate(meshFilter);
                     }
 
                     var collider = tgo.GetComponent<Collider>();
@@ -284,6 +323,9 @@
 
                     // subScene.SceneAsset = sceneAsset;
                 });
+
+                CreateLevelData(levelName);
+                // CreateObstacleTexture(levelName, masterScene);
 
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
@@ -325,10 +367,19 @@
 
                 var (xTileIndex, zTileIndex) = GetTileIndex(scenePath);
 
-                var offsetPosition = new Vector3(xTileIndex * Level.tileCellCount.x, 0,
+                var offsetPosition1 = new Vector3(
+                    xTileIndex * Level.tileCellCount.x,
+                    0,
                     zTileIndex * Level.tileCellCount.y);
 
-                Debug.Log($"LoadAndHandleSubScene - offsetPosition: {offsetPosition}");
+                var offsetPosition2 = new Vector3(
+                    xTileIndex * Level.tileCellCount.x - (int) (Level.tileCellCount.x * 0.5f),
+                    0,
+                    zTileIndex * Level.tileCellCount.y - (int) (Level.tileCellCount.y * 0.5f));
+                // var offsetPosition = Vector3.zero;
+
+                Debug.Log($"LoadAndHandleSubScene - offsetPosition: {offsetPosition1}");
+                Debug.Log($"LoadAndHandleSubScene - offsetPosition: {offsetPosition2}");
 
                 // var scene = EditorSceneManager.OpenScene(scenePath);
                 var scene = EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Additive);
@@ -357,7 +408,7 @@
                     {
                         if (gameObject.layer == LayerMask.NameToLayer("Ground Base"))
                         {
-                            ProcessGameObjectAtLayer_GroundBase(gameObject, offsetPosition, colliderGameObjects);
+                            ProcessGameObjectAtLayer_GroundBase(gameObject, offsetPosition1, colliderGameObjects);
                         }
                         else if (gameObject.layer == LayerMask.NameToLayer("Ground"))
                         {
@@ -365,7 +416,7 @@
                         }
                         else if (gameObject.layer == LayerMask.NameToLayer("Obstacle"))
                         {
-                            ProcessGameObjectAtLayer_Obstacle(gameObject, offsetPosition, Level.tileCellCount.x, colliderGameObjects);
+                            ProcessGameObjectAtLayer_Obstacle(gameObject, offsetPosition2, Level.tileCellCount.x, colliderGameObjects);
                         }
                         else if (gameObject.layer == LayerMask.NameToLayer("Decoration"))
                         {
@@ -373,7 +424,7 @@
                         }
                         else if (gameObject.layer == LayerMask.NameToLayer("Area"))
                         {
-                            ProcessGameObjectAtLayer_Area(gameObject, offsetPosition, Level.tileCellCount.x, triggerGameObjects);
+                            ProcessGameObjectAtLayer_Area(gameObject, offsetPosition2, Level.tileCellCount.x, triggerGameObjects);
                         }
                     });
 
@@ -495,6 +546,7 @@
                 return childGameObjects;
             }
 
+            
 
             public void OpenLevel()
             {

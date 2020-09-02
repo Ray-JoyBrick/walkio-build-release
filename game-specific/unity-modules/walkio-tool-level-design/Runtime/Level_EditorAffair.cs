@@ -47,18 +47,21 @@ namespace JoyBrick.Walkio.Tool.LevelDesign
 
             var masterScenePath = AssetDatabase.GetAssetPath(masterScene);
 
+            var sceneFileName = Path.GetFileName(masterScenePath);
+
             var mScene = EditorSceneManager.OpenScene(masterScenePath);
 
             var levelOperator = GameCommon.Utility.SceneHelper.GetComponentAtScene<LevelOperator>(mScene);
 
-            var absoluteMasterScenePath = masterScenePath.Replace("Assets", Application.dataPath);
-            var absoluteScenesFolder = Directory.GetParent(absoluteMasterScenePath);
-
-            var relativeScenesFolder = absoluteScenesFolder.FullName.Replace(Application.dataPath, "Assets");
+            // var absoluteMasterScenePath = masterScenePath.Replace("Assets", Application.dataPath);
+            // var absoluteScenesFolder = Directory.GetParent(absoluteMasterScenePath);
+            //
+            // var relativeScenesFolder = absoluteScenesFolder.FullName.Replace(Application.dataPath, "Assets");
+            var relativeScenesFolder = masterScenePath.Replace(sceneFileName, "");
 
             Debug.Log($"masterScenePath: {masterScenePath}");
-            Debug.Log($"absoluteMasterScenePath: {absoluteMasterScenePath}");
-            Debug.Log($"absoluteScenesFolder: {absoluteScenesFolder}");
+            // Debug.Log($"absoluteMasterScenePath: {absoluteMasterScenePath}");
+            // Debug.Log($"absoluteScenesFolder: {absoluteScenesFolder}");
             Debug.Log($"relativeScenesFolder: {relativeScenesFolder}");
 
             var subScenes = new List<Scene>();
@@ -71,7 +74,8 @@ namespace JoyBrick.Walkio.Tool.LevelDesign
 
                     var combinedSubSceneName = Path.Combine(relativeScenesFolder, $"{subSceneName}.unity");
 
-                    var subScene = EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Additive);
+                    // var subScene = EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Additive);
+                    var subScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Additive);
 
                     var tilePosition = new Vector3(x * tileCellCount.x, 0, z * tileCellCount.y);
                     SetupSubScene(subScene, tileCellCount, tilePosition);
@@ -115,9 +119,9 @@ namespace JoyBrick.Walkio.Tool.LevelDesign
             // var projectBaseFolderName = crossProjectData.commonProjectData.projectBaseFolderName;
             // var baseFolderName = crossProjectData.assetLevelDesignProjectData.baseFolderName;
             // var levelModuleFolderName = crossProjectData.assetLevelDesignProjectData.levelModuleFolderName;
-            var projectBaseFolderName = "";
-            var baseFolderName = "";
-            var levelModuleFolderName = "";
+            // var projectBaseFolderName = "";
+            // var baseFolderName = "";
+            // var levelModuleFolderName = "";
 
             var groundBaseRootGameObject = new GameObject("Ground Base Root");
             groundBaseRootGameObject.AddComponent<GroundBaseRoot>();
@@ -138,7 +142,13 @@ namespace JoyBrick.Walkio.Tool.LevelDesign
 
             // var groundBaseGameObject = new GameObject("Ground Base");
             // var mesh = ProBuilderMesh.Create();
-            var mesh = ShapeGenerator.GeneratePlane(PivotLocation.FirstVertex, cellCount.x, cellCount.y, cellCount.x / 2, cellCount.y / 2, Axis.Up);
+            Debug.Log($"cell count: {cellCount}");
+            var mesh = ShapeGenerator.GeneratePlane(
+                PivotLocation.FirstVertex, 
+                cellCount.x, cellCount.y, 
+                // cellCount.x / 2, cellCount.y / 2,
+                1, 1,
+                Axis.Up);
             // mesh.CreateShapeFromPolygon();
             // mesh.
 
@@ -156,9 +166,10 @@ namespace JoyBrick.Walkio.Tool.LevelDesign
             var meshRenderer = mesh.gameObject.GetComponent<MeshRenderer>();
             if (meshRenderer)
             {
-                var materialPath = Path.Combine(
-                    relativeAssetFolderName, projectBaseFolderName, baseFolderName, levelModuleFolderName, "Common",
-                    "Material - Ground Base.mat");
+                // var materialPath = Path.Combine(
+                //     relativeAssetFolderName, projectBaseFolderName, baseFolderName, levelModuleFolderName, "Common",
+                //     "Material - Ground Base.mat");
+                var materialPath = Path.Combine("Packages/com.walkio.game.level.common/Materials", "Material - Texture with Grid 001.mat");
                 var material = AssetDatabase.LoadAssetAtPath<Material>(materialPath);
                 if (material != null)
                 {

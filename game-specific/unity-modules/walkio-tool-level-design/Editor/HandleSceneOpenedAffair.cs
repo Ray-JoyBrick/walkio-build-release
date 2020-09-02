@@ -26,7 +26,7 @@ namespace JoyBrick.Walkio.Tool.LevelDesign.EditorPart
             {
                 Debug.Log($"Game - Assist - HandleSceneOpenedAffair - Setup - Opened Scene: {scene.name}");
 
-                if (scene.name.Contains("Level 003 - Main"))
+                if (scene.name.Contains("Level 005 - Main"))
                 {
                     currentMasterScene = scene;
                     loadedSubSceneCount = 0;
@@ -57,7 +57,8 @@ namespace JoyBrick.Walkio.Tool.LevelDesign.EditorPart
         private static void HandleMasterSceneOpened(Scene scene, OpenSceneMode mode)
         {
             var rootGameObjects = scene.GetRootGameObjects();
-            var levelOperator = GameCommon.Utility.SceneHelper.GetComponentAtScene<GameLevel.LevelOperator>(scene);
+            // var levelOperator = GameCommon.Utility.SceneHelper.GetComponentAtScene<GameLevel.LevelOperator>(scene);
+            var levelOperator = GameCommon.Utility.SceneHelper.GetComponentAtScene<LevelOperator>(scene);
             if (levelOperator == null) return;
 
             LoadSubScenes(levelOperator.subScenes);

@@ -11,22 +11,22 @@ RUN gcloud auth activate-service-account \
     --key-file=/root/keyfile-kms.json --project=${PROJECT_ID}
 
 RUN mkdir /root/.ssh/
-ADD ../rayjb_github_rsa.enc rayjb_github_rsa.enc
-ADD ../rayjb_gitlab_rsa.enc rayjb_gitlab_rsa.enc
-ADD ../config /root/.ssh/config
+ADD ./push-to-build-repo push-to-build-repo
+RUN mv /push-to-build-repo/config /root/.ssh/config
+
 RUN gcloud kms decrypt \
     --location=global \
-    --keyring=giantcroissant-walkio-game-unity \
+    --keyring=joybrick-walkio-development \
     --key=access-git-key \
-    --ciphertext-file=rayjb_github_rsa.enc \
+    --ciphertext-file=/push-to-build-repo/rayjb_github_rsa.enc \
     --plaintext-file=/root/.ssh/rayjb_github_rsa \
     --verbosity=debug \
     --log-http \
     && gcloud kms decrypt \
     --location=global \
-    --keyring=giantcroissant-walkio-game-unity \
+    --keyring=joybrick-walkio-development \
     --key=access-git-key \
-    --ciphertext-file=rayjb_gitlab_rsa.enc \
+    --ciphertext-file=/push-to-build-repo/rayjb_gitlab_rsa.enc \
     --plaintext-file=/root/.ssh/rayjb_gitlab_rsa \
     --verbosity=debug \
     --log-http
@@ -76,7 +76,7 @@ RUN apk update && apk add git git-lfs openssh-client rsync zip unzip
 
 COPY --from=upload-game-specific-asset "/game-specific" "/game-specific"
 
-RUN mkdir /root/.ssh/
+# RUN mkdir /root/.ssh/
 COPY --from=get-git-ssh-key /root/.ssh /root/.ssh
 RUN chmod 600 /root/.ssh/rayjb_github_rsa \
     && chmod 600 /root/.ssh/rayjb_gitlab_rsa \
@@ -91,6 +91,7 @@ RUN git config --local user.email "ray@joybrick.cc" \
     && git config --local user.name "Ray Wang" \
     && git pull --rebase origin master
 
+# Need to check the correctness once the ssh key is placed into github
 RUN git remote add build git@github-rayjb:Ray-JoyBrick/walkio.git \
     && git fetch --all \
     && git checkout prepare-build-release \
