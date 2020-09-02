@@ -28,7 +28,14 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
+        "WALKIO_RANKING"
     ],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.walkio.game.ranking.common",
+            "expression": "0.2.0",
+            "define": "WALKIO_RANKING"
+        }
+    ],
     "noEngineReferences": false
 }

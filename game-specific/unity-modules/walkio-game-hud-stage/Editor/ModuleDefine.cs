@@ -11,7 +11,7 @@ namespace JoyBrick.Walkio.Game.Hud.Stage.EditorPart
     {
         static ModuleDefine()
         {
-            Debug.Log($"Module - Hud - Stage - ModuleDefine");
+            // Debug.Log($"Module - Hud - Stage - ModuleDefine");
 
             GameCommon.EditorPart.Utility.DefinesHelper.AddSymbolToAllTargets("WALKIO_HUD_STAGE");
         }

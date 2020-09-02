@@ -9,4 +9,4 @@ namespace JoyBrick.Walkio.Build.LevelDesignExport.EditorPart
     public partial class AssetCreator
     {
     } 
-} 
+}

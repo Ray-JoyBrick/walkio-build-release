@@ -1,16 +1,15 @@
 {
-  "name": "com.walkio.game.flow-control.common",
-  "displayName": "_ Walkio Game Flow Control Common",
-  "version": "0.2.0",
-  "unity": "2020.1",
-  "description": "Walkio Game Flow Control Common",
-  "keywords": [
-  ],
-  "category": "",
-  "dependencies": {},
-  "author": {
-    "email": "ray@joybrick.cc",
-    "name": "Ray Wang",
-    "url": "https://joybrick.cc"
-  }
+    "name": "com.walkio.game.flow-control.common",
+    "displayName": "_ Walkio Game Flow Control Common",
+    "version": "0.2.0",
+    "unity": "2020.1",
+    "description": "Walkio Game Flow Control Common",
+    "keywords": [],
+    "category": "",
+    "dependencies": {},
+    "author": {
+        "email": "ray@joybrick.cc",
+        "name": "Ray Wang",
+        "url": "https://joybrick.cc"
+    }
 }

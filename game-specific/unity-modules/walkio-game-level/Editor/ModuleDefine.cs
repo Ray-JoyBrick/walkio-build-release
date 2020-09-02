@@ -11,7 +11,7 @@ namespace JoyBrick.Walkio.Game.Level.EditorPart
     {
         static ModuleDefine()
         {
-            Debug.Log($"Module - Level - ModuleDefine");
+            // Debug.Log($"Module - Level - ModuleDefine");
 
             GameCommon.EditorPart.Utility.DefinesHelper.AddSymbolToAllTargets("WALKIO_LEVEL");
         }

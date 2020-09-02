@@ -6,8 +6,9 @@ namespace JoyBrick.Walkio.Game
     using UniRx;
     using UnityEngine;
     using UnityEngine.Networking;
-    using GameLevel = JoyBrick.Walkio.Game.Level;
-    
+
+    //
+    // using GameLevel = JoyBrick.Walkio.Game.Level;
     using GameFlowControl = JoyBrick.Walkio.Game.FlowControl;
 
     public partial class Bootstrap
@@ -20,7 +21,7 @@ namespace JoyBrick.Walkio.Game
         {
             get
             {
-                _logger.Debug($"Bootstrap - StreamingAssetPath");
+                _logger.Debug($"Bootstrap - StreamingAssetPath - get");
                 var path = "";
                 if (Application.platform == RuntimePlatform.IPhonePlayer)
                 {
@@ -44,7 +45,7 @@ namespace JoyBrick.Walkio.Game
                 return path;
             }
         }
-        
+
         // From Stackoverflow
         // https://stackoverflow.com/questions/50400634/unity-streaming-assets-ios-not-working
         private async Task FetchBuildVersion()

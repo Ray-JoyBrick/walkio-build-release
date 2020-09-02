@@ -1,10 +1,10 @@
 {
-  "name": "Borodar",
-  "use": true,
-  "toSymlink": [
-    {
-      "name": "rainbow-assets-package/RainbowAssets",
-      "to": "Assets/Plugins/RainbowAssets"
-    }
-  ]
+    "name": "Borodar",
+    "use": true,
+    "toSymlink": [
+        {
+            "name": "rainbow-assets-package/RainbowAssets",
+            "to": "Assets/Plugins/RainbowAssets"
+        }
+    ]
 }

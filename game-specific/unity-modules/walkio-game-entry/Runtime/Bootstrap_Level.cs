@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Hud.Stage;
+    // using Hud.Stage;
     using Opsive.UltimateCharacterController.Camera;
     // using HellTap.PoolKit;
     using Pathfinding;
@@ -73,7 +73,7 @@
                 .Subscribe(x =>
                 {
                     // _logger.Debug($"Bootstrap - SetupLevelPart - TeamForceUnitCounts add");
-                    _notifyInfo.OnNext(new TeamUnitCountInfo
+                    _notifyInfo.OnNext(new Game.Hud.Stage.TeamUnitCountInfo
                     {
                         TeamId = x.Key,
                         Count = x.Value
@@ -86,7 +86,7 @@
                 .Subscribe(x =>
                 {
                     // _logger.Debug($"Bootstrap - SetupLevelPart - TeamForceUnitCounts replace");
-                    _notifyInfo.OnNext(new TeamUnitCountInfo
+                    _notifyInfo.OnNext(new Game.Hud.Stage.TeamUnitCountInfo
                     {
                         TeamId = x.Key,
                         Count = x.NewValue
@@ -98,7 +98,7 @@
                 .Subscribe(x =>
                 {
                     _teamLeaderLevelInfos.Clear();
-                    
+
                     //
                     GameObject.Destroy(HUDNavigationSystemGO);
                 })
@@ -110,7 +110,7 @@
         public Camera LevelCamera { get; set; }
 
         public GameObject MainPlayerVirtualCamera { get; set; }
-        
+
         public GameObject HUDNavigationSystemGO { get; set; }
         public GameObject HUDNavigationHudGO { get; set; }
 
@@ -159,7 +159,7 @@
                 _logger.Warning($"Bootstrap - MoveToLevelAtScene - LevelAtScene is not valid");
             }
         }
-        
+
         //
         private readonly List<GameLevel.Template.LevelOverviewDetail> _leveOverviewDetails =
             new List<GameLevel.Template.LevelOverviewDetail>();
@@ -170,7 +170,7 @@
         {
             _leveOverviewDetails.Add(levelOverviewDetail);
         }
-        
+
         //
         private readonly List<GameLevel.TeamLeaderLevelInfo> _teamLeaderLevelInfos =
             new List<GameLevel.TeamLeaderLevelInfo>();
@@ -185,7 +185,7 @@
                 {
                     var teamForceAuthoring = x.GetComponent<GameCreature.TeamForceAuthoring>();
                     var teamId = teamForceAuthoring.teamId;
-                    
+
                     _logger.Warning($"Bootstrap - SetupTeamLeaderLevelInfo - teamId: {teamId}");
                     _teamLeaderLevelInfos.Add(new GameLevel.TeamLeaderLevelInfo
                     {
@@ -193,7 +193,7 @@
                         Score = 0
                     });
                 });
-                
+
         }
     }
 }

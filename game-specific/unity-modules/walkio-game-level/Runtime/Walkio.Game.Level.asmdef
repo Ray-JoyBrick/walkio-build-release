@@ -31,6 +31,12 @@
     "defineConstraints": [
         "WALKIO_LEVEL"
     ],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.walkio.game.level.common",
+            "expression": "0.2.0",
+            "define": "WALKIO_LEVEL"
+        }
+    ],
     "noEngineReferences": false
 }

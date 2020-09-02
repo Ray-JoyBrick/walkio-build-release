@@ -11,7 +11,7 @@ namespace JoyBrick.Walkio.Game.Move.FlowField.Assist.EditorPart
     {
         static ModuleDefine()
         {
-            Debug.Log($"Module Assist - Move - FlowField - ModuleDefine");
+            // Debug.Log($"Module Assist - Move - FlowField - ModuleDefine");
 
             GameCommon.EditorPart.Utility.DefinesHelper.AddSymbolToAllTargets("WALKIO_MOVE_FLOWFIELD_ASSIST");
         }

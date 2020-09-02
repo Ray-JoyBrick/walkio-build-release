@@ -1,0 +1,10 @@
+{
+    "name": "Sickscore Games",
+    "use": true,
+    "toSymlink": [
+        {
+            "name": "Sickscore Games/HUD-Navigation-System",
+            "to": "Assets/Standard Assets/HUD-Navigation-System"
+        }
+    ]
+}

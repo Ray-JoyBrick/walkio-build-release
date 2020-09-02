@@ -11,7 +11,7 @@ namespace JoyBrick.Walkio.Game.Hud.App.EditorPart
     {
         static ModuleDefine()
         {
-            Debug.Log($"Module - Hud - App - ModuleDefine");
+            // Debug.Log($"Module - Hud - App - ModuleDefine");
 
             GameCommon.EditorPart.Utility.DefinesHelper.AddSymbolToAllTargets("WALKIO_HUD_APP");
         }

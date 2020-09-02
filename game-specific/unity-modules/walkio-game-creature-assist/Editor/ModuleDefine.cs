@@ -11,7 +11,7 @@ namespace JoyBrick.Walkio.Game.Creature.Assist.EditorPart
     {
         static ModuleDefine()
         {
-            Debug.Log($"Module Assist - Creature - ModuleDefine");
+            // Debug.Log($"Module Assist - Creature - ModuleDefine");
 
             GameCommon.EditorPart.Utility.DefinesHelper.AddSymbolToAllTargets("WALKIO_CREATURE_ASSIST");
         }

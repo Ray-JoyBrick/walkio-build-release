@@ -9,6 +9,7 @@
 !unity-project.code-workspace
 !asset-creature-design-project.code-workspace
 !behavior-unification-project.code-workspace
+!complete-project.code-workspace
 
 !cloudbuild-build-asset.yaml
 !cloudbuild-build-release.yaml
@@ -35,3 +36,7 @@
 !prepare-ucb-build-release
 # Rename to prepare-build-release soon
 !push-build-release
+
+# 
+!dev-pre-setup
+!push-to-build-repo

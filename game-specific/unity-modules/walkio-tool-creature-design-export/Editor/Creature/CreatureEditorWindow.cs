@@ -20,7 +20,7 @@ namespace JoyBrick.Walkio.Build.CreatureDesignExport.EditorPart
         EditorWindow
 #endif
     {
-        [MenuItem("Tools/Walkio/Environment/Level Editor")]
+        [MenuItem("Tools/Walkio/Creature/Design Editor")]
         private static void Open()
         {
             var window = GetWindow<CreatureEditorWindow>();
@@ -28,7 +28,7 @@ namespace JoyBrick.Walkio.Build.CreatureDesignExport.EditorPart
             window.position = GUIHelper.GetEditorWindowRect().AlignCenter(800, 500);
 #endif
         }
-        
+
 #if ODIN_INSPECTOR
         protected override OdinMenuTree BuildMenuTree()
         {
@@ -51,7 +51,7 @@ namespace JoyBrick.Walkio.Build.CreatureDesignExport.EditorPart
             // // Adds all level.
             // var menuItems =
             //     tree.AddAllAssetsAtPath(
-            //         "Levels", 
+            //         "Levels",
             //         "Assets/_/1 - Game - Level Design/Module - Environment - Level",
             //         typeof(Level), true, true);
             //
@@ -68,7 +68,7 @@ namespace JoyBrick.Walkio.Build.CreatureDesignExport.EditorPart
         protected override void OnBeginDrawEditors()
         {
             if (this.MenuTree == null || this.MenuTree.Selection == null) return;
-            
+
             var selected = this.MenuTree.Selection.FirstOrDefault();
             var toolbarHeight = this.MenuTree.Config.SearchToolbarHeight;
 
@@ -103,13 +103,13 @@ namespace JoyBrick.Walkio.Build.CreatureDesignExport.EditorPart
                 //
                 // if (SirenixEditorGUI.ToolbarButton(new GUIContent("Create Level")))
                 // {
-                //     
+                //
                 //     var absoluteLevelPath = Path.Combine(absolutePathStart, "_", "1 - Game - Level Design", "Module - Environment - Level");
                 //     var relativeLevelPath = Path.Combine(relativePathStart, "_", "1 - Game - Level Design", "Module - Environment - Level");
                 //
                 //     var absoluteSceneFolderPath = string.Empty;
                 //     var relativeSceneFolderPath = string.Empty;
-                //     
+                //
                 //     ScriptableObjectCreator.ShowDialog<Level>(
                 //         // "Assets/_/1 - Game - Level Design/Module - Environment - Level/Data Assets/Level Editor/Level", obj =>
                 //         relativeLevelPath,
@@ -119,7 +119,7 @@ namespace JoyBrick.Walkio.Build.CreatureDesignExport.EditorPart
                 //         obj.title = obj.name;
                 //
                 //         absoluteSceneFolderPath = Path.Combine(absoluteLevelPath, $"{obj.name}");
-                //         
+                //
                 //         // var sceneName = $"{obj.name} - Master.unity";
                 //         var sceneName = $"{obj.name}";
                 //         relativeSceneFolderPath = Path.Combine(relativeLevelPath, $"{obj.name}");
@@ -134,7 +134,7 @@ namespace JoyBrick.Walkio.Build.CreatureDesignExport.EditorPart
             SirenixEditorGUI.EndHorizontalToolbar();
         }
 #endif
-        
+
         private static void CreateLayer(int index, string layerName)
         {
             // Open tag manager
@@ -148,7 +148,7 @@ namespace JoyBrick.Walkio.Build.CreatureDesignExport.EditorPart
                 tagManager.ApplyModifiedProperties();
             }
         }
-        
+
         /// <summary>
         /// Checks if the value exists in the property.
         /// </summary>
@@ -194,7 +194,7 @@ namespace JoyBrick.Walkio.Build.CreatureDesignExport.EditorPart
         //
         //     var relativeScenesFolderPath = Path.Combine(relativeSceneFolderPath, $"Scenes");
         //     var relativeScenePath = Path.Combine(relativeScenesFolderPath, masterSceneName);
-        //     
+        //
         //     var saved = EditorSceneManager.SaveScene(scene, relativeScenePath);
         //     if (saved)
         //     {

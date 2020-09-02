@@ -1,0 +1,19 @@
+{
+    "name": "Walkio.Tool.Level-Design",
+    "references": [
+        "Unity.Addressables",
+        "Unity.ProBuilder",
+        "Walkio.Game.Common"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "UNITY_EDITOR"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

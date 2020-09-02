@@ -11,7 +11,7 @@ namespace JoyBrick.Walkio.Game.Move.Waypoint.EditorPart
     {
         static ModuleDefine()
         {
-            Debug.Log($"Module - Move - Waypoint - ModuleDefine");
+            // Debug.Log($"Module - Move - Waypoint - ModuleDefine");
 
             GameCommon.EditorPart.Utility.DefinesHelper.AddSymbolToAllTargets("WALKIO_MOVE_WAYPOINT");
         }

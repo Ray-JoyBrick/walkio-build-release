@@ -1,0 +1,35 @@
+{
+    "name": "Walkio.Tool.Level-Design.Editor",
+    "references": [
+        "Unity.Addressables",
+        "Unity.Addressables.Editor",
+        "Unity.Entities",
+        "Unity.Entities.Hybrid",
+        "Unity.ProBuilder",
+        "AstarPathfindingProject",
+        "AstarPathfindingProjectEditor",
+        "PackageTools",
+        "AstarPackageToolsEditor",
+        "Walkio.Game.Common",
+        "Walkio.Game.Common.Editor",
+        "Walkio.Game.Level.Common",
+        "Walkio.Tool.Level-Design",
+        "Cinemachine",
+        "Unity.RenderPipelines.Core.Runtime",
+        "Opsive.UltimateCharacterController",
+        "Opsive.UltimateCharacterController.Editor",
+        "Opsive.Shared",
+        "Opsive.Shared.Editor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

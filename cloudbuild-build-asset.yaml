@@ -1,390 +1,128 @@
 steps:
-  # - id: retrieve-complete-project
-  #   name: gcr.io/cloud-builders/gcloud
-  #   entrypoint: sh
-  #   args:
-  #     - -c
-  #     - |
-  #       ls -la
-  #       gcloud source repos clone ucb-build-release --project=walkio-271711
-  #       ls -la
-
   - id: prepare-reference-ready-game-unity
     name: gcr.io/cloud-builders/gsutil
     entrypoint: bash
     args:
       - -c
       - |
+        # No need to unzip at this stage. Will md5 this zip and create one in storage
+        # Then add this directly to asset-unification-unity
         gsutil cp gs://${_GCS_BUCKET}/references.zip /tmp/references.zip
-        unzip -qq /tmp/references.zip
+        md5=$(md5sum "/tmp/references.zip" | cut -d ' ' -f 1) && echo $md5 >> "references-checksum" && mv "/tmp/references.zip" "/workspace/$md5.zip"
+        # Add -n parameter to gsutil cp so that it can skip if there is one with the same name already
+        md5=$(cat "references-checksum") && gsutil cp -n "/workspace/$md5.zip" "gs://${_GCS_BUCKET}/references-$md5.zip"
+
+        # unzip -qq /tmp/references.zip
+
+        #
         mkdir game-unity
-        mv /workspace/complete-unity /workspace/game-unity/
+        # Move related folders and files to this folder
+        mv /workspace/asset-unification-unity /workspace/game-unity/
         mv /workspace/game-specific /workspace/game-unity/
-        mv /workspace/prepare-ucb-build-release /workspace/game-unity/
-        mv /workspace/references /workspace/game-unity/
+        mv /workspace/prepare-ucb-build-asset /workspace/game-unity/
+
+        # mv /workspace/references /workspace/game-unity/
+        md5=$(cat "references-checksum") && mv "/workspace/$md5.zip" "/workspace/game-unity/asset-unification-unity/references.zip"
+
+        md5=$(cat "/workspace/game-unity/game-specific/preprocessed-assets-checksum") && gsutil cp "gs://${_GCS_BUCKET}/preprocessed-assets-$md5.zip" "/workspace/game-unity/asset-unification-unity/preprocessed-assets.zip"
+
         mv /workspace/unity-setup /workspace/game-unity/
+        mv /workspace/gitignore-asset-unification-unity /workspace/game-unity/
+        mv /workspace/.gitattributes /workspace/game-unity/
+        mv /workspace/.gitignore /workspace/game-unity/
         mv /workspace/remove-dsstore.ps1 /workspace/game-unity/
         mv /workspace/setup-game-ref.ps1 /workspace/game-unity/
 
-  - id: organize-prepared-complete-project
+        # Need to retrieve preprocessed-assets.zip and place it in asset-unification-unity as well
+
+        # Just check the directory content for now to see if this step really works or not
+        ls -la /workspace/game-unity
+        ls -la /workspace/game-unity/game-specific
+        ls -la /workspace/game-unity/asset-unification-unity
+        ls -la /workspace/game-unity/asset-unification-unity/Assets
+
+  - id: organize-prepared-asset-unification-project
     name: "mcr.microsoft.com/powershell:preview-alpine-3.10"
     entrypoint: sh
     args:
       - -c
       - |
+        # Enter into game-unity folder
         cd /workspace/game-unity
-        pwsh-preview setup-game-ref.ps1
-        pwsh-preview remove-dsstore.ps1
-        pwsh-preview ./prepare-ucb-build-release/CopyNecessaryItem.ps1
+        # Execute powershell scripts
+        # pwsh-preview setup-game-ref.ps1
+
+        ls -la /workspace/game-unity/asset-unification-unity
+
+        # pwsh remove-dsstore.ps1
+        pwsh ./prepare-ucb-build-asset/CopyNecessaryItem.ps1
+
+        ls -la /workspace/game-unity/asset-unification-unity/Assets
+
+        #   # Need to change this work to that the setup is moving files rather than current json
+        #   # Add bash file for references, this needs a script to convert json to file
+        #   # Add bash file to instruct where preprocessed-assets is moved to, can actually generate here
         cd /workspace/game-unity/unity-setup
-        pwsh-preview CopyDailyTalkReferences.ps1
+        pwsh FileMoveCompleteReferences.ps1
+        mv /workspace/game-unity/move-files.sh /workspace/game-unity/asset-unification-unity
+        #   pwsh-preview CopyCompleteReferences.ps1
+
+        mv /workspace/game-unity/game-specific /workspace/game-unity/asset-unification-unity
+
+        # rm /workspace/game-unity/asset-unification-unity/.gitignore
+        # mv /workspace/game-unity/gitignore-asset-unification-unity /workspace/game-unity/asset-unification-unity/.gitignore
+        echo "$(cat '/workspace/game-unity/asset-unification-unity/.gitignore')"
+
+        ls -la /workspace/game-unity/asset-unification-unity
+        ls -la /workspace/game-unity/asset-unification-unity/Assets
+
+        # Exit the game-unity folder back to workspace folder
         cd /workspace
 
-  - id: grab-ucb-build-release
+  - id: grab-ucb-build-asset
     name: gcr.io/cloud-builders/gcloud
     entrypoint: sh
     args:
       - -c
       - |
-        gcloud source repos clone ucb-build-release --project=walkio-271711
+        # This repo has to be generated before using
+        gcloud source repos clone ucb-build-asset --project=soma-union
 
-  # - id: merge-ucb-build-release
-  #   name: "alpine:latest"
-  #   entrypoint: sh
-  #   args:
-  #     - -c
-  #     - |
-  #       apk update && apk add openssh-client rsync
-  #       rsync -avhr --exclude '.git' --delete /workspace/game-unity/complete-unity/ /workspace/ucb-build-release/
+  - id: merge-ucb-build-asset
+    # Going to use ordinary rsync so use alpine instead of gcloud image
+    name: "alpine:latest"
+    entrypoint: sh
+    args:
+      - -c
+      - |
+        apk update && apk add openssh-client rsync
+        # rsync -avhr --exclude '.gitignore' --exclude '.git' --delete /workspace/game-unity/asset-unification-unity/ /workspace/ucb-build-asset/
+        rsync -avhr --exclude '.git' --delete /workspace/game-unity/asset-unification-unity/ /workspace/ucb-build-asset/
 
-  # - id: commit-ucb-build-release
-  #   name: gcr.io/cloud-builders/gcloud
-  #   entrypoint: sh
-  #   args:
-  #     - -c
-  #     - |
-  #       cd /workspace/ucb-build-release
-  #       git config --local user.email "ray@joybrick.cc"
-  #       git config --local user.name "Ray Wang"
-  #       git log
-  #       git add .
-  #       git commit -m "For building purpose"
-  #       git push -u origin master
+        ls -la /workspace/game-unity/asset-unification-unity/Assets
+        ls -la /workspace/ucb-build-asset
+        ls -la /workspace/ucb-build-asset/Assets
 
-  
+  - id: commit-ucb-build-asset
+    name: gcr.io/cloud-builders/gcloud
+    entrypoint: sh
+    args:
+      - -c
+      - |
+        cd /workspace/ucb-build-asset
+        # gcloud init && git config --global credential.'https://source.developers.google.com'.helper gcloud.sh
+        # gcloud init
+        # git remote add google https://source.developers.google.com/p/soma-union/r/ucb-build-asset
+        git config --local user.email "ray@joybrick.cc"
+        git config --local user.name "Ray Wang"
+        git log
+        git add .
+        git commit -m "For building purpose"
+        git push -u origin master
+        # git push --all google
 
-# # steps:
-# #     - id: retrieve-ssh-key
-# #         name: 'gcr.io/cloud-builders/gcloud'
-# #         # Hope the permission pass
-# #         args: ['kms', 'decrypt', '--location', 'global', '--keyring', 'joybrick-walkio-development','--key', 'access-git-key', '--ciphertext-file', 'id_rsa_jb_github.enc', '--plaintext-file', '/root/.ssh/id_rsa_jb_github']
-# #         volumes:
-# #             - name: 'ssh'
-# #             path: /root/.ssh
-
-# #     - id: retrieve-complete-project
-# #         # name: gcr.io/cloud-builders/gcloud
-# #         name: "alpine:latest"
-# #         # entrypoint: bash
-# #         entrypoint: sh
-# #         args:
-# #             - -c
-# #             - |
-# #                 # # gcloud source repos clone ucb-build-release --project=walkio-271711
-# #                 # # # mv /workspace/.ssh/id_rsa /root/.ssh/id_rsa
-# #                 apk update && apk add git git-lfs openssh-client rsync
-# #                 chmod 600 /root/.ssh/id_rsa
-# #                 touch /root/.ssh/known_hosts
-# #                 ssh-keyscan github.com >> /root/.ssh/known_hosts
-# #                 git lfs install
-# #                 git clone git@github.com:Ray-JoyBrick/walkio.git
-# #                 # ls -la /workspace/ucb-build-release
-# #         volumes:
-# #             - name: 'ssh'
-# #             path: /root/.ssh
-
-# #     - id: prepare-reference-ready-game-unity
-# #         name: gcr.io/cloud-builders/gsutil
-# #         entrypoint: bash
-# #         args:
-# #             - -c
-# #             - |
-# #                 # ls -la /workspace
-# #                 gsutil cp gs://${_GCS_BUCKET}/references.zip /tmp/references.zip
-# #                 gsutil cp gs://${_GCS_BUCKET}/_Generated.zip /tmp/_Generated.zip
-# #                 # Unzip will create a folder named references in /workspace
-# #                 unzip -qq /tmp/references.zip
-# #                 unzip -qq /tmp/_Generated.zip
-# #                 mkdir game-unity
-# #                 # mkdir .ssh
-# #                 mv /workspace/daily-talk/daily-talk-unity /workspace/game-unity/
-# #                 mv /workspace/daily-talk/game-specific /workspace/game-unity/
-# #                 mv /workspace/daily-talk/prepare-ucb-build-release /workspace/game-unity/
-# #                 mv /workspace/references /workspace/game-unity/
-# #                 mv /workspace/_Generated /workspace/game-unity/daily-talk-unity/Assets/_
-# #                 mv /workspace/daily-talk/unity-setup /workspace/game-unity/
-# #                 mv /workspace/daily-talk/remove-dsstore.ps1 /workspace/game-unity/
-# #                 mv /workspace/daily-talk/setup-game-ref.ps1 /workspace/game-unity/
-# #                 # shopt -s extglob
-# #                 # rm -r /workspace/!(game-unity)/
-# #                 # rm -f .editorconfig
-# #                 # rm -r .git
-# #                 # rm -f .gitattributes
-# #                 # rm -f .gitignore
-# #                 # rm -f cloudbuild.yaml
-# #                 # # ls -la /workspace
-# #                 ls -la /workspace/game-unity
-
-# #     - id: organize-prepared-complete-project
-# #         # Get powershell script image from Docker Hub
-# #         name: "mcr.microsoft.com/powershell:preview-alpine-3.10"
-# #         # It seems that only sh can be used in alpine
-# #         entrypoint: sh
-# #         args:
-# #             - -c
-# #             - |
-# #             ls -la /workspace
-
-# #             cd /workspace/game-unity
-# #             pwsh-preview setup-game-ref.ps1
-# #             pwsh-preview remove-dsstore.ps1
-# #             pwsh-preview ./prepare-ucb-build-release/CopyNecessaryItem.ps1
-# #             cd /workspace/game-unity/unity-setup
-# #             pwsh-preview CopyDailyTalkReferences.ps1
-# #             cd /workspace
-# #             # No tree command in sh
-# #             # tree -f -L 4
-# #         waitFor:
-# #             - prepare-reference-ready-game-unity
-        
-# #           # - id: retrieve-ssh-key
-# #           #   name: 'gcr.io/cloud-builders/gcloud'
-# #           #   # Hope the permission pass
-# #           #   args: ['kms', 'decrypt', '--location', 'global', '--keyring', 'joybrick-dailytalk-key-ring','--key', 'access-git-key', '--ciphertext-file', 'auto_id_rsa.enc', '--plaintext-file', '/root/.ssh/id_rsa']
-# #           #   volumes:
-# #           #     - name: 'ssh'
-# #           #       path: /root/.ssh
-        
-# #     - id: grab-ucb-build-release
-# #         # name: gcr.io/cloud-builders/gcloud
-# #         name: "alpine:latest"
-# #         # entrypoint: bash
-# #         entrypoint: sh
-# #         args:
-# #             - -c
-# #             - |
-# #             apk update && apk add git git-lfs openssh-client rsync
-# #             chmod 600 /root/.ssh/id_rsa
-# #             touch /root/.ssh/known_hosts
-# #             ssh-keyscan bitbucket.org >> /root/.ssh/known_hosts
-# #             git lfs install
-# #             git clone git@bitbucket.org:jbdailytalk/ucb-release-android.git
-# #             # ls -la /workspace/ucb-release-android
-# #             # rsync -avhr --exclude '.git' --exclude '_Generated' --delete /workspace/game-unity/daily-talk-unity/ /workspace/ucb-release-android/
-# #             rsync -avhr --exclude '.git' --delete /workspace/game-unity/daily-talk-unity/ /workspace/ucb-release-android/
-# #             cd /workspace/ucb-release-android
-# #             git config --global user.email "auto@giantcroissant.com"
-# #             git config --global user.name "AutoGC"
-# #             git log
-# #             git add .
-# #             git commit -m "For building purpose"
-# #             git push -u origin master
-# #         volumes:
-# #             - name: 'ssh'
-# #             path: /root/.ssh
-
-# steps:
-#     - id: retrieve-ssh-key
-#       name: 'gcr.io/cloud-builders/gcloud'
-#       # Hope the permission pass
-#       args: ['kms', 'decrypt', '--location', 'global', '--keyring', 'joybrick-dailytalk-key-ring','--key', 'access-git-key', '--ciphertext-file', 'auto_id_rsa.enc', '--plaintext-file', '/root/.ssh/id_rsa']
-#       volumes:
-#         - name: 'ssh'
-#           path: /root/.ssh
-  
-#     - id: retrieve-complete-project
-#       # name: gcr.io/cloud-builders/gcloud
-#       name: "alpine:latest"
-#       # entrypoint: bash
-#       entrypoint: sh
-#       args:
-#         - -c
-#         - |
-#           # # gcloud source repos clone ucb-build-release --project=daily-talk-263304
-#           # # # mv /workspace/.ssh/id_rsa /root/.ssh/id_rsa
-#           apk update && apk add git git-lfs openssh-client rsync
-#           chmod 600 /root/.ssh/id_rsa
-#           touch /root/.ssh/known_hosts
-#           ssh-keyscan bitbucket.org >> /root/.ssh/known_hosts
-#           git lfs install
-#           git clone git@bitbucket.org:jbdailytalk/daily-talk.git
-#           # ls -la /workspace/ucb-build-release
-#       volumes:
-#         - name: 'ssh'
-#           path: /root/.ssh
-  
-#     - id: prepare-reference-ready-game-unity
-#       name: gcr.io/cloud-builders/gsutil
-#       entrypoint: bash
-#       args:
-#         - -c
-#         - |
-#           # ls -la /workspace
-#           gsutil cp gs://${_GCS_BUCKET}/references.zip /tmp/references.zip
-#           gsutil cp gs://${_GCS_BUCKET}/_Generated.zip /tmp/_Generated.zip
-#           # Unzip will create a folder named references in /workspace
-#           unzip -qq /tmp/references.zip
-#           unzip -qq /tmp/_Generated.zip
-#           mkdir game-unity
-#           # mkdir .ssh
-#           mv /workspace/daily-talk/daily-talk-unity /workspace/game-unity/
-#           mv /workspace/daily-talk/game-specific /workspace/game-unity/
-#           mv /workspace/daily-talk/prepare-ucb-build-release /workspace/game-unity/
-#           mv /workspace/references /workspace/game-unity/
-#           mv /workspace/_Generated /workspace/game-unity/daily-talk-unity/Assets/_
-#           mv /workspace/daily-talk/unity-setup /workspace/game-unity/
-#           mv /workspace/daily-talk/remove-dsstore.ps1 /workspace/game-unity/
-#           mv /workspace/daily-talk/setup-game-ref.ps1 /workspace/game-unity/
-#           # shopt -s extglob
-#           # rm -r /workspace/!(game-unity)/
-#           # rm -f .editorconfig
-#           # rm -r .git
-#           # rm -f .gitattributes
-#           # rm -f .gitignore
-#           # rm -f cloudbuild.yaml
-#           # # ls -la /workspace
-#           ls -la /workspace/game-unity
-  
-#     - id: organize-prepared-complete-project
-#       # Get powershell script image from Docker Hub
-#       name: "mcr.microsoft.com/powershell:preview-alpine-3.10"
-#       # It seems that only sh can be used in alpine
-#       entrypoint: sh
-#       args:
-#         - -c
-#         - |
-#           ls -la /workspace
-  
-#           cd /workspace/game-unity
-#           pwsh-preview setup-game-ref.ps1
-#           pwsh-preview remove-dsstore.ps1
-#           pwsh-preview ./prepare-ucb-build-release/CopyNecessaryItem.ps1
-#           cd /workspace/game-unity/unity-setup
-#           pwsh-preview CopyDailyTalkReferences.ps1
-#           cd /workspace
-#           # No tree command in sh
-#           # tree -f -L 4
-#       waitFor:
-#         - prepare-reference-ready-game-unity
-  
-#     # - id: retrieve-ssh-key
-#     #   name: 'gcr.io/cloud-builders/gcloud'
-#     #   # Hope the permission pass
-#     #   args: ['kms', 'decrypt', '--location', 'global', '--keyring', 'joybrick-dailytalk-key-ring','--key', 'access-git-key', '--ciphertext-file', 'auto_id_rsa.enc', '--plaintext-file', '/root/.ssh/id_rsa']
-#     #   volumes:
-#     #     - name: 'ssh'
-#     #       path: /root/.ssh
-  
-#     - id: grab-ucb-build-release
-#       # name: gcr.io/cloud-builders/gcloud
-#       name: "alpine:latest"
-#       # entrypoint: bash
-#       entrypoint: sh
-#       args:
-#         - -c
-#         - |
-#           apk update && apk add git git-lfs openssh-client rsync
-#           chmod 600 /root/.ssh/id_rsa
-#           touch /root/.ssh/known_hosts
-#           ssh-keyscan bitbucket.org >> /root/.ssh/known_hosts
-#           git lfs install
-#           git clone git@bitbucket.org:jbdailytalk/ucb-release-android.git
-#           # ls -la /workspace/ucb-release-android
-#           # rsync -avhr --exclude '.git' --exclude '_Generated' --delete /workspace/game-unity/daily-talk-unity/ /workspace/ucb-release-android/
-#           rsync -avhr --exclude '.git' --delete /workspace/game-unity/daily-talk-unity/ /workspace/ucb-release-android/
-#           cd /workspace/ucb-release-android
-#           git config --global user.email "auto@giantcroissant.com"
-#           git config --global user.name "AutoGC"
-#           git log
-#           git add .
-#           git commit -m "For building purpose"
-#           git push -u origin master
-#       volumes:
-#         - name: 'ssh'
-#           path: /root/.ssh
-  
-#     # # - id: clone-ucb-build-release
-#     # #   # name: gcr.io/cloud-builders/git
-#     # #   name: gcr.io/cloud-builders/gcloud
-#     # #   entrypoint: bash
-#     # #   args:
-#     # #     - -c
-#     # #     - |
-#     # #       gcloud source repos clone ucb-build-release --project=daily-talk-263304
-#     # #       # # mv /workspace/.ssh/id_rsa /root/.ssh/id_rsa
-#     # #       # chmod 600 /root/.ssh/id_rsa
-#     # #       # touch /root/.ssh/known_hosts
-#     # #       # # ssh-keyscan source.developers.google.com >> /root/.ssh/known_hosts
-#     # #       # # git clone ssh://ray@joybrick.cc@source.developers.google.com:2022/p/daily-talk-263304/r/ucb-build-release /workspace/ucb-build-release
-#     # #       # ssh-keyscan bitbucket.org >> /root/.ssh/known_hosts
-#     # #       # git clone git@bitbucket.org:jbdailytalk/ucb-release-android.git
-#     # #       ls -la /workspace
-#     # #   # volumes:
-#     # #   #   - name: 'ssh'
-#     # #   #     path: /root/.ssh
-  
-#     # - id: merge-with-complete-unity
-#     #   # name: gcr.io/cloud-builders/git
-#     #   name: gcr.io/cloud-builders/gsutil
-#     #   entrypoint: bash
-#     #   args:
-#     #     - -c
-#     #     - |
-#     #       # rm -rf /workspace/ucb-release-android/.git
-#     #       # mv /workspace/ucb-build-release/.git /workspace/game-unity/daily-talk-unity
-  
-#     #       # rsync -avhr --exclude '.git' --exclude '_Generated' --delete /workspace/game-unity/daily-talk-unity/ /workspace/ucb-build-release/
-#     #       # rsync -r -x '.git' -x '_Generated' -d /workspace/game-unity/daily-talk-unity/ /workspace/ucb-build-release/
-#     #       # gsutil rsync -r -x '\.git.*' -x '_Generated' -d /workspace/game-unity/daily-talk-unity /workspace/ucb-build-release
-#     #       # gsutil rsync -r -d /workspace/game-unity/daily-talk-unity /workspace/ucb-build-release
-#     #       gsutil -q rsync -x ".git" -x "_Generated" -r -d /workspace/game-unity/daily-talk-unity /workspace/ucb-build-release
-#     #       # ls -la /workspace
-#     #       # ls -la /workspace/game-unity
-#     #       # ls -la /workspace/game-unity/daily-talk-unity
-#     #       ls -la /workspace/game-unity/daily-talk-unity/Packages
-#     #       ls -la /workspace/ucb-build-release
-#     #       ls -la /workspace/ucb-build-release/Packages
-#     #       ls -la /workspace/ucb-build-release/.git
-#     #   # volumes:
-#     #   #   - name: 'ssh'
-#     #   #     path: /root/.ssh
-  
-#     # - id: push-back-to-ucb-build-release
-#     #   name: gcr.io/cloud-builders/gcloud
-#     #   entrypoint: bash
-#     #   args:
-#     #     - -c
-#     #     - |
-#     #       cd /workspace/ucb-build-release
-#     #       # gcloud init && git config credential.helper gcloud.sh
-#     #       # gcloud init
-#     #       git remote add google https://source.developers.google.com/p/daily-talk-263304/r/ucb-build-release
-#     #       git config --global user.email "auto@giantcroissant.com"
-#     #       git config --global user.name "AutoGC"
-#     #       git log
-#     #       git add .
-#     #       git commit -m "For building purpose"
-#     #       git push --all google
-#     #       # # gcloud source repos clone ucb-build-release --project=daily-talk-263304
-#     #       # # # mv /workspace/.ssh/id_rsa /root/.ssh/id_rsa
-#     #       # # chmod 600 /root/.ssh/id_rsa
-#     #       # # touch /root/.ssh/known_hosts
-#     #       # # # ssh-keyscan source.developers.google.com >> /root/.ssh/known_hosts
-#     #       # # # git clone ssh://ray@joybrick.cc@source.developers.google.com:2022/p/daily-talk-263304/r/ucb-build-release /workspace/ucb-build-release
-#     #       # # ssh-keyscan bitbucket.org >> /root/.ssh/known_hosts
-#     #       # # git clone git@bitbucket.org:jbdailytalk/ucb-release-android.git
-#     #       ls -la /workspace/ucb-build-release
-#     #   volumes:
-#     #     - name: 'ssh'
-#     #       path: /root/.ssh
-
+        # 
+        ls -la /workspace/ucb-build-asset
+        echo "$(cat '/workspace/ucb-build-asset/.gitignore')"
+        ls -la /workspace/ucb-build-asset/.git
+        echo "$(cat '/workspace/ucb-build-asset/.git/config')"

@@ -73,9 +73,11 @@ param()
     }
 
     if (Test-Path "$amupAssetsGitignore") {
-        (Get-Item "$amupAssetsGitignore").Delete()
+        Write-Host "has gitignore path" `
+            -ForegroundColor DarkRed
+        # (Get-Item "$amupAssetsGitignore").Delete()
+        Remove-Item -Path "$amupAssetsGitignore" -Force
     }
-
     #
     Move-Item -Path $projectGitattributesFile -Destination $amupAssetGitattributesFile
     Move-Item -Path $projectGitignoreFile -Destination $amupAssetsGitignore

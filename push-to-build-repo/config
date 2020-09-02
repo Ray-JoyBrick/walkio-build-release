@@ -1,0 +1,13 @@
+# Work account Auto GitHub
+Host github-rayjb
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/rayjb_github_rsa
+  IdentitiesOnly yes
+
+# Work account Auto GitLab
+Host gitlab-rayjb
+  HostName gitlab.com
+  User git
+  IdentityFile ~/.ssh/rayjb_gitlab_rsa
+  IdentitiesOnly yes

@@ -13,6 +13,7 @@
         "Unity.ResourceManager",
         "UniRx",
         "Walkio.Game.Common",
+        "Walkio.Game.Common.Editor",
         "Walkio.Game.Flow-Control.Common"
     ],
     "includePlatforms": [
@@ -24,7 +25,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
-        "WALKIO_FLOWCONTROL"
     ],
     "versionDefines": [],
     "noEngineReferences": false

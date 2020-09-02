@@ -23,7 +23,15 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [],
+    "defineConstraints": [
+        "WALKIO_EXTENSION"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.walkio.game.extension.common",
+            "expression": "0.2.0",
+            "define": "WALKIO_EXTENSION"
+        }
+    ],
     "noEngineReferences": false
 }

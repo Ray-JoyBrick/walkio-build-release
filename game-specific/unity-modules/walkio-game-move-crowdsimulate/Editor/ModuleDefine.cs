@@ -11,7 +11,7 @@ namespace JoyBrick.Walkio.Game.Move.CrowdSimulate.EditorPart
     {
         static ModuleDefine()
         {
-            Debug.Log($"Module - Move - CrowdSimulate - ModuleDefine");
+            // Debug.Log($"Module - Move - CrowdSimulate - ModuleDefine");
 
             GameCommon.EditorPart.Utility.DefinesHelper.AddSymbolToAllTargets("WALKIO_MOVE_CROWDSIMULATE");
         }

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a7dd50c31654058bacf5d24251982cd, type: 3}
+  m_Name: Level Data
+  m_EditorClassIdentifier: 
+  areaLookup:
+  - areaColor: {r: 1, g: 1, b: 1, a: 1}
+    tagName: Obstacle
+  subLevelImages:
+  - {fileID: 2800000, guid: 13e1a9fba99ad3644ba227533fd575f7, type: 3}
+  - {fileID: 2800000, guid: e19292e93e52b5c4c871fced85c17c3b, type: 3}
+  - {fileID: 2800000, guid: 147996166dd7f7945a7907142a4755cc, type: 3}
+  - {fileID: 2800000, guid: bcdc10ba5a18d234ca0d3e26cbeacfef, type: 3}
+  - {fileID: 2800000, guid: 8b8e32ea1f270fa4f9bcb23bca88c3b2, type: 3}
+  - {fileID: 2800000, guid: 5c341bfdbedefb546921785ae088fc06, type: 3}

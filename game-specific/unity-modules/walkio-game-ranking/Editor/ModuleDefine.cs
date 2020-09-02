@@ -8,7 +8,7 @@ namespace JoyBrick.Walkio.Game.Ranking.EditorPart
     {
         static ModuleDefine()
         {
-            Debug.Log($"Module - Ranking - ModuleDefine");
+            // Debug.Log($"Module - Ranking - ModuleDefine");
 
             Common.EditorPart.Utility.DefinesHelper.AddSymbolToAllTargets("WALKIO_RANKING");
         }

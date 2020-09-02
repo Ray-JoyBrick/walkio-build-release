@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce811054ec6b46189fe5b5b321362a4d, type: 3}
+  m_Name: Creature Repo Data
+  m_EditorClassIdentifier: 
+  teamLeaderNpcAssets:
+  - {fileID: 11400000, guid: ee63e8c8f29c68045929408dc51281f5, type: 2}
+  teamLeaderPlayerAssets:
+  - {fileID: 11400000, guid: 0489a4c211d2df74cb7c2790dd9df2d8, type: 2}
+  teamMinionAssets:
+  - {fileID: 11400000, guid: d9bdfa4e513b586499158e572b44b118, type: 2}
+  neutralMinionAssetss:
+  - {fileID: 11400000, guid: c7e4e9b1e30fa804cab9ffade62bc5d5, type: 2}

@@ -11,7 +11,7 @@ namespace JoyBrick.Walkio.Game.FlowControl.EditorPart
     {
         static ModuleDefine()
         {
-            Debug.Log($"Module - FlowControl - ModuleDefine");
+            // Debug.Log($"Module - FlowControl - ModuleDefine");
 
             GameCommon.EditorPart.Utility.DefinesHelper.AddSymbolToAllTargets("WALKIO_FLOWCONTROL");
         }

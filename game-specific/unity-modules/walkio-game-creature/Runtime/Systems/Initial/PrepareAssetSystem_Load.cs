@@ -101,11 +101,12 @@
                     {
                         // Since internal loading might be very time consuming, after it is finished, it will
                         // send an event entity. This event entity is caught in Update and process further.
-
+#if WALKIO_FLOWCONTROL
                         FlowControl.FinishIndividualLoadingAsset(new GameFlowControl.FlowControlContext
                         {
                             Name = "Stage"
                         });
+#endif
                     });
             }
         }

@@ -1,0 +1,10 @@
+{
+    "name": "Unity Technology",
+    "use": true,
+    "toSymlink": [
+        {
+            "name": "Universal RP",
+            "to": "Assets/Standard Assets/Universal RP"
+        }
+    ]
+}

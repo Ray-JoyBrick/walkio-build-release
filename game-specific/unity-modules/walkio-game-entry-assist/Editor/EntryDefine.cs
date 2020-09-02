@@ -7,7 +7,7 @@ namespace JoyBrick.Walkio.Game.Assist.EditorPart
     {
         static EntryDefine()
         {
-            Common.EditorPart.Utility.DefinesHelper.AddSymbolToAllTargets("WALKIO_LEVEL_ASSIST");
+            // Common.EditorPart.Utility.DefinesHelper.AddSymbolToAllTargets("WALKIO_LEVEL_ASSIST");
         }
     }
 }

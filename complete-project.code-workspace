@@ -1,0 +1,50 @@
+{
+    "folders": [
+        {
+            "path": "complete-unity"
+        },
+        {
+            "path": "game-specific"
+        },
+        {
+            "path": "unity-setup/complete-referenced-settings"
+        },
+        {
+            "path": "dev-pre-setup"
+        },
+        {
+            "path": "../game-doc"
+        },
+    ],
+    "settings": {
+        "workbench.colorTheme": "Night Owl",
+
+        "files.exclude": {
+            "**/*.csproj": true,
+            "**/*.sln": true,
+
+            "**/Library/**": true,
+            "**/Logs/**": true,
+            "**/obj/**": true,
+            "**/Temp/**": true,
+            "**/UserSettings/**": true,
+
+            "**/.idea/**": true,
+
+            "**/Packages/packages-lock.json": true,
+
+            "**/.gitignore": true,
+            "**/Assets/**/*.meta": true,
+
+            "game-development/blog": true,
+            "game-development/src": true,
+            "game-development/static": true,
+            "game-development/docusaurus.config.js": true,
+            "game-development/package.json": true,
+            "game-development/README.md": true,
+            "game-development/sidebars.js": true,
+            "game-development/yarn.lock": true,
+            "game-development/docs/game-system.md": false
+        }
+    }
+}

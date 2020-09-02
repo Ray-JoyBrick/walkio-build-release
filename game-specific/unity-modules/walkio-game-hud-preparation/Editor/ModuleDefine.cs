@@ -11,7 +11,7 @@ namespace JoyBrick.Walkio.Game.Hud.Preparation.EditorPart
     {
         static ModuleDefine()
         {
-            Debug.Log($"Module - Hud - Preparation - ModuleDefine");
+            // Debug.Log($"Module - Hud - Preparation - ModuleDefine");
 
             GameCommon.EditorPart.Utility.DefinesHelper.AddSymbolToAllTargets("WALKIO_HUD_PREPARATION");
         }

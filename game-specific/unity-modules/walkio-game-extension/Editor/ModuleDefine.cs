@@ -11,7 +11,7 @@ namespace JoyBrick.Walkio.Game.Extension.EditorPart
     {
         static ModuleDefine()
         {
-            Debug.Log($"Module - Extension - ModuleDefine");
+            // Debug.Log($"Module - Extension - ModuleDefine");
 
             GameCommon.EditorPart.Utility.DefinesHelper.AddSymbolToAllTargets("WALKIO_EXTENSION");
         }

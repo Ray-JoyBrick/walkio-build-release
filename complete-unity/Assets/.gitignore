@@ -47,4 +47,6 @@ AddressableAssetsData/DataBuilders/**
 !AddressableAssetsData/DataBuilders/BuildScriptVirtualMode.asset
 !AddressableAssetsData/DataBuilders/BuildScriptVirtualMode.asset.meta
 !AddressableAssetsData/AddressableAssetSettings.asset
+!AddressableAssetsData/AddressableAssetSettings.asset.meta
 !AddressableAssetsData/DefaultObject.asset
+!AddressableAssetsData/DefaultObject.asset.meta
