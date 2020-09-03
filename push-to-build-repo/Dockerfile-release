@@ -131,4 +131,4 @@ RUN git commit -m "${COMMIT_MESSAGE}"
 
 # # May just commit without stage and commit
 # RUN git push -u build HEAD:prepare-build-release --force
-RUN git push build/prepare-build-release --force
+RUN git push build prepare-build-release --force
