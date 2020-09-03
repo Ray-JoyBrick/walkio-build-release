@@ -82,7 +82,8 @@
 #endif
             public void GenerateExportScene()
             {
-                GenerateLevelData();
+                GenerateForExport();
+                // GenerateLevelData();
                 // GenerateScene();
             }
 
@@ -115,7 +116,16 @@
                 var relativeGeneratedToLevelFolder =
                     Path.Combine(relativePathStart, generatedLevelPartialPath, levelName);
                 
+                //
+                GameCommon.EditorPart.Utility.FileHelper.CreateDirectoryIfNotExisted(absoluteGeneratedToLevelFolder);
+                
                 var levelData = ScriptableObject.CreateInstance<GameLevel.Template.LevelData>();
+                
+                var designUseMasterScenePath = Path.Combine(relativeToLevelFolder, $"{levelName} - Main.unity");
+                
+                var designUseMasterScene = EditorSceneManager.OpenScene(designUseMasterScenePath, OpenSceneMode.Single);
+
+                CreateObstacleTexture(levelName, designUseMasterScene);
             }
             
             public void GenerateLevelData()

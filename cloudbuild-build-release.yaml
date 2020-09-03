@@ -29,7 +29,7 @@ steps:
         md5=$(cat "/workspace/game-unity/game-specific/preprocessed-assets-checksum") && gsutil cp "gs://${_GCS_BUCKET}/preprocessed-assets-$md5.zip" "/workspace/game-unity/complete-unity/preprocessed-assets.zip"
 
         mv /workspace/unity-setup /workspace/game-unity/
-        mv /workspace/gitignore-complete-unity /workspace/game-unity/
+        # mv /workspace/gitignore-complete-unity /workspace/game-unity/
         mv /workspace/.git /workspace/game-unity/
         mv /workspace/.gitattributes /workspace/game-unity/
         mv /workspace/.gitignore /workspace/game-unity/
@@ -144,9 +144,14 @@ steps:
       - |
         # This might be no good idea
         mkdir ~/.ssh
-        mv /workspace/ray_google_rsa ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
+        # mv /workspace/ray_google_rsa ~/.ssh/id_rsa
+        mv /workspace/ray_google_rsa ~/.ssh/ray_google_rsa
+        # chmod 600 ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/ray_google_rsa
+        ssh-add ~/.ssh/ray_google_rsa
         ssh-keyscan source.developers.google.com >> ~/.ssh/known_hosts
+
+        ls ~/.ssh
 
         # cd /workspace/ucb-build-release
         cd /workspace/game-unity
