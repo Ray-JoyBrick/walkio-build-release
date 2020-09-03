@@ -94,8 +94,9 @@ RUN git config --local user.email "ray@joybrick.cc" \
 # Need to check the correctness once the ssh key is placed into github
 RUN git remote add build git@github-rayjb:Ray-JoyBrick/walkio.git
 
-# RUN git fetch --all \
-#     && git checkout prepare-build-release \
+RUN git fetch --all
+
+# RUN git checkout prepare-build-release \
 #     && git pull --rebase build prepare-build-release
 
 # RUN git merge master
@@ -115,7 +116,9 @@ RUN git rm -r --cached asset-creature-design-unity \
     && git rm -r --cached push-to-build-repo \
     && git rm --cached behavior-unification-project.code-workspace \
     && git rm --cached complete-project.code-workspace \
-    && git rm --cached unity-project.code-workspace
+    && git rm --cached unity-project.code-workspace \
+    && git rm --cached cloudbuild-build-asset.yaml \
+    && git rm --cached README.md
 
 RUN if [[ `git status --porcelain` ]]; then \
       git add . \
