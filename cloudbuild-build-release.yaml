@@ -28,6 +28,7 @@ steps:
 
         mv /workspace/unity-setup /workspace/game-unity/
         mv /workspace/gitignore-complete-unity /workspace/game-unity/
+        mv /workspace/.git /workspace/game-unity/
         mv /workspace/.gitattributes /workspace/game-unity/
         mv /workspace/.gitignore /workspace/game-unity/
         mv /workspace/remove-dsstore.ps1 /workspace/game-unity/

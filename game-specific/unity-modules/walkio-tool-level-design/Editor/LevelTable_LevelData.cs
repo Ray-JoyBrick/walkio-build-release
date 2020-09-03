@@ -25,6 +25,8 @@ namespace JoyBrick.Walkio.Tool.LevelDesign.EditorPart
 
             var levelDataPath = Path.Combine(relativeGeneratedToLevelFolder, $"Level Data.asset");
             AssetDatabase.CreateAsset(levelData, levelDataPath);
+            
+            AssetDatabase.SaveAssets();
         }
     }
 }
