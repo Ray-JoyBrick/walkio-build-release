@@ -101,10 +101,10 @@ RUN git fetch --all
 
 # RUN git merge master
 
-RUN rsync -avhr --exclude '.gitignore' --exclude '.git' --delete "/game-specific" "/game-unity"
+# RUN rsync -avhr --exclude '.gitignore' --exclude '.git' --delete "/game-specific" "/game-unity"
 
-COPY --from=get-git-ssh-key push-to-build-repo/gitignore-prepare-build-release /game-unity/.gitignore
-RUN chmod 600 /game-unity/.gitignore
+# COPY --from=get-git-ssh-key push-to-build-repo/gitignore-prepare-build-release /game-unity/.gitignore
+# RUN chmod 600 /game-unity/.gitignore
 
 # RUN git rm -r --cached asset-creature-design-unity \
 #     && git rm -r --cached asset-hud-design-unity \
@@ -146,6 +146,14 @@ RUN git reset --hard master
 
 RUN git checkout prepare-build-release
 RUN git reset --hard master
+
+RUN rsync -avhr --exclude '.gitignore' --exclude '.git' --delete "/game-specific" "/game-unity"
+
+COPY --from=get-git-ssh-key push-to-build-repo/gitignore-prepare-build-release /game-unity/.gitignore
+RUN chmod 600 /game-unity/.gitignore
+
+RUN git add . \
+    && git commit -m "${COMMIT_MESSAGE}"
 
 # # May just commit without stage and commit
 # RUN git push -u build HEAD:prepare-build-release --force
