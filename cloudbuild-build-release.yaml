@@ -142,17 +142,17 @@ steps:
     args:
       - -c
       - |
-        # This might be no good idea
-        mkdir ~/.ssh
-        # mv /workspace/ray_google_rsa ~/.ssh/id_rsa
-        mv /workspace/ray_google_rsa ~/.ssh/ray_google_rsa
-        # chmod 600 ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/ray_google_rsa
-        eval `ssh-agent -s`
-        ssh-add ~/.ssh/ray_google_rsa
-        ssh-keyscan source.developers.google.com >> ~/.ssh/known_hosts
+        # # This might be no good idea
+        # mkdir ~/.ssh
+        # # mv /workspace/ray_google_rsa ~/.ssh/id_rsa
+        # mv /workspace/ray_google_rsa ~/.ssh/ray_google_rsa
+        # # chmod 600 ~/.ssh/id_rsa
+        # chmod 600 ~/.ssh/ray_google_rsa
+        # eval `ssh-agent -s`
+        # ssh-add ~/.ssh/ray_google_rsa
+        # ssh-keyscan source.developers.google.com >> ~/.ssh/known_hosts
 
-        ls -la ~/.ssh
+        # ls -la ~/.ssh
 
         # cd /workspace/ucb-build-release
         cd /workspace/game-unity
@@ -160,23 +160,25 @@ steps:
         # gcloud init
         # git remote add google https://source.developers.google.com/p/soma-union/r/ucb-build-release
         # git remote add google https://source.developers.google.com/p/walkio-271711/r/ucb-build-release
-        git remote add google ssh://ray@joybrick.cc@source.developers.google.com:2022/p/walkio-271711/r/ucb-build-release
+        # git remote add google ssh://ray@joybrick.cc@source.developers.google.com:2022/p/walkio-271711/r/ucb-build-release
         git config --local user.email "ray@joybrick.cc"
         git config --local user.name "Ray Wang"
         git fetch --all
 
         # git log
-        # git add .
-        git commit -m "For building purpose"
-        git reset --hard prepare-build-release
+        git add .
+        # git commit -m "For building purpose"
+        # git reset --hard prepare-build-release
 
         git checkout -b ucb-build-release
-        git reset --hard prepare-build-release
+        # git reset --hard prepare-build-release
+        git merge prepare-build-release
         
-        git add .
+        # git add .
         git commit "Build branch ready to UCB"
 
-        git push google ucb-build-release --force
+        # git push google ucb-build-release --force
+        git push origin ucb-build-release --force
 
         # git checkout prepare-build-release
         # # git push -u origin master

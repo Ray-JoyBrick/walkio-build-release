@@ -128,7 +128,18 @@
                 // Created obstacle textures have to be stored
                 // Return these texture to be assigned into level data
 
-                CreateObstacleTexture(levelName, designUseMasterScene);
+                var texturePaths = CreateObstacleTexture(levelName, designUseMasterScene);
+                levelData.subLevelImages = new List<Texture2D>();
+                texturePaths.ToList().ForEach(texturePath =>
+                {
+                    var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(texturePath);
+                    levelData.subLevelImages.Add(texture);
+                });
+                
+                var levelDataPath = Path.Combine(relativeGeneratedToLevelFolder, $"Level Data.asset");
+                AssetDatabase.CreateAsset(levelData, levelDataPath);
+            
+                AssetDatabase.SaveAssets();
             }
             
             public void GenerateLevelData()
