@@ -100,12 +100,14 @@ RUN git remote add build git@github-rayjb:Ray-JoyBrick/walkio.git \
 
 RUN rsync -avhr --exclude '.gitignore' --exclude '.git' --delete "/game-specific" "/game-unity"
 
-RUN if [[ `git status --porcelain` ]]; then \
-      git add . \
-      && git commit -m "${COMMIT_MESSAGE}"; \
-    else \
-      echo "No change"; \
-    fi
+COPY --from=get-git-ssh-key push-to-build-repo/gitignore-prepare-build-release /game-unity/.gitignore
 
-# May just commit without stage and commit
-RUN git push -u build prepare-build-release
+# RUN if [[ `git status --porcelain` ]]; then \
+#       git add . \
+#       && git commit -m "${COMMIT_MESSAGE}"; \
+#     else \
+#       echo "No change"; \
+#     fi
+
+# # May just commit without stage and commit
+# RUN git push -u build prepare-build-release
