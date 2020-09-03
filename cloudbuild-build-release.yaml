@@ -79,29 +79,58 @@ steps:
         # Exit the game-unity folder back to workspace folder
         cd /workspace
 
-  - id: grab-ucb-build-release
-    name: gcr.io/cloud-builders/gcloud
-    entrypoint: sh
-    args:
-      - -c
-      - |
-        # This repo has to be generated before using
-        gcloud source repos clone ucb-build-release --project=soma-union
+  # - id: grab-ucb-build-release
+  #   name: gcr.io/cloud-builders/gcloud
+  #   entrypoint: sh
+  #   args:
+  #     - -c
+  #     - |
+  #       # This repo has to be generated before using
+  #       gcloud source repos clone ucb-build-release --project=walkio-271711
 
-  - id: merge-ucb-build-release
-    # Going to use ordinary rsync so use alpine instead of gcloud image
-    name: "alpine:latest"
-    entrypoint: sh
-    args:
-      - -c
-      - |
-        apk update && apk add openssh-client rsync
-        # rsync -avhr --exclude '.gitignore' --exclude '.git' --delete /workspace/game-unity/complete-unity/ /workspace/ucb-build-release/
-        rsync -avhr --exclude '.git' --delete /workspace/game-unity/complete-unity/ /workspace/ucb-build-release/
+  # - id: merge-ucb-build-release
+  #   # Going to use ordinary rsync so use alpine instead of gcloud image
+  #   name: "alpine:latest"
+  #   entrypoint: sh
+  #   args:
+  #     - -c
+  #     - |
+  #       apk update && apk add openssh-client rsync
+  #       # rsync -avhr --exclude '.gitignore' --exclude '.git' --delete /workspace/game-unity/complete-unity/ /workspace/ucb-build-release/
+  #       rsync -avhr --exclude '.git' --delete /workspace/game-unity/complete-unity/ /workspace/ucb-build-release/
 
-        ls -la /workspace/game-unity/complete-unity/Assets
-        ls -la /workspace/ucb-build-release
-        ls -la /workspace/ucb-build-release/Assets
+  #       ls -la /workspace/game-unity/complete-unity/Assets
+  #       ls -la /workspace/ucb-build-release
+  #       ls -la /workspace/ucb-build-release/Assets
+
+  # - id: commit-ucb-build-release
+  #   name: gcr.io/cloud-builders/gcloud
+  #   entrypoint: sh
+  #   args:
+  #     - -c
+  #     - |
+  #       cd /workspace/ucb-build-release
+  #       # gcloud init && git config --global credential.'https://source.developers.google.com'.helper gcloud.sh
+  #       # gcloud init
+  #       # git remote add google https://source.developers.google.com/p/soma-union/r/ucb-build-release
+  #       git remote add google https://source.developers.google.com:2022/p/walkio-271711/r/ucb-build-release
+  #       git config --local user.email "ray@joybrick.cc"
+  #       git config --local user.name "Ray Wang"
+
+  #       # git log
+  #       # git add .
+  #       git commit -m "For building purpose"
+  #       git reset --hard master
+
+  #       git checkout prepare-build-release
+  #       # git push -u origin master
+  #       # # git push --all google
+
+  #       # 
+  #       ls -la /workspace/ucb-build-release
+  #       echo "$(cat '/workspace/ucb-build-release/.gitignore')"
+  #       ls -la /workspace/ucb-build-release/.git
+  #       echo "$(cat '/workspace/ucb-build-release/.git/config')"
 
   - id: commit-ucb-build-release
     name: gcr.io/cloud-builders/gcloud
@@ -109,20 +138,35 @@ steps:
     args:
       - -c
       - |
-        cd /workspace/ucb-build-release
+        # cd /workspace/ucb-build-release
+        cd /workspace/game-unity
         # gcloud init && git config --global credential.'https://source.developers.google.com'.helper gcloud.sh
         # gcloud init
         # git remote add google https://source.developers.google.com/p/soma-union/r/ucb-build-release
+        git remote add google https://source.developers.google.com:2022/p/walkio-271711/r/ucb-build-release
         git config --local user.email "ray@joybrick.cc"
         git config --local user.name "Ray Wang"
-        git log
-        git add .
-        git commit -m "For building purpose"
-        git push -u origin master
-        # git push --all google
+        git fetch --all
 
-        # 
-        ls -la /workspace/ucb-build-release
-        echo "$(cat '/workspace/ucb-build-release/.gitignore')"
-        ls -la /workspace/ucb-build-release/.git
-        echo "$(cat '/workspace/ucb-build-release/.git/config')"
+        # git log
+        # git add .
+        git commit -m "For building purpose"
+        git reset --hard prepare-build-release
+
+        git checkout -b ucb-build-release
+        git reset --hard prepare-build-release
+        
+        git add .
+        git commit "Build branch ready to UCB"
+
+        git push google ucb-build-release --force
+
+        # git checkout prepare-build-release
+        # # git push -u origin master
+        # # # git push --all google
+
+        # # 
+        # ls -la /workspace/ucb-build-release
+        # echo "$(cat '/workspace/ucb-build-release/.gitignore')"
+        # ls -la /workspace/ucb-build-release/.git
+        # echo "$(cat '/workspace/ucb-build-release/.git/config')"
