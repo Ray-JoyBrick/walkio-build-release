@@ -128,9 +128,11 @@ RUN git rm -r --cached asset-creature-design-unity \
 #     fi
 
 RUN git commit -m "${COMMIT_MESSAGE}"
+RUN git reset --hard master
 
 RUN git checkout prepare-build-release
-RUN git reset --head master
+RUN git reset --hard master
+
 # # May just commit without stage and commit
 # RUN git push -u build HEAD:prepare-build-release --force
 RUN git push build prepare-build-release --force
