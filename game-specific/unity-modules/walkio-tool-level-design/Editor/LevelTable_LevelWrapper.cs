@@ -15,6 +15,8 @@
     //
     using GameCommon = JoyBrick.Walkio.Game.Common;
     using Object = UnityEngine.Object;
+    //
+    using GameLevel = JoyBrick.Walkio.Game.Level;
     // using BuildLevelDesignExport = JoyBrick.Walkio.Build.LevelDesignExport;
 
     public partial class LevelTable
@@ -80,7 +82,8 @@
 #endif
             public void GenerateExportScene()
             {
-                GenerateScene();
+                GenerateLevelData();
+                // GenerateScene();
             }
 
 #if ODIN_INSPECTOR
@@ -96,6 +99,25 @@
             // [ShowInInspector, ProgressBar(0, 100)]
             // public float Shooting { get { return this.character.Skills.Shooting; } set { this.character.Skills.Shooting = value; EditorUtility.SetDirty(this.character); } }
 
+            public void GenerateForExport()
+            {
+                var levelName = Level.name;
+                
+                var absolutePathStart = Application.dataPath;
+                var relativePathStart = "Assets";
+                var designLevelPartialPath = Path.Combine("_", "1 - Game", "Design - Level");
+
+                var relativeToLevelFolder = Path.Combine(relativePathStart, designLevelPartialPath, levelName);
+                
+                var generatedLevelPartialPath = Path.Combine("_", "_Generated - Level");
+                var absoluteGeneratedToLevelFolder =
+                    Path.Combine(absolutePathStart, generatedLevelPartialPath, levelName);
+                var relativeGeneratedToLevelFolder =
+                    Path.Combine(relativePathStart, generatedLevelPartialPath, levelName);
+                
+                var levelData = ScriptableObject.CreateInstance<GameLevel.Template.LevelData>();
+            }
+            
             public void GenerateLevelData()
             {
                 var levelName = Level.name;

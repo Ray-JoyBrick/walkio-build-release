@@ -14,6 +14,8 @@ steps:
 
         # unzip -qq /tmp/references.zip
 
+        gsutil cp gs://${_GCS_BUCKET}/ray_google_rsa /workspace/ray_google_rsa
+
         #
         mkdir game-unity
         # Move related folders and files to this folder
@@ -139,12 +141,18 @@ steps:
     args:
       - -c
       - |
+        mkdir ~/.ssh
+        mv /workspace/ray_google_rsa ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan source.developers.google.com >> ~/.ssh/known_hosts
+
         # cd /workspace/ucb-build-release
         cd /workspace/game-unity
         # gcloud init && git config --global credential.'https://source.developers.google.com'.helper gcloud.sh
         # gcloud init
         # git remote add google https://source.developers.google.com/p/soma-union/r/ucb-build-release
-        git remote add google https://source.developers.google.com:2022/p/walkio-271711/r/ucb-build-release
+        # git remote add google https://source.developers.google.com/p/walkio-271711/r/ucb-build-release
+        git remote add google ssh://ray@joybrick.cc@source.developers.google.com:2022/p/walkio-271711/r/ucb-build-release
         git config --local user.email "ray@joybrick.cc"
         git config --local user.name "Ray Wang"
         git fetch --all
