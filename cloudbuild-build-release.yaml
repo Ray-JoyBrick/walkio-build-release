@@ -148,10 +148,11 @@ steps:
         mv /workspace/ray_google_rsa ~/.ssh/ray_google_rsa
         # chmod 600 ~/.ssh/id_rsa
         chmod 600 ~/.ssh/ray_google_rsa
+        eval `ssh-agent -s`
         ssh-add ~/.ssh/ray_google_rsa
         ssh-keyscan source.developers.google.com >> ~/.ssh/known_hosts
 
-        ls ~/.ssh
+        ls -la ~/.ssh
 
         # cd /workspace/ucb-build-release
         cd /workspace/game-unity
