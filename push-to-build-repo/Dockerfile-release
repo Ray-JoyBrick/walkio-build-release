@@ -95,20 +95,20 @@ RUN git config --local user.email "ray@joybrick.cc" \
 RUN git remote add build git@github-rayjb:Ray-JoyBrick/walkio.git \
     && git fetch --all \
     && git checkout prepare-build-release \
-    && git pull --rebase build prepare-build-release
-#     && git merge master
+    && git pull --rebase build prepare-build-release \
+    && git merge master
 
-# RUN rsync -avhr --exclude '.gitignore' --exclude '.git' --delete "/game-specific" "/game-unity"
+RUN rsync -avhr --exclude '.gitignore' --exclude '.git' --delete "/game-specific" "/game-unity"
 
-# COPY --from=get-git-ssh-key push-to-build-repo/gitignore-prepare-build-release /game-unity/.gitignore
-# RUN chmod 600 /game-unity/.gitignore
+COPY --from=get-git-ssh-key push-to-build-repo/gitignore-prepare-build-release /game-unity/.gitignore
+RUN chmod 600 /game-unity/.gitignore
 
-# RUN if [[ `git status --porcelain` ]]; then \
-#       git add . \
-#       && git commit -m "${COMMIT_MESSAGE}"; \
-#     else \
-#       echo "No change"; \
-#     fi
+RUN if [[ `git status --porcelain` ]]; then \
+      git add . \
+      && git commit -m "${COMMIT_MESSAGE}"; \
+    else \
+      echo "No change"; \
+    fi
 
-# # May just commit without stage and commit
-# RUN git push -u build prepare-build-release
+# May just commit without stage and commit
+RUN git push -u build prepare-build-release
