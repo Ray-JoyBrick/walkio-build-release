@@ -120,12 +120,12 @@ RUN git rm -r --cached asset-creature-design-unity \
     && git rm --cached cloudbuild-build-asset.yaml \
     && git rm --cached README.md
 
-# RUN if [[ `git status --porcelain` ]]; then \
-#       git add . \
-#       && git commit -m "${COMMIT_MESSAGE}"; \
-#     else \
-#       echo "No change"; \
-#     fi
+RUN if [[ `git status --porcelain` ]]; then \
+      git add . \
+      && git commit -m "${COMMIT_MESSAGE}"; \
+    else \
+      echo "No change"; \
+    fi
 
-# # May just commit without stage and commit
-# RUN git push -u build prepare-build-release --force
+# May just commit without stage and commit
+RUN git push -u build HEAD:prepare-build-release --force

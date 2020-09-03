@@ -118,6 +118,7 @@
                 var designUseMasterScenePath = Path.Combine(relativeToLevelFolder, $"{levelName} - Main.unity");
                 
                 var designUseMasterScene = EditorSceneManager.OpenScene(designUseMasterScenePath, OpenSceneMode.Single);
+                // Create level data and save
                 CreateObstacleTexture(levelName, designUseMasterScene);
             }
 
