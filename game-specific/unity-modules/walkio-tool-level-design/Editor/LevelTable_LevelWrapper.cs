@@ -96,6 +96,28 @@
             // [ShowInInspector, ProgressBar(0, 100)]
             // public float Shooting { get { return this.character.Skills.Shooting; } set { this.character.Skills.Shooting = value; EditorUtility.SetDirty(this.character); } }
 
+            public void GenerateLevelData()
+            {
+                var levelName = Level.name;
+                
+                var absolutePathStart = Application.dataPath;
+                var relativePathStart = "Assets";
+                var designLevelPartialPath = Path.Combine("_", "1 - Game", "Design - Level");
+
+                var relativeToLevelFolder = Path.Combine(relativePathStart, designLevelPartialPath, levelName);
+                
+                var generatedLevelPartialPath = Path.Combine("_", "_Generated - Level");
+                var absoluteGeneratedToLevelFolder =
+                    Path.Combine(absolutePathStart, generatedLevelPartialPath, levelName);
+                var relativeGeneratedToLevelFolder =
+                    Path.Combine(relativePathStart, generatedLevelPartialPath, levelName);
+
+                var designUseMasterScenePath = Path.Combine(relativeToLevelFolder, $"{levelName} - Main.unity");
+                
+                CreateLevelData(levelName);
+
+            }
+
             public void GenerateScene()
             {
                 // Scan design use level to generate obstacle texture
@@ -325,7 +347,7 @@
                     // subScene.SceneAsset = sceneAsset;
                 });
 
-                CreateLevelData(levelName);
+                // CreateLevelData(levelName);
                 // CreateObstacleTexture(levelName, masterScene);
 
                 AssetDatabase.SaveAssets();
