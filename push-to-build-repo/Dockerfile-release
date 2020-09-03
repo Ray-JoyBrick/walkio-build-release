@@ -95,8 +95,9 @@ RUN git config --local user.email "ray@joybrick.cc" \
 RUN git remote add build git@github-rayjb:Ray-JoyBrick/walkio.git \
     && git fetch --all \
     && git checkout prepare-build-release \
-    && git pull --rebase build prepare-build-release \
-    && git merge master
+    && git pull --rebase build prepare-build-release
+
+RUN git merge master
 
 RUN rsync -avhr --exclude '.gitignore' --exclude '.git' --delete "/game-specific" "/game-unity"
 
