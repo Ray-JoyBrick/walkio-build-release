@@ -39,6 +39,7 @@ steps:
         # Need to retrieve preprocessed-assets.zip and place it in complete-unity as well
 
         # Just check the directory content for now to see if this step really works or not
+        ls -la ~/
         ls -la /workspace/game-unity
         ls -la /workspace/game-unity/game-specific
         ls -la /workspace/game-unity/complete-unity
@@ -141,6 +142,7 @@ steps:
     args:
       - -c
       - |
+        # This might be no good idea
         mkdir ~/.ssh
         mv /workspace/ray_google_rsa ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
