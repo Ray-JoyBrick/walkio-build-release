@@ -1,2 +1,16 @@
+/*
+
+!.gitattributes
+!.gitignore
+
+#
 *.meta
 !*.*.meta
+
+# Checksum file created during merge branch
+!preprocessed-assets-checksum
+
+#
+!extend-3rd
+!preprocessed-assets
+!unity-modules
