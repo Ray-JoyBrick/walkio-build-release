@@ -69,7 +69,7 @@ Copyright = '(c) GiantCroissant. All rights reserved.'
 # NestedModules = @()
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = @('Set-Symlink', 'Copy-Asset', 'Remove-SymlinkOrNormal', 'Symlink-InReferences')
+FunctionsToExport = @('Set-Symlink', 'Copy-Asset', 'Get-AssetToDesc', 'Remove-SymlinkOrNormal', 'Symlink-InReferences', 'Make-MoveDesc')
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
