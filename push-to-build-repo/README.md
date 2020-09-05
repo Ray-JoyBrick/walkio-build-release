@@ -47,3 +47,11 @@ time DOCKER_BUILDKIT=1 docker image build -t walkio-push-build-release:latest --
 # Use interactive shell to interact with docker if there is any conflict
 docker container run -it walkio-push-build-release /bin/sh
 ```
+
+在game-unity目錄下直接執行以下的bash command，可以建置asset版本
+
+```sh
+time DOCKER_BUILDKIT=1 docker image build -t walkio-push-build-asset:latest --no-cache --build-arg SERVICE_NAME_KMS="use-kms" --build-arg SERVICE_NAME_STORAGE="use-storage" --build-arg PROJECT_ID="walkio-271711" --build-arg JSON_FILE_KEYFILE_KMS="$(cat ./secret-info/credentials/gcp/keyfile-kms.json)" --build-arg JSON_FILE_KEYFILE_STORAGE="$(cat ./secret-info/credentials/gcp/keyfile-storage.json)" --build-arg GCS_BUCKET="joybrick-walkio-dev" --build-arg COMMIT_MESSAGE="Commit for build" -f ./push-to-build-repo/Dockerfile-asset .
+
+docker container run -it walkio-push-build-asset /bin/sh
+```

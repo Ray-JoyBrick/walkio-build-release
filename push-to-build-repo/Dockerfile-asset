@@ -99,8 +99,8 @@ RUN git fetch --all
 RUN git rm -r asset-creature-design-unity \
     && git rm -r asset-hud-design-unity \
     && git rm -r asset-level-design-unity \
-    && git rm -r asset-unification-unity \
     && git rm -r behavior-unification-unity \
+    && git rm -r complete-unity \
     && git rm -r dev-pre-setup \
     && git rm -r dev-setup-unity-plugin \
     && git rm -r game-specific/development-assets \
@@ -110,35 +110,28 @@ RUN git rm -r asset-creature-design-unity \
     && git rm -r game-specific/preprocessed-assets \
     && git rm -r game-specific/unity-modules-01 \
     && git rm -r game-specific/unity-modules-02 \
-    && git rm -r prepare-ucb-build-asset \
+    && git rm -r prepare-ucb-build-release \
     && git rm -r push-to-build-repo \
     && git rm behavior-unification-project.code-workspace \
     && git rm complete-project.code-workspace \
     && git rm unity-project.code-workspace \
-    && git rm cloudbuild-build-asset.yaml \
+    && git rm cloudbuild-build-release.yaml \
     && git rm README.md
-
-# RUN if [[ `git status --porcelain` ]]; then \
-#       git add . \
-#       && git commit -m "${COMMIT_MESSAGE}"; \
-#     else \
-#       echo "No change"; \
-#     fi
 
 RUN git commit -m "${COMMIT_MESSAGE}"
 RUN git reset --hard master
 
-RUN git checkout prepare-build-release
+RUN git checkout prepare-build-asset
 RUN git reset --hard master
 
 RUN rsync -avhr --exclude '.gitignore' --exclude '.git' --delete "/game-specific" "/game-unity"
 
-COPY --from=get-git-ssh-key push-to-build-repo/gitignore-prepare-build-release /game-unity/.gitignore
+COPY --from=get-git-ssh-key push-to-build-repo/gitignore-prepare-build-asset /game-unity/.gitignore
 RUN chmod 600 /game-unity/.gitignore
 
 RUN git add . \
     && git commit -m "${COMMIT_MESSAGE}"
 
 # # May just commit without stage and commit
-# RUN git push -u build HEAD:prepare-build-release --force
-RUN git push build prepare-build-release --force
+# RUN git push -u build HEAD:prepare-build-asset --force
+RUN git push build prepare-build-asset --force

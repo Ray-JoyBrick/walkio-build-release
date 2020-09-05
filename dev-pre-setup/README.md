@@ -1,5 +1,7 @@
 # Overview
 
+## Terraform
+
 想用Docker執行Terraform，到hashicorp放在Docker Hub的頁面[hashicorp/terraform](https://www.mrjamiebowman.com/software-development/docker/running-terraform-in-docker-locally/)可以看到它的簡易用法為
 
 ```sh
@@ -126,3 +128,13 @@ Error: Error creating Repository: googleapi: Error 403: The caller does not have
 - [google_storage_bucket](https://www.terraform.io/docs/providers/google/r/storage_bucket.html)
 
 有些可設定的參數無法藉由設定檔進行，像是Google Storage的Location Type，目前沒有看到如何設定，預設是Region，這之後再花些時間了解。
+
+## Unity Cloud Build
+
+現在沒有UCB的Terraform provider，所以沒有辦法一次管理，而且UCB的API裡產生的部份很少，多數都是查詢用。所以最好的方法是用Docker滙整指令，之後再做調整。
+
+```sh
+time DOCKER_BUILDKIT=1 docker image build -t walkio-dev-pre-setup:latest --no-cache --build-arg PROJECT_ID="walkio-271711" --build-arg ORG_ID="apprenticegc" --build-arg UCB_API_KEY="$(cat ./secret-info/secrets/unity-cloud-build.txt)" --build-arg GCS_BUCKET="joybrick-walkio-dev" -f ./push-to-build-repo/Dockerfile-release .
+
+docker container run -it walkio-dev-pre-setup /bin/sh
+```
