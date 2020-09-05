@@ -138,3 +138,7 @@ time DOCKER_BUILDKIT=1 docker image build -t walkio-dev-pre-setup:latest --no-ca
 
 docker container run -it walkio-dev-pre-setup /bin/sh
 ```
+
+### Get API key
+
+可以從Unity Cloud Build Settings & Preferences這裡拿到，基本上這是Organization的資料，所以每個在其下的專案都是用一樣的API Key。

@@ -17,7 +17,7 @@ steps:
         # Move related folders and files to this folder
         mv /workspace/asset-unification-unity /workspace/game-unity/
         mv /workspace/game-specific /workspace/game-unity/
-        mv /workspace/prepare-ucb-build-release /workspace/game-unity/
+        mv /workspace/prepare-ucb-build-asset /workspace/game-unity/
 
         md5=$(cat "references-checksum") && mv "/workspace/$md5.zip" "/workspace/game-unity/asset-unification-unity/references.zip"
         # Need to retrieve preprocessed-assets.zip and place it in asset-unification-unity as well
@@ -40,7 +40,7 @@ steps:
         # Execute powershell scripts
 
         # pwsh remove-dsstore.ps1
-        pwsh ./prepare-ucb-build-release/CopyNecessaryItem.ps1
+        pwsh ./prepare-ucb-build-asset/CopyNecessaryItem.ps1
 
         # Need to change this work to that the setup is moving files rather than current json
         # Add bash file to instruct where preprocessed-assets is moved to, can actually generate here
@@ -58,7 +58,7 @@ steps:
       - name: 'ssh'
         path: /root/.ssh
 
-  - id: commit-ucb-build-release
+  - id: commit-ucb-build-asset
     name: gcr.io/cloud-builders/gcloud
     name: "alpine:latest"
     entrypoint: sh
@@ -88,8 +88,8 @@ steps:
 
         git show-ref
 
-        git checkout -b ucb-build-release
-        git reset --hard from-repo/prepare-build-release
+        git checkout -b ucb-build-asset
+        git reset --hard from-repo/prepare-build-asset
 
         rsync -avhr --exclude '.git' --delete /workspace/game-unity/asset-unification-unity/ /workspace/ucb-build/
 
@@ -99,7 +99,7 @@ steps:
         git add .
         git commit -m "Commit from auto build"
 
-        git push origin ucb-build-release --force
+        git push origin ucb-build-asset --force
 
     volumes:
       - name: 'ssh'
