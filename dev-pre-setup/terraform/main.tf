@@ -25,6 +25,52 @@ resource "random_id" "instance_id" {
   byte_length = 8
 }
 
+resource "google_service_account" "use-kms" {
+  account_id = "use-kms"
+  display_name = "Service Account"
+}
+
+resource "google_service_account" "use-storage" {
+  account_id = "use-storage"
+  display_name = "Service Account"
+}
+
+
+# Assume it is from top to bottom
+resource "null_resource" "before" {
+}
+
+resource "null_resource" "delay" {
+  provisioner "local-exec" {
+    command = "sleep 10"
+  }
+  triggers = {
+    "before" = "${null_resource.before.id}"
+  }
+}
+
+resource "null_resource" "after" {
+  depends_on = [null_resource.delay]
+}
+
+resource "google_project_iam_binding" "sa-use-kms" {
+  project = "walkio-271711"
+  role    = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+
+  members = [
+    "serviceAccount:${google_service_account.use-kms.email}",
+  ]
+}
+
+resource "google_project_iam_binding" "sa-use-storage" {
+  project = "walkio-271711"
+  role    = "roles/storage.admin"
+
+  members = [
+    "serviceAccount:${google_service_account.use-storage.email}",
+  ]
+}
+
 # Need to enable API
 resource "google_sourcerepo_repository" "ucb-build-release" {
   name = "ucb-build-release"

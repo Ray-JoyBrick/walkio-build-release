@@ -12,10 +12,6 @@ steps:
         # Add -n parameter to gsutil cp so that it can skip if there is one with the same name already
         md5=$(cat "references-checksum") && gsutil cp -n "/workspace/$md5.zip" "gs://${_GCS_BUCKET}/references-$md5.zip"
 
-        # unzip -qq /tmp/references.zip
-
-        gsutil cp gs://${_GCS_BUCKET}/ray_google_rsa /workspace/ray_google_rsa
-
         #
         mkdir game-unity
         # Move related folders and files to this folder
@@ -23,27 +19,15 @@ steps:
         mv /workspace/game-specific /workspace/game-unity/
         mv /workspace/prepare-ucb-build-release /workspace/game-unity/
 
-        # mv /workspace/references /workspace/game-unity/
         md5=$(cat "references-checksum") && mv "/workspace/$md5.zip" "/workspace/game-unity/complete-unity/references.zip"
-
+        # Need to retrieve preprocessed-assets.zip and place it in complete-unity as well
         md5=$(cat "/workspace/game-unity/game-specific/preprocessed-assets-checksum") && gsutil cp "gs://${_GCS_BUCKET}/preprocessed-assets-$md5.zip" "/workspace/game-unity/complete-unity/preprocessed-assets.zip"
 
         mv /workspace/unity-setup /workspace/game-unity/
-        # mv /workspace/gitignore-complete-unity /workspace/game-unity/
-        mv /workspace/.git /workspace/game-unity/
         mv /workspace/.gitattributes /workspace/game-unity/
         mv /workspace/.gitignore /workspace/game-unity/
         mv /workspace/remove-dsstore.ps1 /workspace/game-unity/
         mv /workspace/setup-game-ref.ps1 /workspace/game-unity/
-
-        # Need to retrieve preprocessed-assets.zip and place it in complete-unity as well
-
-        # Just check the directory content for now to see if this step really works or not
-        ls -la ~/
-        ls -la /workspace/game-unity
-        ls -la /workspace/game-unity/game-specific
-        ls -la /workspace/game-unity/complete-unity
-        ls -la /workspace/game-unity/complete-unity/Assets
 
   - id: organize-prepared-complete-project
     name: "mcr.microsoft.com/powershell:preview-alpine-3.10"
@@ -54,58 +38,25 @@ steps:
         # Enter into game-unity folder
         cd /workspace/game-unity
         # Execute powershell scripts
-        # pwsh-preview setup-game-ref.ps1
-
-        ls -la /workspace/game-unity/complete-unity
 
         # pwsh remove-dsstore.ps1
         pwsh ./prepare-ucb-build-release/CopyNecessaryItem.ps1
 
-        ls -la /workspace/game-unity/complete-unity/Assets
-
-        #   # Need to change this work to that the setup is moving files rather than current json
-        #   # Add bash file for references, this needs a script to convert json to file
-        #   # Add bash file to instruct where preprocessed-assets is moved to, can actually generate here
+        # Need to change this work to that the setup is moving files rather than current json
+        # Add bash file to instruct where preprocessed-assets is moved to, can actually generate here
         cd /workspace/game-unity/unity-setup
         pwsh FileMoveCompleteReferences.ps1
         mv /workspace/game-unity/move-files.sh /workspace/game-unity/complete-unity
-        #   pwsh-preview CopyCompleteReferences.ps1
 
         mv /workspace/game-unity/game-specific /workspace/game-unity/complete-unity
 
-        # rm /workspace/game-unity/complete-unity/.gitignore
-        # mv /workspace/game-unity/gitignore-complete-unity /workspace/game-unity/complete-unity/.gitignore
-        echo "$(cat '/workspace/game-unity/complete-unity/.gitignore')"
-
-        ls -la /workspace/game-unity/complete-unity
-        ls -la /workspace/game-unity/complete-unity/Assets
-
-        # Exit the game-unity folder back to workspace folder
-        cd /workspace
-
-  - id: grab-ucb-build-release
+  - id: retrieve-ssh-key
     name: gcr.io/cloud-builders/gcloud
-    entrypoint: sh
-    args:
-      - -c
-      - |
-        # This repo has to be generated before using
-        gcloud source repos clone ucb-build-release --project=walkio-271711
-
-  - id: merge-ucb-build-release
-    # Going to use ordinary rsync so use alpine instead of gcloud image
-    name: "alpine:latest"
-    entrypoint: sh
-    args:
-      - -c
-      - |
-        apk update && apk add openssh-client rsync
-        # rsync -avhr --exclude '.gitignore' --exclude '.git' --delete /workspace/game-unity/complete-unity/ /workspace/ucb-build-release/
-        rsync -avhr --exclude '.git' --delete /workspace/game-unity/complete-unity/ /workspace/ucb-build-release/
-
-        ls -la /workspace/game-unity/complete-unity/Assets
-        ls -la /workspace/ucb-build-release
-        ls -la /workspace/ucb-build-release/Assets
+    entrypoint: 'bash'
+    args: [ '-c', 'gcloud secrets versions access latest --secret=rayjb_google_rsa > /root/.ssh/rayjb_google_rsa' ]
+    volumes:
+      - name: 'ssh'
+        path: /root/.ssh
 
   - id: commit-ucb-build-release
     name: gcr.io/cloud-builders/gcloud
@@ -113,79 +64,40 @@ steps:
     args:
       - -c
       - |
-        cd /workspace/ucb-build-release
-        # gcloud init && git config --global credential.'https://source.developers.google.com'.helper gcloud.sh
-        # gcloud init
-        # git remote add google https://source.developers.google.com/p/soma-union/r/ucb-build-release
-        git remote add google https://source.developers.google.com:2022/p/walkio-271711/r/ucb-build-release
+
+        apk update && apk add git git-lfs openssh-client rsync
+
+        chmod 600 /root/.ssh/rayjb_google_rsa
+
+        eval `ssh-agent -s`
+        ssh-add /root/.ssh/rayjb_google_rsa
+
+        touch /root/.ssh/known_hosts
+        ssh-keyscan -p 2022 source.developers.google.com >> /root/.ssh/known_hosts
+
+        git clone ssh://ray@joybrick.cc@source.developers.google.com:2022/p/walkio-271711/r/ucb-build
+
+        cd ucb-build
+        git remote add from-repo ssh://ray@joybrick.cc@source.developers.google.com:2022/p/walkio-271711/r/github_ray-joybrick_walkio
+
         git config --local user.email "ray@joybrick.cc"
         git config --local user.name "Ray Wang"
 
-        # git log
+        git fetch --all
+
+        git show-ref
+
+        git checkout -b ucb-build-release
+        git reset --hard from-repo/prepare-build-release
+
+        rsync -avhr --exclude '.git' --delete /workspace/game-unity/complete-unity/ /workspace/ucb-build/
+
         git add .
-        git commit -m "For building purpose"
-        # git reset --hard master
+        git commit -m "Commit from auto build"
 
-        git checkout prepare-build-release
-        git push -u origin master
-        # git push --all google
+        git push origin ucb-build-release --force
 
-        # 
-        ls -la /workspace/ucb-build-release
-        echo "$(cat '/workspace/ucb-build-release/.gitignore')"
-        ls -la /workspace/ucb-build-release/.git
-        echo "$(cat '/workspace/ucb-build-release/.git/config')"
-
-  # - id: commit-ucb-build-release
-  #   name: gcr.io/cloud-builders/gcloud
-  #   entrypoint: sh
-  #   args:
-  #     - -c
-  #     - |
-  #       # # This might be no good idea
-  #       # mkdir ~/.ssh
-  #       # # mv /workspace/ray_google_rsa ~/.ssh/id_rsa
-  #       # mv /workspace/ray_google_rsa ~/.ssh/ray_google_rsa
-  #       # # chmod 600 ~/.ssh/id_rsa
-  #       # chmod 600 ~/.ssh/ray_google_rsa
-  #       # eval `ssh-agent -s`
-  #       # ssh-add ~/.ssh/ray_google_rsa
-  #       # ssh-keyscan source.developers.google.com >> ~/.ssh/known_hosts
-
-  #       # ls -la ~/.ssh
-
-  #       # cd /workspace/ucb-build-release
-  #       cd /workspace/game-unity
-  #       # gcloud init && git config --global credential.'https://source.developers.google.com'.helper gcloud.sh
-  #       # gcloud init
-  #       # git remote add google https://source.developers.google.com/p/soma-union/r/ucb-build-release
-  #       # git remote add google https://source.developers.google.com/p/walkio-271711/r/ucb-build-release
-  #       # git remote add google ssh://ray@joybrick.cc@source.developers.google.com:2022/p/walkio-271711/r/ucb-build-release
-  #       git config --local user.email "ray@joybrick.cc"
-  #       git config --local user.name "Ray Wang"
-  #       git fetch --all
-
-  #       # git log
-  #       git add .
-  #       # git commit -m "For building purpose"
-  #       # git reset --hard prepare-build-release
-
-  #       git checkout -b ucb-build-release
-  #       # git reset --hard prepare-build-release
-  #       git merge origin/prepare-build-release
-        
-  #       # git add .
-  #       git commit "Build branch ready to UCB"
-
-  #       # git push google ucb-build-release --force
-  #       git push origin ucb-build-release --force
-
-  #       # git checkout prepare-build-release
-  #       # # git push -u origin master
-  #       # # # git push --all google
-
-  #       # # 
-  #       # ls -la /workspace/ucb-build-release
-  #       # echo "$(cat '/workspace/ucb-build-release/.gitignore')"
-  #       # ls -la /workspace/ucb-build-release/.git
-  #       # echo "$(cat '/workspace/ucb-build-release/.git/config')"
+    volumes:
+      - name: 'ssh'
+        path: /root/.ssh
+    

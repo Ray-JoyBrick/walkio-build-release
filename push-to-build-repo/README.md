@@ -34,6 +34,7 @@ gcloud kms encrypt --location global \
   --key access-git-key \
   --ciphertext-file rayjb_gitlab_rsa.enc \
   --plaintext-file ./rayjb_gitlab_rsa
+
 ```
 
 在game-unity目錄下直接執行以下的bash command，可以建置relase版本
