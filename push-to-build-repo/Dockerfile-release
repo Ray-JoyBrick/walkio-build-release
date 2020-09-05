@@ -106,19 +106,6 @@ RUN git fetch --all
 # COPY --from=get-git-ssh-key push-to-build-repo/gitignore-prepare-build-release /game-unity/.gitignore
 # RUN chmod 600 /game-unity/.gitignore
 
-# RUN git rm -r --cached asset-creature-design-unity \
-#     && git rm -r --cached asset-hud-design-unity \
-#     && git rm -r --cached asset-level-design-unity \
-#     && git rm -r --cached behavior-unification-unity \
-#     && git rm -r --cached dev-pre-setup \
-#     && git rm -r --cached dev-setup-unity-plugin \
-#     && git rm -r --cached prepare-ucb-build-asset \
-#     && git rm -r --cached push-to-build-repo \
-#     && git rm --cached behavior-unification-project.code-workspace \
-#     && git rm --cached complete-project.code-workspace \
-#     && git rm --cached unity-project.code-workspace \
-#     && git rm --cached cloudbuild-build-asset.yaml \
-#     && git rm --cached README.md
 
 RUN git rm -r asset-creature-design-unity \
     && git rm -r asset-hud-design-unity \
