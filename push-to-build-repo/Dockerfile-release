@@ -110,9 +110,17 @@ RUN git fetch --all
 RUN git rm -r asset-creature-design-unity \
     && git rm -r asset-hud-design-unity \
     && git rm -r asset-level-design-unity \
+    && git rm -r asset-unification-unity \
     && git rm -r behavior-unification-unity \
     && git rm -r dev-pre-setup \
     && git rm -r dev-setup-unity-plugin \
+    && git rm -r game-specific/development-assets \
+    && git rm -r game-specific/obselete-unity-modules \
+    && git rm -r game-specific/preprocess-assets-old \
+    && git rm -r game-specific/preprocess-assets \
+    && git rm -r game-specific/preprocessed-assets \
+    && git rm -r game-specific/unity-modules-01 \
+    && git rm -r game-specific/unity-modules-02 \
     && git rm -r prepare-ucb-build-asset \
     && git rm -r push-to-build-repo \
     && git rm behavior-unification-project.code-workspace \
