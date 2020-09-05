@@ -93,6 +93,9 @@ steps:
 
         rsync -avhr --exclude '.git' --delete /workspace/game-unity/complete-unity/ /workspace/ucb-build/
 
+        rm /workspace/ucb-build/.gitattributes
+        rm /workspace/ucb-build/.gitignore
+
         git add .
         git commit -m "Commit from auto build"
 
