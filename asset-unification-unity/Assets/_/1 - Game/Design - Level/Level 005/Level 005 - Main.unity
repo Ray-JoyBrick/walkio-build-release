@@ -202,7 +202,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   data:
-    dataString: 
+    dataString: UEsDBBQAAAgIAABAIexHtFtZOAAAAEYAAAAJACQAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0Bq1YqSy0qzszPU7JSMNEz1jM21FFQSi9KLMgoBoqAOaWZKSB2dF5pTk4sUKCksiDVLzE3FSFYCwBQSwECLQAUAAAICAAAQCHsR7RbWTgAAABGAAAACQAkAAAAAAAAAAAAAAAAAAAAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsFBgAAAAABAAEAWwAAAIMAAAAAAA==
     upgradeData: 
     file_cachedStartup: {fileID: 0}
     data_cachedStartup: 
@@ -241,7 +241,7 @@ MonoBehaviour:
     seed: 0
     pivotPointRoot: {fileID: 0}
     spreadOutCount: 1
-  showGraphs: 0
+  showGraphs: 1
 --- !u!4 &531210824
 Transform:
   m_ObjectHideFlags: 0

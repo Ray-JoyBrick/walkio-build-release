@@ -13,196 +13,118 @@ namespace JoyBrick.Walkio.Tool.LevelDesign.EditorPart
 
     public partial class LevelTable
     {
-         private static Texture2D MakeTextureBasedOnLayer(
-             int width, int height, Vector3 basePosition,
-             string layerName, Color32 hitColor, Color32 noHitColor)
-         {
-             Debug.Log($"HandleSceneOpenedAffair - MakeTextureBasedOnLayer - layerName: {layerName}");
+        private static Texture2D MakeTextureBasedOnLayer(
+            int width, int height, Vector3 basePosition,
+            string layerName,
+            bool checkTag, string tag,
+            Color32 hitColor, Color32 noHitColor)
+        {
+            Debug.Log($"HandleSceneOpenedAffair - MakeTextureBasedOnLayer - layerName: {layerName}");
 
-             var texture = new Texture2D(width, height, TextureFormat.RGBA32, false);
-             var colors = new Color32[width * height];
+            var texture = new Texture2D(width, height, TextureFormat.RGBA32, false);
+            var colors = new Color32[width * height];
 
-             for (var z = 0; z < height; ++z)
-             {
-                 for (var x = 0; x < width; ++x)
-                 {
-                     var adjustedX = basePosition.x + x + 0.5f;
-                     var adjustedZ = basePosition.z + z + 0.5f;
+            for (var z = 0; z < height; ++z)
+            {
+                for (var x = 0; x < width; ++x)
+                {
+                    var adjustedX = basePosition.x + x + 0.5f;
+                    var adjustedZ = basePosition.z + z + 0.5f;
 
-                     var w = adjustedX;
-                     var h = adjustedZ;
-                     var tx = x;
-                     var ty = z;
+                    var w = adjustedX;
+                    var h = adjustedZ;
+                    var tx = x;
+                    var ty = z;
 
-                     var colorIndex = ty * width + tx;
+                    var colorIndex = ty * width + tx;
 
-                     var layerMask = LayerMask.GetMask(layerName);
-                     var raycastHits =
-                         Physics.RaycastAll(
-                             new Ray(new Vector3(w, 100.0f, h), Vector3.down),
-                             150.0f, layerMask);
+                    var layerMask = LayerMask.GetMask(layerName);
+                    var raycastHits =
+                        Physics.RaycastAll(
+                            new Ray(new Vector3(w, 100.0f, h), Vector3.down),
+                            150.0f, layerMask);
 
-                     var castedRaycastHits = raycastHits.ToList();
-                     if (castedRaycastHits.Count > 0)
-                     {
-                         // Debug.Log($"HandleSceneOpenedAffair - MakeTextureBasedOnInBoundaryFloor - width: {width} height: {height} is in boundary floor");
+                    var castedRaycastHits = raycastHits.ToList();
+                    if (castedRaycastHits.Count > 0)
+                    {
+                        // Debug.Log($"HandleSceneOpenedAffair - MakeTextureBasedOnInBoundaryFloor - width: {width} height: {height} is in boundary floor");
 
-                         // Use the first one as there should be one
-                         var raycastHit = castedRaycastHits[0];
+                        // Use the first one as there should be one
+                        var raycastHit = castedRaycastHits[0];
 
-                         // var color = new Color32(0, 0, 0, 255);
+                        // var color = new Color32(0, 0, 0, 255);
+                        if (checkTag)
+                        {
+                            var havingTag = castedRaycastHits
+                                .Where(crh => string.CompareOrdinal(crh.collider.tag, tag) == 0);
+                            if (havingTag.Any())
+                            {
+                                colors[colorIndex] = hitColor;
+                            }
+                            else
+                            {
+                                colors[colorIndex] = noHitColor;
+                            }
+                        }
+                        else
+                        {
+                            colors[colorIndex] = hitColor;
+                        }
+                    }
+                    else
+                    {
+                        // var color = new Color32(0, 0, 0, 255);
 
-                         colors[colorIndex] = hitColor;
-                     }
-                     else
-                     {
-                         // var color = new Color32(0, 0, 0, 255);
+                        colors[colorIndex] = noHitColor;
+                    }
+                }
+            }
 
-                         colors[colorIndex] = noHitColor;
-                     }
-                 }
-             }
+            texture.SetPixels32(colors);
 
-             texture.SetPixels32(colors);
-
-             return texture;
-         }
-
-         private static Texture2D MakeTextureBasedOnInBoundaryFloor(int width, int height, Vector3 basePosition)
-         {
-             Debug.Log($"HandleSceneOpenedAffair - MakeTextureBasedOnInBoundaryFloor");
-
-             var texture = new Texture2D(width, height, TextureFormat.RGBA32, false);
-
-             var colors = new Color32[width * height];
-
-             for (var z = 0; z < height; ++z)
-             {
-                 for (var x = 0; x < width; ++x)
-                 {
-                     var adjustedX = basePosition.x + x + 0.5f;
-                     var adjustedZ = basePosition.z + z + 0.5f;
-
-                     var w = adjustedX;
-                     var h = adjustedZ;
-                     var tx = x;
-                     var ty = z;
-
-                     var colorIndex = ty * width + tx;
-
-                     // action(width, height, adjustedX, adjustedZ, basePosition, texture);
-                     var layerMask = LayerMask.GetMask("In Boundary Floor");
-                     var raycastHits =
-                         Physics.RaycastAll(
-                             // new Ray(new Vector3(0.5f, 100.0f, 0.5f), Vector3.down),
-                             new Ray(new Vector3(w, 100.0f, h), Vector3.down),
-                             150.0f, layerMask);
-
-                     var castedRaycastHits = raycastHits.ToList();
-                     if (castedRaycastHits.Count > 0)
-                     {
-                         // Debug.Log($"HandleSceneOpenedAffair - MakeTextureBasedOnInBoundaryFloor - width: {width} height: {height} is in boundary floor");
-
-                         // Use the first one as there should be one
-                         var raycastHit = castedRaycastHits[0];
-                         // var color = new Color(0.0f, 0.0f, 0.0f, 1.0f);
-                         // texture.SetPixel(tx, ty, color);
-
-                         var color = new Color32(0, 0, 0, 255);
-
-                         colors[colorIndex] = color;
-                     }
-                     else
-                     {
-                         // This case should not occur
-                         // var color = new Color(0.0f, 0.0f, 0.0f, 1.0f);
-                         // texture.SetPixel(tx, ty, color);
-
-                         var color = new Color32(0, 0, 0, 255);
-
-                         colors[colorIndex] = color;
-                     }
-                 }
-             }
-
-             texture.SetPixels32(colors);
-
-             // ApplyActionToEachCell(width, height, basePosition, ref texture, (tx, ty, w, h, p, t) =>
-             // {
-             // });
-
-             return texture;
-         }
+            return texture;
+        }
 
         private static Texture2D CombineTextures(List<Texture2D> textures)
-         {
-             if (!textures.Any()) return null;
+        {
+            if (!textures.Any()) return null;
 
-             var width = textures.First().width;
-             var height = textures.First().height;
+            var width = textures.First().width;
+            var height = textures.First().height;
 
-             var texture = new Texture2D(width, height, textures.First().format, false);
+            // All format should be the same
+            var texture = new Texture2D(width, height, textures.First().format, false);
 
-             var combinedColors = new Color32[width * height];
+            var combinedColors = new Color32[width * height];
 
-             for (var tIndex = 0; tIndex < textures.Count; ++tIndex)
-             {
-                 var t = textures[tIndex];
+            for (var tIndex = 0; tIndex < textures.Count; ++tIndex)
+            {
+                var t = textures[tIndex];
 
-                 var colors = t.GetPixels32();
+                var colors = t.GetPixels32();
 
-                 for (var i = 0; i < combinedColors.Length; ++i)
-                 {
-                     var cc = combinedColors[i];
-                     var c = colors[i];
+                for (var i = 0; i < combinedColors.Length; ++i)
+                {
+                    var cc = combinedColors[i];
+                    var c = colors[i];
 
-                     var r = cc.r + c.r;
-                     var g = cc.g + c.g;
-                     var b = cc.b + c.b;
-                     var a = cc.a + c.a;
+                    var r = cc.r + c.r;
+                    var g = cc.g + c.g;
+                    var b = cc.b + c.b;
+                    var a = cc.a + c.a;
 
-                     combinedColors[i].r = (r < 255) ? (byte) r : (byte) 255;
-                     combinedColors[i].g = (r < 255) ? (byte) g : (byte) 255;
-                     combinedColors[i].b = (r < 255) ? (byte) b : (byte) 255;
-                     combinedColors[i].a = (r < 255) ? (byte) a : (byte) 255;
+                    combinedColors[i].r = (r < 255) ? (byte) r : (byte) 255;
+                    combinedColors[i].g = (g < 255) ? (byte) g : (byte) 255;
+                    combinedColors[i].b = (b < 255) ? (byte) b : (byte) 255;
+                    // combinedColors[i].a = (a < 255) ? (byte) a : (byte) 255;
+                    combinedColors[i].a = 255;
+                }
+            }
 
-                     //combinedColors[i].r = combinedColors[i].r + colors[i].r;
-                 }
+            texture.SetPixels32(combinedColors);
 
-                 // var color = t.GetPixel32(w, h);
-                 // // Debug.Log($"Color of tIndex: {tIndex} - At w: {w} h: {h}, color: {color}");
-                 // combinedColor += color;
-             }
-
-             texture.SetPixels32(combinedColors);
-
-             // for (var h = 0; h < height; ++h)
-             // {
-             //     for (var w = 0; w < width; ++w)
-             //     {
-             //         var combinedColor = new Color32(0, 0, 0, 0);
-             //         for (var tIndex = 0; tIndex < textures.Count; ++tIndex)
-             //         {
-             //             var t = textures[tIndex];
-             //
-             //             var color = t.GetPixel32(w, h);
-             //             // Debug.Log($"Color of tIndex: {tIndex} - At w: {w} h: {h}, color: {color}");
-             //             combinedColor += color;
-             //         }
-             //
-             //         combinedColor.r = (combinedColor.r > 255) ? 255 : combinedColor.r;
-             //         combinedColor.g = (combinedColor.g > 255) ? 255 : combinedColor.g;
-             //         combinedColor.b = (combinedColor.b > 255) ? 255 : combinedColor.b;
-             //         combinedColor.a = (combinedColor.a > 255) ? 255 : combinedColor.a;
-             //
-             //         // Debug.Log($"CombineTextures - At w: {w} h: {h}, combinedColor: {combinedColor}");
-             //
-             //         texture.SetPixel(w, h, combinedColor);
-             //     }
-             // }
-
-             return texture;
-         }
+            return texture;
+        }
 
         private static string HandleObstacleForSubScene(
              string levelName,
@@ -210,28 +132,46 @@ namespace JoyBrick.Walkio.Tool.LevelDesign.EditorPart
              Scene subScene,
              Vector3 basePosition,
              int wCellCount,
-             int hCellCount)
+             int hCellCount,
+             IEnumerable<Area> areas)
          {
-             Debug.Log($"HandleObstacleForSubScene - {subScene}");
+             Debug.Log($"HandleObstacleForSubScene - level: {levelName} sub-scene: {subScene}");
 
               // var inBoundaryFloorTexture = MakeTextureBasedOnInBoundaryFloor(wCellCount, hCellCount, basePosition);
               // var outBoundaryFloorTexture = MakeTextureBasedOnOutBoundaryFloor(wCellCount, hCellCount, basePosition);
               // var obstacleTexture = MakeTextureBasedOnObstacle(wCellCount, hCellCount, basePosition);
               // var areaTexture = MakeTextureBasedOnArea(wCellCount, hCellCount, basePosition);
 
-              var groundBaseTexture = MakeTextureBasedOnLayer(wCellCount, hCellCount, basePosition, "Ground Base",
-                  new Color32(0, 0, 0, 255), new Color32(0, 0, 0, 255));
-              var obstacleTexture = MakeTextureBasedOnLayer(wCellCount, hCellCount, basePosition, "Obstacle",
-                  new Color32(200, 200, 200, 255), new Color32(0, 0, 0, 255));
+              var baseColor = new Color32(0, 0, 0, 255);
+              var obstacleColor = new Color32(255, 255, 255, 255);
 
-              var combinedTexture = CombineTextures(new List<Texture2D>
+              var groundBaseTexture = MakeTextureBasedOnLayer(
+                  wCellCount, hCellCount, basePosition,
+                "Ground Base", false, "",
+                  baseColor, baseColor);
+              var obstacleTexture = MakeTextureBasedOnLayer(
+                  wCellCount, hCellCount, basePosition,
+                  "Obstacle", false, "",
+                  obstacleColor, baseColor);
+              var areaTextures =
+                  areas.Select(area =>
+                  {
+                      var color = area.materialColor;
+                      var areaTexture = MakeTextureBasedOnLayer(
+                          wCellCount, hCellCount, basePosition,
+                          "Area", true, area.tag,
+                          color, baseColor);
+
+                      return areaTexture;
+                  }).ToList();
+
+              var toBeCombinedTextures = new List<Texture2D>
               {
-                  // inBoundaryFloorTexture,
-                  // outBoundaryFloorTexture,
                   groundBaseTexture,
-                  obstacleTexture,
-                  // areaTexture
-              });
+                  obstacleTexture
+              };
+              toBeCombinedTextures.AddRange(areaTextures);
+              var combinedTexture = CombineTextures(toBeCombinedTextures);
 
               // Save the texture
               // var generatedDirectoryPath = Path.Combine(Application.dataPath, "_", "1 - Game - Level Design - Generated");
@@ -256,9 +196,10 @@ namespace JoyBrick.Walkio.Tool.LevelDesign.EditorPart
               // var obstacleTextureAssetLevelPath = Path.Combine("Assets", "_", "1 - Game - Level Design - Generated",
               //     "Module - Environment - Level",
               //     "Levels", levelName, "obstacle-texture");
-              
+
               var obstacleTextureAssetLevelPath = Path.Combine("Assets", "_", "_Generated - Level",
-                  levelName);
+                  levelName,
+                  "obstacle-texture");
 
               var relativeObstacleTextureAssetPath = Path.Combine(obstacleTextureAssetLevelPath, $"obstacle{index:0000}.png");
 
@@ -285,7 +226,9 @@ namespace JoyBrick.Walkio.Tool.LevelDesign.EditorPart
               return relativeObstacleTextureAssetPath;
          }
 
-         private static IEnumerable<string> CreateObstacleTexture(string levelName, Scene masterScene)
+         private static IEnumerable<string> CreateObstacleTexture(
+             string levelName, Scene masterScene,
+             IEnumerable<Area> areas)
          {
              var levelOperator = GameCommon.Utility.SceneHelper.GetComponentAtScene<LevelOperator>(masterScene);
              if (levelOperator == null) return Enumerable.Empty<string>();
@@ -300,10 +243,6 @@ namespace JoyBrick.Walkio.Tool.LevelDesign.EditorPart
                      var sceneAsset = levelOperator.subScenes[i];
                      var subScene = EditorSceneManager.GetSceneByName(sceneAsset.name);
 
-                     // var basePosition = new Vector3(
-                     //     wSubSceneIndex * levelOperator.gridCount,
-                     //     0,
-                     //     hSubSceneIndex * levelOperator.gridCount);
                      var basePosition = new Vector3(
                          wSubSceneIndex * levelOperator.gridCount,
                          0,
@@ -313,7 +252,8 @@ namespace JoyBrick.Walkio.Tool.LevelDesign.EditorPart
                              levelName,
                              i, subScene, basePosition,
                              levelOperator.gridCount,
-                             levelOperator.gridCount);
+                             levelOperator.gridCount,
+                             areas);
 
                      texturePaths.Add(texturePath);
                  }

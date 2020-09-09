@@ -36,6 +36,12 @@
         public List<AreaItem> areaLookup;
 
 #if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.BoxGroup("Lookup")]
+#endif
+        public List<string> subSceneNames;
+
+//
+#if ODIN_INSPECTOR
         [Sirenix.OdinInspector.BoxGroup("Basic")]
 #endif
         public Vector2Int gridWorldTileCount;
@@ -56,7 +62,7 @@
         [Sirenix.OdinInspector.BoxGroup("Obstacle")]
 #endif
         public List<Texture2D> subLevelImages;
-        
+
         //
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.BoxGroup("Navigation")]
@@ -66,7 +72,7 @@
         [Sirenix.OdinInspector.BoxGroup("Navigation")]
 #endif
         public GameObject hudNavigationHudPrefab;
-        
+
         //
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.BoxGroup("Cut Scenes")]

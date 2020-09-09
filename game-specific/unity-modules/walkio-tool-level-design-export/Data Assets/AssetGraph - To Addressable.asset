@@ -260,7 +260,7 @@ MonoBehaviour:
     m_nodeInstance:
       m_className: UnityEngine.AssetGraph.AddressableAssetGroup, Unity.AssetGraph.Editor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_instanceData: B64|eyJtX2dyb3VwR3VpZCI6IjI1NzAwNzdmYzAxOWY5NjQ4OGI3OTY2ZTkxNzVlYWNiIn0=
+      m_instanceData: B64|eyJtX2dyb3VwR3VpZCI6IjViMjMwMDBiM2I1NTMwYTQyODQzZmY4YjIwYTcyNjJiIn0=
     m_inputPoints:
     - id: b2a791f5-b467-4ea7-9459-7256f23f5730
       label: '-'

@@ -1,5 +1,4 @@
-﻿#if UNITY_EDITOR
-namespace JoyBrick.Walkio.Build.CreatureDesignExport.EditorPart
+﻿namespace JoyBrick.Walkio.Build.CreatureDesign.EditorPart
 {
     using System.Linq;
 #if ODIN_INSPECTOR
@@ -226,4 +225,3 @@ namespace JoyBrick.Walkio.Build.CreatureDesignExport.EditorPart
         // }
     }
 }
-#endif

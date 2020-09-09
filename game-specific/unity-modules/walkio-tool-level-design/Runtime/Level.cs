@@ -15,6 +15,14 @@ namespace JoyBrick.Walkio.Tool.LevelDesign
 #endif
     using UnityEngine;
 
+    [System.Serializable]
+    public class Area
+    {
+        public Material material;
+        public Color32 materialColor;
+        public string tag;
+    }
+
     [CreateAssetMenu(fileName = "Level Data", menuName = "Walkio/Build/Level Design/Level")]
     public partial class Level :
 #if ODIN_INSPECTOR
@@ -86,5 +94,9 @@ namespace JoyBrick.Walkio.Tool.LevelDesign
         [ProgressBar(0, 30)]
 #endif
         public int aiControl = 0;
+
+#if ODIN_INSPECTOR
+        public List<Area> areas;
+#endif
     }
 }

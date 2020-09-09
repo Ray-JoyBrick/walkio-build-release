@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eec4882d68a9346b3b5f8ecf1e38a534, type: 3}
+  m_Name: AssetGraph - To Generated
+  m_EditorClassIdentifier: 
+  m_allNodes:
+  - m_name: Load From Directory
+    m_id: 854709bd-1298-4df1-aa91-055a02d13893
+    m_x: 108
+    m_y: 132
+    m_nodeInstance:
+      m_className: UnityEngine.AssetGraph.Loader, Unity.AssetGraph.Editor, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      m_instanceData: B64|eyJtX2xvYWRQYXRoIjp7Im1fdmFsdWVzIjpbeyJ0YXJnZXRHcm91cCI6MCwidmFsdWUiOiJfL19HZW5lcmF0ZWQgLSBDcmVhdHVyZSJ9XX0sIm1fbG9hZFBhdGhHdWlkIjp7Im1fdmFsdWVzIjpbeyJ0YXJnZXRHcm91cCI6MCwidmFsdWUiOiIzYmQ4NTZhY2RhN2VhNjA0MWFhNmYyNDQ4NWE2MzU0OSJ9XX0sIm1faWdub3JlUGF0dGVybnMiOltdLCJtX3Jlc3BvbmRUb0Fzc2V0Q2hhbmdlIjpmYWxzZX0=
+    m_inputPoints: []
+    m_outputPoints:
+    - id: dc30faa2-2489-4fb3-b67c-638139eef913
+      label: +
+      parentId: 854709bd-1298-4df1-aa91-055a02d13893
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 157
+        y: 33.5
+        width: 10
+        height: 23
+  - m_name: Export As UnityPackage
+    m_id: 13ad5050-25e2-48ab-aaaf-9ae0bb35fa41
+    m_x: 396
+    m_y: 132
+    m_nodeInstance:
+      m_className: UnityEngine.AssetGraph.UnityPackageExporter, Unity.AssetGraph.Editor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      m_instanceData: B64|eyJtX3BhY2thZ2VOYW1lIjp7Im1fdmFsdWVzIjpbeyJ0YXJnZXRHcm91cCI6MCwidmFsdWUiOiJnZW5lcmF0ZWQtY3JlYXR1cmUifV19LCJtX2V4cG9ydFBhY2thZ2VPcHRpb25zIjp7Im1fdmFsdWVzIjpbeyJ0YXJnZXRHcm91cCI6MCwidmFsdWUiOjB9XX19
+    m_inputPoints:
+    - id: 64a6379f-9114-4dda-af67-3ec74a649107
+      label: '-'
+      parentId: 13ad5050-25e2-48ab-aaaf-9ae0bb35fa41
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 30.5
+        width: 21
+        height: 29
+    m_outputPoints:
+    - id: fb6c21a0-25ef-40d7-bbb5-64996d23cd9a
+      label: UnityPackage
+      parentId: 13ad5050-25e2-48ab-aaaf-9ae0bb35fa41
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 178
+        y: 33.5
+        width: 10
+        height: 23
+  - m_name: Export To Directory
+    m_id: 5136325a-95d1-4f80-8ac2-53077d867b14
+    m_x: 684
+    m_y: 132
+    m_nodeInstance:
+      m_className: UnityEngine.AssetGraph.Exporter, Unity.AssetGraph.Editor, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      m_instanceData: B64|eyJtX2V4cG9ydFBhdGgiOnsibV92YWx1ZXMiOlt7InRhcmdldEdyb3VwIjowLCJ2YWx1ZSI6Ii4uL2Nyb3NzLXByb2plY3QtdXNlIn1dfSwibV9leHBvcnRPcHRpb24iOnsibV92YWx1ZXMiOlt7InRhcmdldEdyb3VwIjowLCJ2YWx1ZSI6MH1dfSwibV9mbGF0dGVuRGlyIjp7Im1fdmFsdWVzIjpbeyJ0YXJnZXRHcm91cCI6MCwidmFsdWUiOjB9XX19
+    m_inputPoints:
+    - id: a1213da8-efbe-429e-bb7b-e419baca4dcc
+      label: '-'
+      parentId: 5136325a-95d1-4f80-8ac2-53077d867b14
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 30.5
+        width: 21
+        height: 29
+    m_outputPoints: []
+  m_allConnections:
+  - m_id: 03bdd59e-6004-4a34-9f5f-4ca1bc3ad44e
+    m_fromNodeId: 854709bd-1298-4df1-aa91-055a02d13893
+    m_fromNodeConnectionPointId: dc30faa2-2489-4fb3-b67c-638139eef913
+    m_toNodeId: 13ad5050-25e2-48ab-aaaf-9ae0bb35fa41
+    m_toNodeConnectionPoiontId: 64a6379f-9114-4dda-af67-3ec74a649107
+    m_label: +
+  - m_id: 876b5537-f811-4cf7-ba54-62fdd4d61bf4
+    m_fromNodeId: 13ad5050-25e2-48ab-aaaf-9ae0bb35fa41
+    m_fromNodeConnectionPointId: fb6c21a0-25ef-40d7-bbb5-64996d23cd9a
+    m_toNodeId: 5136325a-95d1-4f80-8ac2-53077d867b14
+    m_toNodeConnectionPoiontId: a1213da8-efbe-429e-bb7b-e419baca4dcc
+    m_label: UnityPackage
+  m_lastModified: 132440928708852312
+  m_version: 2
+  m_graphDescription: 
+  m_useAsAssetPostprocessor: 0
+  m_graphExecOrderPriority: 0

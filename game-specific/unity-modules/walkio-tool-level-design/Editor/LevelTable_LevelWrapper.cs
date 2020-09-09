@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using Game.Level.Template;
 #if ODIN_INSPECTOR
     using Sirenix.OdinInspector;
 #endif
@@ -103,55 +104,95 @@
             public void GenerateForExport()
             {
                 var levelName = Level.name;
-                
+
                 var absolutePathStart = Application.dataPath;
                 var relativePathStart = "Assets";
                 var designLevelPartialPath = Path.Combine("_", "1 - Game", "Design - Level");
 
                 var relativeToLevelFolder = Path.Combine(relativePathStart, designLevelPartialPath, levelName);
-                
+
                 var generatedLevelPartialPath = Path.Combine("_", "_Generated - Level");
                 var absoluteGeneratedToLevelFolder =
                     Path.Combine(absolutePathStart, generatedLevelPartialPath, levelName);
                 var relativeGeneratedToLevelFolder =
                     Path.Combine(relativePathStart, generatedLevelPartialPath, levelName);
-                
+
                 //
                 GameCommon.EditorPart.Utility.FileHelper.CreateDirectoryIfNotExisted(absoluteGeneratedToLevelFolder);
-                
-                var levelData = ScriptableObject.CreateInstance<GameLevel.Template.LevelData>();
-                
+
+                //
                 var designUseMasterScenePath = Path.Combine(relativeToLevelFolder, $"{levelName} - Main.unity");
-                
                 var designUseMasterScene = EditorSceneManager.OpenScene(designUseMasterScenePath, OpenSceneMode.Single);
-                
+
+                var designUseLevelPath = Path.Combine(relativeToLevelFolder, $"{levelName}.asset");
+                var designUseLevel = AssetDatabase.LoadAssetAtPath<Level>(designUseLevelPath);
+
                 // Created obstacle textures have to be stored
                 // Return these texture to be assigned into level data
 
-                var texturePaths = CreateObstacleTexture(levelName, designUseMasterScene);
+                //
+                var areas = new List<Area>();
+                areas.AddRange(designUseLevel.areas);
+                areas.ForEach(area => area.materialColor = (Color32)area.material.color);
+                var tileCount = designUseLevel.tileCount;
+                var tileCellCount = designUseLevel.tileCellCount;
+
+                //
+                var texturePaths = CreateObstacleTexture(levelName, designUseMasterScene, areas);
+
+                //
+                var levelData = ScriptableObject.CreateInstance<GameLevel.Template.LevelData>();
+
+                //
                 levelData.subLevelImages = new List<Texture2D>();
                 texturePaths.ToList().ForEach(texturePath =>
                 {
+                    Debug.Log($"LevelTable - GenerateForExport - texturePath: {texturePath}");
                     var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(texturePath);
-                    levelData.subLevelImages.Add(texture);
+                    if (texture != null)
+                    {
+                        levelData.subLevelImages.Add(texture);
+                    }
                 });
-                
+                //
+                levelData.gridWorldTileCount = tileCount;
+                levelData.gridWorldTielCellCount = tileCellCount;
+                levelData.gridWorldCellSize = Vector2.one;
+                //
+                levelData.subSceneNames = new List<string>();
+                designUseLevel.includedSubScenes.ForEach(subScene =>
+                {
+                    levelData.subSceneNames.Add(subScene.name);
+                });
+                //
+                levelData.areaLookup = new List<AreaItem>();
+                var adjustedAreas =
+                    areas.Select(area => new AreaItem
+                        {
+                            areaColor = area.materialColor,
+                            tagName = area.tag
+                        })
+                        .ToList();
+                levelData.areaLookup.AddRange(adjustedAreas);
+
                 var levelDataPath = Path.Combine(relativeGeneratedToLevelFolder, $"Level Data.asset");
+
+                Debug.Log($"LevelTable - GenerateForExport - levelDataPath: {levelDataPath}");
                 AssetDatabase.CreateAsset(levelData, levelDataPath);
-            
+
                 AssetDatabase.SaveAssets();
             }
-            
+
             public void GenerateLevelData()
             {
                 var levelName = Level.name;
-                
+
                 var absolutePathStart = Application.dataPath;
                 var relativePathStart = "Assets";
                 var designLevelPartialPath = Path.Combine("_", "1 - Game", "Design - Level");
 
                 var relativeToLevelFolder = Path.Combine(relativePathStart, designLevelPartialPath, levelName);
-                
+
                 var generatedLevelPartialPath = Path.Combine("_", "_Generated - Level");
                 var absoluteGeneratedToLevelFolder =
                     Path.Combine(absolutePathStart, generatedLevelPartialPath, levelName);
@@ -159,7 +200,7 @@
                     Path.Combine(relativePathStart, generatedLevelPartialPath, levelName);
 
                 var designUseMasterScenePath = Path.Combine(relativeToLevelFolder, $"{levelName} - Main.unity");
-                
+
                 CreateLevelData(levelName);
 
             }
@@ -170,13 +211,13 @@
                 // Create Master scene and load design use master scene to copy
                 // Crate Sub scenes and loaded into Master scene
                 var levelName = Level.name;
-                
+
                 var absolutePathStart = Application.dataPath;
                 var relativePathStart = "Assets";
                 var designLevelPartialPath = Path.Combine("_", "1 - Game", "Design - Level");
 
                 var relativeToLevelFolder = Path.Combine(relativePathStart, designLevelPartialPath, levelName);
-                
+
                 var generatedLevelPartialPath = Path.Combine("_", "_Generated - Level");
                 var absoluteGeneratedToLevelFolder =
                     Path.Combine(absolutePathStart, generatedLevelPartialPath, levelName);
@@ -184,10 +225,10 @@
                     Path.Combine(relativePathStart, generatedLevelPartialPath, levelName);
 
                 var designUseMasterScenePath = Path.Combine(relativeToLevelFolder, $"{levelName} - Main.unity");
-                
+
                 var designUseMasterScene = EditorSceneManager.OpenScene(designUseMasterScenePath, OpenSceneMode.Single);
                 // Create level data and save
-                CreateObstacleTexture(levelName, designUseMasterScene);
+                // CreateObstacleTexture(levelName, designUseMasterScene);
             }
 
             public void GenerateSceneEx()
@@ -199,7 +240,7 @@
                 var designLevelPartialPath = Path.Combine("_", "1 - Game", "Design - Level");
 
                 var relativeToLevelFolder = Path.Combine(relativePathStart, designLevelPartialPath, levelName);
-                
+
                 var generatedLevelPartialPath = Path.Combine("_", "_Generated - Level");
                 var absoluteGeneratedToLevelFolder =
                     Path.Combine(absolutePathStart, generatedLevelPartialPath, levelName);
@@ -210,7 +251,7 @@
                 {
                     Directory.CreateDirectory(absoluteGeneratedToLevelFolder);
                 }
-                
+
                 var scenePaths = new List<string>();
                 Level.includedSubScenes.ForEach(sceneAsset =>
                 {
@@ -246,17 +287,17 @@
 
                 var cmVCam1 = new GameObject("CM vcam1");
                 cmVCam1.AddComponent<Cinemachine.CinemachineVirtualCamera>();
-                
+
                 var volumeGO = new GameObject("Volume");
                 var volume = volumeGO.AddComponent<UnityEngine.Rendering.Volume>();
                 //
-                var sourceVolumeProfilePath = Path.Combine(relativeToLevelFolder, 
+                var sourceVolumeProfilePath = Path.Combine(relativeToLevelFolder,
                     "Data Assets", $"Volume Profile.asset");
                 //
-                var targetVolumeProfilePath = Path.Combine(relativeGeneratedToLevelFolder, 
-                    // "level-setting", 
+                var targetVolumeProfilePath = Path.Combine(relativeGeneratedToLevelFolder,
+                    // "level-setting",
                     $"Volume Profile.asset");
-                
+
                 var volumeProfileCopied = AssetDatabase.CopyAsset(sourceVolumeProfilePath, targetVolumeProfilePath);
                 if (volumeProfileCopied)
                 {
@@ -615,7 +656,7 @@
                 return childGameObjects;
             }
 
-            
+
 
             public void OpenLevel()
             {

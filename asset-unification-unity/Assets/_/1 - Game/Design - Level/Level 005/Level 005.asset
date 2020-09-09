@@ -29,6 +29,11 @@ MonoBehaviour:
   tileCount: {x: 2, y: 2}
   tileCellCount: {x: 64, y: 64}
   aiControl: 0
+  areas:
+  - material: {fileID: 2100000, guid: 4f9c1c4eb822f084e839ff9868720fca, type: 2}
+    tag: orange
+  - material: {fileID: 2100000, guid: 0ce9f5207f2af6244974ecebbd49430c, type: 2}
+    tag: green
   includedSubScenes:
   - {fileID: 102900000, guid: 96e9671a32205294fbd3241580fa6c1b, type: 3}
   - {fileID: 102900000, guid: 0b4fa0ec7d5f8df45aa7c0e5701c7f1c, type: 3}

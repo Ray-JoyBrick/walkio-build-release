@@ -1,1 +1,2 @@
 preprocess-assets/** filter=lfs diff=lfs merge=lfs -text
+preprocessed-assets/** filter=lfs diff=lfs merge=lfs -text

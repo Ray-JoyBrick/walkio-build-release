@@ -10,7 +10,7 @@ param(
     )
 
     # $unityProjectPath = Join-Path -Path $currentScriptPath -ChildPath "complete-unity"
-    $assetManipulationUnityFolder = Join-Path -Path $parentOfCurrentPath -ChildPath "complete-unity"
+    $assetManipulationUnityFolder = Join-Path -Path $parentOfCurrentPath -ChildPath "asset-unification-unity"
     $foundPathLocations = Get-Childitem $assetManipulationUnityFolder -Include $IncludedNames -Recurse -Force -ErrorAction SilentlyContinue
     $pathCount = $foundPathLocations.Length
     Write-Output "Remove $pathCount localtion from $assetManipulationUnityFolder"
@@ -41,7 +41,7 @@ param()
     $scriptsFolder = Join-Path -Path $projectFolder -ChildPath "scripts"
 
     # Set references to be symlinked
-    $assetManipulationUnityFolder = Join-Path -Path $parentOfCurrentPath -ChildPath "complete-unity"
+    $assetManipulationUnityFolder = Join-Path -Path $parentOfCurrentPath -ChildPath "asset-unification-unity"
     $amuScriptsFolder = Join-Path -Path $assetManipulationUnityFolder -ChildPath "scripts"
     $amuPackagesFolder = Join-Path -Path $assetManipulationUnityFolder -ChildPath "Packages"
     $amupManifestJsonFile = Join-Path -Path $amuPackagesFolder -ChildPath "manifest.json"
@@ -72,7 +72,8 @@ param()
     }
 
     if (Test-Path "$amupAssetsGitignore") {
-        (Get-Item "$amupAssetsGitignore").Delete()
+        # (Get-Item "$amupAssetsGitignore").Delete()
+        Remove-Item -Path "$amupAssetsGitignore" -Force
     }
 
     #
@@ -81,7 +82,7 @@ param()
 
     #
     $unitySetupFolder = Join-Path -Path $parentOfCurrentPath -ChildPath "unity-setup"
-    $amrsFolder = Join-Path -Path $unitySetupFolder -ChildPath "complete-referenced-settings"
+    $amrsFolder = Join-Path -Path $unitySetupFolder -ChildPath "asset-unification-referenced-settings"
     $amrsGameSpecificJsonFile = Join-Path -Path $amrsFolder -ChildPath "game-specific.json"
 
     if (Test-Path "$amrsGameSpecificJsonFile") {

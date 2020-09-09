@@ -1,0 +1,35 @@
+{
+    "name": "Walkio.Tool.Creature-Design.Editor",
+    "references": [
+        "Unity.Addressables",
+        "Unity.Addressables.Editor",
+        "Unity.Entities",
+        "Unity.Entities.Hybrid",
+        "Unity.ProBuilder",
+        "AstarPathfindingProject",
+        "AstarPathfindingProjectEditor",
+        "PackageTools",
+        "AstarPackageToolsEditor",
+        "Walkio.Game.Common",
+        "Walkio.Game.Common.Editor",
+        "Walkio.Game.Creature.Common",
+        "Walkio.Tool.Creature-Design",
+        "Cinemachine",
+        "Unity.RenderPipelines.Core.Runtime",
+        "Opsive.UltimateCharacterController",
+        "Opsive.UltimateCharacterController.Editor",
+        "Opsive.Shared",
+        "Opsive.Shared.Editor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
