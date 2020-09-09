@@ -21,4 +21,4 @@ ls "$2"
 echo "Show the third one: $3"
 # ls "$3"
 
-bash scripts/UploadAppCenter.sh $OWNER_NAME $APP_NAME $GROUP_ID "${APP_FILE}" "${NOTE_FILE}"
+# bash scripts/UploadAppCenter.sh $OWNER_NAME $APP_NAME $GROUP_ID "${APP_FILE}" "${NOTE_FILE}"

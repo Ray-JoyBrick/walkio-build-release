@@ -18,7 +18,7 @@ namespace JoyBrick.Walkio.Build
 //     using UnityEngine.CloudBuild.API;
 // #endif
 
-    public class HandleBuild
+    public class ReleaseBuild
     {
 #if UNITY_CLOUD_BUILD
         public static void HandleCommon(UnityEngine.CloudBuild.BuildManifestObject manifest)

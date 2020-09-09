@@ -64,6 +64,7 @@
 #endif
 
 #if ODIN_INSPECTOR
+
         protected override void OnBeginDrawEditors()
         {
             if (this.MenuTree == null || this.MenuTree.Selection == null) return;
@@ -82,53 +83,14 @@
                     GUILayout.Label(selected.Name);
                 }
 
-                // if (SirenixEditorGUI.ToolbarButton(new GUIContent("Create Item")))
-                // {
-                //     ScriptableObjectCreator.ShowDialog<Item>("Assets/Plugins/Sirenix/Demos/Sample - RPG Editor/Items", obj =>
-                //     {
-                //         obj.Name = obj.name;
-                //         base.TrySelectMenuItemWithObject(obj); // Selects the newly created item in the editor
-                //     });
-                // }
-
-                // if (SirenixEditorGUI.ToolbarButton(new GUIContent("Create Related Setup")))
-                // {
-                //     CreateLayer(8, "Ground Base");
-                //     CreateLayer(9, "Ground");
-                //     CreateLayer(10, "Obstacle");
-                //     CreateLayer(11, "Decoration");
-                //     CreateLayer(12, "Area");
-                // }
-                //
-                // if (SirenixEditorGUI.ToolbarButton(new GUIContent("Create Level")))
-                // {
-                //
-                //     var absoluteLevelPath = Path.Combine(absolutePathStart, "_", "1 - Game - Level Design", "Module - Environment - Level");
-                //     var relativeLevelPath = Path.Combine(relativePathStart, "_", "1 - Game - Level Design", "Module - Environment - Level");
-                //
-                //     var absoluteSceneFolderPath = string.Empty;
-                //     var relativeSceneFolderPath = string.Empty;
-                //
-                //     ScriptableObjectCreator.ShowDialog<Level>(
-                //         // "Assets/_/1 - Game - Level Design/Module - Environment - Level/Data Assets/Level Editor/Level", obj =>
-                //         relativeLevelPath,
-                //         "Data Assets",
-                //         obj =>
-                //     {
-                //         obj.title = obj.name;
-                //
-                //         absoluteSceneFolderPath = Path.Combine(absoluteLevelPath, $"{obj.name}");
-                //
-                //         // var sceneName = $"{obj.name} - Master.unity";
-                //         var sceneName = $"{obj.name}";
-                //         relativeSceneFolderPath = Path.Combine(relativeLevelPath, $"{obj.name}");
-                //
-                //         CrateScene(absoluteSceneFolderPath, relativeSceneFolderPath, sceneName, obj);
-                //
-                //         // Selects the newly created item in the editor
-                //         base.TrySelectMenuItemWithObject(obj);
-                //     });
-                // }
+                if (SirenixEditorGUI.ToolbarButton(new GUIContent("Create Character")))
+                {
+                    ScriptableObjectCreator.ShowDialog<Creature>("Assets/_/1 - Game/Design - Creature/Creatures", obj =>
+                    {
+                        obj.Name = obj.name;
+                        base.TrySelectMenuItemWithObject(obj); // Selects the newly created item in the editor
+                    });
+                }
             }
             SirenixEditorGUI.EndHorizontalToolbar();
         }

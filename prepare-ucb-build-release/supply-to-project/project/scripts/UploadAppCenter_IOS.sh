@@ -12,4 +12,4 @@ APP_FILE="$2/${BUILD_NAME}.ipa"
 
 NOTE_FILE="scripts/commit.txt"
 
-bash scripts/UploadAppCenter.sh $OWNER_NAME $APP_NAME $GROUP_ID "${APP_FILE}" "${NOTE_FILE}"
+# bash scripts/UploadAppCenter.sh $OWNER_NAME $APP_NAME $GROUP_ID "${APP_FILE}" "${NOTE_FILE}"
