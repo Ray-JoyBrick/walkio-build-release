@@ -89,7 +89,7 @@ steps:
 
         git show-ref
 
-        git checkout -b ucb-build-release
+        # git checkout -b ucb-build-release
         git reset --hard from-repo/prepare-build-release
 
         rsync -avhr --exclude '.git' --delete /workspace/game-unity/complete-unity/ /workspace/ucb-build-release/
@@ -100,7 +100,9 @@ steps:
         git add .
         git commit -m "Commit from auto build"
 
-        git push origin ucb-build-release --force
+        git push origin master --force
+
+        # git push origin ucb-build-release --force
         # git push origin ucb-build-release
 
     volumes:
