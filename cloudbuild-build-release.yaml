@@ -61,8 +61,8 @@ steps:
         path: /root/.ssh
 
   - id: commit-ucb-build-release
-    name: gcr.io/cloud-builders/gcloud
-    # name: "alpine:latest"
+    # name: gcr.io/cloud-builders/gcloud
+    name: "alpine:latest"
     entrypoint: sh
     args:
       - -c
