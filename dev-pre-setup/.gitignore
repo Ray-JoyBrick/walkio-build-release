@@ -1,8 +1,0 @@
-.terrform
-
-*.plan
-*.tfstate
-
-*.tfstate.backup
-
-use-terraform.json

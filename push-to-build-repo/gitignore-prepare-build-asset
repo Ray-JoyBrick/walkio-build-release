@@ -1,9 +1,0 @@
-/*
-
-!.gitignore
-
-!asset-unification-unity
-!game-specific
-!prepare-ucb-build-asset
-
-!cloudbuild-build-asset.yaml
