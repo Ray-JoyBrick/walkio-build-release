@@ -60,7 +60,7 @@ steps:
 
   - id: commit-ucb-build-release
     name: gcr.io/cloud-builders/gcloud
-    name: "alpine:latest"
+    # name: "alpine:latest"
     entrypoint: sh
     args:
       - -c
@@ -78,7 +78,7 @@ steps:
 
         git clone ssh://ray@joybrick.cc@source.developers.google.com:2022/p/walkio-271711/r/ucb-build-release
 
-        cd ucb-build
+        cd ucb-build-release
         git remote add from-repo ssh://ray@joybrick.cc@source.developers.google.com:2022/p/walkio-271711/r/github_ray-joybrick_walkio
 
         git config --local user.email "ray@joybrick.cc"
@@ -91,10 +91,10 @@ steps:
         git checkout -b ucb-build-release
         git reset --hard from-repo/prepare-build-release
 
-        rsync -avhr --exclude '.git' --delete /workspace/game-unity/complete-unity/ /workspace/ucb-build/
+        rsync -avhr --exclude '.git' --delete /workspace/game-unity/complete-unity/ /workspace/ucb-build-release/
 
-        rm /workspace/ucb-build/.gitattributes
-        rm /workspace/ucb-build/.gitignore
+        rm /workspace/ucb-build-release/.gitattributes
+        rm /workspace/ucb-build-release/.gitignore
 
         git add .
         git commit -m "Commit from auto build"
