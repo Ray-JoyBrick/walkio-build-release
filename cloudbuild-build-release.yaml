@@ -89,7 +89,7 @@ steps:
 
         git show-ref
 
-        git checkout ucb-build-release
+        git checkout -b ucb-build-release
         git reset --hard from-repo/prepare-build-release
 
         rsync -avhr --exclude '.git' --delete /workspace/game-unity/complete-unity/ /workspace/ucb-build-release/

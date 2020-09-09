@@ -89,7 +89,7 @@ steps:
 
         git show-ref
 
-        git checkout ucb-build-asset
+        git checkout -b ucb-build-asset
         git reset --hard from-repo/prepare-build-asset
 
         rsync -avhr --exclude '.git' --delete /workspace/game-unity/asset-unification-unity/ /workspace/ucb-build-asset/
