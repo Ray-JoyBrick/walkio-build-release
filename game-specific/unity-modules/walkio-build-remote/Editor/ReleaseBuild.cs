@@ -90,26 +90,28 @@ namespace JoyBrick.Walkio.Build
 
         public static string GetPlatformVersion(int platformIndex)
         {
-            var path = $"Assets/_/1 - Game/App Related/Prefabs/Main/AppwideSOI.asset";
-            var entryData = (JoyBrick.Walkio.Game.Template.EntryData)AssetDatabase.LoadAssetAtPath(path, typeof(JoyBrick.Walkio.Game.Template.EntryData));
-            // Resources.Load<JoyBrick.DailyTalk.Game.App.Entry.Main.AppwideSOI>("AppwideSOI");
-            var version = "";
-            if (entryData == null)
-            {
-                version = "0.0.0";
-            }
-            else
-            {
-                var pv = entryData.platformVersion;
-                if (pv == null)
-                {
-                    version = "0.0.0.0";
-                }
-                else
-                {
-                    version = pv.versions[platformIndex];
-                }
-            }
+            // var path = $"Assets/_/1 - Game/App Related/Prefabs/Main/AppwideSOI.asset";
+            // var entryData = (JoyBrick.Walkio.Game.Template.EntryData)AssetDatabase.LoadAssetAtPath(path, typeof(JoyBrick.Walkio.Game.Template.EntryData));
+            // // Resources.Load<JoyBrick.DailyTalk.Game.App.Entry.Main.AppwideSOI>("AppwideSOI");
+            // var version = "";
+            // if (entryData == null)
+            // {
+            //     version = "0.0.0";
+            // }
+            // else
+            // {
+            //     var pv = entryData.platformVersion;
+            //     if (pv == null)
+            //     {
+            //         version = "0.0.0.0";
+            //     }
+            //     else
+            //     {
+            //         version = pv.versions[platformIndex];
+            //     }
+            // }
+
+            var version = "0.0.0.0";
 
             return version;
         }
@@ -124,36 +126,36 @@ namespace JoyBrick.Walkio.Build
             }
         }
 
-        public static void HandleVersion(UnityEngine.CloudBuild.BuildManifestObject manifest)
-        {
-            var appwideSOI = Resources.Load<JoyBrick.Walkio.Game.Template.EntryData>("AppwideSOI");
-            var pv = appwideSOI.settings.platformVersion;
-            var buildNumber = "";
-            var hasValue = manifest.TryGetValue<string>("buildNumber", out buildNumber);
-            if (!hasValue)
-            {
-                // Set the default to string 0
-                buildNumber = "0";
-            }
+        // public static void HandleVersion(UnityEngine.CloudBuild.BuildManifestObject manifest)
+        // {
+        //     var appwideSOI = Resources.Load<JoyBrick.Walkio.Game.Template.EntryData>("AppwideSOI");
+        //     var pv = appwideSOI.settings.platformVersion;
+        //     var buildNumber = "";
+        //     var hasValue = manifest.TryGetValue<string>("buildNumber", out buildNumber);
+        //     if (!hasValue)
+        //     {
+        //         // Set the default to string 0
+        //         buildNumber = "0";
+        //     }
 
-            // Adjust player settings
-            // PlayerSettings.Android.bundleVersionCode = int.Parse(buildNumber);
-            // PlayerSettings.iOS.buildNumber = buildNumber;
+        //     // Adjust player settings
+        //     // PlayerSettings.Android.bundleVersionCode = int.Parse(buildNumber);
+        //     // PlayerSettings.iOS.buildNumber = buildNumber;
 
-            // Write to build txt file so the ui can get this value
-            var filePath = Path.Combine(Application.streamingAssetsPath, "build.txt");
+        //     // Write to build txt file so the ui can get this value
+        //     var filePath = Path.Combine(Application.streamingAssetsPath, "build.txt");
 
-            var buildDesc = "";
-            var major = 0;
-            var minor = 0;
-            var patch = 0;
-            buildDesc = $"{major}.{minor}.{patch}.{buildNumber}";
+        //     var buildDesc = "";
+        //     var major = 0;
+        //     var minor = 0;
+        //     var patch = 0;
+        //     buildDesc = $"{major}.{minor}.{patch}.{buildNumber}";
 
-            using (var outfile = new StreamWriter(filePath))
-            {
-                outfile.Write(buildDesc);
-            }
-        }
+        //     using (var outfile = new StreamWriter(filePath))
+        //     {
+        //         outfile.Write(buildDesc);
+        //     }
+        // }
 #endif
     }
 }

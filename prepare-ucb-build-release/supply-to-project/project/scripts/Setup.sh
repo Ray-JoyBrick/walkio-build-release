@@ -21,6 +21,15 @@ parentdir="$(dirname "$MY_PATH")"
 
 echo "$parentdir"
 
+echo "$KEYFILE_STORAGE" >> keyfile-storage.json
+
+curl -o google-cloud-sdk.tar.gz  https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-308.0.0-linux-x86_64.tar.gz
+gunzip < google-cloud-sdk.tar.gz | tar xf -
+./google-cloud-sdk/bin/gcloud auth activate-service-account --project=walkio-271711 --key-file=keyfile-storage.json
+
+md5=$(cat "$parentdir/references-checksum") && ./google-cloud-sdk/bin/gsutil cp "gs://$GCS_BUCKET/references-$md5.zip" "$parentdir/references.zip"
+md5=$(cat "$parentdir/preprocessed-assets-checksum") && ./google-cloud-sdk/bin/gsutil cp "gs://$GCS_BUCKET/preprocessed-assets-$md5.zip" "$parentdir/preprocessed-assets.zip"
+
 # cd ..
 cd "$parentdir"
 
