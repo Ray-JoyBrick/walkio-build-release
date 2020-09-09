@@ -34,6 +34,7 @@ namespace JoyBrick.Walkio.Build
 
         public static void HandleIOSVersion(UnityEngine.CloudBuild.BuildManifestObject manifest)
         {
+            // Add something to prepare build for iOS
         }
 
 #endif
