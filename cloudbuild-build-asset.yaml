@@ -79,8 +79,8 @@ steps:
         git clone ssh://ray@joybrick.cc@source.developers.google.com:2022/p/walkio-271711/r/ucb-build-asset
 
         cd ucb-build-asset
-        git remote add from-repo ssh://ray@joybrick.cc@source.developers.google.com:2022/p/walkio-271711/r/github_ray-joybrick_walkio
-        # git remote add from-repo ssh://ray@joybrick.cc@source.developers.google.com:2022/p/walkio-271711/r/github_ray-joybrick_walkio-build-asset
+        # git remote add from-repo ssh://ray@joybrick.cc@source.developers.google.com:2022/p/walkio-271711/r/github_ray-joybrick_walkio
+        git remote add from-repo ssh://ray@joybrick.cc@source.developers.google.com:2022/p/walkio-271711/r/github_ray-joybrick_walkio-build-asset
 
         git config --local user.email "ray@joybrick.cc"
         git config --local user.name "Ray Wang"
@@ -100,8 +100,8 @@ steps:
         git add .
         git commit -m "Commit from auto build"
 
-        # git push origin ucb-build-asset --force
-        git push origin ucb-build-asset
+        git push origin ucb-build-asset --force
+        # git push origin ucb-build-asset
 
     volumes:
       - name: 'ssh'

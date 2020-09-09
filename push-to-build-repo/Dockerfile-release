@@ -92,8 +92,8 @@ RUN git config --local user.email "ray@joybrick.cc" \
     && git pull --rebase origin master
 
 # Need to check the correctness once the ssh key is placed into github
-RUN git remote add build git@github-rayjb:Ray-JoyBrick/walkio.git
-# RUN git remote add build git@github-rayjb:Ray-JoyBrick/walkio-build-release.git
+# RUN git remote add build git@github-rayjb:Ray-JoyBrick/walkio.git
+RUN git remote add build git@github-rayjb:Ray-JoyBrick/walkio-build-release.git
 
 RUN git fetch --all
 
