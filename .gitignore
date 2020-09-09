@@ -1,38 +1,9 @@
 /*
 
-.DS_Store
-
-!.editorconfig
-!.gitattributes
 !.gitignore
-!README.md
 
-!unity-project.code-workspace
-!asset-creature-design-project.code-workspace
-!behavior-unification-project.code-workspace
-!complete-project.code-workspace
-
-!cloudbuild-build-asset.yaml
-!cloudbuild-build-release.yaml
-
-!remove-dsstore.ps1
-!setup-game-ref.ps1
-
-# Folders below
-!asset-creature-design-unity
-!asset-hud-design-unity
-!asset-level-design-unity
-!asset-unification-unity
-!behavior-unification-unity
-!complete-unity
+!complete-project
 !game-specific
-
-!dev-setup-unity-plugin
-!unity-setup
-
-!prepare-ucb-build-asset
 !prepare-ucb-build-release
 
-# 
-!dev-pre-setup
-!push-to-build-repo
+!cloudbuild-build-release.yaml
