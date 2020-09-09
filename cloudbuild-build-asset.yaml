@@ -76,7 +76,7 @@ steps:
         touch /root/.ssh/known_hosts
         ssh-keyscan -p 2022 source.developers.google.com >> /root/.ssh/known_hosts
 
-        git clone ssh://ray@joybrick.cc@source.developers.google.com:2022/p/walkio-271711/r/ucb-build
+        git clone ssh://ray@joybrick.cc@source.developers.google.com:2022/p/walkio-271711/r/ucb-build-asset
 
         cd ucb-build
         git remote add from-repo ssh://ray@joybrick.cc@source.developers.google.com:2022/p/walkio-271711/r/github_ray-joybrick_walkio
