@@ -23,7 +23,7 @@ param(
     }
 }
 
-$names = @(".idea", ".gitignore")
+$names = @(".idea")
 Remove-UnityProjectUncessaryPart $names
 
 function Copy-ItemIn {
