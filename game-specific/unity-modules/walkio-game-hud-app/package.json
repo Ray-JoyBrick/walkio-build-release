@@ -1,16 +1,15 @@
 {
-  "name": "com.walkio.game.hud-app",
-  "displayName": "_ Walkio Game Hud - App",
-  "version": "0.2.0",
-  "unity": "2020.1",
-  "description": "Walkio Game Hud - App",
-  "keywords": [
-  ],
-  "category": "",
-  "dependencies": {},
-  "author": {
-    "email": "ray@joybrick.cc",
-    "name": "Ray Wang",
-    "url": "https://joybrick.cc"
-  }
+    "name": "com.walkio.game.hud-app",
+    "displayName": "_ Walkio Game Hud - App",
+    "version": "0.2.0",
+    "unity": "2020.1",
+    "description": "Walkio Game Hud - App",
+    "keywords": [],
+    "category": "",
+    "dependencies": {},
+    "author": {
+        "email": "ray@joybrick.cc",
+        "name": "Ray Wang",
+        "url": "https://joybrick.cc"
+    }
 }
