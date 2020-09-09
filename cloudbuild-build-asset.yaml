@@ -19,9 +19,11 @@ steps:
         mv /workspace/game-specific /workspace/game-unity/
         mv /workspace/prepare-ucb-build-asset /workspace/game-unity/
 
-        md5=$(cat "references-checksum") && mv "/workspace/$md5.zip" "/workspace/game-unity/asset-unification-unity/references.zip"
+        # md5=$(cat "references-checksum") && mv "/workspace/$md5.zip" "/workspace/game-unity/asset-unification-unity/references.zip"
+        mv "references-checksum" "/workspace/game-unity/asset-unification-unity/"
         # Need to retrieve preprocessed-assets.zip and place it in asset-unification-unity as well
-        md5=$(cat "/workspace/game-unity/game-specific/preprocessed-assets-checksum") && gsutil cp "gs://${_GCS_BUCKET}/preprocessed-assets-$md5.zip" "/workspace/game-unity/asset-unification-unity/preprocessed-assets.zip"
+        # md5=$(cat "/workspace/game-unity/game-specific/preprocessed-assets-checksum") && gsutil cp "gs://${_GCS_BUCKET}/preprocessed-assets-$md5.zip" "/workspace/game-unity/asset-unification-unity/preprocessed-assets.zip"
+        mv "/workspace/game-unity/game-specific/preprocessed-assets-checksum" "/workspace/game-unity/asset-unification-unity/"
 
         mv /workspace/unity-setup /workspace/game-unity/
         mv /workspace/.gitattributes /workspace/game-unity/
